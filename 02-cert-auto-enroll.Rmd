@@ -1,0 +1,80 @@
+# Certificate Auto Enrollment
+
+Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. As of Samba 4.16, Linux clients can now auto enroll for certificates just like a Windows client.
+
+Samba’s Certificate Auto Enrollment uses the certmonger service to keep track of certificates. It also uses the cepces plugin to certmonger. The sscep command is also used to download the trust chain.
+
+Certificate Auto Enrollment is compatible with both Winbind and SSSD.
+
+Certificate Auto Enrollment is initiated using Samba’s Group Policy client, samba-gpupdate.
+
+## Configuring Certificate Auto Enrollment on the Server
+
+The Windows server roles Certification Authority, Certificate Enrollment Policy Web Service, and Certificate Enrollment Web Service all must be installed and configured. Optionally the role Network Device Enrollment Service can be installed to simplify the fetching of the root certificate chain.
+
+### Configure server certificate auto-enrollment
+
+TODO
+
+### Configure user certificate auto-enrollment
+
+TODO
+
+## Enable Certificate Auto Enrollment on the Client
+
+To setup Certificate Auto Enrollment:
+
+1. Install certmonger and cepces. Optionally also install sscep to simplify fetching of the certificate root chain. Samba uses certmonger paired with cepces to monitor the host certificate templates.
+2. Join to an Active Directory domain (one where the CA has been previously configured as explained above).
+3. Enable group policy apply:
+* For a Winbind joined machine by setting the smb.conf global parameter 'apply group policies = yes'.
+* For a SSSD joined machine by installing the oddjob-gpupdate package.
+4. To verify Certificate Auto Enrollment is correctly configured, issue the command `/usr/sbin/samba-gpupdate --rsop`
+```
+Resultant Set of Policy
+Computer Policy
+
+ GPO: Default Domain Policy
+======================================================================================================================
+CSE: gp_cert_auto_enroll_ext
+-----------------------------------------------------------
+Policy Type: Auto Enrollment Policy
+-----------------------------------------------------------
+[ <REDACTED CA NAME> ] =
+[ CA Certificate ] =
+----BEGIN CERTIFICATE----
+<REDACTED>
+----END CERTIFICATE----
+[ Auto Enrollment Server ] = <REDACTED DNS NAME>
+[ Templates ] =
+[ Machine ]
+-----------------------------------------------------------
+-----------------------------------------------------------
+======================================================================================================================
+```
+
+Issuing the `getcert list` command will display the installed certificates:
+```
+Number of certificates and requests being tracked: 1.
+Request ID 'Machine':
+        status: MONITORING
+        stuck: no
+        key pair storage: type=FILE,location='/var/lib/samba/private/certs/Machine.key'
+        certificate: type=FILE,location='/var/lib/samba/certs/Machine.crt'
+        CA: <My CA>
+        issuer: CN=<My CA>
+        subject: CN=<my hostname>
+        expires: 2017-08-15 17:37:02 UTC
+        dns: <my hostname>
+        key usage: digitalSignature,keyEncipherment
+        eku: id-kp-clientAuth,id-kp-serverAuth
+        certificate template/profile: Machine
+        pre-save command:
+        post-save command:
+        track: yes
+        auto-renew: yes
+```
+
+## Where to find certificates
+
+Certificates are installed in /var/lib/samba/certs and private keys are installed in /var/lib/samba/private/certs.
