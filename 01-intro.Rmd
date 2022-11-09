@@ -1,3 +1,11 @@
 # Introduction
 
-This chapter will contain an introduction to Group Policy on Linux.
+Samba version 4.14 and newer ships with Group Policy for Winbind. The Group Policy offerings are made to be similar to what is offered by proprietary tools, such as Vintela’s and Centrify’s Group Policy.
+
+![Group Policy Management Editor](ch01-images/gpme.png)
+
+Winbind Group Policy provides the ability to distribute smb.conf settings, Sudo Privileges, Message of the Day and Login Prompt messages, and daily, hourly, monthly, or weekly cron jobs.
+
+To enable Group Policy in Winbind, set the apply group policies global smb.conf option to Yes. You can even deploy this setting from Group Policy smb.conf options, then running the apply command manually the first time with sudo samba-gpupate --force.
+
+In order to use the Samba Administrative Templates in the Group Policy Management Console, you’ll need to install them first, using the command sudo samba-tool gpo admxload -UAdministrator. This will upload the samba.admx template to the joined domains SYSVOL share.
