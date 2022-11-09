@@ -1,0 +1,3 @@
+# Introduction
+
+This chapter will contain an introduction to Group Policy on Linux.
