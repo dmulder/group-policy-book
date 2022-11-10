@@ -1,28 +1,31 @@
 # Introduction {#intro}
 
-Samba version 4.14 and newer ships with Group Policy for Winbind. The Group Policy offerings are made to be similar to what is offered by proprietary tools, such as Vintela’s and Centrify’s Group Policy.
+Samba version 4.14 and newer ships with Linux client Group Policy. The Group Policy offerings are made to be similar to what is offered by proprietary tools, such as Vintela’s and Centrify’s Group Policy.
 
-![Group Policy Management Editor](ch01-images/gpme.png)
+Group Policy provides centralized management and configuration of operating system, application, and user settings. Policies are delivered to clients by listing them in LDAP, under groupPolicyContainer objects. These objects provide the gPCFileSysPath attribute, which points to policy information stored on the domains SYSVOL share.
 
 ## Client Side Extensions
 
-In Group Policy vernacular, a Client Side Extension (CSE) is an encapsulated module on a client machine intended to enforce a specific policy. In Samba, a CSE looks like a single python file. Within that file, the CSE inherits from one of several base classes provided by Samba which provide settings from the server. The responsibility of the CSE is to install those settings on the client and ensure they are enforced. It's also the responsibility of the CSE to remove the policy when disabled by the server. This is discussed in more detail in chapter \@ref(cse).
+In Group Policy vernacular, a Client Side Extension (CSE) is an encapsulated module on a client machine intended to enforce a specific policy. The responsibility of the CSE is to install that policy on the client and ensure it is enforced. It's also the responsibility of the CSE to remove the policy when disabled by the server.
+
+In Samba, a CSE looks like a single python file. Within that file, the CSE inherits from one of several base classes provided by Samba which provide settings from the server. This is discussed in more detail in chapter \@ref(cse).
 
 ### Enabling Group Policy Client Side Extensions on the Linux Client
 
-Group Policy provides centralized management and configuration of operating system, application, and user settings. Policies are delivered to clients by listing them in LDAP, under groupPolicyContainer objects. These objects provide the gPCFileSysPath attribute, which points to policy information stored on the domains SYSVOL share. Policies are enforced at a random interval between 90 and 120 seconds.
-
 To enable Group Policy in Winbind, set the apply group policies global smb.conf option to Yes. You can even deploy this setting from Group Policy smb.conf options, then running the apply command manually the first time with `sudo samba-gpupate --force`.
+
+Policies are enforced at a random interval between 90 and 120 seconds.
 
 Policies can be manually enforced at any time on a Linux domain member using the `samba-gpupdate --force` command.
 
 Winbind will enforce both machine policy (as of Samba 4.14) and user policy (as of Samba 4.18).
 
-If the Linux client is joined using SSSD, you can instead apply the policy using oddjob-gpupdate. The samba-gpupdate command from Samba must also be installed.
+If the Linux client is joined using SSSD, you can instead enforce the policy using oddjob-gpupdate. The samba-gpupdate command from Samba must also be installed.
 
 ## Server Side Extensions
 
 TODO
+![Group Policy Management Editor](ch01-images/gpme.png)
 
 ### Enabling Group Policy Server Side Extensions on the Server
 
