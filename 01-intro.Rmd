@@ -4,7 +4,11 @@ Samba version 4.14 and newer ships with Group Policy for Winbind. The Group Poli
 
 ![Group Policy Management Editor](ch01-images/gpme.png)
 
-## Enabling Group Policy on the Linux Client
+## Client Side Extensions
+
+TODO
+
+### Enabling Group Policy Client Side Extensions on the Linux Client
 
 Group Policy provides centralized management and configuration of operating system, application, and user settings. Policies are delivered to clients by listing them in LDAP, under groupPolicyContainer objects. These objects provide the gPCFileSysPath attribute, which points to policy information stored on the domains SYSVOL share. Policies are enforced at a random interval between 90 and 120 seconds.
 
@@ -16,7 +20,11 @@ Winbind will enforce both machine policy (as of Samba 4.14) and user policy (as 
 
 If the Linux client is joined using SSSD, you can instead apply the policy using oddjob-gpupdate. The samba-gpupdate command from Samba must also be installed.
 
-## Enabling Group Policy on the Server
+## Server Side Extensions
+
+TODO
+
+### Enabling Group Policy Server Side Extensions on the Server
 
 In order to use the Samba Administrative Templates in the Group Policy Management Console, you’ll need to install them first, using the command `sudo samba-tool gpo admxload -UAdministrator`.
 

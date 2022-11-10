@@ -18,17 +18,6 @@ github-repo: dmulder/group-policy-book
 
 This book introduces the user to opensource tools for managing Linux clients via Group Policy.
 
-## Group Policy with Samba's Winbind
-
-### Client Side Extensions
-
-#### Writing Client Side Extensions
-
-### Server Side Extensions
-
-#### Writing Server Side Extensions
-
-
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
