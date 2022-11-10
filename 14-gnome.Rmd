@@ -1,1 +1,1 @@
-# GNOME Settings
+# GNOME Settings {#gnome}

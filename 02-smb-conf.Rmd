@@ -1,1 +1,1 @@
-# smb.conf Policies
+# smb.conf Policies {#smbconf}

@@ -1,4 +1,4 @@
-# Resultant Set of Policy
+# Resultant Set of Policy {#rsop}
 
 To see what policies will apply to a machine before applying them (or to view what policies are already applied), run the command `sudo samba-gpupdate --rsop`.
 

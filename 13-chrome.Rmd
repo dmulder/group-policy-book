@@ -1,1 +1,1 @@
-# Chromium/Chrome Policy
+# Chromium/Chrome Policy {#chrome}

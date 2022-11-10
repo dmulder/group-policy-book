@@ -1,4 +1,4 @@
-# Introduction
+# Introduction {#intro}
 
 Samba version 4.14 and newer ships with Group Policy for Winbind. The Group Policy offerings are made to be similar to what is offered by proprietary tools, such as Vintela’s and Centrify’s Group Policy.
 
