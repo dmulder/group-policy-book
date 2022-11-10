@@ -8,7 +8,7 @@ Group Policy provides centralized management and configuration of operating syst
 
 A Group Policy Object (GPO) is a collection of settings that apply to a set of machines or users in a group. You can think of *Group Policy* like a template for a work order, and a *Group Policy Object* like a filled out copy of that template. A GPO is a *work order* of instructions to follow. That work order will be distributed to every member of the group, and it's up to each member to decide how it *applies* those instructions.
 
-A GPO is created by a *Server Side Extension*, and it is *applied* for a group member by a *Client Side Extension*.
+A GPO is modified by a *Server Side Extension*, and it is *applied* for a group member by a *Client Side Extension*.
 
 ## Server Side Extensions
 
