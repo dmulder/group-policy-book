@@ -6,6 +6,18 @@ Samba version 4.14 and newer ships with Group Policy for Winbind. The Group Poli
 
 Winbind Group Policy provides the ability to distribute smb.conf settings, Sudo Privileges, Message of the Day and Login Prompt messages, and daily, hourly, monthly, or weekly cron jobs.
 
-To enable Group Policy in Winbind, set the apply group policies global smb.conf option to Yes. You can even deploy this setting from Group Policy smb.conf options, then running the apply command manually the first time with sudo samba-gpupate --force.
+## Enabling Group Policy on the Linux Client
 
-In order to use the Samba Administrative Templates in the Group Policy Management Console, you’ll need to install them first, using the command sudo samba-tool gpo admxload -UAdministrator. This will upload the samba.admx template to the joined domains SYSVOL share.
+Group Policy provides centralized management and configuration of operating system, application, and user settings. Policies are delivered to clients by listing them in LDAP, under groupPolicyContainer objects. These objects provide the gPCFileSysPath attribute, which points to policy information stored on the domains SYSVOL share. Policies are enforced at a random interval between 90 and 120 seconds.
+
+To enable Group Policy in Winbind, set the apply group policies global smb.conf option to Yes. You can even deploy this setting from Group Policy smb.conf options, then running the apply command manually the first time with `sudo samba-gpupate --force`.
+
+Policies can be manually enforced at any time on a Linux domain member using the `samba-gpupdate --force` command.
+
+Winbind will enforce both machine policy (as of Samba 4.14) and user policy (as of Samba 4.18).
+
+If the Linux client is joined using SSSD, you can instead apply the policy using oddjob-gpupdate. The samba-gpupdate command from Samba must also be installed.
+
+## Enabling Group Policy on the Server
+
+In order to use the Samba Administrative Templates in the Group Policy Management Console, you’ll need to install them first, using the command `sudo samba-tool gpo admxload -UAdministrator`. This will upload the samba.admx template to the joined domains SYSVOL share.
