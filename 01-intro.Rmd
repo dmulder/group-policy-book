@@ -6,7 +6,7 @@ Samba version 4.14 and newer ships with Group Policy for Winbind. The Group Poli
 
 ## Client Side Extensions
 
-TODO
+In Group Policy vernacular, a Client Side Extension (CSE) is an encapsulated module on a client machine intended to enforce a specific policy. In Samba, a CSE looks like a single python file. Within that file, the CSE inherits from one of several base classes provided by Samba which provide settings from the server. The responsibility of the CSE is to install those settings on the client and ensure they are enforced. It's also the responsibility of the CSE to remove the policy when disabled by the server. This is discussed in more detail in chapter \@ref(cse).
 
 ### Enabling Group Policy Client Side Extensions on the Linux Client
 
