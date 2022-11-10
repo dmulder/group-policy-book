@@ -1,0 +1,17 @@
+# Managing Group Policies {#manage}
+
+Before diving into specific Group Policies, let's review the basics of managing Group Policy.
+
+A Windows Active Directory Administrator should know that Group Policies are managed via the Group Policy Management Console (GPMC). Unfortunately there isn't a similar tool for Samba Active Directory Administrators. The Samba project does provide the comprehensive `samba-tool gpo` command, which supplants much of the GPMC.
+
+There are instances where Samba's Group Policy can only be managed via the GPMC, with no `samba-tool gpo` alternative. These cases will be highlighted in the text.
+
+## Creating a Group Policy {#gpcreate}
+
+## Deleting a Group Policy {#gpdelete}
+
+## Group Policy Links {#gplink}
+
+## Listing a Group Policy {#gplist}
+
+## Modifying a Group Policy {#gpmodify}

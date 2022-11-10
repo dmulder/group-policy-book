@@ -1,1 +1,5 @@
 # Writing Server Side Extensions {#sse}
+
+## Administrative Templates {#admx}
+
+## samba-tool gpo manage {#gpomanage}
