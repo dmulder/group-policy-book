@@ -49,3 +49,63 @@ samba-tool gpo manage smb_conf set {31B2F340-016D-11D2-945F-00C04FB984F9}
 This command does not require the ADMX templates to be installed, and also does not suffer from the same limitation as the GPME for idmap policies.
 
 ## Client Side Extension
+
+The smb.conf Client Side Extension (CSE) directly modifies the default smb.conf file. Any custom formatting or comments in the smb.conf file may be overwritten. The CSE will open your existing smb.conf file, read in the current settings, set the settings provided by the GPO, then write the file back to disk. This CSE will only write `global` smb.conf options.
+
+In the previous section, we enabled the `apply group policies` smb.conf option. If we now go to our Linux client, and check the Resultant Set of Policy, we see this:
+
+```
+> sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: gp_smb_conf_ext
+  -----------------------------------------------------------
+    Policy Type: smb.conf
+    -----------------------------------------------------------
+    [ apply group policies ] = 1
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================
+
+rsop TESTSYSDM$ Computer
+```
+
+If we now force the policy, we'll see our setting gets applied to the default smb.conf:
+
+```
+> sudo /usr/sbin/samba-gpupdate --force
+> diff -u /etc/samba/smb.conf.BAK /etc/samba/smb.conf
+--- /etc/samba/smb.conf.BAK
++++ /etc/samba/smb.conf
+@@ -1,5 +1,6 @@
+ # Global parameters
+ [global]
++	apply group policies = Yes
+ 	kerberos method = secrets and keytab
+ 	logon drive = P:
+ 	logon home = \\%L\%U\.9xprofile
+```
+
+If for whatever reason the policy did not apply, it is sometimes helpful to look at the Group Policy Log, which keeps track of applied policies.
+
+```
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
+<?xml version="1.0"?>
+<gp>
+  <user name="TESTSYSDM$">
+    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
+      <gp_ext name="smb.conf">
+        <attribute name="apply group policies">yes</attribute>
+      </gp_ext>
+    </guid>
+    <applylog>
+      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
+    </applylog>
+  </user>
+</gp>
+```
+
+Where **TESTSYSDM$** is the system name. You can see in our case Samba has recorded applying the Group Policy Object with GUID {31B2F340-016D-11D2-945F-00C04FB984F9} (this is the Default Domain Policy), and that it set `apply group policies = yes` in our smb.conf.
