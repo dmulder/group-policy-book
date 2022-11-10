@@ -4,8 +4,6 @@ Samba version 4.14 and newer ships with Group Policy for Winbind. The Group Poli
 
 ![Group Policy Management Editor](ch01-images/gpme.png)
 
-Winbind Group Policy provides the ability to distribute smb.conf settings, Sudo Privileges, Message of the Day and Login Prompt messages, and daily, hourly, monthly, or weekly cron jobs.
-
 ## Enabling Group Policy on the Linux Client
 
 Group Policy provides centralized management and configuration of operating system, application, and user settings. Policies are delivered to clients by listing them in LDAP, under groupPolicyContainer objects. These objects provide the gPCFileSysPath attribute, which points to policy information stored on the domains SYSVOL share. Policies are enforced at a random interval between 90 and 120 seconds.
@@ -35,3 +33,91 @@ Then upload the contents to the SYSVOL:
 ```
 samba-tool gpo admxload -U Administrator --admx-dir=/path/to/extracted/msi/Program\ Files/Microsoft\ Group\ Policy/Windows\ 10\ October\ 2020\ Update\ \(20H2\)/PolicyDefinitions/
 ```
+
+## Policies Introduced in this Book
+
+This section will provide a brief overview of the policies that will be discussed in upcoming chapters.
+
+### smb.conf Policies
+
+These policies distribute smb.conf global options to the client. These are found in the Group Policy Management Editor (GPME) under `Computer Configuration > Policies > Administrative Templates > Samba > smb.conf`. This policy is unable to apply idmap policies.
+
+### Password and Kerberos Policies
+
+Password and Kerberos policies are found in the GPME under `Computer Configuration > Policies > OS Settings > Security Settings > Account Policy`. These policies are only applicable to Samba Active Directory Domain Controllers.
+
+### Script Policies
+
+Script policies create cron jobs on client machines which execute the specified commands. These are found in the GPME under `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Scripts`.
+
+#### Centrify Crontab Entries
+
+Samba provides an extension which adds compatibility with Centrify's Crontab Entries Group Policy. If you are currently using Centrify Group Policy to distribute Crontab entry policies, these will automatically be applied by samba-gpupdate.
+
+### Startup Script Policies
+
+Startup script policies allow you to upload the script that will be executed to the SYSVOL, as well as scheduling the command to run at startup. These scripts can be set using the `samba-tool gpo manage scripts startup` command.
+
+### Files Policy
+
+The Files policy deploys files to client machines. These files are uploaded to the SYSVOL via the `samba-tool gpo manage files` command.
+
+### Symlink Policies
+
+The symlink policy creates symbolic links on client machines. This policy is set via the `samba-tool gpo manage symlink` command. This policy is compatible with Vintela's Symlink Group Policy.
+
+### Sudoers Policies
+
+Sudoers policies add sudo rules to client machines. These policies can be managed in the GPME under `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Sudo Rights`.
+
+#### VGP Sudoers Policies
+
+Another Sudoers extension is available for compatibility with Vintela's Sudoers Group Policy. The policy for this extension can be modified using the `samba-tool gpo manage sudo` command.
+
+#### Centrify Sudoers Policies
+
+A third Sudoers extension is available to provide compatibility with Centrify's Sudoers Group Policy. If you are currently using Centrify Group Policy to distribute Sudoers policies, these will automatically be applied by samba-gpupdate.
+
+::: {#info style="color: green;"}
+Samba Sudoers, VGP Sudoers, and Centrify Sudoers policies can be safely used in conjunction with one another, since these policies are non-overlapping.
+:::
+
+### Message Policies
+
+Message policies set the contents of the /etc/motd and /etc/issue files on client machines. These policies can be managed in the GPME under `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Messages`.
+
+#### VGP Message Policies
+
+Other VGP Message extensions are available for compatibility with Vintela's MOTD and Issue Group Policies. The policies for these extensions can be modified using the `samba-tool gpo manage motd` and `samba-tool gpo manage issue` commands.
+
+::: {#warn style="color: red;"}
+Beware that applying both the Samba and VGP message policies will cause unpredictable behavior, since both policies will apply and will overwrite one another.
+:::
+
+### PAM Access Policies
+
+PAM Access policies set access rules within `/etc/security/access.d`. These policies are set using the `samba-tool gpo manage access` command. This policy is compatible with Vintela's Access Group Policy.
+
+### Certificate Auto Enrollment
+
+Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. Certificate Auto Enrollment is available in Samba 4.16 and above.
+
+### Firefox Policy
+
+Firefox policies can be administered using the Mozilla policy templates provided by Mozilla.
+
+### Chromium/Chrome Policy
+
+Chromium and Google Chrome policies can be administered using the Chrome policy templates provided by Google.
+
+### GNOME Settings
+
+GNOME Settings policies are found in the GPME under `Computer Configuration > Policies > Administrative Templates > Samba > GNOME`. These policies manage some GNOME user settings, as described in the GNOME system admin guide, such as the compose key, screen dimming, online account management, extensions, and the ability to disable printing, file saving, command line access, fingerprint logon, logout, user switching, and reparitioning. There is also a general method for disabling any specific GNOME lockdown value.
+
+### OpenSSH Policy
+
+OpenSSH policy applies settings to /etc/ssh/sshd_config.d. These policies can be set using the `samba-tool gpo manage openssh` command. These policies are compatible with Vintela's OpenSSH Group Policy.
+
+### Firewalld Policy
+
+Firewalld policy applies firewall rules using the firewall-cmd command. These policies can be found in the GPME under `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Firewalld`.
