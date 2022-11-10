@@ -6,12 +6,62 @@ A Windows Active Directory Administrator should know that Group Policies are man
 
 There are instances where Samba's Group Policy can only be managed via the GPMC, with no `samba-tool gpo` alternative. These cases will be highlighted in the text.
 
-## Creating a Group Policy {#gpcreate}
+## Creating a Group Policy Object {#gpcreate}
 
-## Deleting a Group Policy {#gpdelete}
+The `samba-tool gpo create` command is used to create a Group Policy Object.
+
+```
+> samba-tool gpo create --help
+Usage: samba-tool gpo create <displayname> [options]
+
+Create an empty GPO.
+```
+
+## Deleting a Group Policy Object {#gpdelete}
+
+```
+> samba-tool gpo del --help
+Usage: samba-tool gpo del <gpo> [options]
+
+Delete a GPO.
+```
 
 ## Group Policy Links {#gplink}
 
+```
+> samba-tool gpo setlink --help
+Usage: samba-tool gpo setlink <container_dn> <gpo> [options]
+
+Add or update a GPO link to a container.
+```
+
+```
+> samba-tool gpo dellink --help
+Usage: samba-tool gpo dellink <container_dn> <gpo> [options]
+
+Delete GPO link from a container.
+```
+
 ## Listing a Group Policy {#gplist}
 
+```
+> samba-tool gpo list --help
+Usage: samba-tool gpo list <username|machinename> [options]
+
+List GPOs for an account.
+```
+
 ## Modifying a Group Policy {#gpmodify}
+
+The `samba-tool gpo manage` is used for modifying settings on a Group Policy Object. See the individual chapters for each subcommand explanation.
+
+* `samba-tool gpo manage smb_conf`: Chapter \@ref(smbconf)
+* `samba-tool gpo manage security`: Chapter \@ref(sec)
+* `samba-tool gpo manage scripts`: Chapter \@ref(scripts)
+* `samba-tool gpo manage files`: Chapter \@ref(files)
+* `samba-tool gpo manage symlink`: Chapter \@ref(symlink)
+* `samba-tool gpo manage sudoers`: Chapter \@ref(sudoers)
+* `samba-tool gpo manage issue`: Chapter \@ref(msgs)
+* `samba-tool gpo manage motd`: Chapter \@ref(msgs)
+* `samba-tool gpo manage access`: Chapter \@ref(pamaccess)
+* `samba-tool gpo manage openssh`: Chapter \@ref(openssh)
