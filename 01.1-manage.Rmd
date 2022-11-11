@@ -55,13 +55,53 @@ List GPOs for an account.
 
 The `samba-tool gpo manage` is used for modifying settings on a Group Policy Object. See the individual chapters for each subcommand explanation.
 
-* `samba-tool gpo manage smb_conf`: Chapter \@ref(smbconf)
-* `samba-tool gpo manage security`: Chapter \@ref(sec)
-* `samba-tool gpo manage scripts`: Chapter \@ref(scripts)
-* `samba-tool gpo manage files`: Chapter \@ref(files)
-* `samba-tool gpo manage symlink`: Chapter \@ref(symlink)
-* `samba-tool gpo manage sudoers`: Chapter \@ref(sudoers)
-* `samba-tool gpo manage issue`: Chapter \@ref(msgs)
-* `samba-tool gpo manage motd`: Chapter \@ref(msgs)
-* `samba-tool gpo manage access`: Chapter \@ref(pamaccess)
-* `samba-tool gpo manage openssh`: Chapter \@ref(openssh)
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">samba-tool command</th>
+   <th style="text-align:left;">Chapter</th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td>`samba-tool gpo manage smb_conf`</td>
+   <td>\@ref(smbconf)</td>
+  </tr>
+  <tr>
+   <td>`samba-tool gpo manage security`</td>
+   <td>\@ref(sec)</td>
+  </tr>
+  <tr>
+   <td>`samba-tool gpo manage scripts`</td>
+   <td>\@ref(scripts)</td>
+  </tr>
+  <tr>
+   <td>`samba-tool gpo manage files`</td>
+   <td>\@ref(files)</td>
+  </tr>
+  <tr>
+   <td>`samba-tool gpo manage symlink`</td>
+   <td>\@ref(symlink)</td>
+  </tr>
+  <tr>
+   <td>`samba-tool gpo manage sudoers`</td>
+   <td>\@ref(sudoers)</td>
+  </tr>
+  <tr>
+   <td>`samba-tool gpo manage issue`</td>
+   <td>\@ref(msgs)</td>
+  </tr>
+  <tr>
+   <td>`samba-tool gpo manage motd`</td>
+   <td>\@ref(msgs)</td>
+  </tr>
+  <tr>
+   <td>`samba-tool gpo manage access`</td>
+   <td>\@ref(pamaccess)</td>
+  </tr>
+  <tr>
+   <td>`samba-tool gpo manage openssh`</td>
+   <td>\@ref(openssh)</td>
+  </tr>
+</tbody>
+</table>
