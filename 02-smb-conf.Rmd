@@ -2,6 +2,8 @@
 
 The purpose of the smb.conf policies is to be able to distribute smb.conf settings to Linux clients. This policy only supports a physical smb.conf file, and currently does not support smb.conf registry settings.
 
+These policies are physically stored on the SYSVOL in the **MACHINE/Registry.pol** file in the subdirectory of the Group Policy Object. They are stored in registry format, and are difficult to modify manually. See chapter \@ref(regpol) for details on how to manually modify this file.
+
 ## Server Side Extension
 
 The Server Side Extension for smb.conf policies is distributed using Administrative Templates (ADMX). Refer to chapter \@ref(sse) in section \@ref(admx) for details about Administrative Templates.

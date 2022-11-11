@@ -1,0 +1,95 @@
+# Modifying a Registry.pol File {#regpol}
+
+There is no existing tool for modifying a Registry.pol on Linux, but Samba provides python libraries for manipulating these files. The following python code snippet demonstrates how to open one of these files.
+
+```python
+from samba.ndr import ndr_unpack
+from samba.dcerpc import preg
+
+raw = open('Registry.pol', 'rb').read()
+pol_conf = ndr_unpack(preg.file, raw)
+```
+
+The parsed file contains a list of entries, which you can iterate over. Each entry contains a keyname, valuename, and data.
+
+```python
+for e in pol_conf.entries:
+    print(e.keyname, e.valuename, e.data)
+```
+
+Writing to the `pol_conf` can be tricky. If you write the length of the entries prior to writing the entries, it will actually cause memory corruption (this is a bug). So ensure you write to the entries, then to the length. You can create an entry using the `preg` import from `samba.dcerpc`.
+
+```python
+e = preg.entry()
+e.keyname = b'Software\\Policies\\Samba\\smb_conf'
+e.valuename = b'apply group policies'
+e.type = 4 # REG_DWORD, an integer
+e.data = 1
+
+entries = list(pol_data.entries)
+entries.append(e)
+pol_data.entries = entries
+pol_data.num_entries = len(entries) # Ensure you set the new num_entries last
+```
+
+The data type refers to Microsoft defined registry types:
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;">Registry type name</th>
+   <th style="text-align:left;">Registry type value</th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td>REG\_NONE</td>
+   <td>0</td>
+  </tr>
+  <tr>
+   <td>REG\_SZ</td>
+   <td>1</td>
+  </tr>
+  <tr>
+   <td>REG\_EXPAND\_SZ</td>
+   <td>2</td>
+  </tr>
+  <tr>
+   <td>REG\_BINARY</td>
+   <td>3</td>
+  </tr>
+  <tr>
+   <td>REG\_DWORD</td>
+   <td>4</td>
+  </tr>
+  <tr>
+   <td>REG\_DWORD\_BIG\_ENDIAN</td>
+   <td>5</td>
+  </tr>
+  <tr>
+   <td>REG\_LINK</td>
+   <td>6</td>
+  </tr>
+  <tr>
+   <td>REG\_MULTI\_SZ</td>
+   <td>7</td>
+  </tr>
+  <tr>
+   <td>REG\_RESOURCE\_LIST</td>
+   <td>8</td>
+  </tr>
+  <tr>
+   <td>REG\_QWORD</td>
+   <td>11</td>
+  </tr>
+</tbody>
+</table>
+
+To write your changes back to the Registry.pol file, you'll use the following:
+
+```python
+from samba.ndr import ndr_pack
+
+with open('Registry.pol', 'wb') as w:
+    w.write(ndr_pack(pol_data))
+```
