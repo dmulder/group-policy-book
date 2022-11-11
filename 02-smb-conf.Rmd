@@ -30,7 +30,7 @@ Apply the policy change, and close the GPME.
 
 ### Managing smb.conf Policies via samba-tool
 
-Setting an smb.conf Group Policy is arguably much simpler.
+Setting an smb.conf Group Policy via `samba-tool` is arguably much simpler.
 
 ```
 > samba-tool gpo manage smb_conf set --help
@@ -69,8 +69,6 @@ GPO: Default Domain Policy
     -----------------------------------------------------------
   -----------------------------------------------------------
 =================================================================
-
-rsop TESTSYSDM$ Computer
 ```
 
 If we now force the policy, we'll see our setting gets applied to the default smb.conf:
