@@ -1,1 +1,29 @@
 # Script Policies {#scripts}
+
+The purpose of this policy is to schedule cron jobs on a Linux client. Both Machine and User policy is supported. This policy does not upload a script for execution, it only schedules an existing script to run. To first load a script onto the client, see the Files Policy in chapter \@ref(files).
+
+This policy is physically stored on the SYSVOL in the **MACHINE/Registry.pol** and **USER/Registry.pol** files within the subdirectory of the Group Policy Object. It is stored in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
+
+## Server Side Extension
+
+The Server Side Extension for smb.conf policies is distributed using Administrative Templates (ADMX). Refer to chapter \@ref(sse) in section \@ref(admx) for details about Administrative Templates.
+
+Setting up the ADMX templates for this policy is described in chapter \@ref(smbconf) section \@ref(smbconf-sse).
+
+### Managing Machine Scripts Policies via the GPME
+
+Open the Group Policy Management Editor (GPME) and navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Scripts`. For instructions on accessing the GPME, see chapter \@ref(manage) section \@ref(gpcreate).
+
+![Scripts Server Side Extension (ADMX)](scripts-images/scripts.png)
+
+As an example, we'll create a simple cron job which echo's "hello world" once every day.
+
+![Script Example](scripts-images/hello_world.png)
+
+### Managing User Scripts Policies via the GPME
+
+Next we'll create a user script that echo's the text "Don't do that Dave" every hour. Open the Group Policy Management Editor (GPME) and navigate to `User Configuration > Policies > Administrative Templates > Samba > Unix Settings > Scripts`.
+
+![User Script Example](scripts-images/dave.png)
+
+## Client Side Extension
