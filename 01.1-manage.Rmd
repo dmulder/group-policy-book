@@ -72,8 +72,8 @@ The `samba-tool gpo manage` is used for modifying settings on a Group Policy Obj
    <td>\@ref(sec)</td>
   </tr>
   <tr>
-   <td>`samba-tool gpo manage scripts`</td>
-   <td>\@ref(scripts)</td>
+   <td>`samba-tool gpo manage scripts startup`</td>
+   <td>\@ref(startupscripts)</td>
   </tr>
   <tr>
    <td>`samba-tool gpo manage files`</td>
