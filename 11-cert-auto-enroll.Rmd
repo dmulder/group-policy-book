@@ -1,4 +1,4 @@
-# Certificate Auto Enrollment {#certautoenroll}
+# Certificate Auto Enrollment Policy {#certautoenroll}
 
 Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. As of Samba 4.16, Linux clients can now auto enroll for certificates just like a Windows client.
 

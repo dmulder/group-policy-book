@@ -1,1 +1,1 @@
-# GNOME Settings {#gnome}
+# GNOME Settings Policy {#gnome}
