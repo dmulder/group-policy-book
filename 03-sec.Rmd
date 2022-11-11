@@ -1,1 +1,70 @@
 # Password and Kerberos Policies {#sec}
+
+The purpose of these policies is to enforce password complexity and kerberos rules on a Samba Active Directory Domain Controller (ADDC). When a Linux client is not an ADDC, these policies are disabled and ignored automatically.
+
+## Server Side Extension
+
+The Group Policy Management Editor (GPME) contains a built in Server Side Extension for Password and Kerberos Policies. There is also a `samba-tool` command to modify these policies.
+
+### Managing Password and Kerberos Policies via the GPME
+
+Open the GPME and navigate to `Computer Configuration > Policies > Windows Settings > Security Settings > Account Policy`.
+
+The following password policies are applicable to a Samba ADDC:
+
+* Maximum password age
+* Minimum password age
+* Minimum password length
+* Password must meet complexity requirements
+
+![Password Policies](sec-images/passwd.png)
+
+The following Kerberos policies are applicable to a Samba ADDC:
+
+* Maximum lifetime for service ticket
+* Maximum lifetime for user ticket
+* Maximum lifetime for user ticket renewal
+
+![Kerberos Policies](sec-images/kerb.png)
+
+### Managing Password and Kerberos Policies via samba-tool
+
+The Password and Kerberos policies can also be set via `samba-tool`.
+
+```
+> samba-tool gpo manage security set --help
+Usage: samba-tool gpo manage security set <gpo> <setting> <value> [options]
+
+Set Samba Security Group Policy to the sysvol
+
+This command sets a security setting to the sysvol for applying to winbind
+clients. Not providing a value will unset the policy.
+These settings only apply to the ADDC.
+
+Example:
+samba-tool gpo manage security set {31B2F340-016D-11D2-945F-00C04FB984F9} MaxTicketAge 10
+
+Possible policies:
+MaxTicketAge            Maximum lifetime for user ticket
+                        Defined in hours
+
+MaxServiceAge           Maximum lifetime for service ticket
+                        Defined in minutes
+
+MaxRenewAge             Maximum lifetime for user ticket renewal
+                        Defined in minutes
+
+MinimumPasswordAge      Minimum password age
+                        Defined in days
+
+MaximumPasswordAge      Maximum password age
+                        Defined in days
+
+MinimumPasswordLength   Minimum password length
+                        Defined in characters
+
+PasswordComplexity      Password must meet complexity requirements
+                        1 is Enabled, 0 is Disabled
+```
+
+## Client Side Extension
