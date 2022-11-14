@@ -1,1 +1,5 @@
 # Files Policy {#files}
+
+```{r, echo=FALSE, out.width="30%", fig.align='center'}
+knitr::include_graphics("files-images/upload.png")
+```

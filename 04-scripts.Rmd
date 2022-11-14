@@ -1,5 +1,9 @@
 # Script Policies {#scripts}
 
+```{r, echo=FALSE, out.width="30%", fig.align='center'}
+knitr::include_graphics("scripts-images/write.png")
+```
+
 The purpose of this policy is to schedule cron jobs on a Linux client. Both Machine and User policy is supported. This policy does not upload a script for execution, it only schedules an existing script to run. To first load a script onto the client, see the Files Policy in chapter \@ref(files).
 
 This policy is physically stored on the SYSVOL in the **MACHINE/Registry.pol** and **USER/Registry.pol** files within the subdirectory of the Group Policy Object. It is stored in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.

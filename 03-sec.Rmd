@@ -1,5 +1,9 @@
 # Password and Kerberos Policies {#sec}
 
+```{r, echo=FALSE, out.width="30%", fig.align='center'}
+knitr::include_graphics("sec-images/key.png")
+```
+
 The purpose of these policies is to enforce password complexity and kerberos rules on a Samba Active Directory Domain Controller (ADDC). When a Linux client is not an ADDC, these policies are disabled and ignored automatically.
 
 These policies are physically stored on the SYSVOL in the **MACHINE/Microsoft/Windows NT/SecEdit/GptTmpl.inf** file in the subdirectory of the Group Policy Object. They are stored in ini format, and are easily modified manually using a text editor.

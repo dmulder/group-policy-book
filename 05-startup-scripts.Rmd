@@ -1,5 +1,9 @@
 # Startup Script Policies {#startupscripts}
 
+```{r, echo=FALSE, out.width="30%", fig.align='center'}
+knitr::include_graphics("startup-scripts-images/start.png")
+```
+
 Startup scripts earn themselves a chapter independant of the Script Polices chapter because they are so thoroughly different. The Startup Scripts Policy started as a compatability layer for Vintela's Startup Scripts, but became the defacto standard for Samba also. This policy has no Server Side Extension in the Group Policy Management Editor (GPME), but only provides a `samba-tool` command for setting the policy. A nice advantage to using this policy is that when using the `samba-tool gpo manage` command to set the policy, it automatically uploads the script file you specify to the SYSVOL.
 
 This policy is physically stored on the SYSVOL in the **MACHINE/VGP/VTLA/Unix/Scripts/Startup/manifest.xml** file in the subdirectory of the Group Policy Object. They are stored in an xml format, and are easily modified manually using a text editor.

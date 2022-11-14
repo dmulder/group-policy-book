@@ -1,5 +1,9 @@
 # smb.conf Policies {#smbconf}
 
+```{r, echo=FALSE, out.width="30%", fig.align='center'}
+knitr::include_graphics("smb-conf-images/smbconf.png")
+```
+
 The purpose of the smb.conf policies is to be able to distribute smb.conf settings to Linux clients. This policy only supports a physical smb.conf file, and currently does not support smb.conf registry settings.
 
 These policies are physically stored on the SYSVOL in the **MACHINE/Registry.pol** file in the subdirectory of the Group Policy Object. They are stored in registry format, and are difficult to modify manually. See chapter \@ref(regpol) for details on how to manually modify this file.

@@ -1,5 +1,9 @@
 # Introduction {#intro}
 
+```{r, echo=FALSE, out.width="30%", fig.align='center'}
+knitr::include_graphics("intro-imates/computer.png")
+```
+
 Samba version 4.14 and newer ships with Linux client Group Policy. The Group Policy offerings are made to be similar to what is offered by proprietary tools, such as Vintela’s and Centrify’s Group Policy.
 
 Group Policy provides centralized management and configuration of operating system, application, and user settings. Policies are delivered to clients by listing them in LDAP, under groupPolicyContainer objects. These objects provide the gPCFileSysPath attribute, which points to policy information stored on the domains SYSVOL share.
