@@ -208,6 +208,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="7.1.1" data-path="startupscripts.html"><a href="startupscripts.html#managing-startup-script-policies-via-samba-tool"><i class="fa fa-check"></i><b>7.1.1</b> Managing Startup Script Policies via samba-tool</a></li>
 </ul></li>
+<li class="chapter" data-level="7.2" data-path="startupscripts.html"><a href="startupscripts.html#client-side-extension-3"><i class="fa fa-check"></i><b>7.2</b> Client Side Extension</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="files.html"><a href="files.html"><i class="fa fa-check"></i><b>8</b> Files Policy</a></li>
 <li class="chapter" data-level="9" data-path="symlink.html"><a href="symlink.html"><i class="fa fa-check"></i><b>9</b> Symlink Policies</a></li>
@@ -287,8 +288,11 @@ This command adds a startup script policy to the sysvol.
 
 Example:
 samba-tool gpo manage scripts startup add
-{31B2F340-016D-11D2-945F-00C04FB984F9} test_script.sh &#39;\-n \-p all&#39;</code></pre>
-<p>When adding a script, you pass the relative path to an existing script file. This script will be uploaded to the SYSVOL and made available to clients for execution. You can also provide an optional set of arguments that will be passed to the script when it is executed. These arguments are parsed as a single argument to the command, so they must be wrapped in quotes and all dashes (‘-’) must be escaped. There is also an optional argument <code>run_as</code> to instruct the client to run the script as a specific user.</p>
+{31B2F340-016D-11D2-945F-00C04FB984F9} test_script.sh &#39;\-n \-p all&#39;
+
+Options:
+  --run-once            Whether to run the script only once</code></pre>
+<p>When adding a script, you pass the relative path to an existing script file. This script will be uploaded to the SYSVOL and made available to clients for execution. You can also provide an optional set of arguments that will be passed to the script when it is executed. These arguments are parsed as a single argument to the command, so they must be wrapped in quotes and all dashes (‘-’) must be escaped. There is also an optional argument <code>run_as</code> to instruct the client to run the script as a specific user. The optional <code>--run-once</code> parameter can instruct the script to execute only once, on the next startup, and not again.</p>
 <p>Let’s add a simple test script now which echos a message, and takes no arguments. By default this command will run as root.</p>
 <pre><code>&gt; cat test_script.sh
 #!/bin/sh
@@ -297,10 +301,79 @@ echo Something is happening here at startup
 &gt; samba-tool gpo manage scripts startup add {31B2F340-016D-11D2-945F-00C04FB984F9} test_script.sh -UAdministrator
 &gt; samba-tool gpo manage scripts startup list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
 @reboot root \\lizardo.suse.de\Policies\{31B2F340-016D-11D2-945F-00C04FB984F9}\MACHINE\VGP\VTLA\Unix\Scripts\Startup\test_script.sh </code></pre>
-<p>Notice that the path to the script is now pointing to an uploaded copy on the SYSVOL. If you wanted to remove this policy later, we would issue the <code>samba-tool gpo manage scripts startup remove</code> command.</p>
+<p>Notice that the path to the script is now pointing to an uploaded copy on the SYSVOL.</p>
+<p>If we mount the SYSVOL, we can take a look at the xml file created by the policy.</p>
+<pre><code>&gt; sudo mount.cifs \\\\lizardo.suse.de\\SYSVOL /mnt/ -ouser=Administrator
+&gt; cat /mnt/lizardo.suse.de/Policies/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/VGP/VTLA/Unix/Scripts/Startup/manifest.xml | xmllint --format -
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;vgppolicy&gt;
+  &lt;policysetting&gt;
+    &lt;version&gt;1&lt;/version&gt;
+    &lt;name&gt;Unix Scripts&lt;/name&gt;
+    &lt;description&gt;Represents Unix scripts to run on Group Policy clients&lt;/description&gt;
+    &lt;data&gt;
+      &lt;listelement&gt;
+        &lt;script&gt;test_script.sh&lt;/script&gt;
+        &lt;hash&gt;3F1F0449B3070AD113B2878C751C4887&lt;/hash&gt;
+      &lt;/listelement&gt;
+    &lt;/data&gt;
+  &lt;/policysetting&gt;
+&lt;/vgppolicy&gt;</code></pre>
+<p>If you wanted to remove this policy later, we would issue the <code>samba-tool gpo manage scripts startup remove</code> command.</p>
 <pre><code>&gt; samba-tool gpo manage scripts startup remove {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator test_script.sh</code></pre>
-
 </div>
+</div>
+<div id="client-side-extension-3" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Client Side Extension<a href="startupscripts.html#client-side-extension-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Startup Scripts Client Side Extension (CSE) creates <code>@reboot</code> cron jobs on the Linux client. Startup Scripts only apply for Machine policy.</p>
+<p>We created a test script in the previous section. If we now list the Resultant Set of Policy on the client, we see this:</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: vgp_startup_scripts_ext
+  -----------------------------------------------------------
+    Policy Type: VGP/Unix Settings/Startup Scripts
+    -----------------------------------------------------------
+    [ @reboot root /var/lib/samba/gpo_cache/LIZARDO.SUSE.DE/POLICIES/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/VGP/VTLA/UNIX/SCRIPTS/STARTUP/TEST_SCRIPT.SH  ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================</code></pre>
+<p>If we now force the policy to apply, we’ll see our script is scheduled to execute using a cron job.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;gp&gt;
+  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
+    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
+      &lt;gp_ext name=&quot;VGP/Unix Settings/Startup Scripts&quot;&gt;
+        &lt;attribute name=&quot;test_script.sh:3F1F0449B3070AD113B2878C751C4887:&quot;&gt;/etc/cron.d/gp_vzldfcii&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+    &lt;/guid&gt;
+    &lt;applylog&gt;
+      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
+    &lt;/applylog&gt;
+  &lt;/user&gt;
+&lt;/gp&gt;
+&gt; sudo cat /etc/cron.d/gp_vzldfcii
+
+### autogenerated by samba
+#
+# This file is generated by the vgp_startup_scripts_ext Group Policy
+# Client Side Extension. To modify the contents of this file,
+# modify the appropriate Group Policy objects which apply
+# to this machine. DO NOT MODIFY THIS FILE DIRECTLY.
+#
+
+@reboot root /var/lib/samba/gpo_cache/LIZARDO.SUSE.DE/POLICIES/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/VGP/VTLA/UNIX/SCRIPTS/STARTUP/TEST_SCRIPT.SH</code></pre>
+<p>You can see we found the location of our cron job by outputing the applied policy from our Group Policy Log. The cron job instructs the script to execute as root on every reboot. Let’s also verify our script has been deployed on the client.</p>
+<pre><code>&gt; sudo cat /var/lib/samba/gpo_cache/LIZARDO.SUSE.DE/POLICIES/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/VGP/VTLA/UNIX/SCRIPTS/STARTUP/TEST_SCRIPT.SH
+#!/bin/sh
+
+echo Something is happening here at startup</code></pre>
+
 </div>
 </div>
             </section>

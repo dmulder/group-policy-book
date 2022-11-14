@@ -50,6 +50,7 @@ client-side-extension-2
 startupscripts
 server-side-extension-2
 managing-startup-script-policies-via-samba-tool
+client-side-extension-3
 files
 symlink
 sudoers
