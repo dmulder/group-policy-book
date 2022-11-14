@@ -52,6 +52,8 @@ server-side-extension-2
 managing-startup-script-policies-via-samba-tool
 client-side-extension-3
 files
+server-side-extension-3
+client-side-extension-4
 symlink
 sudoers
 msgs

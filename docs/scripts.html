@@ -210,7 +210,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="7.2" data-path="startupscripts.html"><a href="startupscripts.html#client-side-extension-3"><i class="fa fa-check"></i><b>7.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="files.html"><a href="files.html"><i class="fa fa-check"></i><b>8</b> Files Policy</a></li>
+<li class="chapter" data-level="8" data-path="files.html"><a href="files.html"><i class="fa fa-check"></i><b>8</b> Files Policy</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="files.html"><a href="files.html#server-side-extension-3"><i class="fa fa-check"></i><b>8.1</b> Server Side Extension</a></li>
+<li class="chapter" data-level="8.2" data-path="files.html"><a href="files.html#client-side-extension-4"><i class="fa fa-check"></i><b>8.2</b> Client Side Extension</a></li>
+</ul></li>
 <li class="chapter" data-level="9" data-path="symlink.html"><a href="symlink.html"><i class="fa fa-check"></i><b>9</b> Symlink Policies</a></li>
 <li class="chapter" data-level="10" data-path="sudoers.html"><a href="sudoers.html"><i class="fa fa-check"></i><b>10</b> Sudoers Policies</a></li>
 <li class="chapter" data-level="11" data-path="msgs.html"><a href="msgs.html"><i class="fa fa-check"></i><b>11</b> Message Policies</a></li>
@@ -256,6 +260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="scripts" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">6</span> Script Policies<a href="scripts.html#scripts" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="scripts-images/write.png" width="30%" style="display: block; margin: auto;" /></p>
 <p>The purpose of this policy is to schedule cron jobs on a Linux client. Both Machine and User policy is supported. This policy does not upload a script for execution, it only schedules an existing script to run. To first load a script onto the client, see the Files Policy in chapter <a href="files.html#files">8</a>.</p>
 <p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/Registry.pol</strong> and <strong>USER/Registry.pol</strong> files within the subdirectory of the Group Policy Object. It is stored in registry format. See chapter <a href="regpol.html#regpol">21</a> for details on how to manually modify this file.</p>
 <div id="server-side-extension-1" class="section level2 hasAnchor" number="6.1">
