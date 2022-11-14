@@ -6,4 +6,60 @@ This policy is physically stored on the SYSVOL in the **MACHINE/VGP/VTLA/Unix/Sc
 
 ## Server Side Extension
 
+Startup Script Policies have no GPME Server Side Extension (SSE), so this policy may only be administered using `samba-tool gpo manage scripts startup`. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.
 
+### Managing Startup Script Policies via samba-tool
+
+The Startup Scripts `samba-tool` command has 3 subcommands; add, list, and remove.
+
+```
+> samba-tool gpo manage scripts startup --help
+Usage: samba-tool gpo manage scripts startup <subcommand>
+
+Manage Startup Scripts Group Policy Objects
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  add     - Adds VGP Startup Script Group Policy to the sysvol
+  list    - List VGP Startup Script Group Policy from the sysvol
+  remove  - Removes VGP Startup Script Group Policy from the sysvol
+```
+
+To add a new Startup Script policy to the SYSVOL, call the `samba-tool gpo manage scripts startup add` command.
+
+```
+> samba-tool gpo manage scripts startup add --help
+Usage: samba-tool gpo manage scripts startup add <gpo> <script> [args] [run_as] [options]
+
+Adds VGP Startup Script Group Policy to the sysvol
+
+This command adds a startup script policy to the sysvol.
+
+Example:
+samba-tool gpo manage scripts startup add
+{31B2F340-016D-11D2-945F-00C04FB984F9} test_script.sh '\-n \-p all'
+```
+
+When adding a script, you pass the relative path to an existing script file. This script will be uploaded to the SYSVOL and made available to clients for execution. You can also provide an optional set of arguments that will be passed to the script when it is executed. These arguments are parsed as a single argument to the command, so they must be wrapped in quotes and all dashes ('-') must be escaped. There is also an optional argument `run_as` to instruct the client to run the script as a specific user.
+
+Let's add a simple test script now which echos a message, and takes no arguments. By default this command will run as root.
+
+```
+> cat test_script.sh
+#!/bin/sh
+
+echo Something is happening here at startup
+> samba-tool gpo manage scripts startup add {31B2F340-016D-11D2-945F-00C04FB984F9} test_script.sh -UAdministrator
+> samba-tool gpo manage scripts startup list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+@reboot root \\lizardo.suse.de\Policies\{31B2F340-016D-11D2-945F-00C04FB984F9}\MACHINE\VGP\VTLA\Unix\Scripts\Startup\test_script.sh 
+```
+
+Notice that the path to the script is now pointing to an uploaded copy on the SYSVOL. If you wanted to remove this policy later, we would issue the `samba-tool gpo manage scripts startup remove` command.
+
+```
+> samba-tool gpo manage scripts startup remove {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator test_script.sh
+```
