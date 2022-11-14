@@ -39,7 +39,7 @@ Resultant Set of Policy
 Computer Policy
 
 GPO: Default Domain Policy
-======================================================================================================================
+=================================================================
   -----------------------------------------------------------
   CSE: gp_scripts_ext
   -----------------------------------------------------------
@@ -55,13 +55,13 @@ GPO: Default Domain Policy
     [ @daily echo hello world from Centrify ]
     -----------------------------------------------------------
   -----------------------------------------------------------
-======================================================================================================================
+=================================================================
 > sudo /usr/sbin/samba-gpupdate --target=User -U tux --rsop
 Resultant Set of Policy
 User Policy
 
 GPO: Default Domain Policy
-======================================================================================================================
+=================================================================
   CSE: gp_user_scripts_ext
   -----------------------------------------------------------
     Policy Type: Hourly Scripts
@@ -76,7 +76,7 @@ GPO: Default Domain Policy
     [ @hourly echo Don't do that Dave from Centrify ]
     -----------------------------------------------------------
   -----------------------------------------------------------
-======================================================================================================================
+=================================================================
 ```
 
 In addition to the expected scripts that we added previously, you'll notice there are 2 additional entries. The `gp_centrify_crontab_ext` and `gp_user_centrify_crontab_ext` CSEs parse policies provided by a Centrify Server Side Extension. These weren't introduced previously in the chapter because they are a proprietary solution not provided by Samba. Samba provides a CSE to apply these for compatability reasons, but does not provide a SSE to set them. These CSEs are provided to assist in migration from proprietary technologies. We won't discuss these any further.
