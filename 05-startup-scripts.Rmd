@@ -42,9 +42,12 @@ This command adds a startup script policy to the sysvol.
 Example:
 samba-tool gpo manage scripts startup add
 {31B2F340-016D-11D2-945F-00C04FB984F9} test_script.sh '\-n \-p all'
+
+Options:
+  --run-once            Whether to run the script only once
 ```
 
-When adding a script, you pass the relative path to an existing script file. This script will be uploaded to the SYSVOL and made available to clients for execution. You can also provide an optional set of arguments that will be passed to the script when it is executed. These arguments are parsed as a single argument to the command, so they must be wrapped in quotes and all dashes ('-') must be escaped. There is also an optional argument `run_as` to instruct the client to run the script as a specific user.
+When adding a script, you pass the relative path to an existing script file. This script will be uploaded to the SYSVOL and made available to clients for execution. You can also provide an optional set of arguments that will be passed to the script when it is executed. These arguments are parsed as a single argument to the command, so they must be wrapped in quotes and all dashes ('-') must be escaped. There is also an optional argument `run_as` to instruct the client to run the script as a specific user. The optional `--run-once` parameter can instruct the script to execute only once, on the next startup, and not again.
 
 Let's add a simple test script now which echos a message, and takes no arguments. By default this command will run as root.
 
@@ -58,7 +61,30 @@ echo Something is happening here at startup
 @reboot root \\lizardo.suse.de\Policies\{31B2F340-016D-11D2-945F-00C04FB984F9}\MACHINE\VGP\VTLA\Unix\Scripts\Startup\test_script.sh 
 ```
 
-Notice that the path to the script is now pointing to an uploaded copy on the SYSVOL. If you wanted to remove this policy later, we would issue the `samba-tool gpo manage scripts startup remove` command.
+Notice that the path to the script is now pointing to an uploaded copy on the SYSVOL.
+
+If we mount the SYSVOL, we can take a look at the xml file created by the policy.
+
+```
+> sudo mount.cifs \\\\lizardo.suse.de\\SYSVOL /mnt/ -ouser=Administrator
+> cat /mnt/lizardo.suse.de/Policies/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/VGP/VTLA/Unix/Scripts/Startup/manifest.xml | xmllint --format -
+<?xml version="1.0" encoding="UTF-8"?>
+<vgppolicy>
+  <policysetting>
+    <version>1</version>
+    <name>Unix Scripts</name>
+    <description>Represents Unix scripts to run on Group Policy clients</description>
+    <data>
+      <listelement>
+        <script>test_script.sh</script>
+        <hash>3F1F0449B3070AD113B2878C751C4887</hash>
+      </listelement>
+    </data>
+  </policysetting>
+</vgppolicy>
+```
+
+If you wanted to remove this policy later, we would issue the `samba-tool gpo manage scripts startup remove` command.
 
 ```
 > samba-tool gpo manage scripts startup remove {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator test_script.sh
