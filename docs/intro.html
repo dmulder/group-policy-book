@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Introduction | Group Policy on Linux</title>
+  <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
+clients via Group Policy.</p>" />
+  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Introduction | Group Policy on Linux" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="<p>This book introduces the user to opensource tools for managing Linux
+clients via Group Policy.</p>" />
+  <meta name="github-repo" content="dmulder/group-policy-book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Introduction | Group Policy on Linux" />
+  
+  <meta name="twitter:description" content="<p>This book introduces the user to opensource tools for managing Linux
+clients via Group Policy.</p>" />
+  
+
+<meta name="author" content="David Mulder" />
+
+
+<meta name="date" content="2022-11-14" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="manage.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#whats-the-difference-between-group-policy-and-a-group-policy-object"><i class="fa fa-check"></i><b>2.1</b> What’s the difference between Group Policy and a Group Policy Object?</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#server-side-extensions"><i class="fa fa-check"></i><b>2.2</b> Server Side Extensions</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#enabling-group-policy-server-side-extensions-on-the-server"><i class="fa fa-check"></i><b>2.2.1</b> Enabling Group Policy Server Side Extensions on the Server</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#client-side-extensions"><i class="fa fa-check"></i><b>2.3</b> Client Side Extensions</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="intro.html"><a href="intro.html#enabling-group-policy-client-side-extensions-on-the-linux-client"><i class="fa fa-check"></i><b>2.3.1</b> Enabling Group Policy Client Side Extensions on the Linux Client</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#policies-introduced-in-this-book"><i class="fa fa-check"></i><b>2.4</b> Policies Introduced in this Book</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#smb.conf-policies"><i class="fa fa-check"></i><b>2.4.1</b> smb.conf Policies</a></li>
+<li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#password-and-kerberos-policies"><i class="fa fa-check"></i><b>2.4.2</b> Password and Kerberos Policies</a></li>
+<li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#script-policies"><i class="fa fa-check"></i><b>2.4.3</b> Script Policies</a></li>
+<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#startup-script-policies"><i class="fa fa-check"></i><b>2.4.4</b> Startup Script Policies</a></li>
+<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#files-policy"><i class="fa fa-check"></i><b>2.4.5</b> Files Policy</a></li>
+<li class="chapter" data-level="2.4.6" data-path="intro.html"><a href="intro.html#symlink-policies"><i class="fa fa-check"></i><b>2.4.6</b> Symlink Policies</a></li>
+<li class="chapter" data-level="2.4.7" data-path="intro.html"><a href="intro.html#sudoers-policies"><i class="fa fa-check"></i><b>2.4.7</b> Sudoers Policies</a></li>
+<li class="chapter" data-level="2.4.8" data-path="intro.html"><a href="intro.html#message-policies"><i class="fa fa-check"></i><b>2.4.8</b> Message Policies</a></li>
+<li class="chapter" data-level="2.4.9" data-path="intro.html"><a href="intro.html#pam-access-policies"><i class="fa fa-check"></i><b>2.4.9</b> PAM Access Policies</a></li>
+<li class="chapter" data-level="2.4.10" data-path="intro.html"><a href="intro.html#certificate-auto-enrollment"><i class="fa fa-check"></i><b>2.4.10</b> Certificate Auto Enrollment</a></li>
+<li class="chapter" data-level="2.4.11" data-path="intro.html"><a href="intro.html#firefox-policy"><i class="fa fa-check"></i><b>2.4.11</b> Firefox Policy</a></li>
+<li class="chapter" data-level="2.4.12" data-path="intro.html"><a href="intro.html#chromiumchrome-policy"><i class="fa fa-check"></i><b>2.4.12</b> Chromium/Chrome Policy</a></li>
+<li class="chapter" data-level="2.4.13" data-path="intro.html"><a href="intro.html#gnome-settings"><i class="fa fa-check"></i><b>2.4.13</b> GNOME Settings</a></li>
+<li class="chapter" data-level="2.4.14" data-path="intro.html"><a href="intro.html#openssh-policy"><i class="fa fa-check"></i><b>2.4.14</b> OpenSSH Policy</a></li>
+<li class="chapter" data-level="2.4.15" data-path="intro.html"><a href="intro.html#firewalld-policy"><i class="fa fa-check"></i><b>2.4.15</b> Firewalld Policy</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#rsop"><i class="fa fa-check"></i><b>2.5</b> Resultant Set of Policy</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.1</b> Creating a Group Policy Object</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.2</b> Deleting a Group Policy Object</a></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gplink"><i class="fa fa-check"></i><b>3.3</b> Group Policy Links</a></li>
+<li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
+<li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="smbconf.html"><a href="smbconf.html"><i class="fa fa-check"></i><b>4</b> smb.conf Policies</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="smbconf.html"><a href="smbconf.html#smbconf-sse"><i class="fa fa-check"></i><b>4.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="smbconf.html"><a href="smbconf.html#managing-smb.conf-policies-via-the-gpme"><i class="fa fa-check"></i><b>4.1.1</b> Managing smb.conf Policies via the GPME</a></li>
+<li class="chapter" data-level="4.1.2" data-path="smbconf.html"><a href="smbconf.html#managing-smb.conf-policies-via-samba-tool"><i class="fa fa-check"></i><b>4.1.2</b> Managing smb.conf Policies via samba-tool</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="smbconf.html"><a href="smbconf.html#client-side-extension"><i class="fa fa-check"></i><b>4.2</b> Client Side Extension</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="sec.html"><a href="sec.html"><i class="fa fa-check"></i><b>5</b> Password and Kerberos Policies</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="sec.html"><a href="sec.html#server-side-extension"><i class="fa fa-check"></i><b>5.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="sec.html"><a href="sec.html#managing-password-and-kerberos-policies-via-the-gpme"><i class="fa fa-check"></i><b>5.1.1</b> Managing Password and Kerberos Policies via the GPME</a></li>
+<li class="chapter" data-level="5.1.2" data-path="sec.html"><a href="sec.html#managing-password-and-kerberos-policies-via-samba-tool"><i class="fa fa-check"></i><b>5.1.2</b> Managing Password and Kerberos Policies via samba-tool</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="sec.html"><a href="sec.html#client-side-extension-1"><i class="fa fa-check"></i><b>5.2</b> Client Side Extension</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="scripts.html"><a href="scripts.html"><i class="fa fa-check"></i><b>6</b> Script Policies</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="scripts.html"><a href="scripts.html#server-side-extension-1"><i class="fa fa-check"></i><b>6.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="scripts.html"><a href="scripts.html#managing-machine-scripts-policies-via-the-gpme"><i class="fa fa-check"></i><b>6.1.1</b> Managing Machine Scripts Policies via the GPME</a></li>
+<li class="chapter" data-level="6.1.2" data-path="scripts.html"><a href="scripts.html#managing-user-scripts-policies-via-the-gpme"><i class="fa fa-check"></i><b>6.1.2</b> Managing User Scripts Policies via the GPME</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="scripts.html"><a href="scripts.html#client-side-extension-2"><i class="fa fa-check"></i><b>6.2</b> Client Side Extension</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="startupscripts.html"><a href="startupscripts.html"><i class="fa fa-check"></i><b>7</b> Startup Script Policies</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="startupscripts.html"><a href="startupscripts.html#server-side-extension-2"><i class="fa fa-check"></i><b>7.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="startupscripts.html"><a href="startupscripts.html#managing-startup-script-policies-via-samba-tool"><i class="fa fa-check"></i><b>7.1.1</b> Managing Startup Script Policies via samba-tool</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="files.html"><a href="files.html"><i class="fa fa-check"></i><b>8</b> Files Policy</a></li>
+<li class="chapter" data-level="9" data-path="symlink.html"><a href="symlink.html"><i class="fa fa-check"></i><b>9</b> Symlink Policies</a></li>
+<li class="chapter" data-level="10" data-path="sudoers.html"><a href="sudoers.html"><i class="fa fa-check"></i><b>10</b> Sudoers Policies</a></li>
+<li class="chapter" data-level="11" data-path="msgs.html"><a href="msgs.html"><i class="fa fa-check"></i><b>11</b> Message Policies</a></li>
+<li class="chapter" data-level="12" data-path="pamaccess.html"><a href="pamaccess.html"><i class="fa fa-check"></i><b>12</b> PAM Access Policies</a></li>
+<li class="chapter" data-level="13" data-path="certautoenroll.html"><a href="certautoenroll.html"><i class="fa fa-check"></i><b>13</b> Certificate Auto Enrollment Policy</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="certautoenroll.html"><a href="certautoenroll.html#configuring-certificate-auto-enrollment-on-the-server"><i class="fa fa-check"></i><b>13.1</b> Configuring Certificate Auto Enrollment on the Server</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="certautoenroll.html"><a href="certautoenroll.html#configure-server-certificate-auto-enrollment"><i class="fa fa-check"></i><b>13.1.1</b> Configure server certificate auto-enrollment</a></li>
+<li class="chapter" data-level="13.1.2" data-path="certautoenroll.html"><a href="certautoenroll.html#configure-user-certificate-auto-enrollment"><i class="fa fa-check"></i><b>13.1.2</b> Configure user certificate auto-enrollment</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="certautoenroll.html"><a href="certautoenroll.html#enable-certificate-auto-enrollment-on-the-client"><i class="fa fa-check"></i><b>13.2</b> Enable Certificate Auto Enrollment on the Client</a></li>
+<li class="chapter" data-level="13.3" data-path="certautoenroll.html"><a href="certautoenroll.html#where-to-find-certificates"><i class="fa fa-check"></i><b>13.3</b> Where to find certificates</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="firefox.html"><a href="firefox.html"><i class="fa fa-check"></i><b>14</b> Firefox Policy</a></li>
+<li class="chapter" data-level="15" data-path="chrome.html"><a href="chrome.html"><i class="fa fa-check"></i><b>15</b> Chromium/Chrome Policy</a></li>
+<li class="chapter" data-level="16" data-path="gnome.html"><a href="gnome.html"><i class="fa fa-check"></i><b>16</b> GNOME Settings Policy</a></li>
+<li class="chapter" data-level="17" data-path="openssh.html"><a href="openssh.html"><i class="fa fa-check"></i><b>17</b> OpenSSH Policy</a></li>
+<li class="chapter" data-level="18" data-path="firewalld.html"><a href="firewalld.html"><i class="fa fa-check"></i><b>18</b> Firewalld Policy</a></li>
+<li class="chapter" data-level="19" data-path="cse.html"><a href="cse.html"><i class="fa fa-check"></i><b>19</b> Writing Client Side Extensions</a></li>
+<li class="chapter" data-level="20" data-path="sse.html"><a href="sse.html"><i class="fa fa-check"></i><b>20</b> Writing Server Side Extensions</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="sse.html"><a href="sse.html#admx"><i class="fa fa-check"></i><b>20.1</b> Administrative Templates</a></li>
+<li class="chapter" data-level="20.2" data-path="sse.html"><a href="sse.html#gpomanage"><i class="fa fa-check"></i><b>20.2</b> samba-tool gpo manage</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>21</b> Modifying a Registry.pol File</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Group Policy on Linux</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="intro" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Introduction<a href="intro.html#intro" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Samba version 4.14 and newer ships with Linux client Group Policy. The Group Policy offerings are made to be similar to what is offered by proprietary tools, such as Vintela’s and Centrify’s Group Policy.</p>
+<p>Group Policy provides centralized management and configuration of operating system, application, and user settings. Policies are delivered to clients by listing them in LDAP, under groupPolicyContainer objects. These objects provide the gPCFileSysPath attribute, which points to policy information stored on the domains SYSVOL share.</p>
+<div id="whats-the-difference-between-group-policy-and-a-group-policy-object" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> What’s the difference between Group Policy and a Group Policy Object?<a href="intro.html#whats-the-difference-between-group-policy-and-a-group-policy-object" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A Group Policy Object (GPO) is a collection of settings that apply to a set of machines or users in a group. You can think of <em>Group Policy</em> like a template for a work order, and a <em>Group Policy Object</em> like a filled out copy of that template. A GPO is a <em>work order</em> of instructions to follow. That work order will be distributed to every member of the group, and it’s up to each member to decide how it <em>applies</em> those instructions.</p>
+<p>A GPO is modified by a <em>Server Side Extension</em>, and it is <em>applied</em> for a group member by a <em>Client Side Extension</em>.</p>
+</div>
+<div id="server-side-extensions" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Server Side Extensions<a href="intro.html#server-side-extensions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The purpose of a Server Side Extension (SSE) is to fill out a <em>work order</em> (a Group Policy Object). On Windows, this generally refers to some component of the Group Policy Management Editor.</p>
+<div class="figure">
+<img src="ch01-images/gpme.png" alt="" />
+<p class="caption">Group Policy Management Editor</p>
+</div>
+<p>In Samba, this also includes the <code>samba-tool gpo manage</code> command.</p>
+<pre><code>&gt; samba-tool gpo manage
+Usage: samba-tool gpo manage &lt;subcommand&gt;
+
+Manage Group Policy Objects
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  access    - Manage Host Access Group Policy Objects
+  files     - Manage Files Group Policy Objects
+  issue     - Manage Issue Group Policy Objects
+  motd      - Manage Message of the Day Group Policy Objects
+  openssh   - Manage OpenSSH Group Policy Objects
+  scripts   - Manage Scripts Group Policy Objects
+  security  - Manage Security Group Policy Objects
+  smb_conf  - Manage smb.conf Group Policy Objects
+  sudoers   - Manage Sudoers Group Policy Objects
+  symlink   - Manage symlink Group Policy Objects</code></pre>
+<p>When working with Linux clients, using <code>samba-tool gpo manage</code> to fill out your GPO is generally the preferred method.</p>
+<div id="enabling-group-policy-server-side-extensions-on-the-server" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Enabling Group Policy Server Side Extensions on the Server<a href="intro.html#enabling-group-policy-server-side-extensions-on-the-server" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In order to use the Samba Administrative Templates in the Group Policy Management Console, you’ll need to install them first, using the command <code>sudo samba-tool gpo admxload -UAdministrator</code>.</p>
+<p>The samba-tool gpo admxload command copies the Samba ADMX templates to the <domain>/Policies/PolicyDefinitions directory on the SYSVOL share. After installing the Samba ADMX templates, you MUST install Microsoft’s ADMX templates also, otherwise you will be unable to administer Windows domain members.</p>
+<p>To install Microsoft’s ADMX templates, use msiextract to extract the contents of the Administrative Templates msi:</p>
+<pre><code>msiextract /path/to/microsoft/download/Administrative\ Templates\ \(.admx\)\ for\ Windows\ 10\ October\ 2020\ Update.msi</code></pre>
+<p>Then upload the contents to the SYSVOL:</p>
+<pre><code>samba-tool gpo admxload -U Administrator --admx-dir=/path/to/extracted/msi/Program\ Files/Microsoft\ Group\ Policy/Windows\ 10\ October\ 2020\ Update\ \(20H2\)/PolicyDefinitions/</code></pre>
+</div>
+</div>
+<div id="client-side-extensions" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Client Side Extensions<a href="intro.html#client-side-extensions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In Group Policy vernacular, a Client Side Extension (CSE) is an encapsulated module on a client machine intended to enforce a specific policy. The responsibility of the CSE is to install that policy on the client and ensure it is enforced. It’s also the responsibility of the CSE to remove the policy when disabled by the server.</p>
+<p>In Samba, a CSE looks like a single python file. Within that file, the CSE inherits from one of several base classes provided by Samba which provide settings from the server. This is discussed in more detail in chapter <a href="cse.html#cse">19</a>.</p>
+<div id="enabling-group-policy-client-side-extensions-on-the-linux-client" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Enabling Group Policy Client Side Extensions on the Linux Client<a href="intro.html#enabling-group-policy-client-side-extensions-on-the-linux-client" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To enable Group Policy in Winbind, set the apply group policies global smb.conf option to Yes. You can even deploy this setting from Group Policy smb.conf options, then running the apply command manually the first time with <code>sudo samba-gpupate --force</code>.</p>
+<p>Policies are enforced at a random interval between 90 and 120 seconds.</p>
+<p>Policies can be manually enforced at any time on a Linux domain member using the <code>samba-gpupdate --force</code> command.</p>
+<p>Winbind will enforce both machine policy (as of Samba 4.14) and user policy (as of Samba 4.18).</p>
+<p>If the Linux client is joined using SSSD, you can instead enforce the policy using oddjob-gpupdate. The samba-gpupdate command from Samba must also be installed.</p>
+</div>
+</div>
+<div id="policies-introduced-in-this-book" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Policies Introduced in this Book<a href="intro.html#policies-introduced-in-this-book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This section will provide a brief overview of the policies that will be discussed in upcoming chapters.</p>
+<div id="smb.conf-policies" class="section level3 hasAnchor" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> smb.conf Policies<a href="intro.html#smb.conf-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>These policies distribute smb.conf global options to the client. These are found in the Group Policy Management Editor (GPME) under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; smb.conf</code>. This policy is unable to apply idmap policies.</p>
+</div>
+<div id="password-and-kerberos-policies" class="section level3 hasAnchor" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> Password and Kerberos Policies<a href="intro.html#password-and-kerberos-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Password and Kerberos policies are found in the GPME under <code>Computer Configuration &gt; Policies &gt; OS Settings &gt; Security Settings &gt; Account Policy</code>. These policies are only applicable to Samba Active Directory Domain Controllers.</p>
+</div>
+<div id="script-policies" class="section level3 hasAnchor" number="2.4.3">
+<h3><span class="header-section-number">2.4.3</span> Script Policies<a href="intro.html#script-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Script policies create cron jobs on client machines which execute the specified commands. These are found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Scripts</code>.</p>
+<div id="centrify-crontab-entries" class="section level4 hasAnchor" number="2.4.3.1">
+<h4><span class="header-section-number">2.4.3.1</span> Centrify Crontab Entries<a href="intro.html#centrify-crontab-entries" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Samba provides an extension which adds compatibility with Centrify’s Crontab Entries Group Policy. If you are currently using Centrify Group Policy to distribute Crontab entry policies, these will automatically be applied by samba-gpupdate.</p>
+</div>
+</div>
+<div id="startup-script-policies" class="section level3 hasAnchor" number="2.4.4">
+<h3><span class="header-section-number">2.4.4</span> Startup Script Policies<a href="intro.html#startup-script-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Startup script policies allow you to upload the script that will be executed to the SYSVOL, as well as scheduling the command to run at startup. These scripts can be set using the <code>samba-tool gpo manage scripts startup</code> command.</p>
+</div>
+<div id="files-policy" class="section level3 hasAnchor" number="2.4.5">
+<h3><span class="header-section-number">2.4.5</span> Files Policy<a href="intro.html#files-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The Files policy deploys files to client machines. These files are uploaded to the SYSVOL via the <code>samba-tool gpo manage files</code> command.</p>
+</div>
+<div id="symlink-policies" class="section level3 hasAnchor" number="2.4.6">
+<h3><span class="header-section-number">2.4.6</span> Symlink Policies<a href="intro.html#symlink-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The symlink policy creates symbolic links on client machines. This policy is set via the <code>samba-tool gpo manage symlink</code> command. This policy is compatible with Vintela’s Symlink Group Policy.</p>
+</div>
+<div id="sudoers-policies" class="section level3 hasAnchor" number="2.4.7">
+<h3><span class="header-section-number">2.4.7</span> Sudoers Policies<a href="intro.html#sudoers-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Sudoers policies add sudo rules to client machines. These policies can be managed in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Sudo Rights</code>.</p>
+<div id="vgp-sudoers-policies" class="section level4 hasAnchor" number="2.4.7.1">
+<h4><span class="header-section-number">2.4.7.1</span> VGP Sudoers Policies<a href="intro.html#vgp-sudoers-policies" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Another Sudoers extension is available for compatibility with Vintela’s Sudoers Group Policy. The policy for this extension can be modified using the <code>samba-tool gpo manage sudo</code> command.</p>
+</div>
+<div id="centrify-sudoers-policies" class="section level4 hasAnchor" number="2.4.7.2">
+<h4><span class="header-section-number">2.4.7.2</span> Centrify Sudoers Policies<a href="intro.html#centrify-sudoers-policies" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>A third Sudoers extension is available to provide compatibility with Centrify’s Sudoers Group Policy. If you are currently using Centrify Group Policy to distribute Sudoers policies, these will automatically be applied by samba-gpupdate.</p>
+<div id="info" style="color: green;">
+<p>Samba Sudoers, VGP Sudoers, and Centrify Sudoers policies can be safely used in conjunction with one another, since these policies are non-overlapping.</p>
+</div>
+</div>
+</div>
+<div id="message-policies" class="section level3 hasAnchor" number="2.4.8">
+<h3><span class="header-section-number">2.4.8</span> Message Policies<a href="intro.html#message-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Message policies set the contents of the /etc/motd and /etc/issue files on client machines. These policies can be managed in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Messages</code>.</p>
+<div id="vgp-message-policies" class="section level4 hasAnchor" number="2.4.8.1">
+<h4><span class="header-section-number">2.4.8.1</span> VGP Message Policies<a href="intro.html#vgp-message-policies" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Other VGP Message extensions are available for compatibility with Vintela’s MOTD and Issue Group Policies. The policies for these extensions can be modified using the <code>samba-tool gpo manage motd</code> and <code>samba-tool gpo manage issue</code> commands.</p>
+<div id="warn" style="color: red;">
+<p>Beware that applying both the Samba and VGP message policies will cause unpredictable behavior, since both policies will apply and will overwrite one another.</p>
+</div>
+</div>
+</div>
+<div id="pam-access-policies" class="section level3 hasAnchor" number="2.4.9">
+<h3><span class="header-section-number">2.4.9</span> PAM Access Policies<a href="intro.html#pam-access-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>PAM Access policies set access rules within <code>/etc/security/access.d</code>. These policies are set using the <code>samba-tool gpo manage access</code> command. This policy is compatible with Vintela’s Access Group Policy.</p>
+</div>
+<div id="certificate-auto-enrollment" class="section level3 hasAnchor" number="2.4.10">
+<h3><span class="header-section-number">2.4.10</span> Certificate Auto Enrollment<a href="intro.html#certificate-auto-enrollment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. Certificate Auto Enrollment is available in Samba 4.16 and above.</p>
+</div>
+<div id="firefox-policy" class="section level3 hasAnchor" number="2.4.11">
+<h3><span class="header-section-number">2.4.11</span> Firefox Policy<a href="intro.html#firefox-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Firefox policies can be administered using the Mozilla policy templates provided by Mozilla.</p>
+</div>
+<div id="chromiumchrome-policy" class="section level3 hasAnchor" number="2.4.12">
+<h3><span class="header-section-number">2.4.12</span> Chromium/Chrome Policy<a href="intro.html#chromiumchrome-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Chromium and Google Chrome policies can be administered using the Chrome policy templates provided by Google.</p>
+</div>
+<div id="gnome-settings" class="section level3 hasAnchor" number="2.4.13">
+<h3><span class="header-section-number">2.4.13</span> GNOME Settings<a href="intro.html#gnome-settings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>GNOME Settings policies are found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; GNOME</code>. These policies manage some GNOME user settings, as described in the GNOME system admin guide, such as the compose key, screen dimming, online account management, extensions, and the ability to disable printing, file saving, command line access, fingerprint logon, logout, user switching, and reparitioning. There is also a general method for disabling any specific GNOME lockdown value.</p>
+</div>
+<div id="openssh-policy" class="section level3 hasAnchor" number="2.4.14">
+<h3><span class="header-section-number">2.4.14</span> OpenSSH Policy<a href="intro.html#openssh-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>OpenSSH policy applies settings to /etc/ssh/sshd_config.d. These policies can be set using the <code>samba-tool gpo manage openssh</code> command. These policies are compatible with Vintela’s OpenSSH Group Policy.</p>
+</div>
+<div id="firewalld-policy" class="section level3 hasAnchor" number="2.4.15">
+<h3><span class="header-section-number">2.4.15</span> Firewalld Policy<a href="intro.html#firewalld-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Firewalld policy applies firewall rules using the firewall-cmd command. These policies can be found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Firewalld</code>.</p>
+</div>
+</div>
+<div id="rsop" class="section level2 hasAnchor" number="2.5">
+<h2><span class="header-section-number">2.5</span> Resultant Set of Policy<a href="intro.html#rsop" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To see what policies will apply to a machine before applying them (or to view what policies are already applied), run the command <code>sudo samba-gpupdate --rsop</code>.</p>
+<pre><code>linux-h7xz:~ # samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+============================================================
+  CSE: gp_sec_ext
+  ------------------------------
+  ------------------------------
+  CSE: gp_sec_ext
+  ------------------------------
+  ------------------------------
+  CSE: gp_scripts_ext
+  ------------------------------
+  ------------------------------
+  CSE: gp_sudoers_ext
+  ------------------------------
+    Policy Type: Sudo Rights
+    ------------------------------
+    [ tux ALL=(ALL) NOPASSWD: ALL ]
+    ------------------------------
+  ------------------------------
+  CSE: gp_smb_conf_ext
+  ------------------------------
+    Policy Type: smb.conf
+    ------------------------------
+    [ apply group policies ] = 1
+    [ client max protocol ] = SMB2_02
+    ------------------------------
+  ------------------------------
+  CSE: gp_msgs_ext
+  ------------------------------
+    Policy Type: /etc/motd
+    ------------------------------
+This message is distributed by Samba!
+    ------------------------------
+    Policy Type: /etc/issue
+    ------------------------------
+Samba Group Policy \s \r \l
+    ------------------------------
+  ------------------------------
+============================================================</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="manage.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
