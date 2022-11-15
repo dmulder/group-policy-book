@@ -14,7 +14,7 @@ The Server Side Extension for smb.conf policies is distributed using Administrat
 
 Setting up the ADMX templates for this policy is described in chapter \@ref(smbconf) section \@ref(smbconf-sse).
 
-### Managing Machine Scripts Policies via the GPME
+### Managing Machine Scripts Policies via the GPME {#scripts-gpme}
 
 Open the Group Policy Management Editor (GPME) and navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Scripts`. For instructions on accessing the GPME, see chapter \@ref(manage) section \@ref(gpcreate).
 

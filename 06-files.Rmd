@@ -118,3 +118,56 @@ If you wanted to remove this policy later, we would issue the `samba-tool gpo ma
 ```
 
 Afterward the files list should be empty.
+
+## Client Side Extension
+
+The Files Client Side Extension (CSE) copies the file from the SYSVOL to the location specified in the `target` variable earlier. The Files Policy only applies to Machine policy.
+
+Let's now list the Resultant Set of Policy on the Linux client to see the test file we created previously.
+
+```
+> sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: vgp_files_ext
+  -----------------------------------------------------------
+    Policy Type: VGP/Unix Settings/Files
+    -----------------------------------------------------------
+    [ -r-xr-xr-x	root	root	/usr/bin/test_script.sh -> test_script.sh ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================
+```
+
+Note that while the output appears to suggest we will be creating a symlink, it is actually a hard copy of the file that is created. The syntax of the output is simply for illustrative purposes.
+
+If we now force the policy to apply, we’ll see our file is physically copied to the requested location, along with the requested permissions.
+
+```
+> sudo /usr/sbin/samba-gpupdate --force
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
+<?xml version="1.0"?>
+<gp>
+  <user name="TESTSYSDM$">
+    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
+      <gp_ext name="VGP/Unix Settings/Files">
+        <attribute name="/usr/bin/test_script.sh">268dc84d9987bf1ebf741c3a8172e43a9429c3aa6c1044117221a057b1bffd7ec0ef806dfe9ec4e8b061a2331d99048206a31e1aec635454b1e64ed4a72c9b39:root:root:365</attribute>
+      </gp_ext>
+    </guid>
+    <applylog>
+      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
+    </applylog>
+  </user>
+</gp>
+> l /usr/bin/test_script.sh
+-r-xr-xr-x 1 root root 45 Nov 15 12:07 /usr/bin/test_script.sh*
+> cat /usr/bin/test_script.sh
+#!/bin/sh
+
+echo Something is happening daily
+```
+
+The script is present where we requested. You can now refer to chapter \@ref(scripts) section \@ref(scripts-gpme) for details on how to schedule a job to execute this script via the Scripts Policy.
