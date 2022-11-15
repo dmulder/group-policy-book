@@ -3,3 +3,118 @@
 ```{r, echo=FALSE, out.width="30%", fig.align='center'}
 knitr::include_graphics("files-images/upload.png")
 ```
+
+The Files Policy is useful to use in conjunction with the Scripts Policy, since it can be used to copy scripts to your client machine. This policy is also useful for deploying custom config files, etc. Like Startup Scripts, this policy began as a compatability layer for Vintela's Files policy, but has become a Samba standard also. There is no Server Side Extension for the Group Policy Management Editor (GPME), but must be modified using the `samba-tool gpo manage`.
+
+This policy is physically stored on the SYSVOL in the **MACHINE/VGP/VTLA/Unix/Files/manifest.xml** file in the subdirectory of the Group Policy Object. It is stored in an xml format, and are easily modified manually using a text editor.
+
+## Server Side Extension
+
+The Files Policy has no GPME Server Side Extension (SSE), so this policy may only be administered using `samba-tool gpo manage files`. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.
+
+### Managing the Files Policy via samba-tool
+
+The Files `samba-tool` command has 3 subcommands; add, list, and remove.
+
+```
+> samba-tool gpo manage files --help
+Usage: samba-tool gpo manage files <subcommand>
+
+Manage Files Group Policy Objects
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  add     - Add VGP Files Group Policy to the sysvol
+  list    - List VGP Files Group Policy from the sysvol
+  remove  - Remove VGP Files Group Policy from the sysvol
+```
+
+To add a new File policy to the SYSVOL, call the `samba-tool gpo manage files add` command.
+
+```
+> samba-tool gpo manage files add --help
+Usage: samba-tool gpo manage files add <gpo> <source> <target> <user> <group> <mode> [options]
+
+Add VGP Files Group Policy to the sysvol
+
+This command adds files which will be copied from the sysvol and applied to
+winbind clients.
+
+Example:
+samba-tool gpo manage files add {31B2F340-016D-11D2-945F-00C04FB984F9}
+./source.txt /usr/share/doc/target.txt root root 600
+```
+
+The `source` argument refers to the source file on the host you are running the command from. This source file will be uploaded to the SYSVOL. The `target` argument is where the file should be deployed to on the client by the CSE. The `user`, `group` and `mode` refer to the attributes which will be assigned to the file when it is deployed to the client.
+
+If, for example, we were to create a daily script (as described in chapter \@ref(scripts)), we could use this policy to deploy that script to the Linux client. Let's now create a policy for testing that deployment.
+
+```
+> cat test_script.sh
+#!/bin/sh
+
+echo Something is happening daily
+> samba-tool gpo manage files add {31B2F340-016D-11D2-945F-00C04FB984F9} ./test_script.sh /usr/bin/test_script.sh root root 555 -UAdministrator
+> samba-tool gpo manage files list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+-r-xr-xr-x	root	root	/usr/bin/test_script.sh -> test_script.sh
+```
+
+The output of the `samba-tool gpo manage files list` command now shows that we have a policy set which will deploy a link to our test\_script.sh on the host. If we check the contents of the SYSVOL, we can see that our file has been uploaded successfully.
+
+```
+> sudo mount.cifs \\\\lizardo.suse.de\\SYSVOL /mnt/ -ouser=Administrator
+> l /mnt/lizardo.suse.de/Policies/\{31B2F340-016D-11D2-945F-00C04FB984F9\}/MACHINE/VGP/VTLA/Unix/Files/
+total 2
+drwxr-xr-x 2 root root   0 Nov 15 09:55 ./
+drwxr-xr-x 2 root root   0 Nov 15 09:55 ../
+-rwxr-xr-x 1 root root 532 Nov 15 09:55 manifest.xml*
+-rwxr-xr-x 1 root root  45 Nov 15 09:55 test_script.sh*
+```
+
+Let's take a look at the contents of the `manifest.xml` which stores our policy.
+
+```
+> cat /mnt/lizardo.suse.de/Policies/\{31B2F340-016D-11D2-945F-00C04FB984F9\}/MACHINE/VGP/VTLA/Unix/Files/manifest.xml | xmllint --format -
+<?xml version="1.0" encoding="UTF-8"?>
+<vgppolicy>
+  <policysetting>
+    <version>1</version>
+    <name>Files</name>
+    <description>Represents file data to set/copy on clients</description>
+    <data>
+      <file_properties>
+        <source>test_script.sh</source>
+        <target>/usr/bin/test_script.sh</target>
+        <user>root</user>
+        <group>root</group>
+        <permissions type="user">
+          <read/>
+          <execute/>
+        </permissions>
+        <permissions type="group">
+          <read/>
+          <execute/>
+        </permissions>
+        <permissions type="other">
+          <read/>
+          <execute/>
+        </permissions>
+      </file_properties>
+    </data>
+  </policysetting>
+</vgppolicy>
+```
+
+Our `source` now refers to the file uploaded to the same directory as the manifest.
+
+If you wanted to remove this policy later, we would issue the `samba-tool gpo manage files remove` command.
+
+```
+> samba-tool gpo manage files remove {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/bin/test_script.sh -UAdministrator
+```
+
+Afterward the files list should be empty.
