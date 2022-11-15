@@ -44,7 +44,7 @@ managing-password-and-kerberos-policies-via-samba-tool
 client-side-extension-1
 scripts
 server-side-extension-1
-managing-machine-scripts-policies-via-the-gpme
+scripts-gpme
 managing-user-scripts-policies-via-the-gpme
 client-side-extension-2
 startupscripts
@@ -53,6 +53,7 @@ managing-startup-script-policies-via-samba-tool
 client-side-extension-3
 files
 server-side-extension-3
+managing-the-files-policy-via-samba-tool
 client-side-extension-4
 symlink
 sudoers

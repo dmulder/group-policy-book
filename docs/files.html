@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-11-14" />
+<meta name="date" content="2022-11-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -197,7 +197,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="6.1" data-path="scripts.html"><a href="scripts.html#server-side-extension-1"><i class="fa fa-check"></i><b>6.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="6.1.1" data-path="scripts.html"><a href="scripts.html#managing-machine-scripts-policies-via-the-gpme"><i class="fa fa-check"></i><b>6.1.1</b> Managing Machine Scripts Policies via the GPME</a></li>
+<li class="chapter" data-level="6.1.1" data-path="scripts.html"><a href="scripts.html#scripts-gpme"><i class="fa fa-check"></i><b>6.1.1</b> Managing Machine Scripts Policies via the GPME</a></li>
 <li class="chapter" data-level="6.1.2" data-path="scripts.html"><a href="scripts.html#managing-user-scripts-policies-via-the-gpme"><i class="fa fa-check"></i><b>6.1.2</b> Managing User Scripts Policies via the GPME</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="scripts.html"><a href="scripts.html#client-side-extension-2"><i class="fa fa-check"></i><b>6.2</b> Client Side Extension</a></li>
@@ -212,7 +212,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8" data-path="files.html"><a href="files.html"><i class="fa fa-check"></i><b>8</b> Files Policy</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="files.html"><a href="files.html#server-side-extension-3"><i class="fa fa-check"></i><b>8.1</b> Server Side Extension</a></li>
+<li class="chapter" data-level="8.1" data-path="files.html"><a href="files.html#server-side-extension-3"><i class="fa fa-check"></i><b>8.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="files.html"><a href="files.html#managing-the-files-policy-via-samba-tool"><i class="fa fa-check"></i><b>8.1.1</b> Managing the Files Policy via samba-tool</a></li>
+</ul></li>
 <li class="chapter" data-level="8.2" data-path="files.html"><a href="files.html#client-side-extension-4"><i class="fa fa-check"></i><b>8.2</b> Client Side Extension</a></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="symlink.html"><a href="symlink.html"><i class="fa fa-check"></i><b>9</b> Symlink Policies</a></li>
@@ -265,9 +268,131 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/VGP/VTLA/Unix/Files/manifest.xml</strong> file in the subdirectory of the Group Policy Object. It is stored in an xml format, and are easily modified manually using a text editor.</p>
 <div id="server-side-extension-3" class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> Server Side Extension<a href="files.html#server-side-extension-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Files Policy has no GPME Server Side Extension (SSE), so this policy may only be administered using <code>samba-tool gpo manage files</code>. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.</p>
+<div id="managing-the-files-policy-via-samba-tool" class="section level3 hasAnchor" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> Managing the Files Policy via samba-tool<a href="files.html#managing-the-files-policy-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The Files <code>samba-tool</code> command has 3 subcommands; add, list, and remove.</p>
+<pre><code>&gt; samba-tool gpo manage files --help
+Usage: samba-tool gpo manage files &lt;subcommand&gt;
+
+Manage Files Group Policy Objects
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  add     - Add VGP Files Group Policy to the sysvol
+  list    - List VGP Files Group Policy from the sysvol
+  remove  - Remove VGP Files Group Policy from the sysvol</code></pre>
+<p>To add a new File policy to the SYSVOL, call the <code>samba-tool gpo manage files add</code> command.</p>
+<pre><code>&gt; samba-tool gpo manage files add --help
+Usage: samba-tool gpo manage files add &lt;gpo&gt; &lt;source&gt; &lt;target&gt; &lt;user&gt; &lt;group&gt; &lt;mode&gt; [options]
+
+Add VGP Files Group Policy to the sysvol
+
+This command adds files which will be copied from the sysvol and applied to
+winbind clients.
+
+Example:
+samba-tool gpo manage files add {31B2F340-016D-11D2-945F-00C04FB984F9}
+./source.txt /usr/share/doc/target.txt root root 600</code></pre>
+<p>The <code>source</code> argument refers to the source file on the host you are running the command from. This source file will be uploaded to the SYSVOL. The <code>target</code> argument is where the file should be deployed to on the client by the CSE. The <code>user</code>, <code>group</code> and <code>mode</code> refer to the attributes which will be assigned to the file when it is deployed to the client.</p>
+<p>If, for example, we were to create a daily script (as described in chapter <a href="scripts.html#scripts">6</a>), we could use this policy to deploy that script to the Linux client. Let’s now create a policy for testing that deployment.</p>
+<pre><code>&gt; cat test_script.sh
+#!/bin/sh
+
+echo Something is happening daily
+&gt; samba-tool gpo manage files add {31B2F340-016D-11D2-945F-00C04FB984F9} ./test_script.sh /usr/bin/test_script.sh root root 555 -UAdministrator
+&gt; samba-tool gpo manage files list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+-r-xr-xr-x  root    root    /usr/bin/test_script.sh -&gt; test_script.sh</code></pre>
+<p>The output of the <code>samba-tool gpo manage files list</code> command now shows that we have a policy set which will deploy a link to our test_script.sh on the host. If we check the contents of the SYSVOL, we can see that our file has been uploaded successfully.</p>
+<pre><code>&gt; sudo mount.cifs \\\\lizardo.suse.de\\SYSVOL /mnt/ -ouser=Administrator
+&gt; l /mnt/lizardo.suse.de/Policies/\{31B2F340-016D-11D2-945F-00C04FB984F9\}/MACHINE/VGP/VTLA/Unix/Files/
+total 2
+drwxr-xr-x 2 root root   0 Nov 15 09:55 ./
+drwxr-xr-x 2 root root   0 Nov 15 09:55 ../
+-rwxr-xr-x 1 root root 532 Nov 15 09:55 manifest.xml*
+-rwxr-xr-x 1 root root  45 Nov 15 09:55 test_script.sh*</code></pre>
+<p>Let’s take a look at the contents of the <code>manifest.xml</code> which stores our policy.</p>
+<pre><code>&gt; cat /mnt/lizardo.suse.de/Policies/\{31B2F340-016D-11D2-945F-00C04FB984F9\}/MACHINE/VGP/VTLA/Unix/Files/manifest.xml | xmllint --format -
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;vgppolicy&gt;
+  &lt;policysetting&gt;
+    &lt;version&gt;1&lt;/version&gt;
+    &lt;name&gt;Files&lt;/name&gt;
+    &lt;description&gt;Represents file data to set/copy on clients&lt;/description&gt;
+    &lt;data&gt;
+      &lt;file_properties&gt;
+        &lt;source&gt;test_script.sh&lt;/source&gt;
+        &lt;target&gt;/usr/bin/test_script.sh&lt;/target&gt;
+        &lt;user&gt;root&lt;/user&gt;
+        &lt;group&gt;root&lt;/group&gt;
+        &lt;permissions type=&quot;user&quot;&gt;
+          &lt;read/&gt;
+          &lt;execute/&gt;
+        &lt;/permissions&gt;
+        &lt;permissions type=&quot;group&quot;&gt;
+          &lt;read/&gt;
+          &lt;execute/&gt;
+        &lt;/permissions&gt;
+        &lt;permissions type=&quot;other&quot;&gt;
+          &lt;read/&gt;
+          &lt;execute/&gt;
+        &lt;/permissions&gt;
+      &lt;/file_properties&gt;
+    &lt;/data&gt;
+  &lt;/policysetting&gt;
+&lt;/vgppolicy&gt;</code></pre>
+<p>Our <code>source</code> now refers to the file uploaded to the same directory as the manifest.</p>
+<p>If you wanted to remove this policy later, we would issue the <code>samba-tool gpo manage files remove</code> command.</p>
+<pre><code>&gt; samba-tool gpo manage files remove {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/bin/test_script.sh -UAdministrator</code></pre>
+<p>Afterward the files list should be empty.</p>
+</div>
 </div>
 <div id="client-side-extension-4" class="section level2 hasAnchor" number="8.2">
 <h2><span class="header-section-number">8.2</span> Client Side Extension<a href="files.html#client-side-extension-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Files Client Side Extension (CSE) copies the file from the SYSVOL to the location specified in the <code>target</code> variable earlier. The Files Policy only applies to Machine policy.</p>
+<p>Let’s now list the Resultant Set of Policy on the Linux client to see the test file we created previously.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: vgp_files_ext
+  -----------------------------------------------------------
+    Policy Type: VGP/Unix Settings/Files
+    -----------------------------------------------------------
+    [ -r-xr-xr-x    root    root    /usr/bin/test_script.sh -&gt; test_script.sh ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================</code></pre>
+<p>Note that while the output appears to suggest we will be creating a symlink, it is actually a hard copy of the file that is created. The syntax of the output is simply for illustrative purposes.</p>
+<p>If we now force the policy to apply, we’ll see our file is physically copied to the requested location, along with the requested permissions.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;gp&gt;
+  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
+    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
+      &lt;gp_ext name=&quot;VGP/Unix Settings/Files&quot;&gt;
+        &lt;attribute name=&quot;/usr/bin/test_script.sh&quot;&gt;268dc84d9987bf1ebf741c3a8172e43a9429c3aa6c1044117221a057b1bffd7ec0ef806dfe9ec4e8b061a2331d99048206a31e1aec635454b1e64ed4a72c9b39:root:root:365&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+    &lt;/guid&gt;
+    &lt;applylog&gt;
+      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
+    &lt;/applylog&gt;
+  &lt;/user&gt;
+&lt;/gp&gt;
+&gt; l /usr/bin/test_script.sh
+-r-xr-xr-x 1 root root 45 Nov 15 12:07 /usr/bin/test_script.sh*
+&gt; cat /usr/bin/test_script.sh
+#!/bin/sh
+
+echo Something is happening daily</code></pre>
+<p>The script is present where we requested. You can now refer to chapter <a href="scripts.html#scripts">6</a> section <a href="scripts.html#scripts-gpme">6.1.1</a> for details on how to schedule a job to execute this script via the Scripts Policy.</p>
 
 </div>
 </div>
