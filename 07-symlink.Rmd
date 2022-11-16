@@ -1,1 +1,79 @@
 # Symlink Policies {#symlink}
+
+```{r, echo=FALSE, out.width="30%", fig.align='center'}
+knitr::include_graphics("symlink-images/symlink.png")
+```
+
+The purpose of this policy is to create a symbolic link on a Linux client. Only Machine policy is supported. This policy could be useful in conjunction with the Files Policy found in chapter \@ref(files).
+
+This policy is physically stored on the SYSVOL in the **MACHINE/VGP/VTLA/Unix/Symlink/manifest.xml** file in the subdirectory of the Group Policy Object. It is stored in an xml format, and is easily modified manually using a text editor.
+
+## Server Side Extension
+
+The Symlink Policy has no GPME Server Side Extension (SSE), so this policy may only be administered using `samba-tool gpo manage symlink`. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.
+
+###  Managing the Symlink Policy via samba-tool
+
+The Symlink `samba-tool` command has 3 subcommands; add, list, and remove.
+
+```
+> samba-tool gpo manage symlink --help
+Usage: samba-tool gpo manage symlink <subcommand>
+
+Manage symlink Group Policy Objects
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  add     - Adds a VGP Symbolic Link Group Policy to the sysvol
+  list    - List VGP Symbolic Link Group Policy from the sysvol
+  remove  - Removes a VGP Symbolic Link Group Policy from the sysvol
+```
+
+To add a new Symlink policy to the SYSVOL, call the `samba-tool gpo manage symlink add` command.
+
+```
+> samba-tool gpo manage symlink add --help
+Usage: samba-tool gpo manage symlink add <gpo> <source> <target> [options]
+
+Adds a VGP Symbolic Link Group Policy to the sysvol
+
+This command adds a symlink setting to the sysvol that will be applied to
+winbind clients.
+
+Example:
+samba-tool gpo manage symlink add {31B2F340-016D-11D2-945F-00C04FB984F9}
+/tmp/source /tmp/target
+```
+
+This command will add a policy instructing the client to create a symbolic link pointing to `source` named `target`.
+
+Let's add a simple policy, which uploads a configuration file using the Files Policy (see chapter \@ref(files)), then symlinks that configuration file to somewhere useful on the system.
+
+```
+> cat servlist.conf
+N=Libera.Chat
+L=1
+E=UTF-8 (Unicode)
+F=23
+D=0
+S=irc.libera.chat/6697
+J=#samba-technical
+> samba-tool gpo manage files add {31B2F340-016D-11D2-945F-00C04FB984F9} servlist.conf /usr/share/servlist.conf 'LIZARDO\tux' 'LIZARDO\domain users' 600 -UAdministrator
+> samba-tool gpo manage files list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+-rw-------	LIZARDO\tux	LIZARDO\domain users	/usr/share/servlist.conf -> servlist.conf
+> samba-tool gpo manage symlink add {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf -UAdministrator
+> samba-tool gpo manage symlink list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+ln -s /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf
+```
+
+Here we are uploading a configuration file for hexchat, then symlinking it to a user's profile. The `samba-tool gpo manage symlink list` command displays the link operations that will be performed on the client.
+
+Later when we choose to remove this policy, we will do so with the `samba-tool gpo manage symlink remove` command.
+
+```
+> samba-tool gpo manage symlink remove {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf -UAdministrator
+```
