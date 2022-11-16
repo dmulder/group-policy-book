@@ -1,1 +1,88 @@
 # Sudoers Policies {#sudoers}
+
+```{r, echo=FALSE, out.width="30%", fig.align='center'}
+knitr::include_graphics("sudoers-images/success.png")
+```
+
+The purpose of the Sudoers Polices are to deploy sudo rules to a Linux client. Naturally, only Machine policy is supported.
+
+This policy is physically stored in two different locations on the SYSVOL, in **MACHINE/Registry.pol** and in **MACHINE/VGP/VTLA/Sudo/SudoersConfiguration/manifest.xml**. The `manifest.xml` is in xml format, and is easily modified manually using a text editor. The `Registry.pol` is in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
+
+## Server Side Extension
+
+The Server Side Extensions (SSE) for Sudoers policies are distributed via either Administrative Templates (see \@ref(sse) in section \@ref(admx)) or via the command `samba-tool gpo manage sudoers`. Rules added via the GPME can be modified from samba-tool (as of Samba 4.18), but rules added via `samba-tool gpo manage sudoers` will not be visible in the GPME.
+
+### Managing Sudoers Policy via the GPME
+
+Open the GPME and navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings`.
+
+![Group Policy Management Editor](sudoers-images/gpme.png)
+
+Open the `Sudo Rights` setting, and add a new sudo rule.
+
+![Adding a Sudo Rule](sudoers-images/sudo_rule.png)
+
+After applying this rule, you can list the rule using `samba-tool`.
+
+```
+> samba-tool gpo manage sudoers list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+fakeu ALL=(ALL) NOPASSWD: ALL
+```
+
+### Managing Sudoers Policy via samba-tool
+
+The Sudoers Policy can also be set via the `samba-tool gpo manage sudoers` command, which has 3 subcommands; add, list, and remove.
+
+```
+> samba-tool gpo manage sudoers --help
+Usage: samba-tool gpo manage sudoers <subcommand>
+
+Manage Sudoers Group Policy Objects
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  add     - Adds a Samba Sudoers Group Policy to the sysvol
+  list    - List Samba Sudoers Group Policy from the sysvol
+  remove  - Removes a Samba Sudoers Group Policy from the sysvol
+```
+
+To add a new Sudoers rule to the SYSVOL, call the `samba-tool gpo manage sudoers add` command.
+
+```
+> samba-tool gpo manage sudoers add --help
+Usage: samba-tool gpo manage sudoers add <gpo> <command> <user> <users> [groups] [options]
+
+Adds a Samba Sudoers Group Policy to the sysvol
+
+This command adds a sudo rule to the sysvol for applying to winbind clients.
+
+The command argument indicates the final field in the sudo rule.
+The user argument indicates the user specified in the parentheses.
+The users and groups arguments are comma separated lists, which are combined
+to form the first field in the sudo rule.
+The --passwd argument specifies whether the sudo entry will require a password
+be specified. The default is False, meaning the NOPASSWD field will be
+specified in the sudo entry.
+
+Example:
+samba-tool gpo manage sudoers add {31B2F340-016D-11D2-945F-00C04FB984F9} ALL
+ALL fakeu fakeg
+
+The example command will generate the following sudoers entry:
+fakeu,fakeg% ALL=(ALL) NOPASSWD: ALL
+```
+
+Let's add a simple rule for testing.
+
+```
+> samba-tool gpo manage sudoers add {31B2F340-016D-11D2-945F-00C04FB984F9} ALL ALL fakeu fakeg -UAdministrator
+> samba-tool gpo manage sudoers list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+fakeu,fakeg% ALL=(ALL) NOPASSWD: ALL
+fakeu ALL=(ALL) NOPASSWD: ALL
+```
+
+You'll notice that listing the entries now includes the entry we just created, as well as the one we added earlier using the GPME.
