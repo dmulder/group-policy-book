@@ -146,6 +146,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#client-side-extensions"><i class="fa fa-check"></i><b>2.3</b> Client Side Extensions</a>
 <ul>
 <li class="chapter" data-level="2.3.1" data-path="intro.html"><a href="intro.html#enabling-group-policy-client-side-extensions-on-the-linux-client"><i class="fa fa-check"></i><b>2.3.1</b> Enabling Group Policy Client Side Extensions on the Linux Client</a></li>
+<li class="chapter" data-level="2.3.2" data-path="intro.html"><a href="intro.html#rsop"><i class="fa fa-check"></i><b>2.3.2</b> Resultant Set of Policy</a></li>
 </ul></li>
 <li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#policies-introduced-in-this-book"><i class="fa fa-check"></i><b>2.4</b> Policies Introduced in this Book</a>
 <ul>
@@ -165,7 +166,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4.14" data-path="intro.html"><a href="intro.html#openssh-policy"><i class="fa fa-check"></i><b>2.4.14</b> OpenSSH Policy</a></li>
 <li class="chapter" data-level="2.4.15" data-path="intro.html"><a href="intro.html#firewalld-policy"><i class="fa fa-check"></i><b>2.4.15</b> Firewalld Policy</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#rsop"><i class="fa fa-check"></i><b>2.5</b> Resultant Set of Policy</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
@@ -226,7 +226,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="9.2" data-path="symlink.html"><a href="symlink.html#client-side-extension-5"><i class="fa fa-check"></i><b>9.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="sudoers.html"><a href="sudoers.html"><i class="fa fa-check"></i><b>10</b> Sudoers Policies</a></li>
+<li class="chapter" data-level="10" data-path="sudoers.html"><a href="sudoers.html"><i class="fa fa-check"></i><b>10</b> Sudoers Policies</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="sudoers.html"><a href="sudoers.html#server-side-extension-5"><i class="fa fa-check"></i><b>10.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="sudoers.html"><a href="sudoers.html#sudoers-gpme"><i class="fa fa-check"></i><b>10.1.1</b> Managing Sudoers Policy via the GPME</a></li>
+<li class="chapter" data-level="10.1.2" data-path="sudoers.html"><a href="sudoers.html#sudoers-samba-tool"><i class="fa fa-check"></i><b>10.1.2</b> Managing Sudoers Policy via samba-tool</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="sudoers.html"><a href="sudoers.html#client-side-extension-6"><i class="fa fa-check"></i><b>10.2</b> Client Side Extension</a></li>
+</ul></li>
 <li class="chapter" data-level="11" data-path="msgs.html"><a href="msgs.html"><i class="fa fa-check"></i><b>11</b> Message Policies</a></li>
 <li class="chapter" data-level="12" data-path="pamaccess.html"><a href="pamaccess.html"><i class="fa fa-check"></i><b>12</b> PAM Access Policies</a></li>
 <li class="chapter" data-level="13" data-path="certautoenroll.html"><a href="certautoenroll.html"><i class="fa fa-check"></i><b>13</b> Certificate Auto Enrollment Policy</a>
@@ -330,6 +338,53 @@ Available subcommands:
 <p>Winbind will enforce both machine policy (as of Samba 4.14) and user policy (as of Samba 4.18).</p>
 <p>If the Linux client is joined using SSSD, you can instead enforce the policy using oddjob-gpupdate. The samba-gpupdate command from Samba must also be installed.</p>
 </div>
+<div id="rsop" class="section level3 hasAnchor" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Resultant Set of Policy<a href="intro.html#rsop" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Each CSE is configured to return a Resultant Set of Policy (RSoP), which indicates what policies will apply to a machine before applying (or shows what policies are already applied). It’s a compiliation of the policies for that Machine or User.</p>
+<p>To see the RSoP, run the command <code>sudo samba-gpupdate --rsop</code> for Machine policy, or <code>sudo samba-gpupdate --rsop --target=User -U&lt;username&gt;</code> to see User policy.</p>
+<pre><code>linux-h7xz:~ # samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+============================================================
+  CSE: gp_sec_ext
+  ------------------------------
+  ------------------------------
+  CSE: gp_sec_ext
+  ------------------------------
+  ------------------------------
+  CSE: gp_scripts_ext
+  ------------------------------
+  ------------------------------
+  CSE: gp_sudoers_ext
+  ------------------------------
+    Policy Type: Sudo Rights
+    ------------------------------
+    [ tux ALL=(ALL) NOPASSWD: ALL ]
+    ------------------------------
+  ------------------------------
+  CSE: gp_smb_conf_ext
+  ------------------------------
+    Policy Type: smb.conf
+    ------------------------------
+    [ apply group policies ] = 1
+    [ client max protocol ] = SMB2_02
+    ------------------------------
+  ------------------------------
+  CSE: gp_msgs_ext
+  ------------------------------
+    Policy Type: /etc/motd
+    ------------------------------
+This message is distributed by Samba!
+    ------------------------------
+    Policy Type: /etc/issue
+    ------------------------------
+Samba Group Policy \s \r \l
+    ------------------------------
+  ------------------------------
+============================================================</code></pre>
+</div>
 </div>
 <div id="policies-introduced-in-this-book" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Policies Introduced in this Book<a href="intro.html#policies-introduced-in-this-book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -415,54 +470,8 @@ Available subcommands:
 <div id="firewalld-policy" class="section level3 hasAnchor" number="2.4.15">
 <h3><span class="header-section-number">2.4.15</span> Firewalld Policy<a href="intro.html#firewalld-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Firewalld policy applies firewall rules using the firewall-cmd command. These policies can be found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Firewalld</code>.</p>
-</div>
-</div>
-<div id="rsop" class="section level2 hasAnchor" number="2.5">
-<h2><span class="header-section-number">2.5</span> Resultant Set of Policy<a href="intro.html#rsop" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>To see what policies will apply to a machine before applying them (or to view what policies are already applied), run the command <code>sudo samba-gpupdate --rsop</code>.</p>
-<pre><code>linux-h7xz:~ # samba-gpupdate --rsop
-Resultant Set of Policy
-Computer Policy
 
-GPO: Default Domain Policy
-============================================================
-  CSE: gp_sec_ext
-  ------------------------------
-  ------------------------------
-  CSE: gp_sec_ext
-  ------------------------------
-  ------------------------------
-  CSE: gp_scripts_ext
-  ------------------------------
-  ------------------------------
-  CSE: gp_sudoers_ext
-  ------------------------------
-    Policy Type: Sudo Rights
-    ------------------------------
-    [ tux ALL=(ALL) NOPASSWD: ALL ]
-    ------------------------------
-  ------------------------------
-  CSE: gp_smb_conf_ext
-  ------------------------------
-    Policy Type: smb.conf
-    ------------------------------
-    [ apply group policies ] = 1
-    [ client max protocol ] = SMB2_02
-    ------------------------------
-  ------------------------------
-  CSE: gp_msgs_ext
-  ------------------------------
-    Policy Type: /etc/motd
-    ------------------------------
-This message is distributed by Samba!
-    ------------------------------
-    Policy Type: /etc/issue
-    ------------------------------
-Samba Group Policy \s \r \l
-    ------------------------------
-  ------------------------------
-============================================================</code></pre>
-
+</div>
 </div>
 </div>
             </section>

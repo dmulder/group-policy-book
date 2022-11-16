@@ -5,6 +5,7 @@ server-side-extensions
 enabling-group-policy-server-side-extensions-on-the-server
 client-side-extensions
 enabling-group-policy-client-side-extensions-on-the-linux-client
+rsop
 policies-introduced-in-this-book
 smb.conf-policies
 password-and-kerberos-policies
@@ -25,7 +26,6 @@ chromiumchrome-policy
 gnome-settings
 openssh-policy
 firewalld-policy
-rsop
 manage
 gpcreate
 gpdelete
@@ -60,6 +60,10 @@ server-side-extension-4
 managing-the-symlink-policy-via-samba-tool
 client-side-extension-5
 sudoers
+server-side-extension-5
+sudoers-gpme
+sudoers-samba-tool
+client-side-extension-6
 msgs
 pamaccess
 certautoenroll
