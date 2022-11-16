@@ -84,6 +84,57 @@ Winbind will enforce both machine policy (as of Samba 4.14) and user policy (as 
 
 If the Linux client is joined using SSSD, you can instead enforce the policy using oddjob-gpupdate. The samba-gpupdate command from Samba must also be installed.
 
+### Resultant Set of Policy {#rsop}
+
+Each CSE is configured to return a Resultant Set of Policy (RSoP), which indicates what policies will apply to a machine before applying (or shows what policies are already applied). It's a compiliation of the policies for that Machine or User.
+
+To see the RSoP, run the command `sudo samba-gpupdate --rsop` for Machine policy, or `sudo samba-gpupdate --rsop --target=User -U<username>` to see User policy.
+
+```
+linux-h7xz:~ # samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+============================================================
+  CSE: gp_sec_ext
+  ------------------------------
+  ------------------------------
+  CSE: gp_sec_ext
+  ------------------------------
+  ------------------------------
+  CSE: gp_scripts_ext
+  ------------------------------
+  ------------------------------
+  CSE: gp_sudoers_ext
+  ------------------------------
+    Policy Type: Sudo Rights
+    ------------------------------
+    [ tux ALL=(ALL) NOPASSWD: ALL ]
+    ------------------------------
+  ------------------------------
+  CSE: gp_smb_conf_ext
+  ------------------------------
+    Policy Type: smb.conf
+    ------------------------------
+    [ apply group policies ] = 1
+    [ client max protocol ] = SMB2_02
+    ------------------------------
+  ------------------------------
+  CSE: gp_msgs_ext
+  ------------------------------
+    Policy Type: /etc/motd
+    ------------------------------
+This message is distributed by Samba!
+    ------------------------------
+    Policy Type: /etc/issue
+    ------------------------------
+Samba Group Policy \s \r \l
+    ------------------------------
+  ------------------------------
+============================================================
+```
+
 ## Policies Introduced in this Book
 
 This section will provide a brief overview of the policies that will be discussed in upcoming chapters.
@@ -171,52 +222,3 @@ OpenSSH policy applies settings to /etc/ssh/sshd_config.d. These policies can be
 ### Firewalld Policy
 
 Firewalld policy applies firewall rules using the firewall-cmd command. These policies can be found in the GPME under `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Firewalld`.
-
-## Resultant Set of Policy {#rsop}
-
-To see what policies will apply to a machine before applying them (or to view what policies are already applied), run the command `sudo samba-gpupdate --rsop`.
-
-```
-linux-h7xz:~ # samba-gpupdate --rsop
-Resultant Set of Policy
-Computer Policy
-
-GPO: Default Domain Policy
-============================================================
-  CSE: gp_sec_ext
-  ------------------------------
-  ------------------------------
-  CSE: gp_sec_ext
-  ------------------------------
-  ------------------------------
-  CSE: gp_scripts_ext
-  ------------------------------
-  ------------------------------
-  CSE: gp_sudoers_ext
-  ------------------------------
-    Policy Type: Sudo Rights
-    ------------------------------
-    [ tux ALL=(ALL) NOPASSWD: ALL ]
-    ------------------------------
-  ------------------------------
-  CSE: gp_smb_conf_ext
-  ------------------------------
-    Policy Type: smb.conf
-    ------------------------------
-    [ apply group policies ] = 1
-    [ client max protocol ] = SMB2_02
-    ------------------------------
-  ------------------------------
-  CSE: gp_msgs_ext
-  ------------------------------
-    Policy Type: /etc/motd
-    ------------------------------
-This message is distributed by Samba!
-    ------------------------------
-    Policy Type: /etc/issue
-    ------------------------------
-Samba Group Policy \s \r \l
-    ------------------------------
-  ------------------------------
-============================================================
-```
