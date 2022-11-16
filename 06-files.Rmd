@@ -6,7 +6,7 @@ knitr::include_graphics("files-images/upload.png")
 
 The Files Policy is useful to use in conjunction with the Scripts Policy, since it can be used to copy scripts to your client machine. This policy is also useful for deploying custom config files, etc. Like Startup Scripts, this policy began as a compatability layer for Vintela's Files policy, but has become a Samba standard also. There is no Server Side Extension for the Group Policy Management Editor (GPME), but must be modified using the `samba-tool gpo manage`.
 
-This policy is physically stored on the SYSVOL in the **MACHINE/VGP/VTLA/Unix/Files/manifest.xml** file in the subdirectory of the Group Policy Object. It is stored in an xml format, and are easily modified manually using a text editor.
+This policy is physically stored on the SYSVOL in the **MACHINE/VGP/VTLA/Unix/Files/manifest.xml** file in the subdirectory of the Group Policy Object. It is stored in an xml format, and is easily modified manually using a text editor.
 
 ## Server Side Extension
 
