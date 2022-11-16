@@ -5,8 +5,8 @@ date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
-url: https://github.com/dmulder/group-policy-book
-# cover-image: path to the social sharing image like images/cover.jpg
+url: https://dmulder.github.io/group-policy-book
+cover-image: cover-image.png
 description: |
   This book introduces the user to opensource tools for managing Linux
   clients via Group Policy.
