@@ -77,3 +77,75 @@ Later when we choose to remove this policy, we will do so with the `samba-tool g
 ```
 > samba-tool gpo manage symlink remove {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf -UAdministrator
 ```
+
+## Client Side Extension
+
+The Symlink Client Side Extension (CSE) creates a symlink between the `source` and `target`. Startup Scripts only apply for Machine policy.
+
+Let's list the Resultant Set of Policy to view the symbolic link policy we created in the previous section.
+
+```
+> sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: vgp_symlink_ext
+  -----------------------------------------------------------
+    Policy Type: VGP/Unix Settings/Symbolic Links
+    -----------------------------------------------------------
+    [ ln -s /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+  CSE: vgp_files_ext
+  -----------------------------------------------------------
+    Policy Type: VGP/Unix Settings/Files
+    -----------------------------------------------------------
+    [ -rw-------	LIZARDO\tux	LIZARDO\domain users	/usr/share/servlist.conf -> servlist.conf ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================
+```
+
+In addition to our Symlink policy, we also see the Files policy which we added in conjunction with this.
+
+Let's now force our policy to apply and see how the CSE behaves.
+
+```
+> sudo /usr/sbin/samba-gpupdate --force
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
+<?xml version="1.0"?>
+<gp>
+  <user name="TESTSYSDM$">
+    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
+      <gp_ext name="VGP/Unix Settings/Files">
+        <attribute name="/usr/share/servlist.conf">d5b57f062b2cad7cb7dbfa31e9dc7bb951a41feb47fb9e91e24dbf14d2279a8c55baf32429e079c4707539f2f1e70a30db26999f5834f473c020f60c2740820c:LIZARDO\5Ctux:LIZARDO\5Cdomain users:384</attribute>
+      </gp_ext>
+      <gp_ext name="VGP/Unix Settings/Symbolic Links">
+        <attribute name="/usr/share/servlist.conf:/home/LIZARDO/tux/.config/hexchat/servlist.conf">/home/LIZARDO/tux/.config/hexchat/servlist.conf</attribute>
+      </gp_ext>
+    </guid>
+    <applylog>
+      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
+    </applylog>
+  </user>
+</gp>
+> l /usr/share/servlist.conf
+-rw------- 1 LIZARDO\tux LIZARDO\domain users 87 Nov 15 13:51 /usr/share/servlist.conf
+> sudo l /home/LIZARDO/tux/.config/hexchat/servlist.conf
+lrwxrwxrwx 1 root root 24 Nov 15 13:51 /home/LIZARDO/tux/.config/hexchat/servlist.conf -> /usr/share/servlist.conf
+```
+
+Our Group Policy Log at `/var/lib/samba/gpo.tdb` shows the two policies have been applied. Listing the `target`, we also see that the symlink now exists. If we output the contents of our symlink, we can see that it is indeed pointing to our configuration file that we uploaded to the SYSVOL earlier.
+
+```
+> sudo cat /home/LIZARDO/tux/.config/hexchat/servlist.conf
+N=Libera.Chat
+L=1
+E=UTF-8 (Unicode)
+F=23
+D=0
+S=irc.libera.chat/6697
+J=#samba-technical
+```
