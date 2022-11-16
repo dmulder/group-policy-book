@@ -11,7 +11,7 @@ clients via Group Policy.</p>" />
 
   <meta property="og:title" content="9 Symlink Policies | Group Policy on Linux" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://dmulder.github.io/group-policy-book/cover-image.png" />
   <meta property="og:description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
   <meta name="github-repo" content="dmulder/group-policy-book" />
@@ -21,12 +21,12 @@ clients via Group Policy.</p>" />
   
   <meta name="twitter:description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  
+  <meta name="twitter:image" content="https://dmulder.github.io/group-policy-book/cover-image.png" />
 
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-11-15" />
+<meta name="date" content="2022-11-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,7 +218,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8.2" data-path="files.html"><a href="files.html#client-side-extension-4"><i class="fa fa-check"></i><b>8.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="symlink.html"><a href="symlink.html"><i class="fa fa-check"></i><b>9</b> Symlink Policies</a></li>
+<li class="chapter" data-level="9" data-path="symlink.html"><a href="symlink.html"><i class="fa fa-check"></i><b>9</b> Symlink Policies</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="symlink.html"><a href="symlink.html#server-side-extension-4"><i class="fa fa-check"></i><b>9.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="symlink.html"><a href="symlink.html#managing-the-symlink-policy-via-samba-tool"><i class="fa fa-check"></i><b>9.1.1</b> Managing the Symlink Policy via samba-tool</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="symlink.html"><a href="symlink.html#client-side-extension-5"><i class="fa fa-check"></i><b>9.2</b> Client Side Extension</a></li>
+</ul></li>
 <li class="chapter" data-level="10" data-path="sudoers.html"><a href="sudoers.html"><i class="fa fa-check"></i><b>10</b> Sudoers Policies</a></li>
 <li class="chapter" data-level="11" data-path="msgs.html"><a href="msgs.html"><i class="fa fa-check"></i><b>11</b> Message Policies</a></li>
 <li class="chapter" data-level="12" data-path="pamaccess.html"><a href="pamaccess.html"><i class="fa fa-check"></i><b>12</b> PAM Access Policies</a></li>
@@ -263,7 +270,122 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="symlink" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">9</span> Symlink Policies<a href="symlink.html#symlink" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="symlink-images/symlink.png" width="30%" style="display: block; margin: auto;" /></p>
+<p>The purpose of this policy is to create a symbolic link on a Linux client. Only Machine policy is supported. This policy could be useful in conjunction with the Files Policy found in chapter <a href="files.html#files">8</a>.</p>
+<p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/VGP/VTLA/Unix/Symlink/manifest.xml</strong> file in the subdirectory of the Group Policy Object. It is stored in an xml format, and is easily modified manually using a text editor.</p>
+<div id="server-side-extension-4" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Server Side Extension<a href="symlink.html#server-side-extension-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Symlink Policy has no GPME Server Side Extension (SSE), so this policy may only be administered using <code>samba-tool gpo manage symlink</code>. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.</p>
+<div id="managing-the-symlink-policy-via-samba-tool" class="section level3 hasAnchor" number="9.1.1">
+<h3><span class="header-section-number">9.1.1</span> Managing the Symlink Policy via samba-tool<a href="symlink.html#managing-the-symlink-policy-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The Symlink <code>samba-tool</code> command has 3 subcommands; add, list, and remove.</p>
+<pre><code>&gt; samba-tool gpo manage symlink --help
+Usage: samba-tool gpo manage symlink &lt;subcommand&gt;
 
+Manage symlink Group Policy Objects
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  add     - Adds a VGP Symbolic Link Group Policy to the sysvol
+  list    - List VGP Symbolic Link Group Policy from the sysvol
+  remove  - Removes a VGP Symbolic Link Group Policy from the sysvol</code></pre>
+<p>To add a new Symlink policy to the SYSVOL, call the <code>samba-tool gpo manage symlink add</code> command.</p>
+<pre><code>&gt; samba-tool gpo manage symlink add --help
+Usage: samba-tool gpo manage symlink add &lt;gpo&gt; &lt;source&gt; &lt;target&gt; [options]
+
+Adds a VGP Symbolic Link Group Policy to the sysvol
+
+This command adds a symlink setting to the sysvol that will be applied to
+winbind clients.
+
+Example:
+samba-tool gpo manage symlink add {31B2F340-016D-11D2-945F-00C04FB984F9}
+/tmp/source /tmp/target</code></pre>
+<p>This command will add a policy instructing the client to create a symbolic link pointing to <code>source</code> named <code>target</code>.</p>
+<p>Let’s add a simple policy, which uploads a configuration file using the Files Policy (see chapter <a href="files.html#files">8</a>), then symlinks that configuration file to somewhere useful on the system.</p>
+<pre><code>&gt; cat servlist.conf
+N=Libera.Chat
+L=1
+E=UTF-8 (Unicode)
+F=23
+D=0
+S=irc.libera.chat/6697
+J=#samba-technical
+&gt; samba-tool gpo manage files add {31B2F340-016D-11D2-945F-00C04FB984F9} servlist.conf /usr/share/servlist.conf &#39;LIZARDO\tux&#39; &#39;LIZARDO\domain users&#39; 600 -UAdministrator
+&gt; samba-tool gpo manage files list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+-rw-------  LIZARDO\tux LIZARDO\domain users    /usr/share/servlist.conf -&gt; servlist.conf
+&gt; samba-tool gpo manage symlink add {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf -UAdministrator
+&gt; samba-tool gpo manage symlink list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+ln -s /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf</code></pre>
+<p>Here we are uploading a configuration file for hexchat, then symlinking it to a user’s profile. The <code>samba-tool gpo manage symlink list</code> command displays the link operations that will be performed on the client.</p>
+<p>Later when we choose to remove this policy, we will do so with the <code>samba-tool gpo manage symlink remove</code> command.</p>
+<pre><code>&gt; samba-tool gpo manage symlink remove {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf -UAdministrator</code></pre>
+</div>
+</div>
+<div id="client-side-extension-5" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Client Side Extension<a href="symlink.html#client-side-extension-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Symlink Client Side Extension (CSE) creates a symlink between the <code>source</code> and <code>target</code>. Startup Scripts only apply for Machine policy.</p>
+<p>Let’s list the Resultant Set of Policy to view the symbolic link policy we created in the previous section.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: vgp_symlink_ext
+  -----------------------------------------------------------
+    Policy Type: VGP/Unix Settings/Symbolic Links
+    -----------------------------------------------------------
+    [ ln -s /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+  CSE: vgp_files_ext
+  -----------------------------------------------------------
+    Policy Type: VGP/Unix Settings/Files
+    -----------------------------------------------------------
+    [ -rw-------    LIZARDO\tux LIZARDO\domain users    /usr/share/servlist.conf -&gt; servlist.conf ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================</code></pre>
+<p>In addition to our Symlink policy, we also see the Files policy which we added in conjunction with this.</p>
+<p>Let’s now force our policy to apply and see how the CSE behaves.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;gp&gt;
+  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
+    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
+      &lt;gp_ext name=&quot;VGP/Unix Settings/Files&quot;&gt;
+        &lt;attribute name=&quot;/usr/share/servlist.conf&quot;&gt;d5b57f062b2cad7cb7dbfa31e9dc7bb951a41feb47fb9e91e24dbf14d2279a8c55baf32429e079c4707539f2f1e70a30db26999f5834f473c020f60c2740820c:LIZARDO\5Ctux:LIZARDO\5Cdomain users:384&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+      &lt;gp_ext name=&quot;VGP/Unix Settings/Symbolic Links&quot;&gt;
+        &lt;attribute name=&quot;/usr/share/servlist.conf:/home/LIZARDO/tux/.config/hexchat/servlist.conf&quot;&gt;/home/LIZARDO/tux/.config/hexchat/servlist.conf&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+    &lt;/guid&gt;
+    &lt;applylog&gt;
+      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
+    &lt;/applylog&gt;
+  &lt;/user&gt;
+&lt;/gp&gt;
+&gt; l /usr/share/servlist.conf
+-rw------- 1 LIZARDO\tux LIZARDO\domain users 87 Nov 15 13:51 /usr/share/servlist.conf
+&gt; sudo l /home/LIZARDO/tux/.config/hexchat/servlist.conf
+lrwxrwxrwx 1 root root 24 Nov 15 13:51 /home/LIZARDO/tux/.config/hexchat/servlist.conf -&gt; /usr/share/servlist.conf</code></pre>
+<p>Our Group Policy Log at <code>/var/lib/samba/gpo.tdb</code> shows the two policies have been applied. Listing the <code>target</code>, we also see that the symlink now exists. If we output the contents of our symlink, we can see that it is indeed pointing to our configuration file that we uploaded to the SYSVOL earlier.</p>
+<pre><code>&gt; sudo cat /home/LIZARDO/tux/.config/hexchat/servlist.conf
+N=Libera.Chat
+L=1
+E=UTF-8 (Unicode)
+F=23
+D=0
+S=irc.libera.chat/6697
+J=#samba-technical</code></pre>
+
+</div>
 </div>
             </section>
 

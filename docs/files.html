@@ -11,7 +11,7 @@ clients via Group Policy.</p>" />
 
   <meta property="og:title" content="8 Files Policy | Group Policy on Linux" />
   <meta property="og:type" content="book" />
-  
+  <meta property="og:image" content="https://dmulder.github.io/group-policy-book/cover-image.png" />
   <meta property="og:description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
   <meta name="github-repo" content="dmulder/group-policy-book" />
@@ -21,12 +21,12 @@ clients via Group Policy.</p>" />
   
   <meta name="twitter:description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  
+  <meta name="twitter:image" content="https://dmulder.github.io/group-policy-book/cover-image.png" />
 
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-11-15" />
+<meta name="date" content="2022-11-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -218,7 +218,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8.2" data-path="files.html"><a href="files.html#client-side-extension-4"><i class="fa fa-check"></i><b>8.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="symlink.html"><a href="symlink.html"><i class="fa fa-check"></i><b>9</b> Symlink Policies</a></li>
+<li class="chapter" data-level="9" data-path="symlink.html"><a href="symlink.html"><i class="fa fa-check"></i><b>9</b> Symlink Policies</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="symlink.html"><a href="symlink.html#server-side-extension-4"><i class="fa fa-check"></i><b>9.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="symlink.html"><a href="symlink.html#managing-the-symlink-policy-via-samba-tool"><i class="fa fa-check"></i><b>9.1.1</b> Managing the Symlink Policy via samba-tool</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="symlink.html"><a href="symlink.html#client-side-extension-5"><i class="fa fa-check"></i><b>9.2</b> Client Side Extension</a></li>
+</ul></li>
 <li class="chapter" data-level="10" data-path="sudoers.html"><a href="sudoers.html"><i class="fa fa-check"></i><b>10</b> Sudoers Policies</a></li>
 <li class="chapter" data-level="11" data-path="msgs.html"><a href="msgs.html"><i class="fa fa-check"></i><b>11</b> Message Policies</a></li>
 <li class="chapter" data-level="12" data-path="pamaccess.html"><a href="pamaccess.html"><i class="fa fa-check"></i><b>12</b> PAM Access Policies</a></li>
@@ -265,7 +272,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">8</span> Files Policy<a href="files.html#files" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="files-images/upload.png" width="30%" style="display: block; margin: auto;" /></p>
 <p>The Files Policy is useful to use in conjunction with the Scripts Policy, since it can be used to copy scripts to your client machine. This policy is also useful for deploying custom config files, etc. Like Startup Scripts, this policy began as a compatability layer for Vintela’s Files policy, but has become a Samba standard also. There is no Server Side Extension for the Group Policy Management Editor (GPME), but must be modified using the <code>samba-tool gpo manage</code>.</p>
-<p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/VGP/VTLA/Unix/Files/manifest.xml</strong> file in the subdirectory of the Group Policy Object. It is stored in an xml format, and are easily modified manually using a text editor.</p>
+<p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/VGP/VTLA/Unix/Files/manifest.xml</strong> file in the subdirectory of the Group Policy Object. It is stored in an xml format, and is easily modified manually using a text editor.</p>
 <div id="server-side-extension-3" class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> Server Side Extension<a href="files.html#server-side-extension-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Files Policy has no GPME Server Side Extension (SSE), so this policy may only be administered using <code>samba-tool gpo manage files</code>. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.</p>
