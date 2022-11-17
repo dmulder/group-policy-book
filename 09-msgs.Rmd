@@ -12,7 +12,7 @@ This policy is physically stored in three different locations on the SYSVOL, in 
 
 The Server Side Extensions (SSE) for Message policies are distributed via either Administrative Templates (see \@ref(sse) in section \@ref(admx)) or via the commands `samba-tool gpo manage motd` and `samba-tool gpo manage issue`. Rules added via GPME will not be visible to the respective `samba-tool` commands, and vice versa. This is because the `samba-tool` commands are intended to manage Vintela Group Policy compatability. These two SSEs should not be used in conjunction to one another, as it will cause unpredicatable results on the client.
 
-### Managing Message Policy via the GPME
+### Managing Message Policy via the GPME {#msgs-gpme}
 
 Open the GPME and navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Messages`.
 
@@ -24,7 +24,7 @@ Open the `Message of the day` and `Login Prompt Message` and edit the contents.
 
 ![Login Prompt Message](msgs-images/issue.png)
 
-### Managing Message Policy via samba-tool
+### Managing Message Policy via samba-tool {#msgs-samba-tool}
 
 The `samba-tool gpo manage motd` and `samba-tool gpo manage issue` commands each have 2 subcommands; set and list.
 
@@ -83,5 +83,84 @@ Doing a list for good measure, we see that the policy is set on the SYSVOL.
 > samba-tool gpo manage motd list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator; echo
 motd set from samba-tool
 dmulder@testsysdm:~> samba-tool gpo manage issue list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator; echo
+issue set from samba-tool
+```
+
+## Client Side Extension
+
+Samba provides 3 different Client Side Extensions (CSE) for the Messages policy. The Samba policy distributed via the GPME discussed in \@ref(msgs-gpme) called `gp_msgs_ext`, and the Vintela compatible policy split in 2 parts discussed in \@ref(msgs-samba-tool) called `vgp_motd_ext` and `vgp_issue_ext`.
+
+These CSEs set the contents of `/etc/motd` and `/etc/issue`. If both Samba and Vintela compatible policies are set, they will conflict.
+
+Let's list the Resultant Set of Policy to view what will be applied by `samba-gpupdate`.
+
+```
+> sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: gp_msgs_ext
+  -----------------------------------------------------------
+    Policy Type: /etc/motd
+    -----------------------------------------------------------
+Welcome to Linux Group Policy!
+    -----------------------------------------------------------
+    Policy Type: /etc/issue
+    -----------------------------------------------------------
+Welcome to \s \r \l
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+  CSE: vgp_motd_ext
+  -----------------------------------------------------------
+    Policy Type: /etc/motd
+    -----------------------------------------------------------
+motd set from samba-tool
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+  CSE: vgp_issue_ext
+  -----------------------------------------------------------
+    Policy Type: /etc/issue
+    -----------------------------------------------------------
+issue set from samba-tool
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================
+```
+
+Because both these policies are set, we can't predict which one will actually be applied. Let's do a force and see what the result is.
+
+```
+> sudo /usr/sbin/samba-gpupdate --force
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
+<?xml version="1.0"?>
+<gp>
+  <user name="TESTSYSDM$">
+    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
+      <gp_ext name="Unix Settings/Messages">
+        <attribute name="motd"/>
+        <attribute name="issue">Welcome to openSUSE Tumbleweed 20221102 - Kernel \5Cr (\5Cl).\0A\0Aenp1s0: \5C4{enp1s0} \5C6{enp1s0}\0A\0A\0A</attribute>
+      </gp_ext>
+      <gp_ext name="Unix Settings/Message of the Day">
+        <attribute name="motd">Welcome to Linux Group Policy!</attribute>
+      </gp_ext>
+      <gp_ext name="Unix Settings/Issue">
+        <attribute name="issue">Welcome to \5Cs \5Cr \5Cl</attribute>
+      </gp_ext>
+    </guid>
+    <applylog>
+      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
+    </applylog>
+  </user>
+</gp>
+```
+
+Note that Messages policy stores the previous value of the message content in the Group Policy Log. So we can discern from the message content that `vgp_motd_ext` and `vgp_issue_ext` applied last (since the messages from `gp_msgs_ext` show up in the log). We can confirm this by checking the contents of `/etc/motd` and `/etc/issue`.
+
+```
+> cat /etc/motd; echo
+motd set from samba-tool
+> cat /etc/issue; echo
 issue set from samba-tool
 ```
