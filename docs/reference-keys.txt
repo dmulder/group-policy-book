@@ -65,6 +65,9 @@ sudoers-gpme
 sudoers-samba-tool
 client-side-extension-6
 msgs
+server-side-extension-6
+managing-message-policy-via-the-gpme
+managing-message-policy-via-samba-tool
 pamaccess
 certautoenroll
 configuring-certificate-auto-enrollment-on-the-server

@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-11-16" />
+<meta name="date" content="2022-11-17" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -235,7 +235,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="10.2" data-path="sudoers.html"><a href="sudoers.html#client-side-extension-6"><i class="fa fa-check"></i><b>10.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="msgs.html"><a href="msgs.html"><i class="fa fa-check"></i><b>11</b> Message Policies</a></li>
+<li class="chapter" data-level="11" data-path="msgs.html"><a href="msgs.html"><i class="fa fa-check"></i><b>11</b> Message Policies</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="msgs.html"><a href="msgs.html#server-side-extension-6"><i class="fa fa-check"></i><b>11.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="msgs.html"><a href="msgs.html#managing-message-policy-via-the-gpme"><i class="fa fa-check"></i><b>11.1.1</b> Managing Message Policy via the GPME</a></li>
+<li class="chapter" data-level="11.1.2" data-path="msgs.html"><a href="msgs.html#managing-message-policy-via-samba-tool"><i class="fa fa-check"></i><b>11.1.2</b> Managing Message Policy via samba-tool</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="12" data-path="pamaccess.html"><a href="pamaccess.html"><i class="fa fa-check"></i><b>12</b> PAM Access Policies</a></li>
 <li class="chapter" data-level="13" data-path="certautoenroll.html"><a href="certautoenroll.html"><i class="fa fa-check"></i><b>13</b> Certificate Auto Enrollment Policy</a>
 <ul>
@@ -279,25 +286,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="regpol" class="section level1 hasAnchor" number="21">
 <h1><span class="header-section-number">21</span> Modifying a Registry.pol File<a href="regpol.html#regpol" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>There is no existing tool for modifying a Registry.pol on Linux, but Samba provides python libraries for manipulating these files. The following python code snippet demonstrates how to open one of these files.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb59-1"><a href="regpol.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> samba.ndr <span class="im">import</span> ndr_unpack</span>
-<span id="cb59-2"><a href="regpol.html#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> samba.dcerpc <span class="im">import</span> preg</span>
-<span id="cb59-3"><a href="regpol.html#cb59-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb59-4"><a href="regpol.html#cb59-4" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> <span class="bu">open</span>(<span class="st">&#39;Registry.pol&#39;</span>, <span class="st">&#39;rb&#39;</span>).read()</span>
-<span id="cb59-5"><a href="regpol.html#cb59-5" aria-hidden="true" tabindex="-1"></a>pol_conf <span class="op">=</span> ndr_unpack(preg.<span class="bu">file</span>, raw)</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb63-1"><a href="regpol.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> samba.ndr <span class="im">import</span> ndr_unpack</span>
+<span id="cb63-2"><a href="regpol.html#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> samba.dcerpc <span class="im">import</span> preg</span>
+<span id="cb63-3"><a href="regpol.html#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-4"><a href="regpol.html#cb63-4" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> <span class="bu">open</span>(<span class="st">&#39;Registry.pol&#39;</span>, <span class="st">&#39;rb&#39;</span>).read()</span>
+<span id="cb63-5"><a href="regpol.html#cb63-5" aria-hidden="true" tabindex="-1"></a>pol_conf <span class="op">=</span> ndr_unpack(preg.<span class="bu">file</span>, raw)</span></code></pre></div>
 <p>The parsed file contains a list of entries, which you can iterate over. Each entry contains a keyname, valuename, and data.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb60-1"><a href="regpol.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> e <span class="kw">in</span> pol_conf.entries:</span>
-<span id="cb60-2"><a href="regpol.html#cb60-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(e.keyname, e.valuename, e.data)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb64-1"><a href="regpol.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> e <span class="kw">in</span> pol_conf.entries:</span>
+<span id="cb64-2"><a href="regpol.html#cb64-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(e.keyname, e.valuename, e.data)</span></code></pre></div>
 <p>Writing to the <code>pol_conf</code> can be tricky. If you write the length of the entries prior to writing the entries, it will actually cause memory corruption (this is a bug). So ensure you write to the entries, then to the length. You can create an entry using the <code>preg</code> import from <code>samba.dcerpc</code>.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb61-1"><a href="regpol.html#cb61-1" aria-hidden="true" tabindex="-1"></a>e <span class="op">=</span> preg.entry()</span>
-<span id="cb61-2"><a href="regpol.html#cb61-2" aria-hidden="true" tabindex="-1"></a>e.keyname <span class="op">=</span> <span class="st">b&#39;Software</span><span class="ch">\\</span><span class="st">Policies</span><span class="ch">\\</span><span class="st">Samba</span><span class="ch">\\</span><span class="st">smb_conf&#39;</span></span>
-<span id="cb61-3"><a href="regpol.html#cb61-3" aria-hidden="true" tabindex="-1"></a>e.valuename <span class="op">=</span> <span class="st">b&#39;apply group policies&#39;</span></span>
-<span id="cb61-4"><a href="regpol.html#cb61-4" aria-hidden="true" tabindex="-1"></a>e.<span class="bu">type</span> <span class="op">=</span> <span class="dv">4</span> <span class="co"># REG_DWORD, an integer</span></span>
-<span id="cb61-5"><a href="regpol.html#cb61-5" aria-hidden="true" tabindex="-1"></a>e.data <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb61-6"><a href="regpol.html#cb61-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-7"><a href="regpol.html#cb61-7" aria-hidden="true" tabindex="-1"></a>entries <span class="op">=</span> <span class="bu">list</span>(pol_data.entries)</span>
-<span id="cb61-8"><a href="regpol.html#cb61-8" aria-hidden="true" tabindex="-1"></a>entries.append(e)</span>
-<span id="cb61-9"><a href="regpol.html#cb61-9" aria-hidden="true" tabindex="-1"></a>pol_data.entries <span class="op">=</span> entries</span>
-<span id="cb61-10"><a href="regpol.html#cb61-10" aria-hidden="true" tabindex="-1"></a>pol_data.num_entries <span class="op">=</span> <span class="bu">len</span>(entries) <span class="co"># Ensure you set the new num_entries last</span></span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb65-1"><a href="regpol.html#cb65-1" aria-hidden="true" tabindex="-1"></a>e <span class="op">=</span> preg.entry()</span>
+<span id="cb65-2"><a href="regpol.html#cb65-2" aria-hidden="true" tabindex="-1"></a>e.keyname <span class="op">=</span> <span class="st">b&#39;Software</span><span class="ch">\\</span><span class="st">Policies</span><span class="ch">\\</span><span class="st">Samba</span><span class="ch">\\</span><span class="st">smb_conf&#39;</span></span>
+<span id="cb65-3"><a href="regpol.html#cb65-3" aria-hidden="true" tabindex="-1"></a>e.valuename <span class="op">=</span> <span class="st">b&#39;apply group policies&#39;</span></span>
+<span id="cb65-4"><a href="regpol.html#cb65-4" aria-hidden="true" tabindex="-1"></a>e.<span class="bu">type</span> <span class="op">=</span> <span class="dv">4</span> <span class="co"># REG_DWORD, an integer</span></span>
+<span id="cb65-5"><a href="regpol.html#cb65-5" aria-hidden="true" tabindex="-1"></a>e.data <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb65-6"><a href="regpol.html#cb65-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-7"><a href="regpol.html#cb65-7" aria-hidden="true" tabindex="-1"></a>entries <span class="op">=</span> <span class="bu">list</span>(pol_data.entries)</span>
+<span id="cb65-8"><a href="regpol.html#cb65-8" aria-hidden="true" tabindex="-1"></a>entries.append(e)</span>
+<span id="cb65-9"><a href="regpol.html#cb65-9" aria-hidden="true" tabindex="-1"></a>pol_data.entries <span class="op">=</span> entries</span>
+<span id="cb65-10"><a href="regpol.html#cb65-10" aria-hidden="true" tabindex="-1"></a>pol_data.num_entries <span class="op">=</span> <span class="bu">len</span>(entries) <span class="co"># Ensure you set the new num_entries last</span></span></code></pre></div>
 <p>The data type refers to Microsoft defined registry types:</p>
 <table>
 <thead>
@@ -394,10 +401,10 @@ REG_QWORD
 </tbody>
 </table>
 <p>To write your changes back to the Registry.pol file, you’ll use the following:</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb62-1"><a href="regpol.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> samba.ndr <span class="im">import</span> ndr_pack</span>
-<span id="cb62-2"><a href="regpol.html#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-3"><a href="regpol.html#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;Registry.pol&#39;</span>, <span class="st">&#39;wb&#39;</span>) <span class="im">as</span> w:</span>
-<span id="cb62-4"><a href="regpol.html#cb62-4" aria-hidden="true" tabindex="-1"></a>    w.write(ndr_pack(pol_data))</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb66-1"><a href="regpol.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> samba.ndr <span class="im">import</span> ndr_pack</span>
+<span id="cb66-2"><a href="regpol.html#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="regpol.html#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;Registry.pol&#39;</span>, <span class="st">&#39;wb&#39;</span>) <span class="im">as</span> w:</span>
+<span id="cb66-4"><a href="regpol.html#cb66-4" aria-hidden="true" tabindex="-1"></a>    w.write(ndr_pack(pol_data))</span></code></pre></div>
 
 </div>
             </section>
