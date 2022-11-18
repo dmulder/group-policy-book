@@ -1,1 +1,158 @@
 # PAM Access Policies {#pamaccess}
+
+```{r, echo=FALSE, out.width="30%", fig.align='center'}
+knitr::include_graphics("pam-access-images/access.png")
+```
+
+PAM Access Policy allows you to set host access rules for client machines. Specifically, it specifies rules in `/etc/security/access.d` to allow or deny access to the host.
+
+This policy is physically stored on the SYSVOL in two files, **MACHINE/VGP/VTLA/VAS/HostAccessControl/Allow/manifest.xml** and **MACHINE/VGP/VTLA/VAS/HostAccessControl/Deny/manifest.xml**. The manifest.xml files are in xml format, and are easily modified manually using a text editor.
+
+## Server Side Extension
+
+The Server Side Extensions (SSE) for PAM Access Policies is administered using the `samba-tool gpo manage access` command. This SSE cannot be modified using the GPME.
+
+### Managing PAM Access Policies via samba-tool
+
+The `samba-tool gpo manage access` command has 3 subcommands; add, list, and remove.
+
+```
+> samba-tool gpo manage access
+Usage: samba-tool gpo manage access <subcommand>
+
+Manage Host Access Group Policy Objects
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  add     - Adds a VGP Host Access Group Policy to the sysvol
+  list    - List VGP Host Access Group Policy from the sysvol
+  remove  - Remove a VGP Host Access Group Policy from the sysvol
+```
+
+To add a new Host Access rule to the SYSVOL, call the `samba-tool gpo manage access add` command.
+
+```
+> samba-tool gpo manage access add --help
+Usage: samba-tool gpo manage access add <gpo> <allow/deny> <cn> <domain> [options]
+
+Adds a VGP Host Access Group Policy to the sysvol
+
+This command adds a host access setting to the sysvol for applying to winbind
+clients. Any time an allow entry is detected by the client, an implicit deny
+ALL will be assumed.
+
+Example:
+samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow
+goodguy example.com
+```
+
+Let's add a few rules that restricts access to a couple of specific users.
+
+```
+> samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow Administrator lizardo.suse.de -UAdministrator
+> samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow tux lizardo.suse.de -UAdministrator
+```
+
+These grant access to the users `tux` and `Administrator` on the host. If we list our access policies, we can see they are ready for delivery to the client.
+
+```
+> samba-tool gpo manage access list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
++:lizardo.suse.de\Administrator:ALL
++:lizardo.suse.de\tux:ALL
+```
+
+## Client Side Extension
+
+The PAM Access Client Side Extension (CSE) will create a new file in the `/etc/security/access.d` directory for each host access rule.
+
+The PAM module `pam_access` must be configured or this CSE will do nothing (see `man pam_access`). This can be configured using the command `pam-config --add --access`. It may be beneficial to ensure this is enabled by enforcing a Script policy which executes `pam-config --add --access` (see chapter \@ref(scripts) on how to schedule a script policy).
+
+Let’s list the Resultant Set of Policy to view the policies we've created for our host access control.
+
+```
+> sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: gp_scripts_ext
+  -----------------------------------------------------------
+    Policy Type: Hourly Scripts
+    -----------------------------------------------------------
+    [ pam-config --add --access ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+  CSE: vgp_access_ext
+  -----------------------------------------------------------
+    Policy Type: VGP/Unix Settings/Host Access
+    -----------------------------------------------------------
+    [ +:Administrator\lizardo.suse.de:ALL ]
+    [ +:tux\lizardo.suse.de:ALL ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================
+```
+
+Our PAM Access policy and our `pam-config` check are both listed.
+
+Let's now force an apply.
+
+```
+> sudo /usr/sbin/samba-gpupdate --force
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
+<?xml version="1.0"?>
+<gp>
+  <user name="TESTSYSDM$">
+    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
+      <gp_ext name="Unix Settings/Scripts">
+        <attribute name="Software\5CPolicies\5CSamba\5CUnix Settings\5CDaily Scripts:ZWNobyBoZWxsbyB3b3JsZA==">/etc/cron.daily/gp_pawtjsiq</attribute>
+      </gp_ext>
+      <gp_ext name="VGP/Unix Settings/Host Access">
+        <attribute name="6bf09c80fa6362a0d10d565117e692a6dae7335d0a33f4ac9e8584a887ba934ba73352ced3093dd3e17c8d8999970a696cfd8a142011c5c481725bc0a46dfb9c">/etc/security/access.d/9000000001_gp_DENY_ALL.conf:/etc/security/access.d/0000000001_gp.conf</attribute>
+      </gp_ext>
+    </guid>
+    <applylog>
+      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
+    </applylog>
+  </user>
+</gp>
+```
+
+Notice that the PAM Access policy generated 2 different files, `/etc/security/access.d/0000000001_gp.conf` and `/etc/security/access.d/9000000001_gp_DENY_ALL.conf`. Let's check the contents of these files to see what was generated.
+
+```
+> cat /etc/security/access.d/0000000001_gp.conf; echo
+
+### autogenerated by samba
+#
+# This file is generated by the vgp_access_ext Group Policy
+# Client Side Extension. To modify the contents of this file,
+# modify the appropriate Group Policy objects which apply
+# to this machine. DO NOT MODIFY THIS FILE DIRECTLY.
+#
+
++:lizardo.suse.de\Administrator:ALL
++:lizardo.suse.de\tux:ALL
+> cat /etc/security/access.d/9000000001_gp_DENY_ALL.conf; echo
+
+### autogenerated by samba
+#
+# This file is generated by the vgp_access_ext Group Policy
+# Client Side Extension. To modify the contents of this file,
+# modify the appropriate Group Policy objects which apply
+# to this machine. DO NOT MODIFY THIS FILE DIRECTLY.
+#
+
+-:ALL:ALL
+```
+
+The PAM Access CSE automatically added a deny all entry. The pam\_access pam module reads host access rules in numerical order from the `/etc/security/access.d` directory. This automatic deny all entry was intentionally placed numerically after our allow entries (9000000001 > 0000000001), to ensure the allow entries are processed first.
+
+You should notice at this point that it would be senseless to intermix allow and deny rules. Any time an allow rule is applied to a client, *deny all else* is implicitly assumed. It doesn't hurt to have extra deny rules, but they would be pointless. When only deny rules are set in the policy, then *allow all else* is implicitly assumed (which is the pam default, and no extra rules are added).
+
+You can safely stack group policies which contain different allow rules, since the *deny all else* entries will always be placed in a range above the host access rules. You will see multiple *deny all else* entries generated, and this is intentional. This ensures there is always a *deny all else* entry associated with any allow rules which are applied.
