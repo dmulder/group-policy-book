@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-11-17" />
+<meta name="date" content="2022-11-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -239,11 +239,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="11.1" data-path="msgs.html"><a href="msgs.html#server-side-extension-6"><i class="fa fa-check"></i><b>11.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="11.1.1" data-path="msgs.html"><a href="msgs.html#managing-message-policy-via-the-gpme"><i class="fa fa-check"></i><b>11.1.1</b> Managing Message Policy via the GPME</a></li>
-<li class="chapter" data-level="11.1.2" data-path="msgs.html"><a href="msgs.html#managing-message-policy-via-samba-tool"><i class="fa fa-check"></i><b>11.1.2</b> Managing Message Policy via samba-tool</a></li>
+<li class="chapter" data-level="11.1.1" data-path="msgs.html"><a href="msgs.html#msgs-gpme"><i class="fa fa-check"></i><b>11.1.1</b> Managing Message Policy via the GPME</a></li>
+<li class="chapter" data-level="11.1.2" data-path="msgs.html"><a href="msgs.html#msgs-samba-tool"><i class="fa fa-check"></i><b>11.1.2</b> Managing Message Policy via samba-tool</a></li>
 </ul></li>
+<li class="chapter" data-level="11.2" data-path="msgs.html"><a href="msgs.html#client-side-extension-7"><i class="fa fa-check"></i><b>11.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="pamaccess.html"><a href="pamaccess.html"><i class="fa fa-check"></i><b>12</b> PAM Access Policies</a></li>
+<li class="chapter" data-level="12" data-path="pamaccess.html"><a href="pamaccess.html"><i class="fa fa-check"></i><b>12</b> PAM Access Policies</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="pamaccess.html"><a href="pamaccess.html#server-side-extension-7"><i class="fa fa-check"></i><b>12.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="pamaccess.html"><a href="pamaccess.html#managing-pam-access-policies-via-samba-tool"><i class="fa fa-check"></i><b>12.1.1</b> Managing PAM Access Policies via samba-tool</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="pamaccess.html"><a href="pamaccess.html#client-side-extension-8"><i class="fa fa-check"></i><b>12.2</b> Client Side Extension</a></li>
+</ul></li>
 <li class="chapter" data-level="13" data-path="certautoenroll.html"><a href="certautoenroll.html"><i class="fa fa-check"></i><b>13</b> Certificate Auto Enrollment Policy</a>
 <ul>
 <li class="chapter" data-level="13.1" data-path="certautoenroll.html"><a href="certautoenroll.html#configuring-certificate-auto-enrollment-on-the-server"><i class="fa fa-check"></i><b>13.1</b> Configuring Certificate Auto Enrollment on the Server</a>
@@ -291,8 +299,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="server-side-extension-6" class="section level2 hasAnchor" number="11.1">
 <h2><span class="header-section-number">11.1</span> Server Side Extension<a href="msgs.html#server-side-extension-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Server Side Extensions (SSE) for Message policies are distributed via either Administrative Templates (see <a href="sse.html#sse">20</a> in section <a href="sse.html#admx">20.1</a>) or via the commands <code>samba-tool gpo manage motd</code> and <code>samba-tool gpo manage issue</code>. Rules added via GPME will not be visible to the respective <code>samba-tool</code> commands, and vice versa. This is because the <code>samba-tool</code> commands are intended to manage Vintela Group Policy compatability. These two SSEs should not be used in conjunction to one another, as it will cause unpredicatable results on the client.</p>
-<div id="managing-message-policy-via-the-gpme" class="section level3 hasAnchor" number="11.1.1">
-<h3><span class="header-section-number">11.1.1</span> Managing Message Policy via the GPME<a href="msgs.html#managing-message-policy-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="msgs-gpme" class="section level3 hasAnchor" number="11.1.1">
+<h3><span class="header-section-number">11.1.1</span> Managing Message Policy via the GPME<a href="msgs.html#msgs-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Open the GPME and navigate to <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Messages</code>.</p>
 <div class="figure">
 <img src="msgs-images/gpme.png" alt="" />
@@ -308,8 +316,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p class="caption">Login Prompt Message</p>
 </div>
 </div>
-<div id="managing-message-policy-via-samba-tool" class="section level3 hasAnchor" number="11.1.2">
-<h3><span class="header-section-number">11.1.2</span> Managing Message Policy via samba-tool<a href="msgs.html#managing-message-policy-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="msgs-samba-tool" class="section level3 hasAnchor" number="11.1.2">
+<h3><span class="header-section-number">11.1.2</span> Managing Message Policy via samba-tool<a href="msgs.html#msgs-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <code>samba-tool gpo manage motd</code> and <code>samba-tool gpo manage issue</code> commands each have 2 subcommands; set and list.</p>
 <pre><code>&gt; samba-tool gpo manage motd
 Usage: samba-tool gpo manage motd &lt;subcommand&gt;
@@ -354,8 +362,74 @@ for today&quot;</code></pre>
 motd set from samba-tool
 dmulder@testsysdm:~&gt; samba-tool gpo manage issue list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator; echo
 issue set from samba-tool</code></pre>
-
 </div>
+</div>
+<div id="client-side-extension-7" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">11.2</span> Client Side Extension<a href="msgs.html#client-side-extension-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Samba provides 3 different Client Side Extensions (CSE) for the Messages policy. The Samba policy distributed via the GPME discussed in <a href="msgs.html#msgs-gpme">11.1.1</a> called <code>gp_msgs_ext</code>, and the Vintela compatible policy split in 2 parts discussed in <a href="msgs.html#msgs-samba-tool">11.1.2</a> called <code>vgp_motd_ext</code> and <code>vgp_issue_ext</code>.</p>
+<p>These CSEs set the contents of <code>/etc/motd</code> and <code>/etc/issue</code>. If both Samba and Vintela compatible policies are set, they will conflict.</p>
+<p>Let’s list the Resultant Set of Policy to view what will be applied by <code>samba-gpupdate</code>.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: gp_msgs_ext
+  -----------------------------------------------------------
+    Policy Type: /etc/motd
+    -----------------------------------------------------------
+Welcome to Linux Group Policy!
+    -----------------------------------------------------------
+    Policy Type: /etc/issue
+    -----------------------------------------------------------
+Welcome to \s \r \l
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+  CSE: vgp_motd_ext
+  -----------------------------------------------------------
+    Policy Type: /etc/motd
+    -----------------------------------------------------------
+motd set from samba-tool
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+  CSE: vgp_issue_ext
+  -----------------------------------------------------------
+    Policy Type: /etc/issue
+    -----------------------------------------------------------
+issue set from samba-tool
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================</code></pre>
+<p>Because both these policies are set, we can’t predict which one will actually be applied. Let’s do a force and see what the result is.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;gp&gt;
+  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
+    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
+      &lt;gp_ext name=&quot;Unix Settings/Messages&quot;&gt;
+        &lt;attribute name=&quot;motd&quot;/&gt;
+        &lt;attribute name=&quot;issue&quot;&gt;Welcome to openSUSE Tumbleweed 20221102 - Kernel \5Cr (\5Cl).\0A\0Aenp1s0: \5C4{enp1s0} \5C6{enp1s0}\0A\0A\0A&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+      &lt;gp_ext name=&quot;Unix Settings/Message of the Day&quot;&gt;
+        &lt;attribute name=&quot;motd&quot;&gt;Welcome to Linux Group Policy!&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+      &lt;gp_ext name=&quot;Unix Settings/Issue&quot;&gt;
+        &lt;attribute name=&quot;issue&quot;&gt;Welcome to \5Cs \5Cr \5Cl&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+    &lt;/guid&gt;
+    &lt;applylog&gt;
+      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
+    &lt;/applylog&gt;
+  &lt;/user&gt;
+&lt;/gp&gt;</code></pre>
+<p>Note that Messages policy stores the previous value of the message content in the Group Policy Log. So we can discern from the message content that <code>vgp_motd_ext</code> and <code>vgp_issue_ext</code> applied last (since the messages from <code>gp_msgs_ext</code> show up in the log). We can confirm this by checking the contents of <code>/etc/motd</code> and <code>/etc/issue</code>.</p>
+<pre><code>&gt; cat /etc/motd; echo
+motd set from samba-tool
+&gt; cat /etc/issue; echo
+issue set from samba-tool</code></pre>
+
 </div>
 </div>
             </section>

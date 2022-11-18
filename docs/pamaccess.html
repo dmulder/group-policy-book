@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-11-17" />
+<meta name="date" content="2022-11-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -239,11 +239,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="11.1" data-path="msgs.html"><a href="msgs.html#server-side-extension-6"><i class="fa fa-check"></i><b>11.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="11.1.1" data-path="msgs.html"><a href="msgs.html#managing-message-policy-via-the-gpme"><i class="fa fa-check"></i><b>11.1.1</b> Managing Message Policy via the GPME</a></li>
-<li class="chapter" data-level="11.1.2" data-path="msgs.html"><a href="msgs.html#managing-message-policy-via-samba-tool"><i class="fa fa-check"></i><b>11.1.2</b> Managing Message Policy via samba-tool</a></li>
+<li class="chapter" data-level="11.1.1" data-path="msgs.html"><a href="msgs.html#msgs-gpme"><i class="fa fa-check"></i><b>11.1.1</b> Managing Message Policy via the GPME</a></li>
+<li class="chapter" data-level="11.1.2" data-path="msgs.html"><a href="msgs.html#msgs-samba-tool"><i class="fa fa-check"></i><b>11.1.2</b> Managing Message Policy via samba-tool</a></li>
 </ul></li>
+<li class="chapter" data-level="11.2" data-path="msgs.html"><a href="msgs.html#client-side-extension-7"><i class="fa fa-check"></i><b>11.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="pamaccess.html"><a href="pamaccess.html"><i class="fa fa-check"></i><b>12</b> PAM Access Policies</a></li>
+<li class="chapter" data-level="12" data-path="pamaccess.html"><a href="pamaccess.html"><i class="fa fa-check"></i><b>12</b> PAM Access Policies</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="pamaccess.html"><a href="pamaccess.html#server-side-extension-7"><i class="fa fa-check"></i><b>12.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="pamaccess.html"><a href="pamaccess.html#managing-pam-access-policies-via-samba-tool"><i class="fa fa-check"></i><b>12.1.1</b> Managing PAM Access Policies via samba-tool</a></li>
+</ul></li>
+<li class="chapter" data-level="12.2" data-path="pamaccess.html"><a href="pamaccess.html#client-side-extension-8"><i class="fa fa-check"></i><b>12.2</b> Client Side Extension</a></li>
+</ul></li>
 <li class="chapter" data-level="13" data-path="certautoenroll.html"><a href="certautoenroll.html"><i class="fa fa-check"></i><b>13</b> Certificate Auto Enrollment Policy</a>
 <ul>
 <li class="chapter" data-level="13.1" data-path="certautoenroll.html"><a href="certautoenroll.html#configuring-certificate-auto-enrollment-on-the-server"><i class="fa fa-check"></i><b>13.1</b> Configuring Certificate Auto Enrollment on the Server</a>
@@ -286,7 +294,126 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="pamaccess" class="section level1 hasAnchor" number="12">
 <h1><span class="header-section-number">12</span> PAM Access Policies<a href="pamaccess.html#pamaccess" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="pam-access-images/access.png" width="30%" style="display: block; margin: auto;" /></p>
+<p>PAM Access Policy allows you to set host access rules for client machines. Specifically, it specifies rules in <code>/etc/security/access.d</code> to allow or deny access to the host.</p>
+<p>This policy is physically stored on the SYSVOL in two files, <strong>MACHINE/VGP/VTLA/VAS/HostAccessControl/Allow/manifest.xml</strong> and <strong>MACHINE/VGP/VTLA/VAS/HostAccessControl/Deny/manifest.xml</strong>. The manifest.xml files are in xml format, and are easily modified manually using a text editor.</p>
+<div id="server-side-extension-7" class="section level2 hasAnchor" number="12.1">
+<h2><span class="header-section-number">12.1</span> Server Side Extension<a href="pamaccess.html#server-side-extension-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Server Side Extensions (SSE) for PAM Access Policies is administered using the <code>samba-tool gpo manage access</code> command. This SSE cannot be modified using the GPME.</p>
+<div id="managing-pam-access-policies-via-samba-tool" class="section level3 hasAnchor" number="12.1.1">
+<h3><span class="header-section-number">12.1.1</span> Managing PAM Access Policies via samba-tool<a href="pamaccess.html#managing-pam-access-policies-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>samba-tool gpo manage access</code> command has 3 subcommands; add, list, and remove.</p>
+<pre><code>&gt; samba-tool gpo manage access
+Usage: samba-tool gpo manage access &lt;subcommand&gt;
 
+Manage Host Access Group Policy Objects
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  add     - Adds a VGP Host Access Group Policy to the sysvol
+  list    - List VGP Host Access Group Policy from the sysvol
+  remove  - Remove a VGP Host Access Group Policy from the sysvol</code></pre>
+<p>To add a new Host Access rule to the SYSVOL, call the <code>samba-tool gpo manage access add</code> command.</p>
+<pre><code>&gt; samba-tool gpo manage access add --help
+Usage: samba-tool gpo manage access add &lt;gpo&gt; &lt;allow/deny&gt; &lt;cn&gt; &lt;domain&gt; [options]
+
+Adds a VGP Host Access Group Policy to the sysvol
+
+This command adds a host access setting to the sysvol for applying to winbind
+clients. Any time an allow entry is detected by the client, an implicit deny
+ALL will be assumed.
+
+Example:
+samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow
+goodguy example.com</code></pre>
+<p>Let’s add a few rules that restricts access to a couple of specific users.</p>
+<pre><code>&gt; samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow Administrator lizardo.suse.de -UAdministrator
+&gt; samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow tux lizardo.suse.de -UAdministrator</code></pre>
+<p>These grant access to the users <code>tux</code> and <code>Administrator</code> on the host. If we list our access policies, we can see they are ready for delivery to the client.</p>
+<pre><code>&gt; samba-tool gpo manage access list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
++:lizardo.suse.de\Administrator:ALL
++:lizardo.suse.de\tux:ALL</code></pre>
+</div>
+</div>
+<div id="client-side-extension-8" class="section level2 hasAnchor" number="12.2">
+<h2><span class="header-section-number">12.2</span> Client Side Extension<a href="pamaccess.html#client-side-extension-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The PAM Access Client Side Extension (CSE) will create a new file in the <code>/etc/security/access.d</code> directory for each host access rule.</p>
+<p>The PAM module <code>pam_access</code> must be configured or this CSE will do nothing (see <code>man pam_access</code>). This can be configured using the command <code>pam-config --add --access</code>. It may be beneficial to ensure this is enabled by enforcing a Script policy which executes <code>pam-config --add --access</code> (see chapter <a href="scripts.html#scripts">6</a> on how to schedule a script policy).</p>
+<p>Let’s list the Resultant Set of Policy to view the policies we’ve created for our host access control.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: gp_scripts_ext
+  -----------------------------------------------------------
+    Policy Type: Hourly Scripts
+    -----------------------------------------------------------
+    [ pam-config --add --access ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+  CSE: vgp_access_ext
+  -----------------------------------------------------------
+    Policy Type: VGP/Unix Settings/Host Access
+    -----------------------------------------------------------
+    [ +:Administrator\lizardo.suse.de:ALL ]
+    [ +:tux\lizardo.suse.de:ALL ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================</code></pre>
+<p>Our PAM Access policy and our <code>pam-config</code> check are both listed.</p>
+<p>Let’s now force an apply.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;gp&gt;
+  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
+    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
+      &lt;gp_ext name=&quot;Unix Settings/Scripts&quot;&gt;
+        &lt;attribute name=&quot;Software\5CPolicies\5CSamba\5CUnix Settings\5CDaily Scripts:ZWNobyBoZWxsbyB3b3JsZA==&quot;&gt;/etc/cron.daily/gp_pawtjsiq&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+      &lt;gp_ext name=&quot;VGP/Unix Settings/Host Access&quot;&gt;
+        &lt;attribute name=&quot;6bf09c80fa6362a0d10d565117e692a6dae7335d0a33f4ac9e8584a887ba934ba73352ced3093dd3e17c8d8999970a696cfd8a142011c5c481725bc0a46dfb9c&quot;&gt;/etc/security/access.d/9000000001_gp_DENY_ALL.conf:/etc/security/access.d/0000000001_gp.conf&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+    &lt;/guid&gt;
+    &lt;applylog&gt;
+      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
+    &lt;/applylog&gt;
+  &lt;/user&gt;
+&lt;/gp&gt;</code></pre>
+<p>Notice that the PAM Access policy generated 2 different files, <code>/etc/security/access.d/0000000001_gp.conf</code> and <code>/etc/security/access.d/9000000001_gp_DENY_ALL.conf</code>. Let’s check the contents of these files to see what was generated.</p>
+<pre><code>&gt; cat /etc/security/access.d/0000000001_gp.conf; echo
+
+### autogenerated by samba
+#
+# This file is generated by the vgp_access_ext Group Policy
+# Client Side Extension. To modify the contents of this file,
+# modify the appropriate Group Policy objects which apply
+# to this machine. DO NOT MODIFY THIS FILE DIRECTLY.
+#
+
++:lizardo.suse.de\Administrator:ALL
++:lizardo.suse.de\tux:ALL
+&gt; cat /etc/security/access.d/9000000001_gp_DENY_ALL.conf; echo
+
+### autogenerated by samba
+#
+# This file is generated by the vgp_access_ext Group Policy
+# Client Side Extension. To modify the contents of this file,
+# modify the appropriate Group Policy objects which apply
+# to this machine. DO NOT MODIFY THIS FILE DIRECTLY.
+#
+
+-:ALL:ALL</code></pre>
+<p>The PAM Access CSE automatically added a deny all entry. The pam_access pam module reads host access rules in numerical order from the <code>/etc/security/access.d</code> directory. This automatic deny all entry was intentionally placed numerically after our allow entries (9000000001 &gt; 0000000001), to ensure the allow entries are processed first.</p>
+<p>You should notice at this point that it would be senseless to intermix allow and deny rules. Any time an allow rule is applied to a client, <em>deny all else</em> is implicitly assumed. It doesn’t hurt to have extra deny rules, but they would be pointless. When only deny rules are set in the policy, then <em>allow all else</em> is implicitly assumed (which is the pam default, and no extra rules are added).</p>
+<p>You can safely stack group policies which contain different allow rules, since the <em>deny all else</em> entries will always be placed in a range above the host access rules. You will see multiple <em>deny all else</em> entries generated, and this is intentional. This ensures there is always a <em>deny all else</em> entry associated with any allow rules which are applied.</p>
+
+</div>
 </div>
             </section>
 
