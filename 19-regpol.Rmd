@@ -1,6 +1,37 @@
 # Modifying a Registry.pol File {#regpol}
 
-There is no existing tool for modifying a Registry.pol on Linux, but Samba provides python libraries for manipulating these files. The following python code snippet demonstrates how to open one of these files.
+## Using samba-tool
+
+Samba provides the `samba-tool gpo load`, `samba-tool gpo remove` and `samba-tool gpo show` commands for manipulating Registry.pol policies. These commands format the registry policies as **json** to simplify the process. For example, a policy which sets the Firefox homepage would like like so:
+
+```json
+[
+    {
+        "keyname": "Software\\Policies\\Mozilla\\Firefox\\Homepage",
+        "valuename": "StartPage",
+        "class": "MACHINE",
+        "type": "REG_SZ",
+        "data": "homepage"
+    },
+    {
+        "keyname": "Software\\Policies\\Mozilla\\Firefox\\Homepage",
+        "valuename": "URL",
+        "class": "MACHINE",
+        "type": "REG_SZ",
+        "data": "samba.org"
+    }
+]
+```
+
+To set this policy on a GPO, we either put it in a file, or pass it `samba-tool gpo load` in standard input.
+
+```
+> sudo samba-tool gpo load -UAdministrator --content=test.json
+```
+
+## Scripting with python
+
+Samba provides python libraries for manipulating a Registry.pol on Linux. The following python code snippet demonstrates how to open one of these files.
 
 ```python
 from samba.ndr import ndr_unpack
