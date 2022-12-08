@@ -40,7 +40,29 @@ The default policy (configured previously in the `Certificate Services Client - 
 
 Fill in the enrollment policy server URI, and set the authentication type. `Windows integrated` authentication refers to Kerberos authentication. Setting a priority will effect the order in which the policy is applied to a client machine. When finished, click `Add`, then `Apply` in the properties dialog and OK to close.
 
+### Certificate Templates
+
+Certificate Templates instruct the client how to generate a certificate request for the Certificate Authority. These templates are configured using the `Certification Authority` utility included with the Remote Server Administration Tools (RSAT) found in Windows.
+
+Open the `Certification Authority` utility, and click on `Certificate Templates` in the tree.
+
+![Certification Authority utility](cert-auto-enroll-images/certsrv.png)
+
+Let's create a new template by right clicking on `Certificate Templates` in the tree, and selecting `Manage`. You'll notice that there are a number of existing templates to choose from. Right click on one of the templates in the list, and click `Duplicate Template`.
+
+![Certificate Templates Console](cert-auto-enroll-images/cert-temp-console.png)
+
+Switch to the `General` tab, and set a name for your new template. Set the number of years the certificate will be valid and the renewal period.
+
+![Template Properties](cert-auto-enroll-images/template-properties.png)
+
+It may be useful to also review the `Cryptography` tab and ensure the cryptographic requirements for the certificate will meet the needs of your organization.
+
+Apply and close the properties by clicking OK.
+
 ## Client Side Extension
+
+The Certificate Auto Enrollment Client Side Extension (CSE) will add new Certificate Authorities to certmonger, and automatically request to track new certificates based on the assigned Certificate Templates.
 
 To setup Certificate Auto Enrollment:
 
