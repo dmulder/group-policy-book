@@ -89,7 +89,7 @@ You'll notice that listing the entries now includes the entry we just created, a
 
 ## Client Side Extension
 
-Samba actually supplies 3 different Client Side Extensions (CSE) for the Sudoers policy. This is to support 3 different SSE providers. The first is Samba's original policy, which is modified using the GPME as explained in section \@ref(sudoers-gpme). The second is the Vintela compatible policy, which can be set using `samba-tool` as explained in section \@ref(sudoers-samba-tool). The final CSE is the Centrify compatible policy, which is only provided as a convenience for migratation. All these CSEs behave the same in how they apply policy (and share some of the same code). The preceeding instructions refer to all three CSEs.
+Samba actually supplies 3 different Client Side Extensions (CSE) for the Sudoers policy. This is to support 3 different SSE providers. The first is Samba's original policy, which is modified using the GPME as explained in section \@ref(sudoers-gpme). The second is the Vintela compatible policy, which can be set using `samba-tool` as explained in section \@ref(sudoers-samba-tool). The final CSE is the Centrify compatible policy, which is only provided as a convenience for migration. All these CSEs behave the same in how they apply policy (and share some of the same code). The preceeding instructions refer to all three CSEs.
 
 The Sudoer CSEs create a file within `/etc/sudoers.d` for each rule specified on the SYSVOL. Each rule is validated before installing, to ensure the system isn't left in a broken state.
 
