@@ -1,26 +1,40 @@
 # Certificate Auto Enrollment Policy {#certautoenroll}
 
-Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. As of Samba 4.16, Linux clients can now auto enroll for certificates just like a Windows client.
+```{r, echo=FALSE, out.width="30%", fig.align='center'}
+knitr::include_graphics("cert-auto-enroll-images/certificate.png")
+```
 
-Samba’s Certificate Auto Enrollment uses the certmonger service to keep track of certificates. It also uses the cepces plugin to certmonger. The sscep command is also used to download the trust chain.
+Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. Samba’s Certificate Auto Enrollment uses the certmonger service to keep track of certificates. It also uses the cepces plugin to certmonger. The sscep command is also used to download the trust chain.
 
-Certificate Auto Enrollment is compatible with both Winbind and SSSD.
+## Server Side Extension
 
-Certificate Auto Enrollment is initiated using Samba’s Group Policy client, samba-gpupdate.
+The Server Side Extension (SSE) for Certificate Auto Enrollment is part of the Group Policy Management Editor (GPME). Currently, no `samba-tool` command is available for managing this policy. The policy requires access to a Windows certificate server. On the certificate server, the roles Certification Authority, Certificate Enrollment Policy Web Service, and Certificate Enrollment Web Service all must be installed and configured. Optionally the role Network Device Enrollment Service can be installed to simplify the fetching of the root certificate chain by the client. Configuring the certificate server is beyond the scope of this book.
 
-## Configuring Certificate Auto Enrollment on the Server
+### Managing Certificate Auto Enrollment via the GPME
 
-The Windows server roles Certification Authority, Certificate Enrollment Policy Web Service, and Certificate Enrollment Web Service all must be installed and configured. Optionally the role Network Device Enrollment Service can be installed to simplify the fetching of the root certificate chain.
+Open the GPME and navigate to `Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies`.
 
-### Configure server certificate auto-enrollment
+![Public Key Policies](cert-auto-enroll-images/public_key_policy.png)
 
-TODO
+Double click on and open the `Certificate Services Client - Auto-Enrollment` properties.
 
-### Configure user certificate auto-enrollment
+![Certificate Services Client - Auto-Enrollment](cert-auto-enroll-images/auto-enrollment.png)
 
-TODO
+Set the `Configuration Model` to Enabled, and check the boxes to enable `Renew expired certificates, update pending certificates, and remove revoked certificates` and `Update certificates that use certificate templates`.
 
-## Enable Certificate Auto Enrollment on the Client
+![Enable Certificate Auto-Enrollment](cert-auto-enroll-images/auto-enrollment-enabled.png)
+
+Apply the changes and click OK to close the properties dialog. This has enabled simple Certificate Auto Enrollment. Next lets configure advanced Certificate Auto Enrollment. Open the `Certificate Services Client - Certificate Enrollment Policy` properties dialog (also under `Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies` in the GPME).
+
+![Certificate Services Client - Certificate Enrollment Policy](cert-auto-enroll-images/advanced-config.png)
+
+Set the `Configuration Model` to Enabled. The default policy (configured previously in the `Certificate Services Client - Auto-Enrollment` properties dialog) is already listed under `Certificate enrollment policy list`. You can disable this policy if you choose, by unchecking the checkbox next to the item in the list. Click `Add...` to add additional certificate servers for Certificate Auto Enrollment to configure on the clients.
+
+![Add a Certificate Enrollment Policy Server](cert-auto-enroll-images/add-policy-server.png)
+
+Fill in the enrollment policy server URI, and set the authentication type. `Windows integrated` authentication refers to Kerberos authentication. Setting a priority will effect the order in which the policy is applied to a client machine. When finished, click `Add`, then `Apply` in the properties dialog and OK to close.
+
+## Client Side Extension
 
 To setup Certificate Auto Enrollment:
 
@@ -75,6 +89,6 @@ Request ID 'Machine':
         auto-renew: yes
 ```
 
-## Where to find certificates
+### Where to find certificates
 
 Certificates are installed in /var/lib/samba/certs and private keys are installed in /var/lib/samba/private/certs.
