@@ -58,7 +58,17 @@ Switch to the `General` tab, and set a name for your new template. Set the numbe
 
 It may be useful to also review the `Cryptography` tab and ensure the cryptographic requirements for the certificate will meet the needs of your organization.
 
-Apply and close the properties by clicking OK.
+Apply and close the properties by clicking OK. Close the Certificate Templates Console
+
+Next, to enable the new template, right click on `Certificate Templates` in the tree within the Certification Authority utility, and click `New > Certificate Template to Issue`.
+
+In the `Enable Certificate Templates` dialog, select the template we just created, and click OK.
+
+![Enable Certificate Templates](cert-auto-enroll-images/enable-template.png)
+
+Our new template is now enabled, and should be in the list of enabled templates in the Certification Authority utility.
+
+![Template Enabled](cert-auto-enroll-images/template-enabled.png)
 
 ## Client Side Extension
 
