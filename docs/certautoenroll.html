@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-11-18" />
+<meta name="date" content="2022-12-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -254,13 +254,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="13" data-path="certautoenroll.html"><a href="certautoenroll.html"><i class="fa fa-check"></i><b>13</b> Certificate Auto Enrollment Policy</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="certautoenroll.html"><a href="certautoenroll.html#configuring-certificate-auto-enrollment-on-the-server"><i class="fa fa-check"></i><b>13.1</b> Configuring Certificate Auto Enrollment on the Server</a>
+<li class="chapter" data-level="13.1" data-path="certautoenroll.html"><a href="certautoenroll.html#server-side-extension-8"><i class="fa fa-check"></i><b>13.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="13.1.1" data-path="certautoenroll.html"><a href="certautoenroll.html#configure-server-certificate-auto-enrollment"><i class="fa fa-check"></i><b>13.1.1</b> Configure server certificate auto-enrollment</a></li>
-<li class="chapter" data-level="13.1.2" data-path="certautoenroll.html"><a href="certautoenroll.html#configure-user-certificate-auto-enrollment"><i class="fa fa-check"></i><b>13.1.2</b> Configure user certificate auto-enrollment</a></li>
+<li class="chapter" data-level="13.1.1" data-path="certautoenroll.html"><a href="certautoenroll.html#managing-certificate-auto-enrollment-via-the-gpme"><i class="fa fa-check"></i><b>13.1.1</b> Managing Certificate Auto Enrollment via the GPME</a></li>
+<li class="chapter" data-level="13.1.2" data-path="certautoenroll.html"><a href="certautoenroll.html#certificate-templates"><i class="fa fa-check"></i><b>13.1.2</b> Certificate Templates</a></li>
 </ul></li>
-<li class="chapter" data-level="13.2" data-path="certautoenroll.html"><a href="certautoenroll.html#enable-certificate-auto-enrollment-on-the-client"><i class="fa fa-check"></i><b>13.2</b> Enable Certificate Auto Enrollment on the Client</a></li>
-<li class="chapter" data-level="13.3" data-path="certautoenroll.html"><a href="certautoenroll.html#where-to-find-certificates"><i class="fa fa-check"></i><b>13.3</b> Where to find certificates</a></li>
+<li class="chapter" data-level="13.2" data-path="certautoenroll.html"><a href="certautoenroll.html#client-side-extension-9"><i class="fa fa-check"></i><b>13.2</b> Client Side Extension</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="certautoenroll.html"><a href="certautoenroll.html#trouble-shooting-certificates"><i class="fa fa-check"></i><b>13.2.1</b> Trouble Shooting Certificates</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="14" data-path="firefox.html"><a href="firefox.html"><i class="fa fa-check"></i><b>14</b> Firefox Policy</a></li>
 <li class="chapter" data-level="15" data-path="chrome.html"><a href="chrome.html"><i class="fa fa-check"></i><b>15</b> Chromium/Chrome Policy</a></li>
@@ -294,81 +296,232 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="certautoenroll" class="section level1 hasAnchor" number="13">
 <h1><span class="header-section-number">13</span> Certificate Auto Enrollment Policy<a href="certautoenroll.html#certautoenroll" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="cert-auto-enroll-images/certificate.png" width="30%" style="display: block; margin: auto;" /></p>
-<p>Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. As of Samba 4.16, Linux clients can now auto enroll for certificates just like a Windows client.</p>
-<p>Samba’s Certificate Auto Enrollment uses the certmonger service to keep track of certificates. It also uses the cepces plugin to certmonger. The sscep command is also used to download the trust chain.</p>
-<p>Certificate Auto Enrollment is compatible with both Winbind and SSSD.</p>
-<p>Certificate Auto Enrollment is initiated using Samba’s Group Policy client, samba-gpupdate.</p>
-<div id="configuring-certificate-auto-enrollment-on-the-server" class="section level2 hasAnchor" number="13.1">
-<h2><span class="header-section-number">13.1</span> Configuring Certificate Auto Enrollment on the Server<a href="certautoenroll.html#configuring-certificate-auto-enrollment-on-the-server" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Windows server roles Certification Authority, Certificate Enrollment Policy Web Service, and Certificate Enrollment Web Service all must be installed and configured. Optionally the role Network Device Enrollment Service can be installed to simplify the fetching of the root certificate chain.</p>
-<div id="configure-server-certificate-auto-enrollment" class="section level3 hasAnchor" number="13.1.1">
-<h3><span class="header-section-number">13.1.1</span> Configure server certificate auto-enrollment<a href="certautoenroll.html#configure-server-certificate-auto-enrollment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>TODO</p>
+<p>Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. Samba’s Certificate Auto Enrollment uses the certmonger service to keep track of certificates. It also uses the cepces plugin to certmonger.</p>
+<div id="server-side-extension-8" class="section level2 hasAnchor" number="13.1">
+<h2><span class="header-section-number">13.1</span> Server Side Extension<a href="certautoenroll.html#server-side-extension-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Server Side Extension (SSE) for Certificate Auto Enrollment is part of the Group Policy Management Editor (GPME). Currently, no <code>samba-tool</code> command is available for managing this policy. The policy requires access to a Windows certificate server. On the certificate server, the roles Certification Authority, Certificate Enrollment Policy Web Service, and Certificate Enrollment Web Service all must be installed and configured. Optionally the role Network Device Enrollment Service can be installed to simplify the fetching of the root certificate chain by the client. Configuring the certificate server is beyond the scope of this book.</p>
+<p>Optionally, the Network Device Enrollment role can be configured on the server, which will allow the client to fetch the root certificate chain. Without this role, the Client Side Extension will report the following warnings:</p>
+<pre><code>[W26775]| Failed to fetch the root certificate chain. | {}
+[W05621]| The Network Device Enrollment Service is either not installed or not configured. | {}
+[W11946]| Installing the server certificate only. | {}</code></pre>
+<div id="managing-certificate-auto-enrollment-via-the-gpme" class="section level3 hasAnchor" number="13.1.1">
+<h3><span class="header-section-number">13.1.1</span> Managing Certificate Auto Enrollment via the GPME<a href="certautoenroll.html#managing-certificate-auto-enrollment-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Open the GPME and navigate to <code>Computer Configuration &gt; Policies &gt; Windows Settings &gt; Security Settings &gt; Public Key Policies</code>.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/public_key_policy.png" alt="" />
+<p class="caption">Public Key Policies</p>
 </div>
-<div id="configure-user-certificate-auto-enrollment" class="section level3 hasAnchor" number="13.1.2">
-<h3><span class="header-section-number">13.1.2</span> Configure user certificate auto-enrollment<a href="certautoenroll.html#configure-user-certificate-auto-enrollment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>TODO</p>
+<p>Double click on and open the <code>Certificate Services Client - Auto-Enrollment</code> properties.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/auto-enrollment.png" alt="" />
+<p class="caption">Certificate Services Client - Auto-Enrollment</p>
+</div>
+<p>Set the <code>Configuration Model</code> to Enabled, and check the boxes to enable <code>Renew expired certificates, update pending certificates, and remove revoked certificates</code> and <code>Update certificates that use certificate templates</code>.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/auto-enrollment-enabled.png" alt="" />
+<p class="caption">Enable Certificate Auto-Enrollment</p>
+</div>
+<p>Apply the changes and click OK to close the properties dialog. This has enabled simple Certificate Auto Enrollment. Next lets configure advanced Certificate Auto Enrollment.</p>
+<p>Advanced Certificate Auto Enrollment allows you add additional certificate servers to your configuration. This is not mandatory in a simple environment with only one certificate server. The advanced configuration stores the policy directly on the SYSVOL in the Registry.pol file, whereas a simple configuration is stored in LDAP. Open the <code>Certificate Services Client - Certificate Enrollment Policy</code> properties dialog (also under <code>Computer Configuration &gt; Policies &gt; Windows Settings &gt; Security Settings &gt; Public Key Policies</code> in the GPME).</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/advanced-config.png" alt="" />
+<p class="caption">Certificate Services Client - Certificate Enrollment Policy</p>
+</div>
+<p>Set the <code>Configuration Model</code> to Enabled.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/advanced-config-enabled.png" alt="" />
+<p class="caption">Certificate Services Client - Certificate Enrollment Policy: Enabled</p>
+</div>
+<p>The default policy (configured previously in the <code>Certificate Services Client - Auto-Enrollment</code> properties dialog) is already listed under <code>Certificate enrollment policy list</code>. You can disable this policy if you choose, by unchecking the checkbox next to the item in the list. Click <code>Add...</code> to add additional certificate servers for Certificate Auto Enrollment to configure on the clients.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/add-policy-server.png" alt="" />
+<p class="caption">Add a Certificate Enrollment Policy Server</p>
+</div>
+<p>Fill in the enrollment policy server URI, and set the authentication type. <code>Windows integrated</code> authentication refers to Kerberos authentication. Setting a priority will effect the order in which the policy is applied to a client machine. When finished, click <code>Add</code>, then <code>Apply</code> in the properties dialog and OK to close.</p>
+</div>
+<div id="certificate-templates" class="section level3 hasAnchor" number="13.1.2">
+<h3><span class="header-section-number">13.1.2</span> Certificate Templates<a href="certautoenroll.html#certificate-templates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Certificate Templates instruct the client how to generate a certificate request for the Certificate Authority. These templates are configured using the <code>Certification Authority</code> utility included with the Remote Server Administration Tools (RSAT) found in Windows.</p>
+<p>Open the <code>Certification Authority</code> utility, and click on <code>Certificate Templates</code> in the tree.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/certsrv.png" alt="" />
+<p class="caption">Certification Authority utility</p>
+</div>
+<p>Let’s create a new template by right clicking on <code>Certificate Templates</code> in the tree, and selecting <code>Manage</code>. You’ll notice that there are a number of existing templates to choose from. Right click on one of the templates in the list, and click <code>Duplicate Template</code>.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/cert-temp-console.png" alt="" />
+<p class="caption">Certificate Templates Console</p>
+</div>
+<p>Switch to the <code>General</code> tab, and set a name for your new template. Set the number of years the certificate will be valid and the renewal period.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/template-properties.png" alt="" />
+<p class="caption">Template Properties</p>
+</div>
+<p>It may be useful to also review the <code>Cryptography</code> tab and ensure the cryptographic requirements for the certificate will meet the needs of your organization.</p>
+<p>Apply and close the properties by clicking OK. Close the Certificate Templates Console</p>
+<p>Next, to enable the new template, right click on <code>Certificate Templates</code> in the tree within the Certification Authority utility, and click <code>New &gt; Certificate Template to Issue</code>.</p>
+<p>In the <code>Enable Certificate Templates</code> dialog, select the template we just created, and click OK.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/enable-template.png" alt="" />
+<p class="caption">Enable Certificate Templates</p>
+</div>
+<p>Our new template is now enabled, and should be in the list of enabled templates in the Certification Authority utility.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/template-enabled.png" alt="" />
+<p class="caption">Template Enabled</p>
 </div>
 </div>
-<div id="enable-certificate-auto-enrollment-on-the-client" class="section level2 hasAnchor" number="13.2">
-<h2><span class="header-section-number">13.2</span> Enable Certificate Auto Enrollment on the Client<a href="certautoenroll.html#enable-certificate-auto-enrollment-on-the-client" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>To setup Certificate Auto Enrollment:</p>
-<ol style="list-style-type: decimal">
-<li>Install certmonger and cepces. Optionally also install sscep to simplify fetching of the certificate root chain. Samba uses certmonger paired with cepces to monitor the host certificate templates.</li>
-<li>Join to an Active Directory domain (one where the CA has been previously configured as explained above).</li>
-<li>Enable group policy apply:</li>
-</ol>
-<ul>
-<li>For a Winbind joined machine by setting the smb.conf global parameter ‘apply group policies = yes’.</li>
-<li>For a SSSD joined machine by installing the oddjob-gpupdate package.</li>
-</ul>
-<ol start="4" style="list-style-type: decimal">
-<li>To verify Certificate Auto Enrollment is correctly configured, issue the command <code>/usr/sbin/samba-gpupdate --rsop</code></li>
-</ol>
-<pre><code>Resultant Set of Policy
+</div>
+<div id="client-side-extension-9" class="section level2 hasAnchor" number="13.2">
+<h2><span class="header-section-number">13.2</span> Client Side Extension<a href="certautoenroll.html#client-side-extension-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Certificate Auto Enrollment Client Side Extension (CSE) will add new Certificate Authorities to certmonger, and automatically request to track new certificates based on the assigned Certificate Templates. This CSE requires that the <code>certmonger</code> and <code>cepces</code> packages be installed.</p>
+<p>Certificates will be installed in <code>/var/lib/samba/certs</code> and private keys in <code>/var/lib/samba/private/certs</code> by default. It may be necessary to configure a symlink policy, as explained in chapter <a href="symlink.html#symlink">9</a>, in order to link to a more appropriate location for these files.</p>
+<p>Let’s list the Resultant Set of Policy to view the Certificate Auto Enrollment policy we created in the previous sections.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
 Computer Policy
 
- GPO: Default Domain Policy
+GPO: Default Domain Policy
 =================================================================
-CSE: gp_cert_auto_enroll_ext
------------------------------------------------------------
-Policy Type: Auto Enrollment Policy
------------------------------------------------------------
-[ &lt;REDACTED CA NAME&gt; ] =
-[ CA Certificate ] =
-----BEGIN CERTIFICATE----
+  CSE: gp_cert_auto_enroll_ext
+  -----------------------------------------------------------
+    Policy Type: Auto Enrollment Policy
+    -----------------------------------------------------------
+    [ lizardo-WIN-QLIPDP2ISN7-CA ] =
+      [ CA Certificate ] =
+-----BEGIN CERTIFICATE-----
 &lt;REDACTED&gt;
-----END CERTIFICATE----
-[ Auto Enrollment Server ] = &lt;REDACTED DNS NAME&gt;
-[ Templates ] =
-[ Machine ]
------------------------------------------------------------
------------------------------------------------------------
+-----END CERTIFICATE-----
+      [ Auto Enrollment Server ] = WIN-QLIPDP2ISN7.lizardo.suse.de
+      [ Templates ] =
+        [ Machine ]
+        [ TestComputerTemplate ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
 =================================================================</code></pre>
-<p>Issuing the <code>getcert list</code> command will display the installed certificates:</p>
-<pre><code>Number of certificates and requests being tracked: 1.
-Request ID &#39;Machine&#39;:
-        status: MONITORING
-        stuck: no
-        key pair storage: type=FILE,location=&#39;/var/lib/samba/private/certs/Machine.key&#39;
-        certificate: type=FILE,location=&#39;/var/lib/samba/certs/Machine.crt&#39;
-        CA: &lt;My CA&gt;
-        issuer: CN=&lt;My CA&gt;
-        subject: CN=&lt;my hostname&gt;
-        expires: 2017-08-15 17:37:02 UTC
-        dns: &lt;my hostname&gt;
-        key usage: digitalSignature,keyEncipherment
-        eku: id-kp-clientAuth,id-kp-serverAuth
-        certificate template/profile: Machine
-        pre-save command:
-        post-save command:
-        track: yes
-        auto-renew: yes</code></pre>
+<p>Notice that the new template we created in the previous section is listed under the templates. The <code>Machine</code> template is also listed. This is a default template enabled for joined computers (this template was named <code>Computer</code> in the list of enabled templates we saw previously).</p>
+<p>Let’s now force an apply and observe the results.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;gp&gt;
+  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
+    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
+      &lt;gp_ext name=&quot;Cryptography\5CAutoEnrollment&quot;&gt;
+        &lt;attribute name=&quot;bGl6YXJkby1XSU4tUUxJUERQMklTTjctQ0E=&quot;&gt;{&quot;files&quot;: [&quot;/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.crt&quot;, &quot;/etc/pki/trust/anchors/lizardo-WIN-QLIPDP2ISN7-CA.crt&quot;, &quot;/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.key&quot;, &quot;/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt&quot;, &quot;/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key&quot;, &quot;/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt&quot;], &quot;templates&quot;: [&quot;lizardo-WIN-QLIPDP2ISN7-CA.Machine&quot;, &quot;lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate&quot;]}&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+    &lt;/guid&gt;
+    &lt;applylog&gt;
+      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
+    &lt;/applylog&gt;
+  &lt;/user&gt;
+&lt;/gp&gt;</code></pre>
+<p>The log details show that a number of files were created. Let’s take a look at these files.</p>
+<pre><code>&gt; sudo ls -lah /var/lib/samba/certs/
+total 12K
+drwxr-xr-x 1 root root  238 Dec  8 13:07 .
+drwxr-xr-x 1 root root  396 Dec  8 13:07 ..
+-rw-r--r-- 1 root root 1.4K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.crt
+-rw------- 1 root root 2.0K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt
+-rw------- 1 root root 2.1K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt
+&gt; sudo ls -lah /var/lib/samba/private/certs/
+total 8.0K
+drwx------ 1 root root  178 Dec  8 13:07 .
+drwxr-xr-x 1 root root  112 Dec  8 13:07 ..
+-rw------- 1 root root 1.7K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.Machine.key
+-rw------- 1 root root 1.7K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key
+&gt; sudo ls -lah /etc/pki/trust/anchors/
+total 4.0K
+drwxr-xr-x 1 root root 60 Dec  8 13:07 .
+drwxr-xr-x 1 root root 50 Jun 14 21:17 ..
+lrwxrwxrwx 1 root root 51 Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.crt -&gt; /var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.crt</code></pre>
+<p>The CSE download the root certificate from our CA (<code>lizardo-WIN-QLIPDP2ISN7-CA.crt</code>), and then linked it inside <code>/etc/pki/trust/anchors</code>. This is the system trust store. In addition to linking our CA root certificate to the trust store, the CSE also called the <code>update-ca-certificates</code> command to refresh the certificate store. Take a look at <code>man update-ca-certificates</code> for more details on how this works.</p>
+<p>Now that we see our certificates have been installed, lets take a look at certmonger to see our CA and make sure our certificates are being auto-renewed.</p>
+<pre><code>&gt; sudo getcert list-cas
+CA &#39;lizardo-WIN-QLIPDP2ISN7-CA&#39;:
+    is-default: no
+    ca-type: EXTERNAL
+    helper-location: /usr/libexec/certmonger/cepces-submit --server=WIN-QLIPDP2ISN7.lizardo.suse.de --auth=Kerberos
+&gt; sudo getcert list
+Number of certificates and requests being tracked: 2.
+Request ID &#39;lizardo-WIN-QLIPDP2ISN7-CA.Machine&#39;:
+    status: MONITORING
+    stuck: no
+    key pair storage: type=FILE,location=&#39;/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.key&#39;
+    certificate: type=FILE,location=&#39;/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt&#39;
+    CA: lizardo-WIN-QLIPDP2ISN7-CA
+    issuer: CN=lizardo-WIN-QLIPDP2ISN7-CA,DC=lizardo,DC=suse,DC=de
+    subject: CN=testsysdm.lizardo.suse.de
+    issued: 2022-12-08 12:57:35 MST
+    expires: 2023-12-08 12:57:35 MST
+    dns: testsysdm.lizardo.suse.de
+    key usage: digitalSignature,keyEncipherment
+    eku: id-kp-clientAuth,id-kp-serverAuth
+    certificate template/profile: Machine
+    profile: Machine
+    pre-save command: 
+    post-save command: 
+    track: yes
+    auto-renew: yes
+Request ID &#39;lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate&#39;:
+    status: MONITORING
+    stuck: no
+    key pair storage: type=FILE,location=&#39;/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key&#39;
+    certificate: type=FILE,location=&#39;/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt&#39;
+    CA: lizardo-WIN-QLIPDP2ISN7-CA
+    issuer: CN=lizardo-WIN-QLIPDP2ISN7-CA,DC=lizardo,DC=suse,DC=de
+    subject: 
+    issued: 2022-12-08 12:57:35 MST
+    expires: 2023-12-08 12:57:35 MST
+    dns: testsysdm.lizardo.suse.de
+    key usage: digitalSignature,keyEncipherment
+    eku: id-kp-serverAuth,id-kp-clientAuth
+    profile: TestComputerTemplate
+    pre-save command: 
+    post-save command: 
+    track: yes
+    auto-renew: yes</code></pre>
+<p>We see that certmonger is aware of our CA, and is tracking the template we created, and also the default Machine template. The status on your certificates should say <code>MONITORING</code>, as it does here. If not, then you’ll need to do some investigation to see why.</p>
+<div id="trouble-shooting-certificates" class="section level3 hasAnchor" number="13.2.1">
+<h3><span class="header-section-number">13.2.1</span> Trouble Shooting Certificates<a href="certautoenroll.html#trouble-shooting-certificates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>If your certificates are not listed with a <code>MONITORING</code> status in <code>getcert list</code>, then you can start trouble shooting by rerunning <code>sudo /usr/sbin/samba-gpupdate --force</code>. Look for any errors in the output that could indicate what caused the problem. For example, a common error you’ll encounter is <code>Failed to fetch the list of supported templates</code>. This error comes with a detailed backtrace. Look for the <code>Caused by</code> message.</p>
+<div id="certificate-doesnt-match" class="section level4 hasAnchor" number="13.2.1.1">
+<h4><span class="header-section-number">13.2.1.1</span> Certificate doesn’t match<a href="certautoenroll.html#certificate-doesnt-match" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This particular error happens when Internet Information Services (IIS) has the wrong root certificate selected.</p>
+<pre><code>(Caused by SSLError(CertificateError(&quot;hostname \&#39;win-qlipdp2isn7.lizardo.suse.de\&#39; doesn\&#39;t match \&#39;lizardo-WIN-QLIPDP2ISN7-CA\&#39;&quot;)))</code></pre>
+<p>To resolve this error, open the IIS Manager, select the Default Web Site in the tree, then click <code>Bindings</code> in the right side <code>Actions</code> pane.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/bindings.png" alt="" />
+<p class="caption">IIS Manager</p>
 </div>
-<div id="where-to-find-certificates" class="section level2 hasAnchor" number="13.3">
-<h2><span class="header-section-number">13.3</span> Where to find certificates<a href="certautoenroll.html#where-to-find-certificates" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Certificates are installed in /var/lib/samba/certs and private keys are installed in /var/lib/samba/private/certs.</p>
+<p>Highlight the https binding, then select <code>Edit...</code>. Select the correct SSL certificate, then click OK to save.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/edit-binding.png" alt="" />
+<p class="caption">Edit Site Binding</p>
+</div>
+</div>
+<div id="python-requests-security-level" class="section level4 hasAnchor" number="13.2.1.2">
+<h4><span class="header-section-number">13.2.1.2</span> python-requests security level<a href="certautoenroll.html#python-requests-security-level" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Another error you may enounter is actually specific to the <em>python-requests</em> module.</p>
+<pre><code>(Caused by SSLError(SSLError(1, &#39;[SSL: DH_KEY_TOO_SMALL] dh key too small (_ssl.c:852)&#39;),))</code></pre>
+<p>This <code>DH_KEY_TOO_SMALL</code> error is caused by a default security level change in <em>python-requests</em>. You can work around this error by setting <code>openssl_seclevel=1</code> in the <strong>global</strong> section of your <code>cepces.conf</code>.</p>
+</div>
+<div id="checking-request-failures" class="section level4 hasAnchor" number="13.2.1.3">
+<h4><span class="header-section-number">13.2.1.3</span> Checking request failures<a href="certautoenroll.html#checking-request-failures" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If the CA failed to issue a certificate when the template request was sent, we can check the Certification Authority utility to see why a request was rejected. If you click in the tree, there are lists of <code>Failed Requests</code>, <code>Pending Requests</code>, <code>Issued Certificates</code>, and <code>Revoked Certificates</code>. If your request failed for some reason, it may show up under <code>Failed Requests</code>, for example.</p>
+<div class="figure">
+<img src="cert-auto-enroll-images/issued-certs.png" alt="" />
+<p class="caption">Issued Certificates</p>
+</div>
+<p>You can see, for example, in the <code>Issued Certificates</code> list, that the certificates we are monitoring on our test machine are listed here (the two most recent requests).</p>
+</div>
+<div id="examining-logs" class="section level4 hasAnchor" number="13.2.1.4">
+<h4><span class="header-section-number">13.2.1.4</span> Examining logs<a href="certautoenroll.html#examining-logs" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Check the logs to track down other issues. The <em>cepces</em> plugin logs to <code>/var/log/cepces/cepces.log</code> by default. Check the <strong>handler_fileHandler</strong> section of <code>/etc/cepces/logging.conf</code> for the exact location. Additionally, some errors may end up in the <em>certmonger</em> logs, instead of <em>cepces</em>. You can check <code>journalctl -xe -t certmonger</code> for <em>certmonger</em> messages.</p>
 
+</div>
+</div>
 </div>
 </div>
             </section>
