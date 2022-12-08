@@ -80,61 +80,174 @@ Our new template is now enabled, and should be in the list of enabled templates 
 
 ## Client Side Extension
 
-The Certificate Auto Enrollment Client Side Extension (CSE) will add new Certificate Authorities to certmonger, and automatically request to track new certificates based on the assigned Certificate Templates.
+The Certificate Auto Enrollment Client Side Extension (CSE) will add new Certificate Authorities to certmonger, and automatically request to track new certificates based on the assigned Certificate Templates. This CSE requires that the `certmonger` and `cepces` packages be installed.
 
-To setup Certificate Auto Enrollment:
+Certificates will be installed in `/var/lib/samba/certs` and private keys in `/var/lib/samba/private/certs` by default. It may be necessary to configure a symlink policy, as explained in chapter \@ref(symlink), in order to link to a more appropriate location for these files.
 
-1. Install certmonger and cepces. Optionally also install sscep to simplify fetching of the certificate root chain. Samba uses certmonger paired with cepces to monitor the host certificate templates.
-2. Join to an Active Directory domain (one where the CA has been previously configured as explained above).
-3. Enable group policy apply:
-* For a Winbind joined machine by setting the smb.conf global parameter 'apply group policies = yes'.
-* For a SSSD joined machine by installing the oddjob-gpupdate package.
-4. To verify Certificate Auto Enrollment is correctly configured, issue the command `/usr/sbin/samba-gpupdate --rsop`
+Let’s list the Resultant Set of Policy to view the Certificate Auto Enrollment policy we created in the previous sections.
+
 ```
+> sudo /usr/sbin/samba-gpupdate --rsop
 Resultant Set of Policy
 Computer Policy
 
- GPO: Default Domain Policy
+GPO: Default Domain Policy
 =================================================================
-CSE: gp_cert_auto_enroll_ext
------------------------------------------------------------
-Policy Type: Auto Enrollment Policy
------------------------------------------------------------
-[ <REDACTED CA NAME> ] =
-[ CA Certificate ] =
-----BEGIN CERTIFICATE----
+  CSE: gp_cert_auto_enroll_ext
+  -----------------------------------------------------------
+    Policy Type: Auto Enrollment Policy
+    -----------------------------------------------------------
+    [ lizardo-WIN-QLIPDP2ISN7-CA ] =
+      [ CA Certificate ] =
+-----BEGIN CERTIFICATE-----
 <REDACTED>
-----END CERTIFICATE----
-[ Auto Enrollment Server ] = <REDACTED DNS NAME>
-[ Templates ] =
-[ Machine ]
------------------------------------------------------------
------------------------------------------------------------
+-----END CERTIFICATE-----
+      [ Auto Enrollment Server ] = WIN-QLIPDP2ISN7.lizardo.suse.de
+      [ Templates ] =
+        [ Machine ]
+        [ TestComputerTemplate ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
 =================================================================
 ```
 
-Issuing the `getcert list` command will display the installed certificates:
+Notice that the new template we created in the previous section is listed under the templates. The `Machine` template is also listed. This is a default template enabled for joined computers (this template was named `Computer` in the list of enabled templates we saw previously).
+
+Let's now force an apply and observe the results.
+
 ```
-Number of certificates and requests being tracked: 1.
-Request ID 'Machine':
-        status: MONITORING
-        stuck: no
-        key pair storage: type=FILE,location='/var/lib/samba/private/certs/Machine.key'
-        certificate: type=FILE,location='/var/lib/samba/certs/Machine.crt'
-        CA: <My CA>
-        issuer: CN=<My CA>
-        subject: CN=<my hostname>
-        expires: 2017-08-15 17:37:02 UTC
-        dns: <my hostname>
-        key usage: digitalSignature,keyEncipherment
-        eku: id-kp-clientAuth,id-kp-serverAuth
-        certificate template/profile: Machine
-        pre-save command:
-        post-save command:
-        track: yes
-        auto-renew: yes
+> sudo /usr/sbin/samba-gpupdate --force
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
+<?xml version="1.0"?>
+<gp>
+  <user name="TESTSYSDM$">
+    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
+      <gp_ext name="Cryptography\5CAutoEnrollment">
+        <attribute name="bGl6YXJkby1XSU4tUUxJUERQMklTTjctQ0E=">{"files": ["/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.crt", "/etc/pki/trust/anchors/lizardo-WIN-QLIPDP2ISN7-CA.crt", "/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.key", "/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt", "/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key", "/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt"], "templates": ["lizardo-WIN-QLIPDP2ISN7-CA.Machine", "lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate"]}</attribute>
+      </gp_ext>
+    </guid>
+    <applylog>
+      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
+    </applylog>
+  </user>
+</gp>
 ```
 
-### Where to find certificates
+The log details show that a number of files were created. Let's take a look at these files.
 
-Certificates are installed in /var/lib/samba/certs and private keys are installed in /var/lib/samba/private/certs.
+```
+> sudo ls -lah /var/lib/samba/certs/
+total 12K
+drwxr-xr-x 1 root root  238 Dec  8 13:07 .
+drwxr-xr-x 1 root root  396 Dec  8 13:07 ..
+-rw-r--r-- 1 root root 1.4K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.crt
+-rw------- 1 root root 2.0K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt
+-rw------- 1 root root 2.1K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt
+> sudo ls -lah /var/lib/samba/private/certs/
+total 8.0K
+drwx------ 1 root root  178 Dec  8 13:07 .
+drwxr-xr-x 1 root root  112 Dec  8 13:07 ..
+-rw------- 1 root root 1.7K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.Machine.key
+-rw------- 1 root root 1.7K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key
+> sudo ls -lah /etc/pki/trust/anchors/
+total 4.0K
+drwxr-xr-x 1 root root 60 Dec  8 13:07 .
+drwxr-xr-x 1 root root 50 Jun 14 21:17 ..
+lrwxrwxrwx 1 root root 51 Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.crt -> /var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.crt
+```
+
+The CSE download the root certificate from our CA (`lizardo-WIN-QLIPDP2ISN7-CA.crt`), and then linked it inside `/etc/pki/trust/anchors`. This is the system trust store. In addition to linking our CA root certificate to the trust store, the CSE also called the `update-ca-certificates` command to refresh the certificate store. Take a look at `man update-ca-certificates` for more details on how this works.
+
+Now that we see our certificates have been installed, lets take a look at certmonger to see our CA and make sure our certificates are being auto-renewed.
+
+```
+> sudo getcert list-cas
+CA 'lizardo-WIN-QLIPDP2ISN7-CA':
+	is-default: no
+	ca-type: EXTERNAL
+	helper-location: /usr/libexec/certmonger/cepces-submit --server=WIN-QLIPDP2ISN7.lizardo.suse.de --auth=Kerberos
+> sudo getcert list
+Number of certificates and requests being tracked: 2.
+Request ID 'lizardo-WIN-QLIPDP2ISN7-CA.Machine':
+	status: MONITORING
+	stuck: no
+	key pair storage: type=FILE,location='/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.key'
+	certificate: type=FILE,location='/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt'
+	CA: lizardo-WIN-QLIPDP2ISN7-CA
+	issuer: CN=lizardo-WIN-QLIPDP2ISN7-CA,DC=lizardo,DC=suse,DC=de
+	subject: CN=testsysdm.lizardo.suse.de
+	issued: 2022-12-08 12:57:35 MST
+	expires: 2023-12-08 12:57:35 MST
+	dns: testsysdm.lizardo.suse.de
+	key usage: digitalSignature,keyEncipherment
+	eku: id-kp-clientAuth,id-kp-serverAuth
+	certificate template/profile: Machine
+	profile: Machine
+	pre-save command: 
+	post-save command: 
+	track: yes
+	auto-renew: yes
+Request ID 'lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate':
+	status: MONITORING
+	stuck: no
+	key pair storage: type=FILE,location='/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key'
+	certificate: type=FILE,location='/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt'
+	CA: lizardo-WIN-QLIPDP2ISN7-CA
+	issuer: CN=lizardo-WIN-QLIPDP2ISN7-CA,DC=lizardo,DC=suse,DC=de
+	subject: 
+	issued: 2022-12-08 12:57:35 MST
+	expires: 2023-12-08 12:57:35 MST
+	dns: testsysdm.lizardo.suse.de
+	key usage: digitalSignature,keyEncipherment
+	eku: id-kp-serverAuth,id-kp-clientAuth
+	profile: TestComputerTemplate
+	pre-save command: 
+	post-save command: 
+	track: yes
+	auto-renew: yes
+```
+
+We see that certmonger is aware of our CA, and is tracking the template we created, and also the default Machine template. The status on your certificates should say `MONITORING`, as it does here. If not, then you'll need to do some investigation to see why.
+
+### Trouble Shooting Certificates
+
+If your certificates are not listed with a `MONITORING` status in `getcert list`, then you can start trouble shooting by rerunning `sudo /usr/sbin/samba-gpupdate --force`. Look for any errors in the output that could indicate what caused the problem. For example, a common error you'll encounter is `Failed to fetch the list of supported templates`. This error comes with a detailed backtrace. Look for the `Caused by` message.
+
+#### Certificate doesn't match
+
+This particular error happens when Internet Information Services (IIS) has the wrong root certificate selected.
+
+```
+(Caused by SSLError(CertificateError("hostname \'win-qlipdp2isn7.lizardo.suse.de\' doesn\'t match \'lizardo-WIN-QLIPDP2ISN7-CA\'")))
+```
+
+To resolve this error, open the IIS Manager, select the Default Web Site in the tree, then click `Bindings` in the right side `Actions` pane.
+
+![IIS Manager](cert-auto-enroll-images/bindings.png)
+
+Highlight the https binding, then select `Edit...`. Select the correct SSL certificate, then click OK to save.
+
+![Edit Site Binding](cert-auto-enroll-images/edit-binding.png)
+
+#### python-requests security level
+
+Another error you may enounter is actually specific to the *python-requests* module.
+
+```
+(Caused by SSLError(SSLError(1, '[SSL: DH_KEY_TOO_SMALL] dh key too small (_ssl.c:852)'),))
+```
+
+This `DH_KEY_TOO_SMALL` error is caused by a default security level change in *python-requests*. You can work around this error by setting `openssl_seclevel=1` in the **global** section of your `cepces.conf`.
+
+#### Checking request failures
+
+If the CA failed to issue a certificate when the template request was sent, we can check the Certification Authority utility to see why a request was rejected. If you click in the tree, there are lists of `Failed Requests`, `Pending Requests`, `Issued Certificates`, and `Revoked Certificates`. If your request failed for some reason, it may show up under `Failed Requests`, for example.
+
+![Issued Certificates](cert-auto-enroll-images/issued-certs.png)
+
+You can see, for example, in the `Issued Certificates` list, that the certificates we are monitoring on our test machine are listed here (the two most recent requests).
+
+#### Examining logs
+
+Check the logs to track down other issues. The *cepces* plugin logs to `/var/log/cepces/cepces.log` by default. Check the **handler_fileHandler** section of `/etc/cepces/logging.conf` for the exact location of the log. Additionally, some errors may end up in the *certmonger* logs, instead of *cepces*. You can check `journalctl -xe -t certmonger` for *certmonger* messages.
