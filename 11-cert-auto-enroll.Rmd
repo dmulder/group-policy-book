@@ -4,11 +4,19 @@
 knitr::include_graphics("cert-auto-enroll-images/certificate.png")
 ```
 
-Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. Samba’s Certificate Auto Enrollment uses the certmonger service to keep track of certificates. It also uses the cepces plugin to certmonger. The sscep command is also used to download the trust chain.
+Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. Samba’s Certificate Auto Enrollment uses the certmonger service to keep track of certificates. It also uses the cepces plugin to certmonger.
 
 ## Server Side Extension
 
 The Server Side Extension (SSE) for Certificate Auto Enrollment is part of the Group Policy Management Editor (GPME). Currently, no `samba-tool` command is available for managing this policy. The policy requires access to a Windows certificate server. On the certificate server, the roles Certification Authority, Certificate Enrollment Policy Web Service, and Certificate Enrollment Web Service all must be installed and configured. Optionally the role Network Device Enrollment Service can be installed to simplify the fetching of the root certificate chain by the client. Configuring the certificate server is beyond the scope of this book.
+
+Optionally, the Network Device Enrollment role can be configured on the server, which will allow the client to fetch the root certificate chain. Without this role, the Client Side Extension will report the following warnings:
+
+```
+[W26775]| Failed to fetch the root certificate chain. | {}
+[W05621]| The Network Device Enrollment Service is either not installed or not configured. | {}
+[W11946]| Installing the server certificate only. | {}
+```
 
 ### Managing Certificate Auto Enrollment via the GPME
 
