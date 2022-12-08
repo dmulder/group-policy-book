@@ -24,11 +24,17 @@ Set the `Configuration Model` to Enabled, and check the boxes to enable `Renew e
 
 ![Enable Certificate Auto-Enrollment](cert-auto-enroll-images/auto-enrollment-enabled.png)
 
-Apply the changes and click OK to close the properties dialog. This has enabled simple Certificate Auto Enrollment. Next lets configure advanced Certificate Auto Enrollment. Open the `Certificate Services Client - Certificate Enrollment Policy` properties dialog (also under `Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies` in the GPME).
+Apply the changes and click OK to close the properties dialog. This has enabled simple Certificate Auto Enrollment. Next lets configure advanced Certificate Auto Enrollment.
+
+Advanced Certificate Auto Enrollment allows you add additional certificate servers to your configuration. This is not mandatory in a simple environment with only one certificate server. The advanced configuration stores the policy directly on the SYSVOL in the Registry.pol file, whereas a simple configuration is stored in LDAP. Open the `Certificate Services Client - Certificate Enrollment Policy` properties dialog (also under `Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies` in the GPME).
 
 ![Certificate Services Client - Certificate Enrollment Policy](cert-auto-enroll-images/advanced-config.png)
 
-Set the `Configuration Model` to Enabled. The default policy (configured previously in the `Certificate Services Client - Auto-Enrollment` properties dialog) is already listed under `Certificate enrollment policy list`. You can disable this policy if you choose, by unchecking the checkbox next to the item in the list. Click `Add...` to add additional certificate servers for Certificate Auto Enrollment to configure on the clients.
+Set the `Configuration Model` to Enabled.
+
+![Certificate Services Client - Certificate Enrollment Policy: Enabled](cert-auto-enroll-images/advanced-config-enabled.png)
+
+The default policy (configured previously in the `Certificate Services Client - Auto-Enrollment` properties dialog) is already listed under `Certificate enrollment policy list`. You can disable this policy if you choose, by unchecking the checkbox next to the item in the list. Click `Add...` to add additional certificate servers for Certificate Auto Enrollment to configure on the clients.
 
 ![Add a Certificate Enrollment Policy Server](cert-auto-enroll-images/add-policy-server.png)
 
