@@ -14,6 +14,8 @@ The Server Side Extensions (SSE) for Message policies are distributed via either
 
 ### Managing Message Policy via the GPME {#msgs-gpme}
 
+Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-samba).
+
 Open the GPME and navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Messages`.
 
 ![Group Policy Management Editor](msgs-images/gpme.png)

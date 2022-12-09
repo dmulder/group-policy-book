@@ -12,15 +12,7 @@ These policies are physically stored on the SYSVOL in the **MACHINE/Registry.pol
 
 The Server Side Extension for smb.conf policies is distributed using Administrative Templates (ADMX). Refer to chapter \@ref(sse) in section \@ref(admx) for details about Administrative Templates.
 
-The smb.conf ADMX templates are distributed with the Samba binaries. Consult with your Samba maintainer as to where these templates are packaged. On openSUSE, for example, they are packaged in the samba-ad-dc package.
-
-To install the smb.conf ADMX, you use the `samba-tool gpo admxload` command.
-
-```
-samba-tool gpo admxload --realm=REALM -UAdministrator --admx-dir=/usr/share/samba/admx
-```
-
-When running this command, you should be able to ommit the `--admx-dir` if the Samba ADMX templates are installed. You can also ommit the `--realm` option if the machine is joined to the domain.
+Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-samba).
 
 ### Managing smb.conf Policies via the GPME
 

@@ -14,6 +14,8 @@ The Server Side Extensions (SSE) for Sudoers policies are distributed via either
 
 ### Managing Sudoers Policy via the GPME {#sudoers-gpme}
 
+Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-samba).
+
 Open the GPME and navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings`.
 
 ![Group Policy Management Editor](sudoers-images/gpme.png)

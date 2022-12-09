@@ -1,0 +1,39 @@
+# Installing Administrative Templates {#install-admx}
+
+Administrative Templates allow you to define policies that can be administered from the Group Policy Management Editor. The following is instructions on how to obtain and install the various ADMX templates that are used by Samba.
+
+## Install Samba ADMX Templates {#install-admx-samba}
+
+The Samba ADMX templates are availabe in the Samba source tree, and can be downloaded from https://download.samba.org/pub/samba/samba-latest.tar.gz, and can then be installed using the `samba-tool gpo admxload` command.
+
+```
+> tar -xf samba-latest.tar.gz
+> samba-tool gpo admxload --admx-dir=./samba-4.17.3/libgpo/admx -UAdministrator
+```
+
+## Installing Firefox ADMX Templates {#install-admx-firefox}
+
+Download the Firefox ADMX templates from https://github.com/mozilla/policy-templates/releases, then extract and install them to your SYSVOL using the `samba-tool gpo admxload` command.
+
+```
+> tar -xf v4.4.tar.gz
+> samba-tool gpo admxload --admx-dir=./policy-templates-4.4/windows -UAdministrator
+```
+
+## Installing Chromium ADMX Templates {#install-admx-chromium}
+
+Download the Chromium ADMX templates from https://support.google.com/chrome/a/answer/187202, then extract and install them to your SYSVOL using the `samba-tool gpo admxload` command.
+
+```
+> unzip policy_templates.zip
+> samba-tool gpo admxload --admx-dir=./windows/admx -UAdministrator
+```
+
+## Installing Windows ADMX Templates {#install-admx-windows}
+
+Download the Windows ADMX templates from https://www.microsoft.com/en-us/download/102157, then extract and install them to your SYSVOL using the `samba-tool gpo admxload` command.
+
+```
+> msiextract Administrative\ Templates\ \(.admx\)\ for\ Windows\ 10\ October\ 2020\ Update.msi
+> samba-tool gpo admxload --admx-dir=./Program\ Files/Microsoft\ Group\ Policy/Windows\ 10\ October\ 2020\ Update\ \(20H2\)/PolicyDefinitions -UAdministrator
+```

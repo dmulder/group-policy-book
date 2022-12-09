@@ -1,1 +1,5 @@
 # Firewalld Policy {#firewalld}
+
+## Server Side Extension
+
+Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-samba).

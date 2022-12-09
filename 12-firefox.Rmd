@@ -10,7 +10,9 @@ This policy is physically stored on the SYSVOL in **MACHINE/Registry.pol**. It i
 
 ## Server Side Extension
 
-The Server Side Extension (SSE) for Firefox Policy is distributed via Administrative Templates (see chapter \@ref(sse) in section \@ref(admx)). This SSE uses the admx templates provided by Mozilla. See https://github.com/mozilla/policy-templates/releases for the latest release of Mozilla's templates.
+The Server Side Extension (SSE) for Firefox Policy is distributed via Administrative Templates (see chapter \@ref(sse) in section \@ref(admx)). This SSE uses the admx templates provided by Mozilla.
+
+Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-firefox).
 
 ## Managing Firefox Policy via the GPME
 
