@@ -1,1 +1,31 @@
 # Firefox Policy {#firefox}
+
+```{r, echo=FALSE, out.width="30%", fig.align='center'}
+knitr::include_graphics("firefox-images/browse.png")
+```
+
+Firefox Policy deploys a `policies.json` file to client machines to customize how Firefox looks and operates.
+
+This policy is physically stored on the SYSVOL in **MACHINE/Registry.pol**. It is stored in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
+
+## Server Side Extension
+
+The Server Side Extension (SSE) for Firefox Policy is distributed via Administrative Templates (see chapter \@ref(sse) in section \@ref(admx)). This SSE uses the admx templates provided by Mozilla. See https://github.com/mozilla/policy-templates/releases for the latest release of Mozilla's templates.
+
+## Managing Firefox Policy via the GPME
+
+Open the GPME and navigate to `Computer Configuration > Administrative Templates > Mozilla > Firefox`.
+
+![Mozilla Administrative Templates](firefox-images/gpme.png)
+
+There are many options to choose from, but for this example we'll just test setting a homepage. Click on `Home page` in the tree, and we're going to modify both the `Start Page` and the `URL for Home page`.
+
+![Start Page](firefox-images/start-page.png)
+
+First we'll set the `Start Page` to `Homepage (Locked)`. This requires the start page to always open the homepage, and the user will be unable to change it to point anywhere else.
+
+![Home Page](firefox-images/home-page.png)
+
+Next we'll set the homepage URL, and check the box `Don't allow the homepage to be changed`. This will prevent the user from changing the homepage.
+
+## Client Side Extension
