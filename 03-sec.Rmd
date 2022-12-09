@@ -75,7 +75,7 @@ PasswordComplexity      Password must meet complexity requirements
 
 ## Client Side Extension
 
-The Password and Kerberos policies are seperated into two Client Side Extensions (CSE), `gp_access_ext` and `gp_krb_ext`. The Password policies (internally known as *System Access*) apply password complexity rules directly to the ADDC SamDB in the applicable LDAP attributes. The Kerberos policies are stored in our Group Policy Log, and are fetched directly by the `samba` daemon when it loads.
+The Password and Kerberos policies are seperated into two Client Side Extensions (CSE), `gp_access_ext` and `gp_krb_ext`. The Password policies (internally known as *System Access*) apply password complexity rules directly to the ADDC SamDB in the applicable LDAP attributes. The Kerberos policies are stored in our Group Policy Cache, and are fetched directly by the `samba` daemon when it loads.
 
 In the previous section we saw that our Password and Kerberos policies were already initialized to some defaults. If we now go to our Linux client, and check the Resultant Set of Policy, we see this:
 
@@ -146,7 +146,7 @@ Let's now force a policy apply, and check that the settings have changed.
 168
 ```
 
-You can see the Kerberos policies are all stored in their own keys in the Group Policy Log (`/var/lib/samba/gpo.tdb`), and they are all stored in hours. On the SYSVOL, they are actually stored in hours, minutes, and days, respectively. The reason these are all stored in hours on the system is that the `samba` daemon expects these attributes in hours.
+You can see the Kerberos policies are all stored in their own keys in the Group Policy Cache (`/var/lib/samba/gpo.tdb`), and they are all stored in hours. On the SYSVOL, they are actually stored in hours, minutes, and days, respectively. The reason these are all stored in hours on the system is that the `samba` daemon expects these attributes in hours.
 
 If we check the contents of the GptTmpl.inf and do some conversion, we can confirm these are correct.
 

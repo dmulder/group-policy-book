@@ -137,7 +137,7 @@ Let's now force our policy to apply and see how the CSE behaves.
 lrwxrwxrwx 1 root root 24 Nov 15 13:51 /home/LIZARDO/tux/.config/hexchat/servlist.conf -> /usr/share/servlist.conf
 ```
 
-Our Group Policy Log at `/var/lib/samba/gpo.tdb` shows the two policies have been applied. Listing the `target`, we also see that the symlink now exists. If we output the contents of our symlink, we can see that it is indeed pointing to our configuration file that we uploaded to the SYSVOL earlier.
+Our Group Policy Cache at `/var/lib/samba/gpo.tdb` shows the two policies have been applied. Listing the `target`, we also see that the symlink now exists. If we output the contents of our symlink, we can see that it is indeed pointing to our configuration file that we uploaded to the SYSVOL earlier.
 
 ```
 > sudo cat /home/LIZARDO/tux/.config/hexchat/servlist.conf

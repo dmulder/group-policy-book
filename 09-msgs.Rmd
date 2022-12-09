@@ -156,7 +156,7 @@ Because both these policies are set, we can't predict which one will actually be
 </gp>
 ```
 
-Note that Messages policy stores the previous value of the message content in the Group Policy Log. So we can discern from the message content that `vgp_motd_ext` and `vgp_issue_ext` applied last (since the messages from `gp_msgs_ext` show up in the log). We can confirm this by checking the contents of `/etc/motd` and `/etc/issue`.
+Note that Messages policy stores the previous value of the message content in the Group Policy Cache. So we can discern from the message content that `vgp_motd_ext` and `vgp_issue_ext` applied last (since the messages from `gp_msgs_ext` show up in the log). We can confirm this by checking the contents of `/etc/motd` and `/etc/issue`.
 
 ```
 > cat /etc/motd; echo

@@ -93,7 +93,7 @@ If we now force the policy, we'll see our setting gets applied to the default sm
  	logon home = \\%L\%U\.9xprofile
 ```
 
-If for whatever reason the policy did not apply, it is sometimes helpful to look at the Group Policy Log, which keeps track of applied policies.
+If for whatever reason the policy did not apply, it is sometimes helpful to look at the Group Policy Cache, which keeps track of applied policies.
 
 ```
 > sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -

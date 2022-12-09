@@ -148,7 +148,7 @@ If we now force the policy to apply, we'll see our script is scheduled to execut
 @reboot root /var/lib/samba/gpo_cache/LIZARDO.SUSE.DE/POLICIES/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/VGP/VTLA/UNIX/SCRIPTS/STARTUP/TEST_SCRIPT.SH
 ```
 
-You can see we found the location of our cron job by outputing the applied policy from our Group Policy Log. The cron job instructs the script to execute as root on every reboot. Let's also verify our script has been deployed on the client.
+You can see we found the location of our cron job by outputing the applied policy from our Group Policy Cache. The cron job instructs the script to execute as root on every reboot. Let's also verify our script has been deployed on the client.
 
 ```
 > sudo cat /var/lib/samba/gpo_cache/LIZARDO.SUSE.DE/POLICIES/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/VGP/VTLA/UNIX/SCRIPTS/STARTUP/TEST_SCRIPT.SH
