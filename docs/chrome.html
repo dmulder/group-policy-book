@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-09" />
+<meta name="date" content="2022-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -341,10 +341,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <img src="chrome-images/tab-page.png" alt="" />
 <p class="caption">Use New Tab Page as homepage</p>
 </div>
-<p>Next, let’s set the home page URL.</p>
+<p>Next, let’s set the new tab page URL.</p>
 <div class="figure">
 <img src="chrome-images/url.png" alt="" />
-<p class="caption">Configure the home page URL</p>
+<p class="caption">Configure the New Tab page URL</p>
 </div>
 <p>Finally, let’s tell Chromium to default to the New Tab Page when first opening.</p>
 <div class="figure">
@@ -355,6 +355,97 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="client-side-extension-11" class="section level2 hasAnchor" number="15.2">
 <h2><span class="header-section-number">15.2</span> Client Side Extension<a href="chrome.html#client-side-extension-11" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Chromium policy comes with 2 Client Side Extensions (CSEs), which generate a total of 4 policy files. Each CSE generates a <code>managed</code> policy file (these policies are enforced), and a <code>recommended</code> policy file (these policies are set but not enforced). The generated json files can be found in <code>/etc/chromium/policies/managed</code>, <code>/etc/chromium/policies/recommended</code>, <code>/etc/opt/chrome/policies/managed</code>, and <code>/etc/opt/chrome/policies/recommended</code>.</p>
+<p>Let’s list the Resultant Set of Policy to view policies we set in the previous section.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: gp_chromium_ext
+  -----------------------------------------------------------
+    Policy Type: Software\Policies\Google\Chrome\HomepageIsNewTabPage
+    -----------------------------------------------------------
+      1
+    -----------------------------------------------------------
+    Policy Type: Software\Policies\Google\Chrome\NewTabPageLocation
+    -----------------------------------------------------------
+      https://samba.org
+    -----------------------------------------------------------
+    Policy Type: Software\Policies\Google\Chrome\RestoreOnStartup
+    -----------------------------------------------------------
+      5
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+  CSE: gp_chrome_ext
+  -----------------------------------------------------------
+    Policy Type: Software\Policies\Google\Chrome\HomepageIsNewTabPage
+    -----------------------------------------------------------
+      1
+    -----------------------------------------------------------
+    Policy Type: Software\Policies\Google\Chrome\NewTabPageLocation
+    -----------------------------------------------------------
+      https://samba.org
+    -----------------------------------------------------------
+    Policy Type: Software\Policies\Google\Chrome\RestoreOnStartup
+    -----------------------------------------------------------
+      5
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================</code></pre>
+<p>Notice that the policy which will be applied for Chrome and Chromium are identical. This is because each CSE is reading from the same policy. Let’s now force a policy apply, and see what is logged in the Group Policy Cache.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;gp&gt;
+  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
+    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
+      &lt;gp_ext name=&quot;Mozilla/Firefox&quot;&gt;
+        &lt;attribute name=&quot;policies.json&quot;&gt;{&quot;policies&quot;: {}}&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+      &lt;gp_ext name=&quot;Google/Chromium&quot;&gt;
+        &lt;attribute name=&quot;recommended&quot;&gt;9327a492264ecac0806b031b780241d86cabe38348fe49c4c5a610ee584cfbaaefd3fdffd1b1b54c9ee225820433a7f902c688b2e123181a56c73b9cbf9cd13f:/etc/chromium/policies/recommended/gp_g4_82tuo.json&lt;/attribute&gt;
+        &lt;attribute name=&quot;managed&quot;&gt;d452dda8cab875a24b57b6a57ee90bbf71519585ef4c76f2ac71d570749849290da3d15241e6cd09806943a9d9aaaaf18c219d8e7dd47a3c5a809b570b621935:/etc/chromium/policies/managed/gp_l_k9uvxk.json&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+      &lt;gp_ext name=&quot;Google/Chrome&quot;&gt;
+        &lt;attribute name=&quot;recommended&quot;&gt;9327a492264ecac0806b031b780241d86cabe38348fe49c4c5a610ee584cfbaaefd3fdffd1b1b54c9ee225820433a7f902c688b2e123181a56c73b9cbf9cd13f:/etc/opt/chrome/policies/recommended/gp_7p6q0bxf.json&lt;/attribute&gt;
+        &lt;attribute name=&quot;managed&quot;&gt;d452dda8cab875a24b57b6a57ee90bbf71519585ef4c76f2ac71d570749849290da3d15241e6cd09806943a9d9aaaaf18c219d8e7dd47a3c5a809b570b621935:/etc/opt/chrome/policies/managed/gp_fcthg4bc.json&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+    &lt;/guid&gt;
+    &lt;applylog&gt;
+      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
+    &lt;/applylog&gt;
+  &lt;/user&gt;
+&lt;/gp&gt;</code></pre>
+<p>Our cache shows that 4 json policies were created in the directories where we expected them. Let’s look at the contents.</p>
+<pre><code>&gt; npx prettier /etc/chromium/policies/recommended/gp_g4_82tuo.json
+{}
+&gt; npx prettier /etc/chromium/policies/managed/gp_l_k9uvxk.json
+{
+  &quot;HomepageIsNewTabPage&quot;: true,
+  &quot;NewTabPageLocation&quot;: &quot;https://samba.org&quot;,
+  &quot;RestoreOnStartup&quot;: 5
+}
+&gt; npx prettier /etc/opt/chrome/policies/recommended/gp_7p6q0bxf.json
+{}
+&gt; npx prettier /etc/opt/chrome/policies/managed/gp_fcthg4bc.json
+{
+  &quot;HomepageIsNewTabPage&quot;: true,
+  &quot;NewTabPageLocation&quot;: &quot;https://samba.org&quot;,
+  &quot;RestoreOnStartup&quot;: 5
+}</code></pre>
+<p>As expected, the <code>recommended</code> policy files are empty, since we only set <code>managed</code> policy. The <code>managed</code> is what we expected. Let’s now open Chrome, and check that the policy was applied.</p>
+<div class="figure">
+<img src="chrome-images/chrome-homepage.png" alt="" />
+<p class="caption">Chrome with default homepage</p>
+</div>
+<p>If you now open the browser settings, you’ll see a warning indicating that your browser is being managed by your organization.</p>
+<div class="figure">
+<img src="chrome-images/chrome-settings.png" alt="" />
+<p class="caption">Chrome settings</p>
+</div>
+<p>Notice that the <code>On startup</code> options have been grayed out. Had we not set the <code>Action on startup</code>, the user would still be able to modify the startup options, and avoid the default homepage we just set.</p>
 
 </div>
 </div>
