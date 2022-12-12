@@ -47,7 +47,6 @@ Computer Policy
 
 GPO: Default Domain Policy
 =================================================================
-  -----------------------------------------------------------
   CSE: gp_firefox_ext
   -----------------------------------------------------------
     Policy Type: Software\Policies\Mozilla\Firefox\Homepage\StartPage
