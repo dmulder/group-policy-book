@@ -7,7 +7,7 @@
   <title>16 GNOME Settings Policy | Group Policy on Linux</title>
   <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  <meta name="generator" content="bookdown 0.30 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
   <meta property="og:title" content="16 GNOME Settings Policy | Group Policy on Linux" />
   <meta property="og:type" content="book" />
@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-12" />
+<meta name="date" content="2022-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -278,11 +278,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="15.2" data-path="chrome.html"><a href="chrome.html#client-side-extension-11"><i class="fa fa-check"></i><b>15.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="16" data-path="gnome.html"><a href="gnome.html"><i class="fa fa-check"></i><b>16</b> GNOME Settings Policy</a></li>
+<li class="chapter" data-level="16" data-path="gnome.html"><a href="gnome.html"><i class="fa fa-check"></i><b>16</b> GNOME Settings Policy</a>
+<ul>
+<li class="chapter" data-level="16.1" data-path="gnome.html"><a href="gnome.html#server-side-extension-11"><i class="fa fa-check"></i><b>16.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="gnome.html"><a href="gnome.html#managing-gnome-settings-policy-via-the-gpme"><i class="fa fa-check"></i><b>16.1.1</b> Managing GNOME Settings Policy via the GPME</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="gnome.html"><a href="gnome.html#client-side-extension-12"><i class="fa fa-check"></i><b>16.2</b> Client Side Extension</a></li>
+</ul></li>
 <li class="chapter" data-level="17" data-path="openssh.html"><a href="openssh.html"><i class="fa fa-check"></i><b>17</b> OpenSSH Policy</a></li>
 <li class="chapter" data-level="18" data-path="firewalld.html"><a href="firewalld.html"><i class="fa fa-check"></i><b>18</b> Firewalld Policy</a>
 <ul>
-<li class="chapter" data-level="18.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-11"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a></li>
+<li class="chapter" data-level="18.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-12"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a></li>
 </ul></li>
 <li class="chapter" data-level="19" data-path="cse.html"><a href="cse.html"><i class="fa fa-check"></i><b>19</b> Writing Client Side Extensions</a></li>
 <li class="chapter" data-level="20" data-path="sse.html"><a href="sse.html"><i class="fa fa-check"></i><b>20</b> Writing Server Side Extensions</a>
@@ -321,7 +328,77 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="gnome" class="section level1 hasAnchor" number="16">
 <h1><span class="header-section-number">16</span> GNOME Settings Policy<a href="gnome.html#gnome" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="gnome-images/gnome.png" width="30%" style="display: block; margin: auto;" /></p>
+<p>The GNOME Settings Policy deploys dconf settings that control the desktop experience. These settings correspond to those defined in the GNOME System Administration Guide found at <a href="https://help.gnome.org/admin/system-admin-guide/stable/user-settings.html.en" class="uri">https://help.gnome.org/admin/system-admin-guide/stable/user-settings.html.en</a>.</p>
+<p>This policy is physically stored on the SYSVOL in <strong>MACHINE/Registry.pol</strong>. It is stored in registry format. See chapter <a href="regpol.html#regpol">21</a> for details on how to manually modify this file.</p>
+<div id="server-side-extension-11" class="section level2 hasAnchor" number="16.1">
+<h2><span class="header-section-number">16.1</span> Server Side Extension<a href="gnome.html#server-side-extension-11" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Server Side Extension (SSE) for Chromium Policy is distributed via Administrative Templates (see chapter <a href="sse.html#sse">20</a> in section <a href="sse.html#admx">20.1</a>). Setting up the ADMX templates for this policy is described in chapter <a href="install-admx.html#install-admx">22</a> section <a href="install-admx.html#install-admx-samba">22.1</a>.</p>
+<div id="managing-gnome-settings-policy-via-the-gpme" class="section level3 hasAnchor" number="16.1.1">
+<h3><span class="header-section-number">16.1.1</span> Managing GNOME Settings Policy via the GPME<a href="gnome.html#managing-gnome-settings-policy-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Open the GPME and navigate to <code>Computer Configuration &gt; Administrative Templates &gt; GNOME Settings</code>.</p>
+<div class="figure">
+<img src="gnome-images/gpme.png" alt="" />
+<p class="caption">GNOME Settings Administrative Templates</p>
+</div>
+<p>Let’s set the allowed online accounts, which will effect the <code>Online Accounts</code> list in the GNOME Settings Dialog.</p>
+<div class="figure">
+<img src="gnome-images/online-accounts.png" alt="" />
+<p class="caption">Whitelisted Online Accounts</p>
+</div>
+</div>
+</div>
+<div id="client-side-extension-12" class="section level2 hasAnchor" number="16.2">
+<h2><span class="header-section-number">16.2</span> Client Side Extension<a href="gnome.html#client-side-extension-12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The GNOME Settings Client Side Extension (CSE) creates various <code>dconf</code> files to deploy the policy. After creating these policy files, the CSE executes <code>dconf update</code> to apply the new policy. Users will need to log out and back in again in order for these policies to take effect.</p>
+<p>Let’s list the Resultant Set of Policy and view the lockdown settings we’ve set.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
 
+GPO: Default Domain Policy
+=================================================================
+  CSE: gp_gnome_settings_ext
+  -----------------------------------------------------------
+    Policy Type: Whitelisted Online Accounts
+    -----------------------------------------------------------
+    [ google ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================</code></pre>
+<p>Next let’s force an apply of the policy, and see what is logged in the Group Policy Cache.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;GPTEST$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;gp&gt;
+  &lt;user name=&quot;GPTEST$&quot;&gt;
+    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
+      &lt;gp_ext name=&quot;GNOME Settings/Lock Down Settings&quot;&gt;
+        &lt;attribute name=&quot;Whitelisted Online Accounts&quot;&gt;/etc/dconf/db/local.d/0000000001-goa;/etc/dconf/db/local.d/locks/0000000001-goa&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+    &lt;/guid&gt;
+    &lt;applylog&gt;
+      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
+    &lt;/applylog&gt;
+  &lt;/user&gt;
+&lt;/gp&gt;</code></pre>
+<p>Checking the contents of the files, we see that our whitelisted provider is set, and that the policy is locked (which prevents user modification).</p>
+<pre><code>&gt; cat /etc/dconf/db/local.d/0000000001-goa
+[org/gnome/online-accounts]
+whitelisted-providers = [&#39;google&#39;]
+&gt; cat /etc/dconf/db/local.d/locks/0000000001-goa; echo
+/org/gnome/online-accounts/whitelisted-providers</code></pre>
+<p>We can also check the dconf output to see that the setting is applied.</p>
+<pre><code>&gt; dconf dump / | grep -E &quot;(whitelisted-providers|org/gnome/online-accounts)&quot;
+[org/gnome/online-accounts]
+whitelisted-providers=[&#39;google&#39;]</code></pre>
+<p>Recall that it’s necessary to log the user out and back in again. After which, we can check the GNOME Settings dialog and see that <code>Online Accounts</code> are restricted as requested.</p>
+<div class="figure">
+<img src="gnome-images/online-accounts-gnome.png" alt="" />
+<p class="caption">Online Accounts</p>
+</div>
+
+</div>
 </div>
             </section>
 
