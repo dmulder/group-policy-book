@@ -101,6 +101,9 @@ managing-openssh-policy-via-samba-tool
 client-side-extension-13
 firewalld
 server-side-extension-13
+managing-firewalld-policy-via-the-gpme
+firewalld-policy-rule-definitions
+client-side-extension-14
 cse
 sse
 admx

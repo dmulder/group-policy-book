@@ -296,7 +296,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="18" data-path="firewalld.html"><a href="firewalld.html"><i class="fa fa-check"></i><b>18</b> Firewalld Policy</a>
 <ul>
-<li class="chapter" data-level="18.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-13"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a></li>
+<li class="chapter" data-level="18.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-13"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="firewalld.html"><a href="firewalld.html#managing-firewalld-policy-via-the-gpme"><i class="fa fa-check"></i><b>18.1.1</b> Managing Firewalld Policy via the GPME</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="firewalld.html"><a href="firewalld.html#client-side-extension-14"><i class="fa fa-check"></i><b>18.2</b> Client Side Extension</a></li>
 </ul></li>
 <li class="chapter" data-level="19" data-path="cse.html"><a href="cse.html"><i class="fa fa-check"></i><b>19</b> Writing Client Side Extensions</a></li>
 <li class="chapter" data-level="20" data-path="sse.html"><a href="sse.html"><i class="fa fa-check"></i><b>20</b> Writing Server Side Extensions</a>
@@ -375,12 +379,7 @@ Available subcommands:
 <p>When working with Linux clients, using <code>samba-tool gpo manage</code> to fill out your GPO is generally the preferred method.</p>
 <div id="enabling-group-policy-server-side-extensions-on-the-server" class="section level3 hasAnchor" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Enabling Group Policy Server Side Extensions on the Server<a href="intro.html#enabling-group-policy-server-side-extensions-on-the-server" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>In order to use the Samba Administrative Templates in the Group Policy Management Console, you’ll need to install them first, using the command <code>sudo samba-tool gpo admxload -UAdministrator</code>.</p>
-<p>The samba-tool gpo admxload command copies the Samba ADMX templates to the <domain>/Policies/PolicyDefinitions directory on the SYSVOL share. After installing the Samba ADMX templates, you MUST install Microsoft’s ADMX templates also, otherwise you will be unable to administer Windows domain members.</p>
-<p>To install Microsoft’s ADMX templates, use msiextract to extract the contents of the Administrative Templates msi:</p>
-<pre><code>msiextract /path/to/microsoft/download/Administrative\ Templates\ \(.admx\)\ for\ Windows\ 10\ October\ 2020\ Update.msi</code></pre>
-<p>Then upload the contents to the SYSVOL:</p>
-<pre><code>samba-tool gpo admxload -U Administrator --admx-dir=/path/to/extracted/msi/Program\ Files/Microsoft\ Group\ Policy/Windows\ 10\ October\ 2020\ Update\ \(20H2\)/PolicyDefinitions/</code></pre>
+<p>In order to use the Samba Administrative Templates in the Group Policy Management Console, you’ll need to install them first, using the command <code>sudo samba-tool gpo admxload -UAdministrator</code>. See chapter <a href="install-admx.html#install-admx">22</a> for specifics on how to do this.</p>
 </div>
 </div>
 <div id="client-side-extensions" class="section level2 hasAnchor" number="2.3">

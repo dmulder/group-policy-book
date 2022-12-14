@@ -296,7 +296,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="18" data-path="firewalld.html"><a href="firewalld.html"><i class="fa fa-check"></i><b>18</b> Firewalld Policy</a>
 <ul>
-<li class="chapter" data-level="18.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-13"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a></li>
+<li class="chapter" data-level="18.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-13"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="firewalld.html"><a href="firewalld.html#managing-firewalld-policy-via-the-gpme"><i class="fa fa-check"></i><b>18.1.1</b> Managing Firewalld Policy via the GPME</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="firewalld.html"><a href="firewalld.html#client-side-extension-14"><i class="fa fa-check"></i><b>18.2</b> Client Side Extension</a></li>
 </ul></li>
 <li class="chapter" data-level="19" data-path="cse.html"><a href="cse.html"><i class="fa fa-check"></i><b>19</b> Writing Client Side Extensions</a></li>
 <li class="chapter" data-level="20" data-path="sse.html"><a href="sse.html"><i class="fa fa-check"></i><b>20</b> Writing Server Side Extensions</a>
@@ -335,7 +339,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="install-admx" class="section level1 hasAnchor" number="22">
 <h1><span class="header-section-number">22</span> Installing Administrative Templates<a href="install-admx.html#install-admx" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Administrative Templates allow you to define policies that can be administered from the Group Policy Management Editor. The following is instructions on how to obtain and install the various ADMX templates that are used by Samba.</p>
+<p>Administrative Templates allow you to define policies that can be administered from the Group Policy Management Editor.</p>
+<p>The <code>samba-tool gpo admxload</code> command copies ADMX templates to the <code>&lt;domain&gt;/Policies/PolicyDefinitions</code> directory on the SYSVOL share. After installing any ADMX templates, you MUST install Microsoft’s ADMX templates also, otherwise you will be unable to administer Windows domain members (see section <a href="install-admx.html#install-admx-windows">22.4</a>).</p>
+<p>The following is instructions on how to obtain and install the various ADMX templates that are used by Samba.</p>
 <div id="install-admx-samba" class="section level2 hasAnchor" number="22.1">
 <h2><span class="header-section-number">22.1</span> Install Samba ADMX Templates<a href="install-admx.html#install-admx-samba" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Samba ADMX templates are availabe in the Samba source tree, and can be downloaded from <a href="https://download.samba.org/pub/samba/samba-latest.tar.gz" class="uri">https://download.samba.org/pub/samba/samba-latest.tar.gz</a>, and can then be installed using the <code>samba-tool gpo admxload</code> command.</p>

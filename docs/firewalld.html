@@ -296,7 +296,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="18" data-path="firewalld.html"><a href="firewalld.html"><i class="fa fa-check"></i><b>18</b> Firewalld Policy</a>
 <ul>
-<li class="chapter" data-level="18.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-13"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a></li>
+<li class="chapter" data-level="18.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-13"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="firewalld.html"><a href="firewalld.html#managing-firewalld-policy-via-the-gpme"><i class="fa fa-check"></i><b>18.1.1</b> Managing Firewalld Policy via the GPME</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="firewalld.html"><a href="firewalld.html#client-side-extension-14"><i class="fa fa-check"></i><b>18.2</b> Client Side Extension</a></li>
 </ul></li>
 <li class="chapter" data-level="19" data-path="cse.html"><a href="cse.html"><i class="fa fa-check"></i><b>19</b> Writing Client Side Extensions</a></li>
 <li class="chapter" data-level="20" data-path="sse.html"><a href="sse.html"><i class="fa fa-check"></i><b>20</b> Writing Server Side Extensions</a>
@@ -335,9 +339,158 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="firewalld" class="section level1 hasAnchor" number="18">
 <h1><span class="header-section-number">18</span> Firewalld Policy<a href="firewalld.html#firewalld" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="firewalld-images/firewall.png" width="30%" style="display: block; margin: auto;" /></p>
+<p>The purpose of the Firewalld Policy is to apply firewalld rules to the client machine.</p>
+<p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/Registry.pol</strong> file within the subdirectory of the Group Policy Object. It is stored in registry format. See chapter <a href="regpol.html#regpol">21</a> for details on how to manually modify this file.</p>
 <div id="server-side-extension-13" class="section level2 hasAnchor" number="18.1">
 <h2><span class="header-section-number">18.1</span> Server Side Extension<a href="firewalld.html#server-side-extension-13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Server Side Extension (SSE) for the Firewalld Policy is distributed using Administrative Templates (ADMX). Refer to chapter <a href="sse.html#sse">20</a> in section <a href="sse.html#admx">20.1</a> for details about Administrative Templates.</p>
 <p>Setting up the ADMX templates for this policy is described in chapter <a href="install-admx.html#install-admx">22</a> section <a href="install-admx.html#install-admx-samba">22.1</a>.</p>
+<div id="managing-firewalld-policy-via-the-gpme" class="section level3 hasAnchor" number="18.1.1">
+<h3><span class="header-section-number">18.1.1</span> Managing Firewalld Policy via the GPME<a href="firewalld.html#managing-firewalld-policy-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Open the Group Policy Management Editor (GPME) and navigate to <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Firewalld</code>.</p>
+<div class="figure">
+<img src="firewalld-images/gpme.png" alt="" />
+<p class="caption">Group Policy Management Editor</p>
+</div>
+<p>You can see we have the options to create firewall rules, and firewall zones. For this example, we’re going to create a single rule in a new zone named “work”.</p>
+<div class="figure">
+<img src="firewalld-images/new-zone.png" alt="" />
+<p class="caption">New Zone</p>
+</div>
+<p>We’ll define our new rule as follows.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb92-1"><a href="firewalld.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">&quot;work&quot;</span><span class="fu">:</span></span>
+<span id="cb92-2"><a href="firewalld.html#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="ot">[</span></span>
+<span id="cb92-3"><a href="firewalld.html#cb92-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb92-4"><a href="firewalld.html#cb92-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4&quot;</span><span class="fu">},</span></span>
+<span id="cb92-5"><a href="firewalld.html#cb92-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;172.25.1.7&quot;</span><span class="fu">,</span></span>
+<span id="cb92-6"><a href="firewalld.html#cb92-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;ftp&quot;</span><span class="fu">,</span></span>
+<span id="cb92-7"><a href="firewalld.html#cb92-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb92-8"><a href="firewalld.html#cb92-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb92-9"><a href="firewalld.html#cb92-9" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb92-10"><a href="firewalld.html#cb92-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<div class="figure">
+<img src="firewalld-images/new-rule.png" alt="" />
+<p class="caption">New Rule</p>
+</div>
+<div id="firewalld-policy-rule-definitions" class="section level4 hasAnchor" number="18.1.1.1">
+<h4><span class="header-section-number">18.1.1.1</span> Firewalld Policy Rule Definitions<a href="firewalld.html#firewalld-policy-rule-definitions" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The policy provides for the creation of rules and zones. Zones are defined as a list in the Zones setting in the Firewalld policy. Existing zones on the host will be unaffected.</p>
+<p>Rules are defined using a JSON dictionary, containing zones paired with a list of rules.</p>
+<p>For example, to create rules for the Work and Home zones, specify the following JSON:</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb93-1"><a href="firewalld.html#cb93-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb93-2"><a href="firewalld.html#cb93-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;work&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb93-3"><a href="firewalld.html#cb93-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4&quot;</span><span class="fu">},</span> <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;172.25.1.7&quot;</span><span class="fu">,</span> <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;ftp&quot;</span><span class="fu">,</span> <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}}</span><span class="ot">,</span></span>
+<span id="cb93-4"><a href="firewalld.html#cb93-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{},</span> <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;172.25.1.8&quot;</span><span class="fu">,</span> <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;ftp&quot;</span><span class="fu">,</span> <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}}</span></span>
+<span id="cb93-5"><a href="firewalld.html#cb93-5" aria-hidden="true" tabindex="-1"></a>   <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb93-6"><a href="firewalld.html#cb93-6" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;home&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb93-7"><a href="firewalld.html#cb93-7" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{},</span> <span class="dt">&quot;protocol value&quot;</span><span class="fu">:</span> <span class="st">&quot;icmp&quot;</span><span class="fu">,</span> <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}}</span><span class="ot">,</span></span>
+<span id="cb93-8"><a href="firewalld.html#cb93-8" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4&quot;</span><span class="fu">},</span> <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;192.168.1.2/32&quot;</span><span class="fu">,</span> <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;telnet&quot;</span><span class="fu">,</span> <span class="dt">&quot;accept&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;1/m&quot;</span><span class="fu">}}</span></span>
+<span id="cb93-9"><a href="firewalld.html#cb93-9" aria-hidden="true" tabindex="-1"></a>   <span class="ot">]</span></span>
+<span id="cb93-10"><a href="firewalld.html#cb93-10" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span></span></code></pre></div>
+<p>The rule structure loosely follows the Firewalld Rich Language Documentation. The general rule structure follows.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb94-1"><a href="firewalld.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb94-2"><a href="firewalld.html#cb94-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb94-3"><a href="firewalld.html#cb94-3" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4 | ipv6&quot;</span><span class="fu">,</span></span>
+<span id="cb94-4"><a href="firewalld.html#cb94-4" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;priority&quot;</span><span class="fu">:</span> <span class="st">&quot;priority&quot;</span></span>
+<span id="cb94-5"><a href="firewalld.html#cb94-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
+<span id="cb94-6"><a href="firewalld.html#cb94-6" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;source [not] address | mac | ipset&quot;</span><span class="fu">:</span> <span class="st">&quot;address[/mask] | mac-address | ipset&quot;</span><span class="fu">,</span></span>
+<span id="cb94-7"><a href="firewalld.html#cb94-7" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;destination [not] adress&quot;</span><span class="fu">:</span> <span class="st">&quot;address[/mask]&quot;</span><span class="fu">,</span></span>
+<span id="cb94-8"><a href="firewalld.html#cb94-8" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;service name&quot;</span><span class="fu">,</span></span>
+<span id="cb94-9"><a href="firewalld.html#cb94-9" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb94-10"><a href="firewalld.html#cb94-10" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
+<span id="cb94-11"><a href="firewalld.html#cb94-11" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;protocol&quot;</span><span class="fu">:</span> <span class="st">&quot;tcp | udp&quot;</span></span>
+<span id="cb94-12"><a href="firewalld.html#cb94-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span></span>
+<span id="cb94-13"><a href="firewalld.html#cb94-13" aria-hidden="true" tabindex="-1"></a>   <span class="st">&quot;protocol value&quot;</span><span class="er">:</span> <span class="st">&quot;protocol value&quot;</span><span class="fu">,</span></span>
+<span id="cb94-14"><a href="firewalld.html#cb94-14" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;icmp-block name&quot;</span><span class="fu">:</span> <span class="st">&quot;icmptype name&quot;</span><span class="fu">,</span></span>
+<span id="cb94-15"><a href="firewalld.html#cb94-15" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;Masquerade&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="er">|</span><span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb94-16"><a href="firewalld.html#cb94-16" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;icmp-type&quot;</span><span class="fu">:</span> <span class="st">&quot;icmptype name&quot;</span><span class="fu">,</span></span>
+<span id="cb94-17"><a href="firewalld.html#cb94-17" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;forward-port&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb94-18"><a href="firewalld.html#cb94-18" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
+<span id="cb94-19"><a href="firewalld.html#cb94-19" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;protocol&quot;</span><span class="fu">:</span> <span class="st">&quot;tcp | udp&quot;</span><span class="fu">,</span></span>
+<span id="cb94-20"><a href="firewalld.html#cb94-20" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;to-port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
+<span id="cb94-21"><a href="firewalld.html#cb94-21" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;to-addr&quot;</span><span class="fu">:</span> <span class="st">&quot;address&quot;</span></span>
+<span id="cb94-22"><a href="firewalld.html#cb94-22" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
+<span id="cb94-23"><a href="firewalld.html#cb94-23" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;source-port&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb94-24"><a href="firewalld.html#cb94-24" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
+<span id="cb94-25"><a href="firewalld.html#cb94-25" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;protocol&quot;</span><span class="fu">:</span> <span class="st">&quot;tcp | udp&quot;</span></span>
+<span id="cb94-26"><a href="firewalld.html#cb94-26" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
+<span id="cb94-27"><a href="firewalld.html#cb94-27" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;log&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb94-28"><a href="firewalld.html#cb94-28" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;prefix&quot;</span><span class="fu">:</span> <span class="st">&quot;prefix text&quot;</span><span class="fu">,</span></span>
+<span id="cb94-29"><a href="firewalld.html#cb94-29" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;level&quot;</span><span class="fu">:</span> <span class="st">&quot;emerg | alert | crit | error | warning | notice | info | debug&quot;</span><span class="fu">,</span></span>
+<span id="cb94-30"><a href="firewalld.html#cb94-30" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb94-31"><a href="firewalld.html#cb94-31" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
+<span id="cb94-32"><a href="firewalld.html#cb94-32" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;audit&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb94-33"><a href="firewalld.html#cb94-33" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb94-34"><a href="firewalld.html#cb94-34" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
+<span id="cb94-35"><a href="firewalld.html#cb94-35" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;accept&quot;</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb94-36"><a href="firewalld.html#cb94-36" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb94-37"><a href="firewalld.html#cb94-37" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span> <span class="er">|</span> <span class="st">&quot;reject&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb94-38"><a href="firewalld.html#cb94-38" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;reject type&quot;</span><span class="fu">,</span></span>
+<span id="cb94-39"><a href="firewalld.html#cb94-39" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb94-40"><a href="firewalld.html#cb94-40" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span> <span class="er">|</span> <span class="st">&quot;drop&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb94-41"><a href="firewalld.html#cb94-41" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb94-42"><a href="firewalld.html#cb94-42" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span> <span class="er">|</span> <span class="st">&quot;mark&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb94-43"><a href="firewalld.html#cb94-43" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;set&quot;</span><span class="fu">:</span> <span class="st">&quot;mark[/mask]&quot;</span><span class="fu">,</span></span>
+<span id="cb94-44"><a href="firewalld.html#cb94-44" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb94-45"><a href="firewalld.html#cb94-45" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span></span>
+<span id="cb94-46"><a href="firewalld.html#cb94-46" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="client-side-extension-14" class="section level2 hasAnchor" number="18.2">
+<h2><span class="header-section-number">18.2</span> Client Side Extension<a href="firewalld.html#client-side-extension-14" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Firewalld Client Side Extension (CSE) accepts the rules specified by the SSE, and applies them using the firewalld command <code>firewall-cmd</code>. For example, new zones are added using the <code>firewall-cmd --permanent --new-zone=work</code> command. New firewall rules are added using the <code>firewall-cmd --permanent --zone=work --add-rich-rule 'rule family=ipv4 source address=172.25.1.7 service name=ftp reject'</code>.</p>
+<p>Let’s check the Resultant Set of Policy on our Linux client.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
+[sudo] password for root: 
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: gp_firewalld_ext
+  -----------------------------------------------------------
+    Policy Type: Rules
+    -----------------------------------------------------------
+    [ 
+      [ work ] = 
+        [ 
+          [ rule ] = 
+            [ family ] = ipv4
+          [ source address ] = 172.25.1.7
+          [ service name ] = ftp
+          [ reject ] = 
+        ]
+    ]
+    -----------------------------------------------------------
+    Policy Type: Zones
+    -----------------------------------------------------------
+    [ work ]
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================</code></pre>
+<p>Let’s now force an apply, and verify that rule gets applied.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; | xmllint --format -
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;gp&gt;
+  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
+    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
+      &lt;gp_ext name=&quot;Security/Firewalld&quot;&gt;
+        &lt;attribute name=&quot;rule:work:f4802306893de59d239b58743e101b65fe941fcf8d1e5a51fd107bc7282caa73db379ba7720cb4393f2318289998a677365089db7b136c671a5385ca6ba0e3a8&quot;&gt;rule family=ipv4 source address=172.25.1.7 service name=ftp reject  &lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+    &lt;/guid&gt;
+    &lt;applylog&gt;
+      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
+    &lt;/applylog&gt;
+  &lt;/user&gt;
+&lt;/gp&gt;</code></pre>
+<p>Unfortunately, at the time of this writing, <code>firewall-cmd</code> appears to be unable to list installed rich rules. We can verify that our rule has applied though by trying to apply it again.</p>
+<pre><code>&gt; sudo firewall-cmd --permanent --zone=work --add-rich-rule &#39;rule family=ipv4 source address=172.25.1.7 service name=ftp reject&#39;
+Warning: ALREADY_ENABLED: rule family=ipv4 source address=172.25.1.7 service name=ftp reject
+success</code></pre>
+<p>Attempting to add the rule, we can see that firewalld warns us that the rule is already enabled.</p>
 
 </div>
 </div>
