@@ -1,6 +1,10 @@
 # Installing Administrative Templates {#install-admx}
 
-Administrative Templates allow you to define policies that can be administered from the Group Policy Management Editor. The following is instructions on how to obtain and install the various ADMX templates that are used by Samba.
+Administrative Templates allow you to define policies that can be administered from the Group Policy Management Editor.
+
+The `samba-tool gpo admxload` command copies ADMX templates to the `<domain>/Policies/PolicyDefinitions` directory on the SYSVOL share. After installing any ADMX templates, you MUST install Microsoft's ADMX templates also, otherwise you will be unable to administer Windows domain members (see section \@ref(install-admx-windows)).
+
+The following is instructions on how to obtain and install the various ADMX templates that are used by Samba.
 
 ## Install Samba ADMX Templates {#install-admx-samba}
 

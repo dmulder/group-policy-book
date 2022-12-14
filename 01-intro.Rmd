@@ -50,21 +50,7 @@ When working with Linux clients, using `samba-tool gpo manage` to fill out your 
 
 ### Enabling Group Policy Server Side Extensions on the Server
 
-In order to use the Samba Administrative Templates in the Group Policy Management Console, you’ll need to install them first, using the command `sudo samba-tool gpo admxload -UAdministrator`.
-
-The samba-tool gpo admxload command copies the Samba ADMX templates to the <domain>/Policies/PolicyDefinitions directory on the SYSVOL share. After installing the Samba ADMX templates, you MUST install Microsoft's ADMX templates also, otherwise you will be unable to administer Windows domain members.
-
-To install Microsoft's ADMX templates, use msiextract to extract the contents of the Administrative Templates msi:
-
-```
-msiextract /path/to/microsoft/download/Administrative\ Templates\ \(.admx\)\ for\ Windows\ 10\ October\ 2020\ Update.msi
-```
-
-Then upload the contents to the SYSVOL:
-
-```
-samba-tool gpo admxload -U Administrator --admx-dir=/path/to/extracted/msi/Program\ Files/Microsoft\ Group\ Policy/Windows\ 10\ October\ 2020\ Update\ \(20H2\)/PolicyDefinitions/
-```
+In order to use the Samba Administrative Templates in the Group Policy Management Console, you’ll need to install them first, using the command `sudo samba-tool gpo admxload -UAdministrator`. See chapter \@ref(install-admx) for specifics on how to do this.
 
 ## Client Side Extensions
 
