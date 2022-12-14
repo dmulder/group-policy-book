@@ -96,8 +96,11 @@ server-side-extension-11
 managing-gnome-settings-policy-via-the-gpme
 client-side-extension-12
 openssh
-firewalld
 server-side-extension-12
+managing-openssh-policy-via-samba-tool
+client-side-extension-13
+firewalld
+server-side-extension-13
 cse
 sse
 admx

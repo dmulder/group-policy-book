@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-13" />
+<meta name="date" content="2022-12-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -286,10 +286,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="16.2" data-path="gnome.html"><a href="gnome.html#client-side-extension-12"><i class="fa fa-check"></i><b>16.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="openssh.html"><a href="openssh.html"><i class="fa fa-check"></i><b>17</b> OpenSSH Policy</a></li>
+<li class="chapter" data-level="17" data-path="openssh.html"><a href="openssh.html"><i class="fa fa-check"></i><b>17</b> OpenSSH Policy</a>
+<ul>
+<li class="chapter" data-level="17.1" data-path="openssh.html"><a href="openssh.html#server-side-extension-12"><i class="fa fa-check"></i><b>17.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="17.1.1" data-path="openssh.html"><a href="openssh.html#managing-openssh-policy-via-samba-tool"><i class="fa fa-check"></i><b>17.1.1</b> Managing OpenSSH Policy via samba-tool</a></li>
+</ul></li>
+<li class="chapter" data-level="17.2" data-path="openssh.html"><a href="openssh.html#client-side-extension-13"><i class="fa fa-check"></i><b>17.2</b> Client Side Extension</a></li>
+</ul></li>
 <li class="chapter" data-level="18" data-path="firewalld.html"><a href="firewalld.html"><i class="fa fa-check"></i><b>18</b> Firewalld Policy</a>
 <ul>
-<li class="chapter" data-level="18.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-12"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a></li>
+<li class="chapter" data-level="18.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-13"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a></li>
 </ul></li>
 <li class="chapter" data-level="19" data-path="cse.html"><a href="cse.html"><i class="fa fa-check"></i><b>19</b> Writing Client Side Extensions</a></li>
 <li class="chapter" data-level="20" data-path="sse.html"><a href="sse.html"><i class="fa fa-check"></i><b>20</b> Writing Server Side Extensions</a>
@@ -328,7 +335,97 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="openssh" class="section level1 hasAnchor" number="17">
 <h1><span class="header-section-number">17</span> OpenSSH Policy<a href="openssh.html#openssh" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><img src="openssh-images/openssh.png" width="30%" style="display: block; margin: auto;" /></p>
+<p>The OpenSSH Policy allows you to deploy OpenSSH settings to client machines. The policies are applied to a file in the <code>/etc/ssh/sshd_config.d</code> directory.</p>
+<p>This policy is physically stored on the SYSVOL in <strong>MACHINE/VGP/VTLA/SshCfg/SshD/manifest.xml</strong>. The manifest.xml file is in xml format, and is easily modified manually using a text editor.</p>
+<div id="server-side-extension-12" class="section level2 hasAnchor" number="17.1">
+<h2><span class="header-section-number">17.1</span> Server Side Extension<a href="openssh.html#server-side-extension-12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Server Side Extensions (SSE) for OpenSSH Policy is administered using the <code>samba-tool gpo manage openssh</code> command. This SSE cannot be modified using the GPME.</p>
+<div id="managing-openssh-policy-via-samba-tool" class="section level3 hasAnchor" number="17.1.1">
+<h3><span class="header-section-number">17.1.1</span> Managing OpenSSH Policy via samba-tool<a href="openssh.html#managing-openssh-policy-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>samba-tool gpo manage openssh</code> command has 2 subcommands; set and list.</p>
+<pre><code>&gt; samba-tool gpo manage openssh
+Usage: samba-tool gpo manage openssh &lt;subcommand&gt;
 
+Manage OpenSSH Group Policy Objects
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  list  - List VGP OpenSSH Group Policy from the sysvol
+  set   - Sets a VGP OpenSSH Group Policy to the sysvol</code></pre>
+<p>To set a new OpenSSH rule, call the <code>samba-tool gpo manage openssh set</code> command.</p>
+<pre><code>&gt; samba-tool gpo manage openssh set --help
+Usage: samba-tool gpo manage openssh set &lt;gpo&gt; &lt;setting&gt; [value] [options]
+
+Sets a VGP OpenSSH Group Policy to the sysvol
+
+This command sets an openssh setting to the sysvol for applying to winbind
+clients. Not providing a value will unset the policy.
+
+Example:
+samba-tool gpo manage openssh set {31B2F340-016D-11D2-945F-00C04FB984F9}
+KerberosAuthentication Yes</code></pre>
+<p>Let’s set the <code>KerberosAuthentication</code> setting.</p>
+<pre><code>&gt; samba-tool gpo manage openssh set {31B2F340-016D-11D2-945F-00C04FB984F9} KerberosAuthentication Yes -UAdministrator</code></pre>
+<p>Then let’s list the policy to see what has been set on the SYSVOL.</p>
+<pre><code>&gt; samba-tool gpo manage openssh list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+KerberosAuthentication Yes</code></pre>
+</div>
+</div>
+<div id="client-side-extension-13" class="section level2 hasAnchor" number="17.2">
+<h2><span class="header-section-number">17.2</span> Client Side Extension<a href="openssh.html#client-side-extension-13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The OpenSSH Client Side Extension (CSE) will create a new file in the <code>/etc/ssh/sshd_config.d</code> directory.</p>
+<p>Let’s list the Resultant Set of Policy to view the policies we’ve created.</p>
+<pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
+Resultant Set of Policy
+Computer Policy
+
+GPO: Default Domain Policy
+=================================================================
+  CSE: vgp_openssh_ext
+  -----------------------------------------------------------
+    Policy Type: VGP/Unix Settings/OpenSSH
+    -----------------------------------------------------------
+    [ KerberosAuthentication ] =         Yes
+    -----------------------------------------------------------
+  -----------------------------------------------------------
+=================================================================</code></pre>
+<p>The <code>KerberosAuthentication</code> setting we set is listed as expected.</p>
+<p>Let’s now force an apply.</p>
+<pre><code>sudo /usr/sbin/samba-gpupdate --force
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;gp&gt;
+  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
+    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
+      &lt;gp_ext name=&quot;VGP/Unix Settings/OpenSSH&quot;&gt;
+        &lt;attribute name=&quot;ezMxQjJGMzQwLTAxNkQtMTFEMi05NDVGLTAwQzA0RkI5ODRGOX0vZXRjL3NzaC9zc2hkX2NvbmZpZy5k&quot;&gt;/etc/ssh/sshd_config.d/gp_c7hytho4&lt;/attribute&gt;
+      &lt;/gp_ext&gt;
+    &lt;/guid&gt;
+    &lt;applylog&gt;
+      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
+    &lt;/applylog&gt;
+  &lt;/user&gt;
+&lt;/gp&gt;</code></pre>
+<p>Notice that our new policy has been stored in <code>/etc/ssh/sshd_config.d/gp_c7hytho4</code>. Let’s check the contents of this file to see what was generated.</p>
+<pre><code>&gt; sudo cat /etc/ssh/sshd_config.d/gp_c7hytho4
+
+### autogenerated by samba
+#
+# This file is generated by the vgp_openssh_ext Group Policy
+# Client Side Extension. To modify the contents of this file,
+# modify the appropriate Group Policy objects which apply
+# to this machine. DO NOT MODIFY THIS FILE DIRECTLY.
+#
+
+KerberosAuthentication Yes</code></pre>
+<p>Our policy was successfully applied.</p>
+
+</div>
 </div>
             </section>
 
