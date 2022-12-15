@@ -13,99 +13,87 @@ There are instances where Samba's Group Policy can only be managed via the GPMC,
 ## Creating a Group Policy Object {#gpcreate}
 
 The `samba-tool gpo create` command is used to create a Group Policy Object.
+The `samba-tool gpo create` command is used to create a Group Policy Object (GPO). To create a GPO using the `samba-tool gpo create` command, you would use the following syntax:
 
+```sh
+samba-tool gpo create GPO_NAME
 ```
-> samba-tool gpo create --help
-Usage: samba-tool gpo create <displayname> [options]
 
-Create an empty GPO.
+Where `GPO_NAME` is the name of the GPO that you want to create. This name should be unique within the domain, as it will be used to identify the GPO when it is linked to a domain or organizational unit (OU).
+
+Once the GPO has been created, you can use the `samba-tool gpo setlink` command to add or update a GPO link to a container. The syntax for this command is:
+
+```sh
+samba-tool gpo setlink CONTAINER_DN GPO_NAME
 ```
+
+Where `CONTAINER_DN` is the distinguished name of the container from which you want to create the GPO link, and `GPO_NAME` is the name of the GPO you want to link.
 
 ## Deleting a Group Policy Object {#gpdelete}
 
-```
-> samba-tool gpo del --help
-Usage: samba-tool gpo del <gpo> [options]
+To delete a Group Policy Object (GPO), you would use the `samba-tool gpo del` command. The syntax for this command is:
 
-Delete a GPO.
-```
-
-## Group Policy Links {#gplink}
-
-```
-> samba-tool gpo setlink --help
-Usage: samba-tool gpo setlink <container_dn> <gpo> [options]
-
-Add or update a GPO link to a container.
+```sh
+samba-tool gpo del GPO_NAME
 ```
 
-```
-> samba-tool gpo dellink --help
-Usage: samba-tool gpo dellink <container_dn> <gpo> [options]
+Where `GPO_NAME` is the name of the GPO you want to delete.
 
-Delete GPO link from a container.
+This command will delete the GPO from the server. Keep in mind that this operation cannot be undone, so make sure you really want to delete the GPO before running this command.
+
+To delete a Group Policy Object (GPO) link from a container, you would use the `samba-tool gpo dellink` command. The syntax for this command is:
+
+```sh
+samba-tool gpo dellink CONTAINER_DN GPO_NAME
 ```
+
+Where `CONTAINER_DN` is the distinguished name of the container from which you want to delete the GPO link, and `GPO_NAME` is the name of the GPO you want to unlink.
 
 ## Listing a Group Policy {#gplist}
 
-```
-> samba-tool gpo list --help
-Usage: samba-tool gpo list <username|machinename> [options]
+To list the contents of a Group Policy Object (GPO), you would use the `samba-tool gpo list` command. The syntax for this command is:
 
-List GPOs for an account.
+```sh
+samba-tool gpo list GPO_NAME
 ```
+
+Where `GPO_NAME` is the name of the GPO you want to list the contents of.
+
+This command will list all of the settings and policies contained in the specified GPO.
 
 ## Modifying a Group Policy {#gpmodify}
 
 The `samba-tool gpo manage` is used for modifying settings on a Group Policy Object. See the individual chapters for each subcommand explanation.
 
-<table>
- <thead>
-  <tr>
-   <th style="text-align:left;">samba-tool command</th>
-   <th style="text-align:left;">Chapter</th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td>`samba-tool gpo manage smb_conf`</td>
-   <td>\@ref(smbconf)</td>
-  </tr>
-  <tr>
-   <td>`samba-tool gpo manage security`</td>
-   <td>\@ref(sec)</td>
-  </tr>
-  <tr>
-   <td>`samba-tool gpo manage scripts startup`</td>
-   <td>\@ref(startupscripts)</td>
-  </tr>
-  <tr>
-   <td>`samba-tool gpo manage files`</td>
-   <td>\@ref(files)</td>
-  </tr>
-  <tr>
-   <td>`samba-tool gpo manage symlink`</td>
-   <td>\@ref(symlink)</td>
-  </tr>
-  <tr>
-   <td>`samba-tool gpo manage sudoers`</td>
-   <td>\@ref(sudoers)</td>
-  </tr>
-  <tr>
-   <td>`samba-tool gpo manage issue`</td>
-   <td>\@ref(msgs)</td>
-  </tr>
-  <tr>
-   <td>`samba-tool gpo manage motd`</td>
-   <td>\@ref(msgs)</td>
-  </tr>
-  <tr>
-   <td>`samba-tool gpo manage access`</td>
-   <td>\@ref(pamaccess)</td>
-  </tr>
-  <tr>
-   <td>`samba-tool gpo manage openssh`</td>
-   <td>\@ref(openssh)</td>
-  </tr>
-</tbody>
-</table>
+```{r, echo=FALSE}
+knitr::kable(
+  data.frame(
+    "Command" = c(
+      "samba-tool gpo manage smb_conf",
+      "samba-tool gpo manage security",
+      "samba-tool gpo manage scripts startup",
+      "samba-tool gpo manage files",
+      "samba-tool gpo manage symlink",
+      "samba-tool gpo manage sudoers",
+      "samba-tool gpo manage issue",
+      "samba-tool gpo manage motd",
+      "samba-tool gpo manage access",
+      "samba-tool gpo manage openssh"
+    ),
+    "Chapter" = c(
+      "\\@ref(smbconf)",
+      "\\@ref(sec)",
+      "\\@ref(startupscripts)",
+      "\\@ref(files)",
+      "\\@ref(symlink)",
+      "\\@ref(sudoers)",
+      "\\@ref(msgs)",
+      "\\@ref(msgs)",
+      "\\@ref(pamaccess)",
+      "\\@ref(openssh)"
+    )
+  )
+)
+```
+
+Each of these subcommands has its own set of options and parameters that can be used to specify the details of the operation. For more information on a specific subcommand, you can consult the documentation for that subcommand.
