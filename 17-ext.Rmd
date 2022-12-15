@@ -95,7 +95,7 @@ Note: You can also add sub-categories under this category. After clicking OK, ri
 
 ![](ext-images/new-policy.png)
 
-7. Because we'll be applying these settings to a Linux machine, the Registry fields are mostly meaningless, but they are required. Your policies will be stored under these keys on the SYSVOL in the Registry.pol file. Choose some sensible Registry Key, such as 'Software\Policies\Samba\Unix Settings', and a Registry Value Name, such as 'Daily Scripts' (these are the values used for Samba's cron.daily policy). The Display Name is the name that will be displayed for this policy in the Group Policy Management Editor. I usually make this the same as the Registry Value Name, but it doesn't need to be.
+7. Because we'll be applying these settings to a Linux machine, the Registry fields are mostly meaningless, but they are required. Your policies will be stored under these keys on the SYSVOL in the Registry.pol file. Choose some sensible Registry Key, such as 'Software\\Policies\\Samba\\Unix Settings', and a Registry Value Name, such as 'Daily Scripts' (these are the values used for Samba's cron.daily policy). The Display Name is the name that will be displayed for this policy in the Group Policy Management Editor. I usually make this the same as the Registry Value Name, but it doesn't need to be.
 
 8. Select whether this policy will be applied to a Machine, a User, or to Both in the Class field. In our example, we could potentially set Both, then our Client Side Extension would need to handle both cron.daily scripts (the Machine) and also User crontab entries. Click OK for your policy to be created.
 
@@ -109,13 +109,13 @@ Note: You can also add sub-categories under this category. After clicking OK, ri
 
 12. Choose an element Label, this will be the name for the list displayed in the Group Policy Management Editor.
 
-13. Choose a Registry Key. This will be pre-populated with the parent Registry Key you gave when creating the policy. Append something to the key to make it unique. We'll use 'Software\Policies\Samba\Unix Settings\Daily Scripts' for our cron.daily policy.
+13. Choose a Registry Key. This will be pre-populated with the parent Registry Key you gave when creating the policy. Append something to the key to make it unique. We'll use 'Software\\Policies\\Samba\\Unix Settings\\Daily Scripts' for our cron.daily policy.
 
 14. Navigate to the Explain tab, and add an explanation of what this policy is and what it does. This will be displayed to users in the Group Policy Management Editor.
 
 15. Now right click on your template name in the left tree, and select Save As.
 
-16. Finally, you'll need to deploy your new policy definition to the SYSVOL. It should be saved to the Policies\PolicyDefinitions (the Group Policy Central Store) directory. These instructions from Microsoft can assist you in setting up your Group Policy Central Store.
+16. Finally, you'll need to deploy your new policy definition to the SYSVOL. It should be saved to the Policies\\PolicyDefinitions (the Group Policy Central Store) directory. These instructions from Microsoft can assist you in setting up your Group Policy Central Store.
 
 ![](ext-images/sse.png)
 
@@ -374,7 +374,7 @@ There are other methods and attributes, but these are the only ones important to
 
 The primary purpose of this loop is to iterate over the GPOs, read their policy in the SYSVOL, then check the sections for the Registry Key we created in our Server Side Extension. If our policy Registry Key exists, then we read the entry and apply the policy.
 
-In our example, we find the 'Software\Policies\Samba\Unix Settings\Daily Scripts' policy, then read the script contents from Registry.pol entry and write the script to a local file. In the example code, we write the script to a temporary file, then move the file to it's permanent location in /etc/cron.daily.
+In our example, we find the 'Software\\Policies\\Samba\\Unix Settings\\Daily Scripts' policy, then read the script contents from Registry.pol entry and write the script to a local file. In the example code, we write the script to a temporary file, then move the file to it's permanent location in /etc/cron.daily.
 
 We also have to make sure we set the name of the new script in our `self.gp_db` (Group Policy Database). This ensures that we can remove the policy when we delete the GPO. At the beginning of our loop, we also need to ensure we call `set_guid()` on our Group Policy Database, so it knows which GPO we're operating on.
 
