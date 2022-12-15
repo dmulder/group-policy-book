@@ -71,8 +71,6 @@ The meaning of the various tags are explained in Microsoft's Group Policy docume
 
 #### ADMX Migrator
 
-![ADMX Migrator](ext-images/amdx-migrator.webp)
-
 FullArmor created the ADMX Migrator to simplify the shift for system administrators from the old ADM policy templates to ADMX. Fortunately, this tool also serves our purpose for assisting us in easily creating these templates for our SSE. Unfortunately, the tool hasn't seen any development in the past 8 years, and wont run in Windows 10 (or any Unix/Linux platform, for that matter). I had to dredge up a Windows 7 VM in order to install and use the tool.
 
 ##### Creating the Administrative Template
