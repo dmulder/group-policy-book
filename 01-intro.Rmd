@@ -4,25 +4,59 @@
 knitr::include_graphics("intro-imates/computer.png")
 ```
 
-Samba version 4.14 and newer ships with Linux client Group Policy. The Group Policy offerings are made to be similar to what is offered by proprietary tools, such as Vintela’s and Centrify’s Group Policy.
+Starting with version 4.14, Samba has included support for applying Group Policy objects (GPOs) to Linux clients, making it possible to use Group Policy to centrally manage and configure Linux systems in a Windows environment.
 
-Group Policy provides centralized management and configuration of operating system, application, and user settings. Policies are delivered to clients by listing them in LDAP, under groupPolicyContainer objects. These objects provide the gPCFileSysPath attribute, which points to policy information stored on the domains SYSVOL share.
+Samba's Group Policy support is designed to be similar to what is offered by proprietary tools, such as Vintela's and Centrify's Group Policy solutions. This allows Linux users to take advantage of the same powerful Group Policy features that are available to Windows users, without having to rely on proprietary tools.
+
+Overall, Samba's Group Policy support makes it possible for Linux users to manage and configure their systems using the same powerful Group Policy features that are available to Windows users. This allows Linux users to easily integrate their systems with Windows environments and take advantage of Group Policy's central management capabilities.
 
 ## What's the difference between Group Policy and a Group Policy Object?
 
-A Group Policy Object (GPO) is a collection of settings that apply to a set of machines or users in a group. You can think of *Group Policy* like a template for a work order, and a *Group Policy Object* like a filled out copy of that template. A GPO is a *work order* of instructions to follow. That work order will be distributed to every member of the group, and it's up to each member to decide how it *applies* those instructions.
+The key difference between Group Policy and a Group Policy Object (GPO) is that Group Policy is the overall concept and framework for managing and configuring settings on computers in an environment, while a GPO is a specific collection of settings that are applied to a group of machines or users.
 
-A GPO is modified by a *Server Side Extension*, and it is *applied* for a group member by a *Client Side Extension*.
+Group Policy allows administrators to define and manage the settings that are applied to computers and users in a domain. This includes settings for various aspects of the operating system, such as security policies, user accounts, and network settings. Group Policy also includes the infrastructure and tools for distributing and applying these settings to the appropriate computers and users. You can think of *Group Policy* like a template for a work order.
+
+A GPO, on the other hand, is a specific set of settings that are defined by an administrator and applied to a group of computers or users. A GPO can be thought of as a filled out copy of a work order that specifies the settings that should be applied to the members of the group. These settings are stored in the GPO and distributed to the appropriate computers and users by the Group Policy infrastructure.
+
+Server-side extensions (SSEs) are responsible for processing and managing GPOs on the domain controller, while client-side extensions (CSEs) are responsible for applying the settings in a GPO to the local system. Together, these components work to manage and apply GPOs in an environment.
 
 ## Server Side Extensions
 
-The purpose of a Server Side Extension (SSE) is to fill out a *work order* (a Group Policy Object). On Windows, this generally refers to some component of the Group Policy Management Editor.
+The purpose of a Server Side Extension (SSE) is to process and manage Group Policy objects (GPOs) on the domain controller (to fill out a *work order*). In a Windows environment, this generally refers to some component of the Group Policy Management Editor.
 
 ![Group Policy Management Editor](ch01-images/gpme.png)
 
-In Samba, this also includes the `samba-tool gpo manage` command.
+In the case of Samba, SSEs also include the `samba-tool gpo` command, which allows administrators to manage GPOs from the command line. This command allows administrators to create, link, and modify GPOs.
 
 ```
+> samba-tool gpo
+Usage: samba-tool gpo <subcommand>
+
+Group Policy Object (GPO) management.
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  aclcheck        - Check all GPOs have matching LDAP and DS ACLs.
+  admxload        - Loads samba admx files to sysvol
+  backup          - Backup a GPO.
+  create          - Create an empty GPO.
+  del             - Delete a GPO.
+  dellink         - Delete GPO link from a container.
+  fetch           - Download a GPO.
+  getinheritance  - Get inheritance flag for a container.
+  getlink         - List GPO Links for a container.
+  list            - List GPOs for an account.
+  listall         - List all GPOs.
+  listcontainers  - List all linked containers for a GPO.
+  manage          - Manage Group Policy Objects
+  restore         - Restore a GPO to a new container.
+  setinheritance  - Set inheritance flag on a container.
+  setlink         - Add or update a GPO link to a container.
+  show            - Show information for a GPO.
 > samba-tool gpo manage
 Usage: samba-tool gpo manage <subcommand>
 
@@ -48,6 +82,8 @@ Available subcommands:
 
 When working with Linux clients, using `samba-tool gpo manage` to fill out your GPO is generally the preferred method.
 
+Overall, the purpose of an SSE is to manage and process GPOs on the domain controller, enabling administrators to define and apply settings to the appropriate computers and users in the domain. These extensions work behind the scenes to ensure that GPOs are processed and managed correctly on the domain controller.
+
 ### Enabling Group Policy Server Side Extensions on the Server
 
 In order to use the Samba Administrative Templates in the Group Policy Management Console, you’ll need to install them first, using the command `sudo samba-tool gpo admxload -UAdministrator`. See chapter \@ref(install-admx) for specifics on how to do this.
@@ -72,7 +108,11 @@ If the Linux client is joined using SSSD, you can instead enforce the policy usi
 
 ### Resultant Set of Policy {#rsop}
 
-Each CSE is configured to return a Resultant Set of Policy (RSoP), which indicates what policies will apply to a machine before applying (or shows what policies are already applied). It's a compiliation of the policies for that Machine or User.
+A Resultant Set of Policy (RSoP) is a summary of the policies that will be applied to a computer or user, or that have already been applied. The RSoP is generated by the client-side extensions (CSEs) that are responsible for applying Group Policy objects (GPOs) to the local system.
+
+Each CSE is configured to return an RSoP for the policies that it manages.
+
+The RSoP is generated by the CSEs before the GPOs are applied, allowing administrators to see what policies will be applied to the system before they are actually applied. This can be useful for troubleshooting or for verifying that the correct policies are being applied. Once the GPOs are applied, the CSEs will also generate an RSoP for the policies that have been applied.
 
 To see the RSoP, run the command `sudo samba-gpupdate --rsop` for Machine policy, or `sudo samba-gpupdate --rsop --target=User -U<username>` to see User policy.
 
@@ -123,7 +163,9 @@ Samba Group Policy \s \r \l
 
 ## Policies Introduced in this Book
 
-This section will provide a brief overview of the policies that will be discussed in upcoming chapters.
+In the upcoming chapters of this book, we will be discussing a variety of Group Policies that can be used to manage and configure systems in a Linux environment. These policies cover a wide range of settings, including security policies, user account settings, preferences, and many others.
+
+This section will provide a brief overview of those policies. By the end of this book, the reader should have a good understanding of how to use these policies to manage and configure Linux systems.
 
 ### smb.conf Policies
 
@@ -203,7 +245,7 @@ GNOME Settings policies are found in the GPME under `Computer Configuration > Po
 
 ### OpenSSH Policy
 
-OpenSSH policy applies settings to /etc/ssh/sshd_config.d. These policies can be set using the `samba-tool gpo manage openssh` command. These policies are compatible with Vintela's OpenSSH Group Policy.
+OpenSSH policy applies settings to `/etc/ssh/sshd_config.d`. These policies can be set using the `samba-tool gpo manage openssh` command. These policies are compatible with Vintela's OpenSSH Group Policy.
 
 ### Firewalld Policy
 
