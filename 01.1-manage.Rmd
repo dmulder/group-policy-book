@@ -32,6 +32,8 @@ Note: You will need to have the appropriate permissions to edit the Default Doma
 
 ## Creating a Group Policy Object {#gpcreate}
 
+### samba-tool
+
 The `samba-tool gpo create` command is used to create a Group Policy Object.
 The `samba-tool gpo create` command is used to create a Group Policy Object (GPO). To create a GPO using the `samba-tool gpo create` command, you would use the following syntax:
 
@@ -49,7 +51,25 @@ samba-tool gpo setlink CONTAINER_DN GPO_NAME
 
 Where `CONTAINER_DN` is the distinguished name of the container from which you want to create the GPO link, and `GPO_NAME` is the name of the GPO you want to link.
 
+### GPMC
+
+To create a Group Policy object (GPO) using the Group Policy Management Console (GPMC):
+
+1. Open the GPMC by going to `Start > Administrative Tools > Group Policy Management`.
+
+2. In the GPMC, expand the Domains node in the tree, and then expand the domain where you want to create the GPO.
+
+3. Right-click on the domain, or the container where you'd like the GPO created and linked, and select `Create a GPO in this domain, and Link it here...`.
+
+![Create a GPO](manage-images/create.png)
+
+4. In the `New GPO` dialog box, enter a name for the GPO and click on the `OK` button.
+
+5. The new GPO will be created and will appear in the list of GPOs under the `Group Policy Objects` node.
+
 ## Deleting a Group Policy Object {#gpdelete}
+
+### samba-tool
 
 To delete a Group Policy Object (GPO), you would use the `samba-tool gpo del` command. The syntax for this command is:
 
@@ -68,6 +88,18 @@ samba-tool gpo dellink CONTAINER_DN GPO_NAME
 ```
 
 Where `CONTAINER_DN` is the distinguished name of the container from which you want to delete the GPO link, and `GPO_NAME` is the name of the GPO you want to unlink.
+
+### GPMC
+
+To delete a Group Policy object (GPO) using the Group Policy Management Console (GPMC):
+
+1. In the left pane of the GPMC, expand the forest and domain that contain the GPO you want to delete.
+
+2. In the left pane, select the Group Policy Objects container. This will display a list of GPOs in the right pane.
+
+3. In the right pane, right-click the GPO you want to delete and select "Delete."
+
+4. A warning message will appear, asking you to confirm that you want to delete the GPO. Click "Yes" to delete the GPO.
 
 ## Listing a Group Policy {#gplist}
 
