@@ -118,38 +118,32 @@ Let's now force an apply, and verify that the cron jobs are scheduled.
 
 ```
 > sudo /usr/sbin/samba-gpupdate --force
-> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" | xmllint --format -
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
+ | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+ | xmllint --xpath "//gp_ext[@name='Unix Settings/Scripts']" - \
+ | xmllint --format -
 <?xml version="1.0"?>
-<gp>
-  <user name="TESTSYSDM$">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="Unix Settings/Scripts">
-        <attribute name="Software\Policies\Samba\Unix Settings\Daily Scripts:ZWNobyBoZWxsbyB3b3JsZA==">/etc/cron.daily/gp_m94kdru9</attribute>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
+<gp_ext name="Unix Settings/Scripts">
+  <attribute name="Software\Policies\Samba\Unix
+                   Settings\Daily Scripts:ZWNobyBoZWxsbyB3b3JsZA==">
+    /etc/cron.daily/gp_m94kdru9
+  </attribute>
+</gp_ext>
 > sudo /usr/sbin/samba-gpupdate --target=User -U tux --force
-> sudo tdbdump /var/lib/samba/gpo.tdb -k "LIZARDO\\tux" | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" | xmllint --format -
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "LIZARDO\\tux" \
+ | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+ | xmllint --xpath "//gp_ext[@name='Unix Settings/Scripts']" - \
+ | xmllint --format -
 <?xml version="1.0"?>
-<gp>
-  <user name="LIZARDO\tux">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="Unix Settings/Scripts">
-        <attribute name="Software\Policies\Samba\Unix Settings\Hourly Scripts:94d6cccd227ea60f662a2ea161560329df75d24b64265c405ba16209c715a0bb274b39b07d2c825dc926341839067d90a80d5570b2c68607b16915fd806de415">@hourly echo Don't do that Dave</attribute>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
+<gp_ext name="Unix Settings/Scripts">
+  <attribute name="Software\Policies\Samba\Unix
+                   Settings\Hourly Scripts:94d6...e415">
+    @hourly echo Don't do that Dave
+  </attribute>
+</gp_ext>
 ```
 
-First we see that the machine policy created the script `/etc/cron.daily/gp_m94kdru9`. Let's take a look at the contents.
+First we see that the machine policy created the script `/etc/cron.daily/` `gp_m94kdru9`. Let's take a look at the contents.
 
 ```bash
 > sudo cat /etc/cron.daily/gp_m94kdru9

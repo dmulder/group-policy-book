@@ -91,42 +91,41 @@ To set Kerberos policy settings, follow these steps:
 
 ### Managing Password and Kerberos Policies via samba-tool
 
-The Password and Kerberos policies can also be set via `samba-tool`.
+The Password and Kerberos policies can also be set via `samba-tool gpo manage security set <gpo> <setting> <value>`.
 
-```
-> samba-tool gpo manage security set --help
-Usage: samba-tool gpo manage security set <gpo> <setting> <value> [options]
+The command accepts the following parameters:
 
-Set Samba Security Group Policy to the sysvol
+1. `<gpo>`: The name of the GPO that you want to modify.
 
-This command sets a security setting to the sysvol for applying to winbind
-clients. Not providing a value will unset the policy.
-These settings only apply to the ADDC.
+2. `<setting>`: The name of the smb.conf setting that you want to set.
 
-Example:
-samba-tool gpo manage security set {31B2F340-016D-11D2-945F-00C04FB984F9} MaxTicketAge 10
+3. `<value>`: The value that you want to set for the specified setting.
 
-Possible policies:
-MaxTicketAge            Maximum lifetime for user ticket
-                        Defined in hours
+The `setting` parameter must be one of the following:
 
-MaxServiceAge           Maximum lifetime for service ticket
-                        Defined in minutes
-
-MaxRenewAge             Maximum lifetime for user ticket renewal
-                        Defined in minutes
-
-MinimumPasswordAge      Minimum password age
-                        Defined in days
-
-MaximumPasswordAge      Maximum password age
-                        Defined in days
-
-MinimumPasswordLength   Minimum password length
-                        Defined in characters
-
-PasswordComplexity      Password must meet complexity requirements
-                        1 is Enabled, 0 is Disabled
+```{r, echo=FALSE}
+knitr::kable(
+  data.frame(
+    "Setting" = c(
+      "MaxTicketAge",
+      "MaxServiceAge",
+      "MaxRenewAge",
+      "MinimumPasswordAge",
+      "MaximumPasswordAge",
+      "MinimumPasswordLength",
+      "PasswordComplexity"
+    ),
+    "Description" = c(
+      "Maximum lifetime for user ticket",
+      "Maximum lifetime for service ticket",
+      "Maximum lifetime for user ticket renewal",
+      "Minimum password age",
+      "Maximum password age",
+      "Minimum password length",
+      "Password must meet complexity requirements"
+    )
+  )
+, align="l")
 ```
 
 ## Client Side Extension
@@ -172,33 +171,29 @@ Let's now force a policy apply, and check that the settings have changed.
 
 ```
 > sudo /usr/sbin/samba-gpupdate --force
-> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
-<?xml version="1.0"?>
-<gp>
-  <user name="TESTSYSDM$">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="System Access">
-        <attribute name="minPwdAge"/>
-        <attribute name="maxPwdAge"/>
-        <attribute name="minPwdLength"/>
-        <attribute name="pwdProperties"/>
-      </gp_ext>
-      <gp_ext name="Kerberos Policy">
-        <attribute name="kdc:user_ticket_lifetime"/>
-        <attribute name="kdc:renewal_lifetime"/>
-        <attribute name="kdc:service_ticket_lifetime"/>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
-> sudo tdbdump /var/lib/samba/gpo.tdb -k 'kdc:user_ticket_lifetime'; echo
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
+ | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+ | xmllint --xpath "//gp_ext[@name='System Access' or 
+                             @name='Kerberos Policy']"  -
+<gp_ext name="System Access">
+  <attribute name="minPwdAge"/>
+  <attribute name="maxPwdAge"/>
+  <attribute name="minPwdLength"/>
+  <attribute name="pwdProperties"/>
+</gp_ext>
+<gp_ext name="Kerberos Policy">
+  <attribute name="kdc:user_ticket_lifetime"/>
+  <attribute name="kdc:renewal_lifetime"/>
+  <attribute name="kdc:service_ticket_lifetime"/>
+</gp_ext>
+> sudo tdbdump /var/lib/samba/gpo.tdb \
+ -k 'kdc:user_ticket_lifetime'; echo
 10
-> sudo tdbdump /var/lib/samba/gpo.tdb -k 'kdc:service_ticket_lifetime'; echo
+> sudo tdbdump /var/lib/samba/gpo.tdb \
+ -k 'kdc:service_ticket_lifetime'; echo
 10
-> sudo tdbdump /var/lib/samba/gpo.tdb -k 'kdc:renewal_lifetime'; echo
+> sudo tdbdump /var/lib/samba/gpo.tdb \
+ -k 'kdc:renewal_lifetime'; echo
 168
 ```
 
@@ -251,7 +246,10 @@ knitr::kable(
 While the Kerberos policies have been stored to the Group Policy Log as expected, let's next verify that the Password policies have been applied using the following ldapsearch.
 
 ```
-> ldapsearch -H ldap://lizardo.suse.de -x -W -D "Administrator@lizardo.suse.de" -b DC=lizardo,DC=suse,DC=de -s base minPwdAge maxPwdAge minPwdLength pwdProperties
+> ldapsearch -H ldap://lizardo.suse.de -x -W \
+ -D "Administrator@lizardo.suse.de" \
+ -b DC=lizardo,DC=suse,DC=de \
+ -s base minPwdAge maxPwdAge minPwdLength pwdProperties
 # lizardo.suse.de
 dn: DC=lizardo,DC=suse,DC=de
 maxPwdAge: -36288000000000

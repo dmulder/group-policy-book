@@ -6,7 +6,7 @@ knitr::include_graphics("msgs-images/msg.png")
 
 The purpose of the Message policy is to set the contents of the `/etc/motd` and `/etc/issue` files. These are Machine only policies.
 
-This policy is physically stored in three different locations on the SYSVOL, in **MACHINE/Registry.pol**, **MACHINE/VGP/VTLA/Unix/Issue/manifest.xml**, and **MACHINE/VGP/VTLA/Unix/MOTD/manifest.xml**. The `manifest.xml` files are in xml format, and are easily modified manually using a text editor. The `Registry.pol` is in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
+This policy is physically stored in three different locations on the SYSVOL, in **MACHINE/Registry.pol**, **MACHINE/VGP/VTLA/Unix/Issue/** **manifest.xml**, and **MACHINE/VGP/VTLA/Unix/MOTD/** **manifest.xml**. The `manifest.xml` files are in xml format, and are easily modified manually using a text editor. The `Registry.pol` is in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
 
 ## Server Side Extension
 
@@ -62,43 +62,42 @@ Available subcommands:
 
 The syntax is the same for both `motd` and `issue`. The `list` command simply lists the current value of the setting, while the `set` command will set the contents of the setting.
 
+To use the `samba-tool gpo manage motd list` command, you need to provide the name of the GPO as an argument. For example:
+
+```sh
+samba-tool gpo manage motd list \
+  {31B2F340-016D-11D2-945F-00C04FB984F9}
 ```
-> samba-tool gpo manage motd list --help
-Usage: samba-tool gpo manage motd list <gpo> [options]
 
-List VGP MOTD Group Policy from the sysvol
+To use the `samba-tool gpo manage motd set` command, you need to provide the name of the GPO as an argument, followed by the message you want to set as the MOTD. For example:
 
-This command lists the Message of the Day from the sysvol that will be applied
-to winbind clients.
-
-Example:
-samba-tool gpo manage motd list {31B2F340-016D-11D2-945F-00C04FB984F9}
-> samba-tool gpo manage motd set --help
-Usage: samba-tool gpo manage motd set <gpo> [value] [options]
-
-Sets a VGP MOTD Group Policy to the sysvol
-
-This command sets the Message of the Day to the sysvol for applying to winbind
-clients. Not providing a value will unset the policy.
-
-Example:
-samba-tool gpo manage motd set {31B2F340-016D-11D2-945F-00C04FB984F9} "Message
-for today"
+```sh
+samba-tool gpo manage motd set \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} "Welcome to the server!
+ Please make sure to read the guidelines before proceeding."
 ```
+
+If no value is provided for the message, the MOTD will be unset and will not be displayed to users when they log in.
 
 Let's set some messages for testing later.
 
 ```
-> samba-tool gpo manage motd set {31B2F340-016D-11D2-945F-00C04FB984F9} "motd set from samba-tool" -UAdministrator
-> samba-tool gpo manage issue set {31B2F340-016D-11D2-945F-00C04FB984F9} "issue set from samba-tool" -UAdministrator
+> samba-tool gpo manage motd set \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} \
+ "motd set from samba-tool" -UAdministrator
+> samba-tool gpo manage issue set \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} \
+ "issue set from samba-tool" -UAdministrator
 ```
 
 Doing a list for good measure, we see that the policy is set on the SYSVOL.
 
 ```
-> samba-tool gpo manage motd list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator; echo
+> samba-tool gpo manage motd list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator; echo
 motd set from samba-tool
-dmulder@testsysdm:~> samba-tool gpo manage issue list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator; echo
+> samba-tool gpo manage issue list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator; echo
 issue set from samba-tool
 ```
 
@@ -149,27 +148,29 @@ Because both these policies are set, we can't predict which one will actually be
 
 ```
 > sudo /usr/sbin/samba-gpupdate --force
-> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
-<?xml version="1.0"?>
-<gp>
-  <user name="TESTSYSDM$">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="Unix Settings/Messages">
-        <attribute name="motd"/>
-        <attribute name="issue">Welcome to openSUSE Tumbleweed 20221102 - Kernel \5Cr (\5Cl).\0A\0Aenp1s0: \5C4{enp1s0} \5C6{enp1s0}\0A\0A\0A</attribute>
-      </gp_ext>
-      <gp_ext name="Unix Settings/Message of the Day">
-        <attribute name="motd">Welcome to Linux Group Policy!</attribute>
-      </gp_ext>
-      <gp_ext name="Unix Settings/Issue">
-        <attribute name="issue">Welcome to \5Cs \5Cr \5Cl</attribute>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
+ | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+ | xmllint --xpath "//gp_ext[@name='Unix Settings/Messages' or
+                             @name='Unix Settings/Message
+			     of the Day' or
+                             @name='Unix Settings/Issue']" - \
+ | xmllint --format -
+<gp_ext name="Unix Settings/Messages">
+  <attribute name="motd"/>
+  <attribute name="issue">
+    Welcome to openSUSE Tumbleweed
+  </attribute>
+</gp_ext>
+<gp_ext name="Unix Settings/Message of the Day">
+  <attribute name="motd">
+    Welcome to Linux Group Policy!
+  </attribute>
+</gp_ext>
+<gp_ext name="Unix Settings/Issue">
+  <attribute name="issue">
+    Welcome to \5Cs \5Cr \5Cl
+  </attribute>
+</gp_ext>
 ```
 
 Note that Messages policy stores the previous value of the message content in the Group Policy Cache. So we can discern from the message content that `vgp_motd_ext` and `vgp_issue_ext` applied last (since the messages from `gp_msgs_ext` show up in the log). We can confirm this by checking the contents of `/etc/motd` and `/etc/issue`.

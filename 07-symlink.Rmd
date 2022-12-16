@@ -6,7 +6,7 @@ knitr::include_graphics("symlink-images/symlink.png")
 
 The purpose of this policy is to create a symbolic link on a Linux client. Only Machine policy is supported. This policy could be useful in conjunction with the Files Policy found in chapter \@ref(files).
 
-This policy is physically stored on the SYSVOL in the **MACHINE/VGP/VTLA/Unix/Symlink/manifest.xml** file in the subdirectory of the Group Policy Object. It is stored in an xml format, and is easily modified manually using a text editor.
+This policy is physically stored on the SYSVOL in the **MACHINE/VGP** **/VTLA/Unix/Symlink/manifest.xml** file in the subdirectory of the Group Policy Object. It is stored in an xml format, and is easily modified manually using a text editor.
 
 ## Server Side Extension
 
@@ -35,18 +35,8 @@ Available subcommands:
 
 To add a new Symlink policy to the SYSVOL, call the `samba-tool gpo manage symlink add` command.
 
-```
-> samba-tool gpo manage symlink add --help
-Usage: samba-tool gpo manage symlink add <gpo> <source> <target> [options]
-
-Adds a VGP Symbolic Link Group Policy to the sysvol
-
-This command adds a symlink setting to the sysvol that will be applied to
-winbind clients.
-
-Example:
-samba-tool gpo manage symlink add {31B2F340-016D-11D2-945F-00C04FB984F9}
-/tmp/source /tmp/target
+```sh
+samba-tool gpo manage symlink add <gpo> <source> <target>
 ```
 
 This command will add a policy instructing the client to create a symbolic link pointing to `source` named `target`.
@@ -62,12 +52,21 @@ F=23
 D=0
 S=irc.libera.chat/6697
 J=#samba-technical
-> samba-tool gpo manage files add {31B2F340-016D-11D2-945F-00C04FB984F9} servlist.conf /usr/share/servlist.conf 'LIZARDO\tux' 'LIZARDO\domain users' 600 -UAdministrator
-> samba-tool gpo manage files list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
--rw-------	LIZARDO\tux	LIZARDO\domain users	/usr/share/servlist.conf -> servlist.conf
-> samba-tool gpo manage symlink add {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf -UAdministrator
-> samba-tool gpo manage symlink list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
-ln -s /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf
+> samba-tool gpo manage files add \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} servlist.conf \
+ /usr/share/servlist.conf 'LIZARDO\tux' \
+ 'LIZARDO\domain users' 600 -UAdministrator
+> samba-tool gpo manage files list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+-rw------- LIZARDO\tux LIZARDO\domain users
+ /usr/share/servlist.conf -> servlist.conf
+> samba-tool gpo manage symlink add \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/share/servlist.conf \
+ /home/LIZARDO/tux/.config/hexchat/servlist.conf -UAdministrator
+> samba-tool gpo manage symlink list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+ln -s /usr/share/servlist.conf
+ /home/LIZARDO/tux/.config/hexchat/servlist.conf
 ```
 
 Here we are uploading a configuration file for hexchat, then symlinking it to a user's profile. The `samba-tool gpo manage symlink list` command displays the link operations that will be performed on the client.
@@ -75,7 +74,9 @@ Here we are uploading a configuration file for hexchat, then symlinking it to a 
 Later when we choose to remove this policy, we will do so with the `samba-tool gpo manage symlink remove` command.
 
 ```
-> samba-tool gpo manage symlink remove {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf -UAdministrator
+> samba-tool gpo manage symlink remove \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/share/servlist.conf \
+ /home/LIZARDO/tux/.config/hexchat/servlist.conf -UAdministrator
 ```
 
 ## Client Side Extension
@@ -95,14 +96,16 @@ GPO: Default Domain Policy
   -----------------------------------------------------------
     Policy Type: VGP/Unix Settings/Symbolic Links
     -----------------------------------------------------------
-    [ ln -s /usr/share/servlist.conf /home/LIZARDO/tux/.config/hexchat/servlist.conf ]
+    [ ln -s /usr/share/servlist.conf
+      /home/LIZARDO/tux/.config/hexchat/servlist.conf ]
     -----------------------------------------------------------
   -----------------------------------------------------------
   CSE: vgp_files_ext
   -----------------------------------------------------------
     Policy Type: VGP/Unix Settings/Files
     -----------------------------------------------------------
-    [ -rw-------	LIZARDO\tux	LIZARDO\domain users	/usr/share/servlist.conf -> servlist.conf ]
+    [ -rw------- LIZARDO\tux LIZARDO\domain users
+      /usr/share/servlist.conf -> servlist.conf ]
     -----------------------------------------------------------
   -----------------------------------------------------------
 =================================================================
@@ -114,27 +117,29 @@ Let's now force our policy to apply and see how the CSE behaves.
 
 ```
 > sudo /usr/sbin/samba-gpupdate --force
-> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
-<?xml version="1.0"?>
-<gp>
-  <user name="TESTSYSDM$">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="VGP/Unix Settings/Files">
-        <attribute name="/usr/share/servlist.conf">d5b57f062b2cad7cb7dbfa31e9dc7bb951a41feb47fb9e91e24dbf14d2279a8c55baf32429e079c4707539f2f1e70a30db26999f5834f473c020f60c2740820c:LIZARDO\5Ctux:LIZARDO\5Cdomain users:384</attribute>
-      </gp_ext>
-      <gp_ext name="VGP/Unix Settings/Symbolic Links">
-        <attribute name="/usr/share/servlist.conf:/home/LIZARDO/tux/.config/hexchat/servlist.conf">/home/LIZARDO/tux/.config/hexchat/servlist.conf</attribute>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
+> | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+ | xmllint --xpath "//gp_ext[@name='VGP/Unix Settings/Files' or
+                             @name='VGP/Unix Settings/Symbolic
+                                    Links']" - \
+ | xmllint --format -
+<gp_ext name="VGP/Unix Settings/Files">
+  <attribute name="/usr/share/servlist.conf">
+    d5b5...820c:LIZARDO\5Ctux:LIZARDO\5Cdomain users:384
+  </attribute>
+</gp_ext>
+<gp_ext name="VGP/Unix Settings/Symbolic Links">
+  <attribute name="/usr/share/servlist.conf:
+             /home/LIZARDO/tux/.config/hexchat/servlist.conf">
+    /home/LIZARDO/tux/.config/hexchat/servlist.conf
+  </attribute>
+</gp_ext>
 > l /usr/share/servlist.conf
--rw------- 1 LIZARDO\tux LIZARDO\domain users 87 Nov 15 13:51 /usr/share/servlist.conf
+-rw------- 1 LIZARDO\tux LIZARDO\domain users 87 Nov 15 13:51
+ /usr/share/servlist.conf
 > sudo l /home/LIZARDO/tux/.config/hexchat/servlist.conf
-lrwxrwxrwx 1 root root 24 Nov 15 13:51 /home/LIZARDO/tux/.config/hexchat/servlist.conf -> /usr/share/servlist.conf
+lrwxrwxrwx 1 root root 24 Nov 15 13:51 /home/LIZARDO/tux/.config/
+ hexchat/servlist.conf -> /usr/share/servlist.conf
 ```
 
 Our Group Policy Cache at `/var/lib/samba/gpo.tdb` shows the two policies have been applied. Listing the `target`, we also see that the symlink now exists. If we output the contents of our symlink, we can see that it is indeed pointing to our configuration file that we uploaded to the SYSVOL earlier.

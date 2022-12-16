@@ -154,7 +154,8 @@ Let’s now force an apply, and verify that rule gets applied.
 
 ```
 > sudo /usr/sbin/samba-gpupdate --force
-> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" | xmllint --format -
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
+> | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" | xmllint --format -
 <?xml version="1.0"?>
 <gp>
   <user name="TESTSYSDM$">

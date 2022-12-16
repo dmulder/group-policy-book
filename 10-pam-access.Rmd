@@ -33,34 +33,31 @@ Available subcommands:
   remove  - Remove a VGP Host Access Group Policy from the sysvol
 ```
 
-To add a new Host Access rule to the SYSVOL, call the `samba-tool gpo manage access add` command.
+To use the `samba-tool gpo manage access add` command, you need to provide the name of the GPO as the first argument, followed by the access setting (either "allow" or "deny"), the common name (cn) of the host or user you want to allow or deny access to, and the domain of the host or user. For example:
 
+```sh
+samba-tool gpo manage access add <gpo> <allow/deny> <cn> <domain>
 ```
-> samba-tool gpo manage access add --help
-Usage: samba-tool gpo manage access add <gpo> <allow/deny> <cn> <domain> [options]
 
-Adds a VGP Host Access Group Policy to the sysvol
-
-This command adds a host access setting to the sysvol for applying to winbind
-clients. Any time an allow entry is detected by the client, an implicit deny
+Any time an allow entry is detected by the client, an implicit deny
 ALL will be assumed.
-
-Example:
-samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow
-goodguy example.com
-```
 
 Let's add a few rules that restricts access to a couple of specific users.
 
 ```
-> samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow Administrator lizardo.suse.de -UAdministrator
-> samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow tux lizardo.suse.de -UAdministrator
+> samba-tool gpo manage access add \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} allow Administrator \
+ lizardo.suse.de -UAdministrator
+> samba-tool gpo manage access add \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} allow tux \
+ lizardo.suse.de -UAdministrator
 ```
 
 These grant access to the users `tux` and `Administrator` on the host. If we list our access policies, we can see they are ready for delivery to the client.
 
 ```
-> samba-tool gpo manage access list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+> samba-tool gpo manage access list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
 +:lizardo.suse.de\Administrator:ALL
 +:lizardo.suse.de\tux:ALL
 ```
@@ -104,26 +101,27 @@ Let's now force an apply.
 
 ```
 > sudo /usr/sbin/samba-gpupdate --force
-> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
-<?xml version="1.0"?>
-<gp>
-  <user name="TESTSYSDM$">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="Unix Settings/Scripts">
-        <attribute name="Software\5CPolicies\5CSamba\5CUnix Settings\5CDaily Scripts:ZWNobyBoZWxsbyB3b3JsZA==">/etc/cron.daily/gp_pawtjsiq</attribute>
-      </gp_ext>
-      <gp_ext name="VGP/Unix Settings/Host Access">
-        <attribute name="6bf09c80fa6362a0d10d565117e692a6dae7335d0a33f4ac9e8584a887ba934ba73352ced3093dd3e17c8d8999970a696cfd8a142011c5c481725bc0a46dfb9c">/etc/security/access.d/9000000001_gp_DENY_ALL.conf:/etc/security/access.d/0000000001_gp.conf</attribute>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
+ | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+ | xmllint --xpath "//gp_ext[@name='Unix Settings/Scripts' or 
+                             @name='VGP/Unix Settings/Host
+			            Access']" - \
+ | xmllint --format -
+<gp_ext name="Unix Settings/Scripts">
+  <attribute name="Software\\Policies\\Samba\\Unix Settings\\
+                   Daily Scripts:ZWNobyBoZWxsbyB3b3JsZA==">
+    /etc/cron.daily/gp_pawtjsiq
+  </attribute>
+</gp_ext>
+<gp_ext name="VGP/Unix Settings/Host Access">
+  <attribute name="6bf0...fb9c">
+    /etc/security/access.d/9000000001_gp_DENY_ALL.conf:
+    /etc/security/access.d/0000000001_gp.conf
+  </attribute>
+</gp_ext>
 ```
 
-Notice that the PAM Access policy generated 2 different files, `/etc/security/access.d/0000000001_gp.conf` and `/etc/security/access.d/9000000001_gp_DENY_ALL.conf`. Let's check the contents of these files to see what was generated.
+Notice that the PAM Access policy generated 2 different files, `/etc/security/access.d/` `0000000001_gp.conf` and `/etc/security/access.d/9000000001_gp_DENY_ALL.conf`. Let's check the contents of these files to see what was generated.
 
 ```
 > cat /etc/security/access.d/0000000001_gp.conf; echo
