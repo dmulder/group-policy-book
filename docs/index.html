@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-14" />
+<meta name="date" content="2022-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -135,7 +135,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>1.1</b> About the Author</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#whats-the-difference-between-group-policy-and-a-group-policy-object"><i class="fa fa-check"></i><b>2.1</b> What’s the difference between Group Policy and a Group Policy Object?</a></li>
@@ -169,9 +172,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.1</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.2</b> Deleting a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gplink"><i class="fa fa-check"></i><b>3.3</b> Group Policy Links</a></li>
+<li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -309,7 +312,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="19.1.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#admx"><i class="fa fa-check"></i><b>19.1.1</b> Administrative Templates</a></li>
 <li class="chapter" data-level="19.1.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#samba-tool-gpo-manage"><i class="fa fa-check"></i><b>19.1.2</b> samba-tool gpo manage</a></li>
 </ul></li>
-<li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a></li>
+<li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_pol_extgp_inf_ext-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_pol_ext/gp_inf_ext Python Classes</a></li>
+<li class="chapter" data-level="19.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>19.2.2</b> Process Group Policy</a></li>
+<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#deleted-gpos"><i class="fa fa-check"></i><b>19.2.3</b> Deleted GPOs</a></li>
+<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#changed-gpos"><i class="fa fa-check"></i><b>19.2.4</b> Changed GPOs</a></li>
+<li class="chapter" data-level="19.2.5" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.5</b> Resultant Set of Policy</a></li>
+<li class="chapter" data-level="19.2.6" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.6</b> Registering/Unregistering a Client Side Extension</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
@@ -343,12 +354,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Group Policy on Linux</h1>
 <p class="author"><em>David Mulder</em></p>
-<p class="date"><em>2022-12-14</em></p>
+<p class="date"><em>2022-12-16</em></p>
 </div>
 <div id="about" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">1</span> About<a href="index.html#about" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>This book introduces the user to opensource tools for managing Linux clients via Group Policy.</p>
+<p>This book introduces the user to opensource tools for managing Linux clients via Samba’s Group Policy.</p>
+<p>Samba is a popular opensource tool that allows Linux systems to integrate with Windows environments, particularly when it comes to file and printer sharing. One of the key features of Samba is its ability to apply Group Policy objects (GPOs) to Linux clients.</p>
+<p>Group Policy is a feature of the Microsoft Windows operating system that allows administrators to centrally manage system and user settings. With Samba, Linux users can take advantage of this powerful tool to centrally manage and configure their systems.</p>
+<p>In this book, we will introduce the reader to the basics of Group Policy and show how to use Samba to apply GPOs to Linux clients. We will cover topics such as configuring Samba’s Group Policy Server Side Extensions (SSE), troubleshooting common issues with Client Side Extensions (CSEs), and how to create and apply your own Group Policy. By the end of this book, the reader should have a good understanding of how to use Group Policy with Linux systems and be able to confidently manage their Linux clients using this powerful tool.</p>
+<div id="about-the-author" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> About the Author<a href="index.html#about-the-author" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>David Mulder is a developer known for his work on integrating Group Policy support into Samba, which has allowed Linux users to take advantage of this powerful feature to centrally manage their systems. Mulder’s work on Samba’s Group Policy support began in 2016, when he began reviewing code from Luke Morrison, an intern who had submitted his implementation of Group Policy to the Samba project. Mulder previously contributed to the Vintela Group Policy project begining in 2012, and brought that expertice to the Samba team.</p>
+<p>Some of the text in this book, as well as the images, were generated using OpenAI’s GPT-3 model, which is a state-of-the-art language processing system. OpenAI’s GPT-3 technology is an example of the incredible advances that have been made in the field of AI and natural language processing. This technology has the potential to revolutionize many areas of research and industry, and its use in generating text and images for this book is a testament to its capabilities.</p>
 
+</div>
 </div>
             </section>
 

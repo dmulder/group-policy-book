@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-14" />
+<meta name="date" content="2022-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -135,7 +135,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>1.1</b> About the Author</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#whats-the-difference-between-group-policy-and-a-group-policy-object"><i class="fa fa-check"></i><b>2.1</b> What’s the difference between Group Policy and a Group Policy Object?</a></li>
@@ -169,9 +172,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.1</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.2</b> Deleting a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gplink"><i class="fa fa-check"></i><b>3.3</b> Group Policy Links</a></li>
+<li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -309,7 +312,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="19.1.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#admx"><i class="fa fa-check"></i><b>19.1.1</b> Administrative Templates</a></li>
 <li class="chapter" data-level="19.1.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#samba-tool-gpo-manage"><i class="fa fa-check"></i><b>19.1.2</b> samba-tool gpo manage</a></li>
 </ul></li>
-<li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a></li>
+<li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_pol_extgp_inf_ext-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_pol_ext/gp_inf_ext Python Classes</a></li>
+<li class="chapter" data-level="19.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>19.2.2</b> Process Group Policy</a></li>
+<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#deleted-gpos"><i class="fa fa-check"></i><b>19.2.3</b> Deleted GPOs</a></li>
+<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#changed-gpos"><i class="fa fa-check"></i><b>19.2.4</b> Changed GPOs</a></li>
+<li class="chapter" data-level="19.2.5" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.5</b> Resultant Set of Policy</a></li>
+<li class="chapter" data-level="19.2.6" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.6</b> Registering/Unregistering a Client Side Extension</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
@@ -343,22 +354,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="intro" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">2</span> Introduction<a href="intro.html#intro" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="intro-imates/computer.png" width="30%" style="display: block; margin: auto;" /></p>
-<p>Samba version 4.14 and newer ships with Linux client Group Policy. The Group Policy offerings are made to be similar to what is offered by proprietary tools, such as Vintela’s and Centrify’s Group Policy.</p>
-<p>Group Policy provides centralized management and configuration of operating system, application, and user settings. Policies are delivered to clients by listing them in LDAP, under groupPolicyContainer objects. These objects provide the gPCFileSysPath attribute, which points to policy information stored on the domains SYSVOL share.</p>
+<p>Starting with version 4.14, Samba has included support for applying Group Policy objects (GPOs) to Linux clients, making it possible to use Group Policy to centrally manage and configure Linux systems in a Windows environment.</p>
+<p>Samba’s Group Policy support is designed to be similar to what is offered by proprietary tools, such as Vintela’s and Centrify’s Group Policy solutions. This allows Linux users to take advantage of the same powerful Group Policy features that are available to Windows users, without having to rely on proprietary tools.</p>
+<p>Overall, Samba’s Group Policy support makes it possible for Linux users to manage and configure their systems using the same powerful Group Policy features that are available to Windows users. This allows Linux users to easily integrate their systems with Windows environments and take advantage of Group Policy’s central management capabilities.</p>
 <div id="whats-the-difference-between-group-policy-and-a-group-policy-object" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> What’s the difference between Group Policy and a Group Policy Object?<a href="intro.html#whats-the-difference-between-group-policy-and-a-group-policy-object" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>A Group Policy Object (GPO) is a collection of settings that apply to a set of machines or users in a group. You can think of <em>Group Policy</em> like a template for a work order, and a <em>Group Policy Object</em> like a filled out copy of that template. A GPO is a <em>work order</em> of instructions to follow. That work order will be distributed to every member of the group, and it’s up to each member to decide how it <em>applies</em> those instructions.</p>
-<p>A GPO is modified by a <em>Server Side Extension</em>, and it is <em>applied</em> for a group member by a <em>Client Side Extension</em>.</p>
+<p>The key difference between Group Policy and a Group Policy Object (GPO) is that Group Policy is the overall concept and framework for managing and configuring settings on computers in an environment, while a GPO is a specific collection of settings that are applied to a group of machines or users.</p>
+<p>Group Policy allows administrators to define and manage the settings that are applied to computers and users in a domain. This includes settings for various aspects of the operating system, such as security policies, user accounts, and network settings. Group Policy also includes the infrastructure and tools for distributing and applying these settings to the appropriate computers and users. You can think of <em>Group Policy</em> like a template for a work order.</p>
+<p>A GPO, on the other hand, is a specific set of settings that are defined by an administrator and applied to a group of computers or users. A GPO can be thought of as a filled out copy of a work order that specifies the settings that should be applied to the members of the group. These settings are stored in the GPO and distributed to the appropriate computers and users by the Group Policy infrastructure.</p>
+<p>Server-side extensions (SSEs) are responsible for processing and managing GPOs on the domain controller, while client-side extensions (CSEs) are responsible for applying the settings in a GPO to the local system. Together, these components work to manage and apply GPOs in an environment.</p>
 </div>
 <div id="server-side-extensions" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Server Side Extensions<a href="intro.html#server-side-extensions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The purpose of a Server Side Extension (SSE) is to fill out a <em>work order</em> (a Group Policy Object). On Windows, this generally refers to some component of the Group Policy Management Editor.</p>
+<p>The purpose of a Server Side Extension (SSE) is to process and manage Group Policy objects (GPOs) on the domain controller (to fill out a <em>work order</em>). In a Windows environment, this generally refers to some component of the Group Policy Management Editor.</p>
 <div class="figure">
 <img src="ch01-images/gpme.png" alt="" />
 <p class="caption">Group Policy Management Editor</p>
 </div>
-<p>In Samba, this also includes the <code>samba-tool gpo manage</code> command.</p>
-<pre><code>&gt; samba-tool gpo manage
+<p>In the case of Samba, SSEs also include the <code>samba-tool gpo</code> command, which allows administrators to manage GPOs from the command line. This command allows administrators to create, link, and modify GPOs.</p>
+<pre><code>&gt; samba-tool gpo
+Usage: samba-tool gpo &lt;subcommand&gt;
+
+Group Policy Object (GPO) management.
+
+
+Options:
+  -h, --help  show this help message and exit
+
+
+Available subcommands:
+  aclcheck        - Check all GPOs have matching LDAP and DS ACLs.
+  admxload        - Loads samba admx files to sysvol
+  backup          - Backup a GPO.
+  create          - Create an empty GPO.
+  del             - Delete a GPO.
+  dellink         - Delete GPO link from a container.
+  fetch           - Download a GPO.
+  getinheritance  - Get inheritance flag for a container.
+  getlink         - List GPO Links for a container.
+  list            - List GPOs for an account.
+  listall         - List all GPOs.
+  listcontainers  - List all linked containers for a GPO.
+  manage          - Manage Group Policy Objects
+  restore         - Restore a GPO to a new container.
+  setinheritance  - Set inheritance flag on a container.
+  setlink         - Add or update a GPO link to a container.
+  show            - Show information for a GPO.
+&gt; samba-tool gpo manage
 Usage: samba-tool gpo manage &lt;subcommand&gt;
 
 Manage Group Policy Objects
@@ -380,6 +422,7 @@ Available subcommands:
   sudoers   - Manage Sudoers Group Policy Objects
   symlink   - Manage symlink Group Policy Objects</code></pre>
 <p>When working with Linux clients, using <code>samba-tool gpo manage</code> to fill out your GPO is generally the preferred method.</p>
+<p>Overall, the purpose of an SSE is to manage and process GPOs on the domain controller, enabling administrators to define and apply settings to the appropriate computers and users in the domain. These extensions work behind the scenes to ensure that GPOs are processed and managed correctly on the domain controller.</p>
 <div id="enabling-group-policy-server-side-extensions-on-the-server" class="section level3 hasAnchor" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Enabling Group Policy Server Side Extensions on the Server<a href="intro.html#enabling-group-policy-server-side-extensions-on-the-server" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In order to use the Samba Administrative Templates in the Group Policy Management Console, you’ll need to install them first, using the command <code>sudo samba-tool gpo admxload -UAdministrator</code>. See chapter <a href="install-admx.html#install-admx">21</a> for specifics on how to do this.</p>
@@ -399,7 +442,9 @@ Available subcommands:
 </div>
 <div id="rsop" class="section level3 hasAnchor" number="2.3.2">
 <h3><span class="header-section-number">2.3.2</span> Resultant Set of Policy<a href="intro.html#rsop" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Each CSE is configured to return a Resultant Set of Policy (RSoP), which indicates what policies will apply to a machine before applying (or shows what policies are already applied). It’s a compiliation of the policies for that Machine or User.</p>
+<p>A Resultant Set of Policy (RSoP) is a summary of the policies that will be applied to a computer or user, or that have already been applied. The RSoP is generated by the client-side extensions (CSEs) that are responsible for applying Group Policy objects (GPOs) to the local system.</p>
+<p>Each CSE is configured to return an RSoP for the policies that it manages.</p>
+<p>The RSoP is generated by the CSEs before the GPOs are applied, allowing administrators to see what policies will be applied to the system before they are actually applied. This can be useful for troubleshooting or for verifying that the correct policies are being applied. Once the GPOs are applied, the CSEs will also generate an RSoP for the policies that have been applied.</p>
 <p>To see the RSoP, run the command <code>sudo samba-gpupdate --rsop</code> for Machine policy, or <code>sudo samba-gpupdate --rsop --target=User -U&lt;username&gt;</code> to see User policy.</p>
 <pre><code>linux-h7xz:~ # samba-gpupdate --rsop
 Resultant Set of Policy
@@ -447,7 +492,8 @@ Samba Group Policy \s \r \l
 </div>
 <div id="policies-introduced-in-this-book" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Policies Introduced in this Book<a href="intro.html#policies-introduced-in-this-book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This section will provide a brief overview of the policies that will be discussed in upcoming chapters.</p>
+<p>In the upcoming chapters of this book, we will be discussing a variety of Group Policies that can be used to manage and configure systems in a Linux environment. These policies cover a wide range of settings, including security policies, user account settings, preferences, and many others.</p>
+<p>This section will provide a brief overview of those policies. By the end of this book, the reader should have a good understanding of how to use these policies to manage and configure Linux systems.</p>
 <div id="smb.conf-policies" class="section level3 hasAnchor" number="2.4.1">
 <h3><span class="header-section-number">2.4.1</span> smb.conf Policies<a href="intro.html#smb.conf-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>These policies distribute smb.conf global options to the client. These are found in the Group Policy Management Editor (GPME) under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; smb.conf</code>. This policy is unable to apply idmap policies.</p>
@@ -524,7 +570,7 @@ Samba Group Policy \s \r \l
 </div>
 <div id="openssh-policy" class="section level3 hasAnchor" number="2.4.14">
 <h3><span class="header-section-number">2.4.14</span> OpenSSH Policy<a href="intro.html#openssh-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>OpenSSH policy applies settings to /etc/ssh/sshd_config.d. These policies can be set using the <code>samba-tool gpo manage openssh</code> command. These policies are compatible with Vintela’s OpenSSH Group Policy.</p>
+<p>OpenSSH policy applies settings to <code>/etc/ssh/sshd_config.d</code>. These policies can be set using the <code>samba-tool gpo manage openssh</code> command. These policies are compatible with Vintela’s OpenSSH Group Policy.</p>
 </div>
 <div id="firewalld-policy" class="section level3 hasAnchor" number="2.4.15">
 <h3><span class="header-section-number">2.4.15</span> Firewalld Policy<a href="intro.html#firewalld-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>

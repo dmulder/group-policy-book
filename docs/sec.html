@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-14" />
+<meta name="date" content="2022-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -135,7 +135,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>1.1</b> About the Author</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#whats-the-difference-between-group-policy-and-a-group-policy-object"><i class="fa fa-check"></i><b>2.1</b> What’s the difference between Group Policy and a Group Policy Object?</a></li>
@@ -169,9 +172,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.1</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.2</b> Deleting a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gplink"><i class="fa fa-check"></i><b>3.3</b> Group Policy Links</a></li>
+<li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -309,7 +312,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="19.1.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#admx"><i class="fa fa-check"></i><b>19.1.1</b> Administrative Templates</a></li>
 <li class="chapter" data-level="19.1.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#samba-tool-gpo-manage"><i class="fa fa-check"></i><b>19.1.2</b> samba-tool gpo manage</a></li>
 </ul></li>
-<li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a></li>
+<li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_pol_extgp_inf_ext-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_pol_ext/gp_inf_ext Python Classes</a></li>
+<li class="chapter" data-level="19.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>19.2.2</b> Process Group Policy</a></li>
+<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#deleted-gpos"><i class="fa fa-check"></i><b>19.2.3</b> Deleted GPOs</a></li>
+<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#changed-gpos"><i class="fa fa-check"></i><b>19.2.4</b> Changed GPOs</a></li>
+<li class="chapter" data-level="19.2.5" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.5</b> Resultant Set of Policy</a></li>
+<li class="chapter" data-level="19.2.6" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.6</b> Registering/Unregistering a Client Side Extension</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
@@ -351,6 +362,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="managing-password-and-kerberos-policies-via-the-gpme" class="section level3 hasAnchor" number="5.1.1">
 <h3><span class="header-section-number">5.1.1</span> Managing Password and Kerberos Policies via the GPME<a href="sec.html#managing-password-and-kerberos-policies-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Open the GPME and navigate to <code>Computer Configuration &gt; Policies &gt; Windows Settings &gt; Security Settings &gt; Account Policy</code>.</p>
+<div id="password-policies" class="section level4 hasAnchor" number="5.1.1.1">
+<h4><span class="header-section-number">5.1.1.1</span> Password Policies<a href="sec.html#password-policies" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The following password policies are applicable to a Samba ADDC:</p>
 <ul>
 <li>Maximum password age</li>
@@ -358,19 +371,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Minimum password length</li>
 <li>Password must meet complexity requirements</li>
 </ul>
+<p>To set password policy settings using the Group Policy Management Editor (GPME), follow these steps:</p>
+<ol style="list-style-type: decimal">
+<li><p>Open the Group Policy Management Editor (GPME). For instructions on accessing the GPME, see chapter <a href="manage.html#manage">3</a> section <a href="manage.html#gpopen">3.1</a>.</p></li>
+<li><p>In the left pane of the GPME, navigate to Computer Configuration &gt; Policies &gt; Windows Settings &gt; Security Settings &gt; Account Policy &gt; Password Policy.</p></li>
+<li><p>In the right pane, double-click the “Maximum password age” policy.</p></li>
+<li><p>In the “Maximum password age” dialog box, click the Enabled option and enter 42 in the “Value” field.</p></li>
+<li><p>Click OK to close the “Maximum password age” dialog box.</p></li>
+<li><p>In the right pane, double-click the “Minimum password age” policy.</p></li>
+<li><p>In the “Minimum password age” dialog box, click the Enabled option and enter 1 in the “Value” field.</p></li>
+<li><p>Click OK to close the “Minimum password age” dialog box.</p></li>
+<li><p>In the right pane, double-click the “Minimum password length” policy.</p></li>
+<li><p>In the “Minimum password length” dialog box, click the Enabled option and enter 7 in the “Value” field.</p></li>
+<li><p>Click OK to close the “Minimum password length” dialog box.</p></li>
+<li><p>In the right pane, double-click the “Password must meet complexity requirements” policy.</p></li>
+<li><p>In the “Password must meet complexity requirements” dialog box, click the Enabled option.</p></li>
+<li><p>Click OK to close the “Password must meet complexity requirements” dialog box.</p></li>
+</ol>
 <div class="figure">
 <img src="sec-images/passwd.png" alt="" />
 <p class="caption">Password Policies</p>
 </div>
+</div>
+<div id="kerberos-policies" class="section level4 hasAnchor" number="5.1.1.2">
+<h4><span class="header-section-number">5.1.1.2</span> Kerberos Policies<a href="sec.html#kerberos-policies" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The following Kerberos policies are applicable to a Samba ADDC:</p>
 <ul>
 <li>Maximum lifetime for service ticket</li>
 <li>Maximum lifetime for user ticket</li>
 <li>Maximum lifetime for user ticket renewal</li>
 </ul>
+<p>To set Kerberos policy settings, follow these steps:</p>
+<ol style="list-style-type: decimal">
+<li><p>In the left pane of the GPME, navigate to <code>Computer Configuration &gt; Policies &gt; Windows Settings &gt; Security Settings &gt; Account Policy &gt; Kerberos Policy</code>.</p></li>
+<li><p>In the right pane, double-click the “Maximum lifetime for service ticket” policy.</p></li>
+<li><p>In the “Maximum lifetime for service ticket” dialog box, click the Enabled option and enter 600 in the “Value” field.</p></li>
+<li><p>Click OK to close the “Maximum lifetime for service ticket” dialog box.</p></li>
+<li><p>In the right pane, double-click the “Maximum lifetime for user ticket” policy.</p></li>
+<li><p>In the “Maximum lifetime for user ticket” dialog box, click the Enabled option and enter 10 in the “Value” field.</p></li>
+<li><p>Click OK to close the “Maximum lifetime for user ticket” dialog box.</p></li>
+<li><p>In the right pane, double-click the “Maximum lifetime for user ticket renewal” policy.</p></li>
+<li><p>In the “Maximum lifetime for user ticket renewal” dialog box, click the Enabled option and enter 7 in the “Value” field.</p></li>
+<li><p>Click OK to close the “Maximum lifetime for user ticket renewal” dialog box.</p></li>
+</ol>
 <div class="figure">
 <img src="sec-images/kerb.png" alt="" />
 <p class="caption">Kerberos Policies</p>
+</div>
 </div>
 </div>
 <div id="managing-password-and-kerberos-policies-via-samba-tool" class="section level3 hasAnchor" number="5.1.2">
@@ -491,51 +538,27 @@ GPO: Default Domain Policy
 <p>It also helps to know how these Kerberos policies map to the <code>samba</code> daemon settings.</p>
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-Kerberos Policy
-</th>
-<th style="text-align:left;">
-Samba Setting
-</th>
-<th style="text-align:left;">
-Conversion
-</th>
+<tr class="header">
+<th align="left">Kerberos.Policy</th>
+<th align="left">Samba.Setting</th>
+<th align="left">Conversion</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-MaxTicketAge
-</td>
-<td>
-kdc:user_ticket_lifetime
-</td>
-<td>
-None
-</td>
+<tr class="odd">
+<td align="left">MaxTicketAge</td>
+<td align="left">kdc:user_ticket_lifetime</td>
+<td align="left">None</td>
 </tr>
-<tr>
-<td>
-MaxServiceAge
-</td>
-<td>
-kdc:service_ticket_lifetime
-</td>
-<td>
-Minutes to Hours
-</td>
+<tr class="even">
+<td align="left">MaxServiceAge</td>
+<td align="left">kdc:service_ticket_lifetime</td>
+<td align="left">Minutes to Hours</td>
 </tr>
-<tr>
-<td>
-MaxRenewAge
-</td>
-<td>
-kdc:renewal_lifetime
-</td>
-<td>
-Days to Hours
-</td>
+<tr class="odd">
+<td align="left">MaxRenewAge</td>
+<td align="left">kdc:renewal_lifetime</td>
+<td align="left">Days to Hours</td>
 </tr>
 </tbody>
 </table>
@@ -565,62 +588,32 @@ pwdProperties: 1</code></pre>
 <p>Finally, here is how these policies map.</p>
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-Password Policy
-</th>
-<th style="text-align:left;">
-LDAP Attribute
-</th>
-<th style="text-align:left;">
-Conversion
-</th>
+<tr class="header">
+<th align="left">Password.Policy</th>
+<th align="left">LDAP.Attribute</th>
+<th align="left">Conversion</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-MinimumPasswordAge
-</td>
-<td>
-minPwdAge
-</td>
-<td>
-Days to NTTIME
-</td>
+<tr class="odd">
+<td align="left">MinimumPasswordAge</td>
+<td align="left">minPwdAge</td>
+<td align="left">Days to NTTIME</td>
 </tr>
-<tr>
-<td>
-MaximumPasswordAge
-</td>
-<td>
-maxPwdAge
-</td>
-<td>
-Days to NTTIME
-</td>
+<tr class="even">
+<td align="left">MaximumPasswordAge</td>
+<td align="left">maxPwdAge</td>
+<td align="left">Days to NTTIME</td>
 </tr>
-<tr>
-<td>
-MinimumPasswordLength
-</td>
-<td>
-minPwdLength
-</td>
-<td>
-None
-</td>
+<tr class="odd">
+<td align="left">MinimumPasswordLength</td>
+<td align="left">minPwdLength</td>
+<td align="left">None</td>
 </tr>
-<tr>
-<td>
-PasswordComplexity
-</td>
-<td>
-pwdProperties
-</td>
-<td>
-None
-</td>
+<tr class="even">
+<td align="left">PasswordComplexity</td>
+<td align="left">pwdProperties</td>
+<td align="left">None</td>
 </tr>
 </tbody>
 </table>

@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-14" />
+<meta name="date" content="2022-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -135,7 +135,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>1.1</b> About the Author</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
 <ul>
 <li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#whats-the-difference-between-group-policy-and-a-group-policy-object"><i class="fa fa-check"></i><b>2.1</b> What’s the difference between Group Policy and a Group Policy Object?</a></li>
@@ -169,9 +172,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.1</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.2</b> Deleting a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gplink"><i class="fa fa-check"></i><b>3.3</b> Group Policy Links</a></li>
+<li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -309,7 +312,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="19.1.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#admx"><i class="fa fa-check"></i><b>19.1.1</b> Administrative Templates</a></li>
 <li class="chapter" data-level="19.1.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#samba-tool-gpo-manage"><i class="fa fa-check"></i><b>19.1.2</b> samba-tool gpo manage</a></li>
 </ul></li>
-<li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a></li>
+<li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a>
+<ul>
+<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_pol_extgp_inf_ext-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_pol_ext/gp_inf_ext Python Classes</a></li>
+<li class="chapter" data-level="19.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>19.2.2</b> Process Group Policy</a></li>
+<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#deleted-gpos"><i class="fa fa-check"></i><b>19.2.3</b> Deleted GPOs</a></li>
+<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#changed-gpos"><i class="fa fa-check"></i><b>19.2.4</b> Changed GPOs</a></li>
+<li class="chapter" data-level="19.2.5" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.5</b> Resultant Set of Policy</a></li>
+<li class="chapter" data-level="19.2.6" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.6</b> Registering/Unregistering a Client Side Extension</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
@@ -362,16 +373,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p class="caption">New Zone</p>
 </div>
 <p>We’ll define our new rule as follows.</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb92-1"><a href="firewalld.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">&quot;work&quot;</span><span class="fu">:</span></span>
-<span id="cb92-2"><a href="firewalld.html#cb92-2" aria-hidden="true" tabindex="-1"></a>  <span class="ot">[</span></span>
-<span id="cb92-3"><a href="firewalld.html#cb92-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb92-4"><a href="firewalld.html#cb92-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4&quot;</span><span class="fu">},</span></span>
-<span id="cb92-5"><a href="firewalld.html#cb92-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;172.25.1.7&quot;</span><span class="fu">,</span></span>
-<span id="cb92-6"><a href="firewalld.html#cb92-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;ftp&quot;</span><span class="fu">,</span></span>
-<span id="cb92-7"><a href="firewalld.html#cb92-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}</span></span>
-<span id="cb92-8"><a href="firewalld.html#cb92-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb92-9"><a href="firewalld.html#cb92-9" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb92-10"><a href="firewalld.html#cb92-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb94"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb94-1"><a href="firewalld.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">&quot;work&quot;</span><span class="fu">:</span></span>
+<span id="cb94-2"><a href="firewalld.html#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="ot">[</span></span>
+<span id="cb94-3"><a href="firewalld.html#cb94-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb94-4"><a href="firewalld.html#cb94-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4&quot;</span><span class="fu">},</span></span>
+<span id="cb94-5"><a href="firewalld.html#cb94-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;172.25.1.7&quot;</span><span class="fu">,</span></span>
+<span id="cb94-6"><a href="firewalld.html#cb94-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;ftp&quot;</span><span class="fu">,</span></span>
+<span id="cb94-7"><a href="firewalld.html#cb94-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb94-8"><a href="firewalld.html#cb94-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb94-9"><a href="firewalld.html#cb94-9" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb94-10"><a href="firewalld.html#cb94-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <div class="figure">
 <img src="firewalld-images/new-rule.png" alt="" />
 <p class="caption">New Rule</p>
@@ -381,63 +392,63 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The policy provides for the creation of rules and zones. Zones are defined as a list in the Zones setting in the Firewalld policy. Existing zones on the host will be unaffected.</p>
 <p>Rules are defined using a JSON dictionary, containing zones paired with a list of rules.</p>
 <p>For example, to create rules for the Work and Home zones, specify the following JSON:</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb93-1"><a href="firewalld.html#cb93-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
-<span id="cb93-2"><a href="firewalld.html#cb93-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;work&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb93-3"><a href="firewalld.html#cb93-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4&quot;</span><span class="fu">},</span> <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;172.25.1.7&quot;</span><span class="fu">,</span> <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;ftp&quot;</span><span class="fu">,</span> <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}}</span><span class="ot">,</span></span>
-<span id="cb93-4"><a href="firewalld.html#cb93-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{},</span> <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;172.25.1.8&quot;</span><span class="fu">,</span> <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;ftp&quot;</span><span class="fu">,</span> <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}}</span></span>
-<span id="cb93-5"><a href="firewalld.html#cb93-5" aria-hidden="true" tabindex="-1"></a>   <span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb93-6"><a href="firewalld.html#cb93-6" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;home&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb93-7"><a href="firewalld.html#cb93-7" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{},</span> <span class="dt">&quot;protocol value&quot;</span><span class="fu">:</span> <span class="st">&quot;icmp&quot;</span><span class="fu">,</span> <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}}</span><span class="ot">,</span></span>
-<span id="cb93-8"><a href="firewalld.html#cb93-8" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4&quot;</span><span class="fu">},</span> <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;192.168.1.2/32&quot;</span><span class="fu">,</span> <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;telnet&quot;</span><span class="fu">,</span> <span class="dt">&quot;accept&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;1/m&quot;</span><span class="fu">}}</span></span>
-<span id="cb93-9"><a href="firewalld.html#cb93-9" aria-hidden="true" tabindex="-1"></a>   <span class="ot">]</span></span>
-<span id="cb93-10"><a href="firewalld.html#cb93-10" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb95-1"><a href="firewalld.html#cb95-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span></span>
+<span id="cb95-2"><a href="firewalld.html#cb95-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;work&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb95-3"><a href="firewalld.html#cb95-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4&quot;</span><span class="fu">},</span> <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;172.25.1.7&quot;</span><span class="fu">,</span> <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;ftp&quot;</span><span class="fu">,</span> <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}}</span><span class="ot">,</span></span>
+<span id="cb95-4"><a href="firewalld.html#cb95-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{},</span> <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;172.25.1.8&quot;</span><span class="fu">,</span> <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;ftp&quot;</span><span class="fu">,</span> <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}}</span></span>
+<span id="cb95-5"><a href="firewalld.html#cb95-5" aria-hidden="true" tabindex="-1"></a>   <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb95-6"><a href="firewalld.html#cb95-6" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;home&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb95-7"><a href="firewalld.html#cb95-7" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{},</span> <span class="dt">&quot;protocol value&quot;</span><span class="fu">:</span> <span class="st">&quot;icmp&quot;</span><span class="fu">,</span> <span class="dt">&quot;reject&quot;</span><span class="fu">:</span> <span class="fu">{}}</span><span class="ot">,</span></span>
+<span id="cb95-8"><a href="firewalld.html#cb95-8" aria-hidden="true" tabindex="-1"></a>     <span class="fu">{</span><span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4&quot;</span><span class="fu">},</span> <span class="dt">&quot;source address&quot;</span><span class="fu">:</span> <span class="st">&quot;192.168.1.2/32&quot;</span><span class="fu">,</span> <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;telnet&quot;</span><span class="fu">,</span> <span class="dt">&quot;accept&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;1/m&quot;</span><span class="fu">}}</span></span>
+<span id="cb95-9"><a href="firewalld.html#cb95-9" aria-hidden="true" tabindex="-1"></a>   <span class="ot">]</span></span>
+<span id="cb95-10"><a href="firewalld.html#cb95-10" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span></span></code></pre></div>
 <p>The rule structure loosely follows the Firewalld Rich Language Documentation. The general rule structure follows.</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb94-1"><a href="firewalld.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb94-2"><a href="firewalld.html#cb94-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb94-3"><a href="firewalld.html#cb94-3" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4 | ipv6&quot;</span><span class="fu">,</span></span>
-<span id="cb94-4"><a href="firewalld.html#cb94-4" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;priority&quot;</span><span class="fu">:</span> <span class="st">&quot;priority&quot;</span></span>
-<span id="cb94-5"><a href="firewalld.html#cb94-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
-<span id="cb94-6"><a href="firewalld.html#cb94-6" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;source [not] address | mac | ipset&quot;</span><span class="fu">:</span> <span class="st">&quot;address[/mask] | mac-address | ipset&quot;</span><span class="fu">,</span></span>
-<span id="cb94-7"><a href="firewalld.html#cb94-7" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;destination [not] adress&quot;</span><span class="fu">:</span> <span class="st">&quot;address[/mask]&quot;</span><span class="fu">,</span></span>
-<span id="cb94-8"><a href="firewalld.html#cb94-8" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;service name&quot;</span><span class="fu">,</span></span>
-<span id="cb94-9"><a href="firewalld.html#cb94-9" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb94-10"><a href="firewalld.html#cb94-10" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
-<span id="cb94-11"><a href="firewalld.html#cb94-11" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;protocol&quot;</span><span class="fu">:</span> <span class="st">&quot;tcp | udp&quot;</span></span>
-<span id="cb94-12"><a href="firewalld.html#cb94-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span></span>
-<span id="cb94-13"><a href="firewalld.html#cb94-13" aria-hidden="true" tabindex="-1"></a>   <span class="st">&quot;protocol value&quot;</span><span class="er">:</span> <span class="st">&quot;protocol value&quot;</span><span class="fu">,</span></span>
-<span id="cb94-14"><a href="firewalld.html#cb94-14" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;icmp-block name&quot;</span><span class="fu">:</span> <span class="st">&quot;icmptype name&quot;</span><span class="fu">,</span></span>
-<span id="cb94-15"><a href="firewalld.html#cb94-15" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;Masquerade&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="er">|</span><span class="kw">false</span><span class="fu">,</span></span>
-<span id="cb94-16"><a href="firewalld.html#cb94-16" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;icmp-type&quot;</span><span class="fu">:</span> <span class="st">&quot;icmptype name&quot;</span><span class="fu">,</span></span>
-<span id="cb94-17"><a href="firewalld.html#cb94-17" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;forward-port&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb94-18"><a href="firewalld.html#cb94-18" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
-<span id="cb94-19"><a href="firewalld.html#cb94-19" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;protocol&quot;</span><span class="fu">:</span> <span class="st">&quot;tcp | udp&quot;</span><span class="fu">,</span></span>
-<span id="cb94-20"><a href="firewalld.html#cb94-20" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;to-port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
-<span id="cb94-21"><a href="firewalld.html#cb94-21" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;to-addr&quot;</span><span class="fu">:</span> <span class="st">&quot;address&quot;</span></span>
-<span id="cb94-22"><a href="firewalld.html#cb94-22" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
-<span id="cb94-23"><a href="firewalld.html#cb94-23" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;source-port&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb94-24"><a href="firewalld.html#cb94-24" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
-<span id="cb94-25"><a href="firewalld.html#cb94-25" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;protocol&quot;</span><span class="fu">:</span> <span class="st">&quot;tcp | udp&quot;</span></span>
-<span id="cb94-26"><a href="firewalld.html#cb94-26" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
-<span id="cb94-27"><a href="firewalld.html#cb94-27" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;log&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb94-28"><a href="firewalld.html#cb94-28" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;prefix&quot;</span><span class="fu">:</span> <span class="st">&quot;prefix text&quot;</span><span class="fu">,</span></span>
-<span id="cb94-29"><a href="firewalld.html#cb94-29" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;level&quot;</span><span class="fu">:</span> <span class="st">&quot;emerg | alert | crit | error | warning | notice | info | debug&quot;</span><span class="fu">,</span></span>
-<span id="cb94-30"><a href="firewalld.html#cb94-30" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
-<span id="cb94-31"><a href="firewalld.html#cb94-31" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
-<span id="cb94-32"><a href="firewalld.html#cb94-32" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;audit&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb94-33"><a href="firewalld.html#cb94-33" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
-<span id="cb94-34"><a href="firewalld.html#cb94-34" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
-<span id="cb94-35"><a href="firewalld.html#cb94-35" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;accept&quot;</span> <span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb94-36"><a href="firewalld.html#cb94-36" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
-<span id="cb94-37"><a href="firewalld.html#cb94-37" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span> <span class="er">|</span> <span class="st">&quot;reject&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
-<span id="cb94-38"><a href="firewalld.html#cb94-38" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;reject type&quot;</span><span class="fu">,</span></span>
-<span id="cb94-39"><a href="firewalld.html#cb94-39" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
-<span id="cb94-40"><a href="firewalld.html#cb94-40" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span> <span class="er">|</span> <span class="st">&quot;drop&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
-<span id="cb94-41"><a href="firewalld.html#cb94-41" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
-<span id="cb94-42"><a href="firewalld.html#cb94-42" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span> <span class="er">|</span> <span class="st">&quot;mark&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
-<span id="cb94-43"><a href="firewalld.html#cb94-43" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;set&quot;</span><span class="fu">:</span> <span class="st">&quot;mark[/mask]&quot;</span><span class="fu">,</span></span>
-<span id="cb94-44"><a href="firewalld.html#cb94-44" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
-<span id="cb94-45"><a href="firewalld.html#cb94-45" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span></span>
-<span id="cb94-46"><a href="firewalld.html#cb94-46" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb96-1"><a href="firewalld.html#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb96-2"><a href="firewalld.html#cb96-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;rule&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb96-3"><a href="firewalld.html#cb96-3" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;family&quot;</span><span class="fu">:</span> <span class="st">&quot;ipv4 | ipv6&quot;</span><span class="fu">,</span></span>
+<span id="cb96-4"><a href="firewalld.html#cb96-4" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;priority&quot;</span><span class="fu">:</span> <span class="st">&quot;priority&quot;</span></span>
+<span id="cb96-5"><a href="firewalld.html#cb96-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
+<span id="cb96-6"><a href="firewalld.html#cb96-6" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;source [not] address | mac | ipset&quot;</span><span class="fu">:</span> <span class="st">&quot;address[/mask] | mac-address | ipset&quot;</span><span class="fu">,</span></span>
+<span id="cb96-7"><a href="firewalld.html#cb96-7" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;destination [not] adress&quot;</span><span class="fu">:</span> <span class="st">&quot;address[/mask]&quot;</span><span class="fu">,</span></span>
+<span id="cb96-8"><a href="firewalld.html#cb96-8" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;service name&quot;</span><span class="fu">:</span> <span class="st">&quot;service name&quot;</span><span class="fu">,</span></span>
+<span id="cb96-9"><a href="firewalld.html#cb96-9" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb96-10"><a href="firewalld.html#cb96-10" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
+<span id="cb96-11"><a href="firewalld.html#cb96-11" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;protocol&quot;</span><span class="fu">:</span> <span class="st">&quot;tcp | udp&quot;</span></span>
+<span id="cb96-12"><a href="firewalld.html#cb96-12" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span></span>
+<span id="cb96-13"><a href="firewalld.html#cb96-13" aria-hidden="true" tabindex="-1"></a>   <span class="st">&quot;protocol value&quot;</span><span class="er">:</span> <span class="st">&quot;protocol value&quot;</span><span class="fu">,</span></span>
+<span id="cb96-14"><a href="firewalld.html#cb96-14" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;icmp-block name&quot;</span><span class="fu">:</span> <span class="st">&quot;icmptype name&quot;</span><span class="fu">,</span></span>
+<span id="cb96-15"><a href="firewalld.html#cb96-15" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;Masquerade&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="er">|</span><span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb96-16"><a href="firewalld.html#cb96-16" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;icmp-type&quot;</span><span class="fu">:</span> <span class="st">&quot;icmptype name&quot;</span><span class="fu">,</span></span>
+<span id="cb96-17"><a href="firewalld.html#cb96-17" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;forward-port&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb96-18"><a href="firewalld.html#cb96-18" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
+<span id="cb96-19"><a href="firewalld.html#cb96-19" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;protocol&quot;</span><span class="fu">:</span> <span class="st">&quot;tcp | udp&quot;</span><span class="fu">,</span></span>
+<span id="cb96-20"><a href="firewalld.html#cb96-20" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;to-port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
+<span id="cb96-21"><a href="firewalld.html#cb96-21" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;to-addr&quot;</span><span class="fu">:</span> <span class="st">&quot;address&quot;</span></span>
+<span id="cb96-22"><a href="firewalld.html#cb96-22" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
+<span id="cb96-23"><a href="firewalld.html#cb96-23" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;source-port&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb96-24"><a href="firewalld.html#cb96-24" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;port&quot;</span><span class="fu">:</span> <span class="st">&quot;port value&quot;</span><span class="fu">,</span></span>
+<span id="cb96-25"><a href="firewalld.html#cb96-25" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;protocol&quot;</span><span class="fu">:</span> <span class="st">&quot;tcp | udp&quot;</span></span>
+<span id="cb96-26"><a href="firewalld.html#cb96-26" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
+<span id="cb96-27"><a href="firewalld.html#cb96-27" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;log&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb96-28"><a href="firewalld.html#cb96-28" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;prefix&quot;</span><span class="fu">:</span> <span class="st">&quot;prefix text&quot;</span><span class="fu">,</span></span>
+<span id="cb96-29"><a href="firewalld.html#cb96-29" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;level&quot;</span><span class="fu">:</span> <span class="st">&quot;emerg | alert | crit | error | warning | notice | info | debug&quot;</span><span class="fu">,</span></span>
+<span id="cb96-30"><a href="firewalld.html#cb96-30" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb96-31"><a href="firewalld.html#cb96-31" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
+<span id="cb96-32"><a href="firewalld.html#cb96-32" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;audit&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb96-33"><a href="firewalld.html#cb96-33" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb96-34"><a href="firewalld.html#cb96-34" aria-hidden="true" tabindex="-1"></a>   <span class="fu">},</span></span>
+<span id="cb96-35"><a href="firewalld.html#cb96-35" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;accept&quot;</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb96-36"><a href="firewalld.html#cb96-36" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb96-37"><a href="firewalld.html#cb96-37" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span> <span class="er">|</span> <span class="st">&quot;reject&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb96-38"><a href="firewalld.html#cb96-38" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;reject type&quot;</span><span class="fu">,</span></span>
+<span id="cb96-39"><a href="firewalld.html#cb96-39" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb96-40"><a href="firewalld.html#cb96-40" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span> <span class="er">|</span> <span class="st">&quot;drop&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb96-41"><a href="firewalld.html#cb96-41" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb96-42"><a href="firewalld.html#cb96-42" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span> <span class="er">|</span> <span class="st">&quot;mark&quot;</span><span class="er">:</span> <span class="fu">{</span></span>
+<span id="cb96-43"><a href="firewalld.html#cb96-43" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;set&quot;</span><span class="fu">:</span> <span class="st">&quot;mark[/mask]&quot;</span><span class="fu">,</span></span>
+<span id="cb96-44"><a href="firewalld.html#cb96-44" aria-hidden="true" tabindex="-1"></a>     <span class="dt">&quot;limit value&quot;</span><span class="fu">:</span> <span class="st">&quot;rate/duration&quot;</span></span>
+<span id="cb96-45"><a href="firewalld.html#cb96-45" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span></span>
+<span id="cb96-46"><a href="firewalld.html#cb96-46" aria-hidden="true" tabindex="-1"></a> <span class="fu">}</span></span></code></pre></div>
 </div>
 </div>
 </div>

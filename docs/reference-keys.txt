@@ -1,4 +1,5 @@
 about
+about-the-author
 intro
 whats-the-difference-between-group-policy-and-a-group-policy-object
 server-side-extensions
@@ -27,9 +28,9 @@ gnome-settings
 openssh-policy
 firewalld-policy
 manage
+gpopen
 gpcreate
 gpdelete
-gplink
 gplist
 gpmodify
 smbconf
@@ -40,6 +41,8 @@ client-side-extension
 sec
 server-side-extension
 managing-password-and-kerberos-policies-via-the-gpme
+password-policies
+kerberos-policies
 managing-password-and-kerberos-policies-via-samba-tool
 client-side-extension-1
 scripts
@@ -111,6 +114,12 @@ admx-migrator
 creating-the-administrative-template
 samba-tool-gpo-manage
 cse
+the-gp_pol_extgp_inf_ext-python-classes
+process-group-policy
+deleted-gpos
+changed-gpos
+resultant-set-of-policy
+registeringunregistering-a-client-side-extension
 regpol
 using-samba-tool
 scripting-with-python
