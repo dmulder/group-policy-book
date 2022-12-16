@@ -16,15 +16,27 @@ Setting up the ADMX templates for this policy is described in chapter \@ref(inst
 
 ### Managing smb.conf Policies via the GPME
 
-After successfully installing the ADMX templates, open the Group Policy Management Editor (GPME) and navigate to `Computer Configuration > Policies > Administrative Templates > Samba > smb.conf`. For instructions on accessing the GPME, see chapter \@ref(manage) section \@ref(gpcreate).
+After successfully installing the ADMX templates, open the Group Policy Management Editor (GPME). For instructions on accessing the GPME, see chapter \@ref(manage) section \@ref(gpopen). For this example, we're going to enable the `apply group policies` setting.
+
+1. In the left pane of the GPME, navigate to `Computer Configuration > Policies > Administrative Templates > Samba > smb.conf`.
 
 ![smb.conf Server Side Extension (ADMX)](smb-conf-images/gpme.png)
 
-For this example, we're going to enable the `apply group policies` setting. This setting instructs Winbind to execute the `samba-gpupdate` command on the Group Policy interval (every 90 to 120 minutes). There are many other settings available here, but notice that idmap policies are not. That's because idmap policies modify the setting name (not just the value).
+2. In the right pane, double-click the "apply group policies" policy.
+
+3. In the "apply group policies" dialog box, click the Enabled option.
+
+4. Check the box next to "apply group policies".
+
+5. Click OK to close the "Apply group policies" dialog box.
 
 ![apply group policies Setting](smb-conf-images/setting.png)
 
-Apply the policy change, and close the GPME.
+::: {#info style="color: green;"}
+Note: The `apply group policies` setting instructs Winbind to execute the `samba-gpupdate` command on the Group Policy interval (every 90 to 120 minutes). This allows you to apply Group Policy updates to Samba clients without having to log off and log back on.
+:::
+
+There are many other settings available here, but notice that idmap policies are not. That's because idmap policies modify the setting name (not just the value), so these couldn't be included.
 
 ### Managing smb.conf Policies via samba-tool
 

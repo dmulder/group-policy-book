@@ -20,57 +20,79 @@ Optionally, the Network Device Enrollment role can be configured on the server, 
 
 ### Managing Certificate Auto Enrollment via the GPME
 
-Open the GPME and navigate to `Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies`.
+To enable Certificate Auto Enrollment using the Group Policy Management Editor (GPME):
+
+1. Open the Group Policy Management Editor. For instructions on accessing the GPME, see chapter \@ref(manage) section \@ref(gpopen).
+
+2. In the Group Policy Management Editor window, navigate to `Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies`.
 
 ![Public Key Policies](cert-auto-enroll-images/public_key_policy.png)
 
-Double click on and open the `Certificate Services Client - Auto-Enrollment` properties.
+3. Double click on and open the `Certificate Services Client - Auto-Enrollment` properties.
 
 ![Certificate Services Client - Auto-Enrollment](cert-auto-enroll-images/auto-enrollment.png)
 
-Set the `Configuration Model` to Enabled, and check the boxes to enable `Renew expired certificates, update pending certificates, and remove revoked certificates` and `Update certificates that use certificate templates`.
+4. In the properties dialog, set the `Configuration Model` to "Enabled" and check the boxes to enable `Renew expired certificates, update pending certificates, and remove revoked certificates` and `Update certificates that use certificate templates`.
 
 ![Enable Certificate Auto-Enrollment](cert-auto-enroll-images/auto-enrollment-enabled.png)
 
-Apply the changes and click OK to close the properties dialog. This has enabled simple Certificate Auto Enrollment. Next lets configure advanced Certificate Auto Enrollment.
+5. Click "Apply" to apply the changes and "OK" to close the properties dialog.
 
-Advanced Certificate Auto Enrollment allows you add additional certificate servers to your configuration. This is not mandatory in a simple environment with only one certificate server. The advanced configuration stores the policy directly on the SYSVOL in the Registry.pol file, whereas a simple configuration is stored in LDAP. Open the `Certificate Services Client - Certificate Enrollment Policy` properties dialog (also under `Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies` in the GPME).
+This has enabled simple Certificate Auto Enrollment. Next lets configure advanced Certificate Auto Enrollment.
+
+Advanced Certificate Auto Enrollment allows you to add multiple certificate servers to your configuration. This is useful in a more complex environment with multiple certificate servers, but is not necessary in a simple environment with a single certificate server. The advanced configuration stores the policy directly on the SYSVOL in the Registry.pol file, whereas a simple configuration is stored in LDAP.
+
+To configure Advanced Certificate Auto Enrollment:
+
+1. In the Group Policy Management Editor window, navigate to `Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies`.
+
+2. Double-click on "Certificate Services Client - Certificate Enrollment Policy" to open its properties.
 
 ![Certificate Services Client - Certificate Enrollment Policy](cert-auto-enroll-images/advanced-config.png)
 
-Set the `Configuration Model` to Enabled.
+3. Set the `Configuration Model` to Enabled. The default policy (configured previously in the "Certificate Services Client - Auto-Enrollment" properties) should already be listed under "Certificate enrollment policy list." You can disable this policy if desired by unchecking the box next to the item in the list.
 
 ![Certificate Services Client - Certificate Enrollment Policy: Enabled](cert-auto-enroll-images/advanced-config-enabled.png)
 
-The default policy (configured previously in the `Certificate Services Client - Auto-Enrollment` properties dialog) is already listed under `Certificate enrollment policy list`. You can disable this policy if you choose, by unchecking the checkbox next to the item in the list. Click `Add...` to add additional certificate servers for Certificate Auto Enrollment to configure on the clients.
+4. To add additional certificate servers for Certificate Auto Enrollment, click "Add..."
 
 ![Add a Certificate Enrollment Policy Server](cert-auto-enroll-images/add-policy-server.png)
 
-Fill in the enrollment policy server URI, and set the authentication type. `Windows integrated` authentication refers to Kerberos authentication. Setting a priority will effect the order in which the policy is applied to a client machine. When finished, click `Add`, then `Apply` in the properties dialog and OK to close.
+5. In the `Certificate Enrollment Policy Server` dialog, enter the enrollment policy server URI and set the authentication type. "Windows integrated" authentication refers to Kerberos authentication.
+
+6. You can set a priority for the policy, which determines the order in which the policy is applied to a client machine.
+
+7. When finished, click "Add" and then "Apply" in the properties dialog. Click "OK" to close the dialog.
 
 ### Certificate Templates
 
 Certificate Templates instruct the client how to generate a certificate request for the Certificate Authority. These templates are configured using the `Certification Authority` utility included with the Remote Server Administration Tools (RSAT) found in Windows.
 
-Open the `Certification Authority` utility, and click on `Certificate Templates` in the tree.
+To create a certificate template:
+
+1. Open the `Certification Authority` utility, and click on `Certificate Templates` in the tree.
 
 ![Certification Authority utility](cert-auto-enroll-images/certsrv.png)
 
-Let's create a new template by right clicking on `Certificate Templates` in the tree, and selecting `Manage`. You'll notice that there are a number of existing templates to choose from. Right click on one of the templates in the list, and click `Duplicate Template`.
+2. Right click on `Certificates Templates` in the tree and select `Manage`.
+
+3. You'll notice that there are a number of existing templates to choose from. Right click on one of the templates in the list, and click `Duplicate Template`.
 
 ![Certificate Templates Console](cert-auto-enroll-images/cert-temp-console.png)
 
-Switch to the `General` tab, and set a name for your new template. Set the number of years the certificate will be valid and the renewal period.
+4. Switch to the `General` tab, and set a name for your new template.
+
+5. Set the number of years the certificate will be valid and the renewal period.
 
 ![Template Properties](cert-auto-enroll-images/template-properties.png)
 
-It may be useful to also review the `Cryptography` tab and ensure the cryptographic requirements for the certificate will meet the needs of your organization.
+6. It may be useful to also review the `Cryptography` tab and ensure the cryptographic requirements for the certificate will meet the needs of your organization.
 
-Apply and close the properties by clicking OK. Close the Certificate Templates Console
+7. Apply and close the properties by clicking OK. Close the Certificate Templates Console
 
-Next, to enable the new template, right click on `Certificate Templates` in the tree within the Certification Authority utility, and click `New > Certificate Template to Issue`.
+8. Next, to enable the new template, right click on `Certificate Templates` in the tree within the Certification Authority utility, and click `New > Certificate Template to Issue`.
 
-In the `Enable Certificate Templates` dialog, select the template we just created, and click OK.
+9. In the `Enable Certificate Templates` dialog, select the template we just created, and click OK.
 
 ![Enable Certificate Templates](cert-auto-enroll-images/enable-template.png)
 

@@ -16,6 +16,8 @@ The Group Policy Management Editor (GPME) contains a built in Server Side Extens
 
 Open the GPME and navigate to `Computer Configuration > Policies > Windows Settings > Security Settings > Account Policy`.
 
+#### Password Policies
+
 The following password policies are applicable to a Samba ADDC:
 
 * Maximum password age
@@ -23,13 +25,67 @@ The following password policies are applicable to a Samba ADDC:
 * Minimum password length
 * Password must meet complexity requirements
 
+To set password policy settings using the Group Policy Management Editor (GPME), follow these steps:
+
+1. Open the Group Policy Management Editor (GPME). For instructions on accessing the GPME, see chapter \@ref(manage) section \@ref(gpopen).
+
+2. In the left pane of the GPME, navigate to Computer Configuration > Policies > Windows Settings > Security Settings > Account Policy > Password Policy.
+
+3. In the right pane, double-click the "Maximum password age" policy.
+
+4. In the "Maximum password age" dialog box, click the Enabled option and enter 42 in the "Value" field.
+
+5. Click OK to close the "Maximum password age" dialog box.
+
+6. In the right pane, double-click the "Minimum password age" policy.
+
+7. In the "Minimum password age" dialog box, click the Enabled option and enter 1 in the "Value" field.
+
+8. Click OK to close the "Minimum password age" dialog box.
+
+9. In the right pane, double-click the "Minimum password length" policy.
+
+10. In the "Minimum password length" dialog box, click the Enabled option and enter 7 in the "Value" field.
+
+11. Click OK to close the "Minimum password length" dialog box.
+
+12. In the right pane, double-click the "Password must meet complexity requirements" policy.
+
+13. In the "Password must meet complexity requirements" dialog box, click the Enabled option.
+
+14. Click OK to close the "Password must meet complexity requirements" dialog box.
+
 ![Password Policies](sec-images/passwd.png)
+
+#### Kerberos Policies
 
 The following Kerberos policies are applicable to a Samba ADDC:
 
 * Maximum lifetime for service ticket
 * Maximum lifetime for user ticket
 * Maximum lifetime for user ticket renewal
+
+To set Kerberos policy settings, follow these steps:
+
+1. In the left pane of the GPME, navigate to `Computer Configuration > Policies > Windows Settings > Security Settings > Account Policy > Kerberos Policy`.
+
+2. In the right pane, double-click the "Maximum lifetime for service ticket" policy.
+
+3. In the "Maximum lifetime for service ticket" dialog box, click the Enabled option and enter 600 in the "Value" field.
+
+4. Click OK to close the "Maximum lifetime for service ticket" dialog box.
+
+5. In the right pane, double-click the "Maximum lifetime for user ticket" policy.
+
+6. In the "Maximum lifetime for user ticket" dialog box, click the Enabled option and enter 10 in the "Value" field.
+
+7. Click OK to close the "Maximum lifetime for user ticket" dialog box.
+
+8. In the right pane, double-click the "Maximum lifetime for user ticket renewal" policy.
+
+9. In the "Maximum lifetime for user ticket renewal" dialog box, click the Enabled option and enter 7 in the "Value" field.
+
+10. Click OK to close the "Maximum lifetime for user ticket renewal" dialog box.
 
 ![Kerberos Policies](sec-images/kerb.png)
 

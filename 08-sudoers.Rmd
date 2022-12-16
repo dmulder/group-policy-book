@@ -16,11 +16,21 @@ The Server Side Extensions (SSE) for Sudoers policies are distributed via either
 
 Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-samba).
 
-Open the GPME and navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings`.
+To add a new sudo rule using the Group Policy Management Editor (GPME):
+
+1. Open the Group Policy Management Editor. For instructions on accessing the GPME, see chapter \@ref(manage) section \@ref(gpopen).
+
+2. In the Group Policy Management Editor window, navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings`.
 
 ![Group Policy Management Editor](sudoers-images/gpme.png)
 
-Open the `Sudo Rights` setting, and add a new sudo rule.
+3. In the right pane, double-click on the "Sudo Rights" setting.
+
+4. In the "Sudo Rights" dialog box, click on the "Show" button next to "Sudoers commands".
+
+5. In the "Show Contents" dialog box, enter a new sudo rule.
+
+6. Click "OK" to save the new sudo rule and close the dialog box.
 
 ![Adding a Sudo Rule](sudoers-images/sudo_rule.png)
 

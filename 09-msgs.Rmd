@@ -16,13 +16,27 @@ The Server Side Extensions (SSE) for Message policies are distributed via either
 
 Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-samba).
 
-Open the GPME and navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Messages`.
+To edit the "Message of the day" and "Login Prompt Message" settings using the Group Policy Management Editor (GPME):
+
+1. Open the Group Policy Management Editor. For instructions on accessing the GPME, see chapter \@ref(manage) section \@ref(gpopen).
+
+2. In the Group Policy Management Editor window, navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Messages`.
 
 ![Group Policy Management Editor](msgs-images/gpme.png)
 
-Open the `Message of the day` and `Login Prompt Message` and edit the contents.
+3. In the right pane, double-click on the "Message of the day" setting.
+
+4. In the "Message of the day" dialog box, enter the desired message in the text field.
+
+5. Click "OK" to save the changes and close the dialog box.
 
 ![Message of the day](msgs-images/motd.png)
+
+6. In the right pane, double-click on the "Login Prompt Message" setting.
+
+7. In the "Login Prompt Message" dialog box, enter the desired message in the text field. The "Help" field on the right explains the various options for this message.
+
+8. Click "OK" to save the changes and close the dialog box.
 
 ![Login Prompt Message](msgs-images/issue.png)
 

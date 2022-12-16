@@ -16,19 +16,49 @@ Setting up the ADMX templates for this policy is described in chapter \@ref(inst
 
 ### Managing Machine Scripts Policies via the GPME {#scripts-gpme}
 
-Open the Group Policy Management Editor (GPME) and navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Scripts`. For instructions on accessing the GPME, see chapter \@ref(manage) section \@ref(gpcreate).
+As an example, let's create a simple cron job which echo's "hello world" once every day.
+
+1. Open the Group Policy Management Editor (GPME). For instructions on accessing the GPME, see chapter \@ref(manage) section \@ref(gpopen).
+
+2. In the left pane of the GPME, navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Scripts`.
 
 ![Scripts Server Side Extension (ADMX)](scripts-images/scripts.png)
 
-As an example, we'll create a simple cron job which echo's "hello world" once every day.
+3. In the right pane, double-click the "Daily" policy.
+
+4. In the "Daily" dialog box, click the Enabled option and then click the Show button.
+
+5. In the "Show Contents" dialog box, type the following script in the "Value" field:
+
+```sh
+echo "hello world"
+```
 
 ![Script Example](scripts-images/hello_world.png)
 
+6. Click OK to close the "Show Contents" dialog box, and then click OK again to close the "Daily" dialog box.
+
 ### Managing User Scripts Policies via the GPME
 
-Next we'll create a user script that echo's the text "Don't do that Dave" every hour. Open the Group Policy Management Editor (GPME) and navigate to `User Configuration > Policies > Administrative Templates > Samba > Unix Settings > Scripts`.
+Next we'll create a user script that echo's the text "Don't do that Dave" every hour.
+
+1. In the left pane of the GPME, navigate to `User Configuration > Policies > Administrative Templates > Samba > Unix Settings > Scripts`.
+
+2. In the right pane, double-click the "Hourly" policy.
+
+3. In the "Hourly" dialog box, click the Enabled option and then click the Show button.
+
+4. In the "Show Contents" dialog box, type the following script in the "Value" field:
+
+```sh
+echo "Don't do that Dave"
+```
 
 ![User Script Example](scripts-images/dave.png)
+
+5. Click OK to close the "Show Contents" dialog box, and then click OK again to close the "Hourly" dialog box.
+
+The quote "Don't do that Dave" is a line spoken by the character HAL 9000 in the science fiction film "2001: A Space Odyssey." HAL is a sentient computer that controls the systems of a spacecraft, and the quote is spoken in a scene where HAL is attempting to prevent one of the astronauts from disconnecting its memory.
 
 ## Client Side Extension
 

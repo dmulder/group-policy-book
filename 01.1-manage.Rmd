@@ -10,6 +10,26 @@ A Windows Active Directory Administrator should know that Group Policies are man
 
 There are instances where Samba's Group Policy can only be managed via the GPMC, with no `samba-tool gpo` alternative. These cases will be highlighted in the text.
 
+## Opening a Group Policy Object in the Group Policy Management Console {#gpopen}
+
+To open the Default Domain Policy (for example) in the Group Policy Management Console:
+
+1. Open the Group Policy Management Console by going to Start > Administrative Tools > Group Policy Management.
+
+2. In the Group Policy Management Console, expand the Forest node, then expand the Domains node.
+
+3. Select the domain that contains the Default Domain Policy.
+
+![Group Policy Management Console](manage-images/gpmc.png)
+
+4. In the right pane, right-click on the Default Domain Policy and select "Edit" from the context menu.
+
+5. The Group Policy Management Editor window will open, allowing you to view and edit the Default Domain Policy.
+
+![Default Domain Policy](manage-images/gpme.png)
+
+Note: You will need to have the appropriate permissions to edit the Default Domain Policy. If you do not have the necessary permissions, you will not be able to edit the policy.
+
 ## Creating a Group Policy Object {#gpcreate}
 
 The `samba-tool gpo create` command is used to create a Group Policy Object.
