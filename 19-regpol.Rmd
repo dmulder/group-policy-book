@@ -65,56 +65,14 @@ pol_data.num_entries = len(entries) # Ensure you set the new num_entries last
 
 The data type refers to Microsoft defined registry types:
 
-<table>
- <thead>
-  <tr>
-   <th style="text-align:left;">Registry type name</th>
-   <th style="text-align:left;">Registry type value</th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td>REG\_NONE</td>
-   <td>0</td>
-  </tr>
-  <tr>
-   <td>REG\_SZ</td>
-   <td>1</td>
-  </tr>
-  <tr>
-   <td>REG\_EXPAND\_SZ</td>
-   <td>2</td>
-  </tr>
-  <tr>
-   <td>REG\_BINARY</td>
-   <td>3</td>
-  </tr>
-  <tr>
-   <td>REG\_DWORD</td>
-   <td>4</td>
-  </tr>
-  <tr>
-   <td>REG\_DWORD\_BIG\_ENDIAN</td>
-   <td>5</td>
-  </tr>
-  <tr>
-   <td>REG\_LINK</td>
-   <td>6</td>
-  </tr>
-  <tr>
-   <td>REG\_MULTI\_SZ</td>
-   <td>7</td>
-  </tr>
-  <tr>
-   <td>REG\_RESOURCE\_LIST</td>
-   <td>8</td>
-  </tr>
-  <tr>
-   <td>REG\_QWORD</td>
-   <td>11</td>
-  </tr>
-</tbody>
-</table>
+```{r, echo=FALSE}
+knitr::kable(
+  data.frame(
+    "Registry type name" = c("REG_NONE", "REG_SZ", "REG_EXPAND_SZ", "REG_BINARY", "REG_DWORD", "REG_DWORD_BIG_ENDIAN", "REG_LINK", "REG_MULTI_SZ", "REG_RESOURCE_LIST", "REG_QWORD"),
+    "Registry type value" = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 11)
+  )
+, align = "l")
+```
 
 To write your changes back to the Registry.pol file, you'll use the following:
 

@@ -170,32 +170,27 @@ MaxRenewAge = 7
 
 It also helps to know how these Kerberos policies map to the `samba` daemon settings.
 
-<table>
- <thead>
-  <tr>
-   <th style="text-align:left;">Kerberos Policy</th>
-   <th style="text-align:left;">Samba Setting</th>
-   <th style="text-align:left;">Conversion</th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td>MaxTicketAge</td>
-   <td>kdc:user\_ticket\_lifetime</td>
-   <td>None</td>
-  </tr>
-  <tr>
-   <td>MaxServiceAge</td>
-   <td>kdc:service\_ticket\_lifetime</td>
-   <td>Minutes to Hours</td>
-  </tr>
-  <tr>
-   <td>MaxRenewAge</td>
-   <td>kdc:renewal\_lifetime</td>
-   <td>Days to Hours</td>
-  </tr>
-</tbody>
-</table>
+```{r, echo=FALSE}
+knitr::kable(
+  data.frame(
+    "Kerberos Policy" = c(
+      "MaxTicketAge",
+      "MaxServiceAge",
+      "MaxRenewAge"
+    ),
+    "Samba Setting" = c(
+      "kdc:user_ticket_lifetime",
+      "kdc:service_ticket_lifetime",
+      "kdc:renewal_lifetime"
+    ),
+    "Conversion" = c(
+      "None",
+      "Minutes to Hours",
+      "Days to Hours"
+    )
+  )
+, align="l")
+```
 
 While the Kerberos policies have been stored to the Group Policy Log as expected, let's next verify that the Password policies have been applied using the following ldapsearch.
 
@@ -233,34 +228,27 @@ PasswordComplexity = 1
 
 Finally, here is how these policies map.
 
-<table>
- <thead>
-  <tr>
-   <th style="text-align:left;">Password Policy</th>
-   <th style="text-align:left;">LDAP Attribute</th>
-   <th style="text-align:left;">Conversion</th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td>MinimumPasswordAge</td>
-   <td>minPwdAge</td>
-   <td>Days to NTTIME</td>
-  </tr>
-  <tr>
-   <td>MaximumPasswordAge</td>
-   <td>maxPwdAge</td>
-   <td>Days to NTTIME</td>
-  </tr>
-  <tr>
-   <td>MinimumPasswordLength</td>
-   <td>minPwdLength</td>
-   <td>None</td>
-  </tr>
-  <tr>
-   <td>PasswordComplexity</td>
-   <td>pwdProperties</td>
-   <td>None</td>
-  </tr>
-</tbody>
-</table>
+```{r, echo=FALSE}
+knitr::kable(
+  data.frame(
+    "Password Policy" = c(
+      "MinimumPasswordAge",
+      "MaximumPasswordAge",
+      "MinimumPasswordLength",
+      "PasswordComplexity"
+    ),
+    "LDAP Attribute" = c(
+      "minPwdAge",
+      "maxPwdAge",
+      "minPwdLength",
+      "pwdProperties"
+    ),
+    "Conversion" = c(
+      "Days to NTTIME",
+      "Days to NTTIME",
+      "None",
+      "None"
+    )
+  )
+, align="l")
+```
