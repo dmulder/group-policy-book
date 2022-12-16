@@ -40,20 +40,29 @@ There are many other settings available here, but notice that idmap policies are
 
 ### Managing smb.conf Policies via samba-tool
 
-Setting an smb.conf Group Policy via `samba-tool` is arguably much simpler.
+Setting an smb.conf Group Policy via `samba-tool gpo manage smb_conf` is arguably much simpler.
 
+Use the `samba-tool gpo manage smb_conf set` command, providing the following arguments:
+
+1. `<gpo>`: The name of the GPO that you want to modify.
+
+2. `<setting>`: The name of the smb.conf setting that you want to set.
+
+3. `<value>`: The value that you want to set for the specified setting.
+
+For example, to set the `apply gpo policies` setting to `yes` in the GPO named `{31B2F340-016D-11D2-945F-00C04FB984F9}`, you would use the following command:
+
+```sh
+samba-tool gpo manage smb_conf set \
+	{31B2F340-016D-11D2-945F-00C04FB984F9} 'apply gpo policies' yes
 ```
-> samba-tool gpo manage smb_conf set --help
-Usage: samba-tool gpo manage smb_conf set <gpo> <setting> <value> [options]
 
-Sets a Samba smb.conf Group Policy to the sysvol
+If you want to unset a policy, you can omit the <value> argument. For example, to unset the `apply gpo policies` setting in the GPO named `{31B2F340-016D-11D2-945F-00C04FB984F9}`, you would use the following command:
 
-This command sets an smb.conf setting to the sysvol for applying to winbind
-clients. Not providing a value will unset the policy.
 
-Example:
-samba-tool gpo manage smb_conf set {31B2F340-016D-11D2-945F-00C04FB984F9}
-'apply gpo policies' yes
+```sh
+samba-tool gpo manage smb_conf set \
+	{31B2F340-016D-11D2-945F-00C04FB984F9} 'apply gpo policies'
 ```
 
 This command does not require the ADMX templates to be installed, and also does not suffer from the same limitation as the GPME for idmap policies.
@@ -100,20 +109,14 @@ If we now force the policy, we'll see our setting gets applied to the default sm
 If for whatever reason the policy did not apply, it is sometimes helpful to look at the Group Policy Cache, which keeps track of applied policies.
 
 ```
-> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" | sed -r "s/\\\22/\"/g" | xmllint --format -
+> sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
+| sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+| xmllint --xpath "//gp_ext[@name='smb.conf']" - \
+| xmllint --format -
 <?xml version="1.0"?>
-<gp>
-  <user name="TESTSYSDM$">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="smb.conf">
-        <attribute name="apply group policies">yes</attribute>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
+<gp_ext name="smb.conf">
+  <attribute name="apply group policies">yes</attribute>
+</gp_ext>
 ```
 
-Where **TESTSYSDM$** is the system name. You can see in our case Samba has recorded applying the Group Policy Object with GUID {31B2F340-016D-11D2-945F-00C04FB984F9} (this is the Default Domain Policy), and that it set `apply group policies = yes` in our smb.conf.
+Where **TESTSYSDM$** is the system name. You can see in our case Samba has recorded applying the Group Policy Object, and that it set `apply group policies = yes` in our smb.conf.
