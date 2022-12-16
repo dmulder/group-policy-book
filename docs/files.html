@@ -173,8 +173,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>3.2.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>3.2.2</b> GPMC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>3.3.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>3.3.2</b> GPMC</a></li>
+</ul></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -355,7 +363,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">8</span> Files Policy<a href="files.html#files" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="files-images/upload.png" width="30%" style="display: block; margin: auto;" /></p>
 <p>The Files Policy is useful to use in conjunction with the Scripts Policy, since it can be used to copy scripts to your client machine. This policy is also useful for deploying custom config files, etc. Like Startup Scripts, this policy began as a compatability layer for Vintela’s Files policy, but has become a Samba standard also. There is no Server Side Extension for the Group Policy Management Editor (GPME), but must be modified using the <code>samba-tool gpo manage</code>.</p>
-<p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/VGP/VTLA/Unix/Files/manifest.xml</strong> file in the subdirectory of the Group Policy Object. It is stored in an xml format, and is easily modified manually using a text editor.</p>
+<p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/VGP/</strong> <strong>VTLA/Unix/Files/manifest.xml</strong> file in the subdirectory of the Group Policy Object. It is stored in an xml format, and is easily modified manually using a text editor.</p>
 <div id="server-side-extension-3" class="section level2 hasAnchor" number="8.1">
 <h2><span class="header-section-number">8.1</span> Server Side Extension<a href="files.html#server-side-extension-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Files Policy has no GPME Server Side Extension (SSE), so this policy may only be administered using <code>samba-tool gpo manage files</code>. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.</p>
@@ -377,42 +385,47 @@ Available subcommands:
   list    - List VGP Files Group Policy from the sysvol
   remove  - Remove VGP Files Group Policy from the sysvol</code></pre>
 <p>To add a new File policy to the SYSVOL, call the <code>samba-tool gpo manage files add</code> command.</p>
-<pre><code>&gt; samba-tool gpo manage files add --help
-Usage: samba-tool gpo manage files add &lt;gpo&gt; &lt;source&gt; &lt;target&gt; &lt;user&gt; &lt;group&gt; &lt;mode&gt; [options]
-
-Add VGP Files Group Policy to the sysvol
-
-This command adds files which will be copied from the sysvol and applied to
-winbind clients.
-
-Example:
-samba-tool gpo manage files add {31B2F340-016D-11D2-945F-00C04FB984F9}
-./source.txt /usr/share/doc/target.txt root root 600</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb35-1"><a href="files.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage files add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>source<span class="op">&gt;</span> <span class="op">&lt;</span>target<span class="op">&gt;</span> <span class="op">&lt;</span>user<span class="op">&gt;</span></span>
+<span id="cb35-2"><a href="files.html#cb35-2" aria-hidden="true" tabindex="-1"></a> <span class="op">&lt;</span>group<span class="op">&gt;</span> <span class="op">&lt;</span>mode<span class="op">&gt;</span></span></code></pre></div>
+<p>For example:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="files.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage files add <span class="dt">\</span></span>
+<span id="cb36-2"><a href="files.html#cb36-2" aria-hidden="true" tabindex="-1"></a> {31B2F340-016D-11D2-945F-00C04FB984F9} ./source.txt <span class="dt">\</span></span>
+<span id="cb36-3"><a href="files.html#cb36-3" aria-hidden="true" tabindex="-1"></a> /usr/share/doc/target.txt root root 600</span></code></pre></div>
 <p>The <code>source</code> argument refers to the source file on the host you are running the command from. This source file will be uploaded to the SYSVOL. The <code>target</code> argument is where the file should be deployed to on the client by the CSE. The <code>user</code>, <code>group</code> and <code>mode</code> refer to the attributes which will be assigned to the file when it is deployed to the client.</p>
 <p>If, for example, we were to create a daily script (as described in chapter <a href="scripts.html#scripts">6</a>), we could use this policy to deploy that script to the Linux client. Let’s now create a policy for testing that deployment.</p>
 <pre><code>&gt; cat test_script.sh
 #!/bin/sh
 
 echo Something is happening daily
-&gt; samba-tool gpo manage files add {31B2F340-016D-11D2-945F-00C04FB984F9} ./test_script.sh /usr/bin/test_script.sh root root 555 -UAdministrator
-&gt; samba-tool gpo manage files list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+&gt; samba-tool gpo manage files add \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} ./test_script.sh \
+ /usr/bin/test_script.sh root root 555 -UAdministrator
+&gt; samba-tool gpo manage files list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
 -r-xr-xr-x  root    root    /usr/bin/test_script.sh -&gt; test_script.sh</code></pre>
 <p>The output of the <code>samba-tool gpo manage files list</code> command now shows that we have a policy set which will deploy a link to our test_script.sh on the host. If we check the contents of the SYSVOL, we can see that our file has been uploaded successfully.</p>
-<pre><code>&gt; sudo mount.cifs \\\\lizardo.suse.de\\SYSVOL /mnt/ -ouser=Administrator
-&gt; l /mnt/lizardo.suse.de/Policies/\{31B2F340-016D-11D2-945F-00C04FB984F9\}/MACHINE/VGP/VTLA/Unix/Files/
+<pre><code>&gt; sudo mount.cifs \\\\lizardo.suse.de\\SYSVOL /mnt/ \
+ -ouser=Administrator
+&gt; l /mnt/lizardo.suse.de/Policies/
+    {31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/VGP/VTLA/
+    Unix/Files/
 total 2
 drwxr-xr-x 2 root root   0 Nov 15 09:55 ./
 drwxr-xr-x 2 root root   0 Nov 15 09:55 ../
 -rwxr-xr-x 1 root root 532 Nov 15 09:55 manifest.xml*
 -rwxr-xr-x 1 root root  45 Nov 15 09:55 test_script.sh*</code></pre>
 <p>Let’s take a look at the contents of the <code>manifest.xml</code> which stores our policy.</p>
-<pre><code>&gt; cat /mnt/lizardo.suse.de/Policies/\{31B2F340-016D-11D2-945F-00C04FB984F9\}/MACHINE/VGP/VTLA/Unix/Files/manifest.xml | xmllint --format -
+<pre><code>&gt; cat /mnt/lizardo.suse.de/Policies/
+      {31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/VGP/VTLA/
+      Unix/Files/manifest.xml | xmllint --format -
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;vgppolicy&gt;
   &lt;policysetting&gt;
     &lt;version&gt;1&lt;/version&gt;
     &lt;name&gt;Files&lt;/name&gt;
-    &lt;description&gt;Represents file data to set/copy on clients&lt;/description&gt;
+    &lt;description&gt;
+      Represents file data to set/copy on clients
+    &lt;/description&gt;
     &lt;data&gt;
       &lt;file_properties&gt;
         &lt;source&gt;test_script.sh&lt;/source&gt;
@@ -437,7 +450,9 @@ drwxr-xr-x 2 root root   0 Nov 15 09:55 ../
 &lt;/vgppolicy&gt;</code></pre>
 <p>Our <code>source</code> now refers to the file uploaded to the same directory as the manifest.</p>
 <p>If you wanted to remove this policy later, we would issue the <code>samba-tool gpo manage files remove</code> command.</p>
-<pre><code>&gt; samba-tool gpo manage files remove {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/bin/test_script.sh -UAdministrator</code></pre>
+<pre><code>&gt; samba-tool gpo manage files remove \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} /usr/bin/test_script.sh \
+ -UAdministrator</code></pre>
 <p>Afterward the files list should be empty.</p>
 </div>
 </div>
@@ -455,27 +470,23 @@ GPO: Default Domain Policy
   -----------------------------------------------------------
     Policy Type: VGP/Unix Settings/Files
     -----------------------------------------------------------
-    [ -r-xr-xr-x    root    root    /usr/bin/test_script.sh -&gt; test_script.sh ]
+    [ -r-xr-xr-x root root /usr/bin/test_script.sh -&gt; 
+                           test_script.sh ]
     -----------------------------------------------------------
   -----------------------------------------------------------
 =================================================================</code></pre>
 <p>Note that while the output appears to suggest we will be creating a symlink, it is actually a hard copy of the file that is created. The syntax of the output is simply for illustrative purposes.</p>
 <p>If we now force the policy to apply, we’ll see our file is physically copied to the requested location, along with the requested permissions.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
-&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;gp&gt;
-  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
-    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
-      &lt;gp_ext name=&quot;VGP/Unix Settings/Files&quot;&gt;
-        &lt;attribute name=&quot;/usr/bin/test_script.sh&quot;&gt;268dc84d9987bf1ebf741c3a8172e43a9429c3aa6c1044117221a057b1bffd7ec0ef806dfe9ec4e8b061a2331d99048206a31e1aec635454b1e64ed4a72c9b39:root:root:365&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-    &lt;/guid&gt;
-    &lt;applylog&gt;
-      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
-    &lt;/applylog&gt;
-  &lt;/user&gt;
-&lt;/gp&gt;
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
+ | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; \
+ | xmllint --xpath &quot;//gp_ext[@name=&#39;VGP/Unix Settings/Files&#39;]&quot; - \
+ | xmllint --format -
+&lt;gp_ext name=&quot;VGP/Unix Settings/Files&quot;&gt;
+  &lt;attribute name=&quot;/usr/bin/test_script.sh&quot;&gt;
+    268d...9b39:root:root:365
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;
 &gt; l /usr/bin/test_script.sh
 -r-xr-xr-x 1 root root 45 Nov 15 12:07 /usr/bin/test_script.sh*
 &gt; cat /usr/bin/test_script.sh

@@ -173,8 +173,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>3.2.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>3.2.2</b> GPMC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>3.3.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>3.3.2</b> GPMC</a></li>
+</ul></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -355,7 +363,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">11</span> Message Policies<a href="msgs.html#msgs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="msgs-images/msg.png" width="30%" style="display: block; margin: auto;" /></p>
 <p>The purpose of the Message policy is to set the contents of the <code>/etc/motd</code> and <code>/etc/issue</code> files. These are Machine only policies.</p>
-<p>This policy is physically stored in three different locations on the SYSVOL, in <strong>MACHINE/Registry.pol</strong>, <strong>MACHINE/VGP/VTLA/Unix/Issue/manifest.xml</strong>, and <strong>MACHINE/VGP/VTLA/Unix/MOTD/manifest.xml</strong>. The <code>manifest.xml</code> files are in xml format, and are easily modified manually using a text editor. The <code>Registry.pol</code> is in registry format. See chapter <a href="regpol.html#regpol">20</a> for details on how to manually modify this file.</p>
+<p>This policy is physically stored in three different locations on the SYSVOL, in <strong>MACHINE/Registry.pol</strong>, <strong>MACHINE/VGP/VTLA/Unix/Issue/</strong> <strong>manifest.xml</strong>, and <strong>MACHINE/VGP/VTLA/Unix/MOTD/</strong> <strong>manifest.xml</strong>. The <code>manifest.xml</code> files are in xml format, and are easily modified manually using a text editor. The <code>Registry.pol</code> is in registry format. See chapter <a href="regpol.html#regpol">20</a> for details on how to manually modify this file.</p>
 <div id="server-side-extension-6" class="section level2 hasAnchor" number="11.1">
 <h2><span class="header-section-number">11.1</span> Server Side Extension<a href="msgs.html#server-side-extension-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Server Side Extensions (SSE) for Message policies are distributed via either Administrative Templates (see chapter <a href="writing-group-policy-extensions.html#sse">19.1</a> in section <a href="writing-group-policy-extensions.html#admx">19.1.1</a>) or via the commands <code>samba-tool gpo manage motd</code> and <code>samba-tool gpo manage issue</code>. Rules added via GPME will not be visible to the respective <code>samba-tool</code> commands, and vice versa. This is because the <code>samba-tool</code> commands are intended to manage Vintela Group Policy compatability. These two SSEs should not be used in conjunction to one another, as it will cause unpredicatable results on the client.</p>
@@ -407,34 +415,27 @@ Available subcommands:
   list  - List VGP MOTD Group Policy from the sysvol
   set   - Sets a VGP MOTD Group Policy to the sysvol</code></pre>
 <p>The syntax is the same for both <code>motd</code> and <code>issue</code>. The <code>list</code> command simply lists the current value of the setting, while the <code>set</code> command will set the contents of the setting.</p>
-<pre><code>&gt; samba-tool gpo manage motd list --help
-Usage: samba-tool gpo manage motd list &lt;gpo&gt; [options]
-
-List VGP MOTD Group Policy from the sysvol
-
-This command lists the Message of the Day from the sysvol that will be applied
-to winbind clients.
-
-Example:
-samba-tool gpo manage motd list {31B2F340-016D-11D2-945F-00C04FB984F9}
-&gt; samba-tool gpo manage motd set --help
-Usage: samba-tool gpo manage motd set &lt;gpo&gt; [value] [options]
-
-Sets a VGP MOTD Group Policy to the sysvol
-
-This command sets the Message of the Day to the sysvol for applying to winbind
-clients. Not providing a value will unset the policy.
-
-Example:
-samba-tool gpo manage motd set {31B2F340-016D-11D2-945F-00C04FB984F9} &quot;Message
-for today&quot;</code></pre>
+<p>To use the <code>samba-tool gpo manage motd list</code> command, you need to provide the name of the GPO as an argument. For example:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb58-1"><a href="msgs.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage motd list <span class="dt">\</span></span>
+<span id="cb58-2"><a href="msgs.html#cb58-2" aria-hidden="true" tabindex="-1"></a>  {31B2F340-016D-11D2-945F-00C04FB984F9}</span></code></pre></div>
+<p>To use the <code>samba-tool gpo manage motd set</code> command, you need to provide the name of the GPO as an argument, followed by the message you want to set as the MOTD. For example:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb59-1"><a href="msgs.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage motd set <span class="dt">\</span></span>
+<span id="cb59-2"><a href="msgs.html#cb59-2" aria-hidden="true" tabindex="-1"></a> {31B2F340-016D-11D2-945F-00C04FB984F9} <span class="st">&quot;Welcome to the server!</span></span>
+<span id="cb59-3"><a href="msgs.html#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="st"> Please make sure to read the guidelines before proceeding.&quot;</span></span></code></pre></div>
+<p>If no value is provided for the message, the MOTD will be unset and will not be displayed to users when they log in.</p>
 <p>Let’s set some messages for testing later.</p>
-<pre><code>&gt; samba-tool gpo manage motd set {31B2F340-016D-11D2-945F-00C04FB984F9} &quot;motd set from samba-tool&quot; -UAdministrator
-&gt; samba-tool gpo manage issue set {31B2F340-016D-11D2-945F-00C04FB984F9} &quot;issue set from samba-tool&quot; -UAdministrator</code></pre>
+<pre><code>&gt; samba-tool gpo manage motd set \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} \
+ &quot;motd set from samba-tool&quot; -UAdministrator
+&gt; samba-tool gpo manage issue set \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} \
+ &quot;issue set from samba-tool&quot; -UAdministrator</code></pre>
 <p>Doing a list for good measure, we see that the policy is set on the SYSVOL.</p>
-<pre><code>&gt; samba-tool gpo manage motd list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator; echo
+<pre><code>&gt; samba-tool gpo manage motd list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator; echo
 motd set from samba-tool
-dmulder@testsysdm:~&gt; samba-tool gpo manage issue list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator; echo
+&gt; samba-tool gpo manage issue list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator; echo
 issue set from samba-tool</code></pre>
 </div>
 </div>
@@ -477,27 +478,29 @@ issue set from samba-tool
 =================================================================</code></pre>
 <p>Because both these policies are set, we can’t predict which one will actually be applied. Let’s do a force and see what the result is.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
-&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;gp&gt;
-  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
-    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
-      &lt;gp_ext name=&quot;Unix Settings/Messages&quot;&gt;
-        &lt;attribute name=&quot;motd&quot;/&gt;
-        &lt;attribute name=&quot;issue&quot;&gt;Welcome to openSUSE Tumbleweed 20221102 - Kernel \5Cr (\5Cl).\0A\0Aenp1s0: \5C4{enp1s0} \5C6{enp1s0}\0A\0A\0A&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-      &lt;gp_ext name=&quot;Unix Settings/Message of the Day&quot;&gt;
-        &lt;attribute name=&quot;motd&quot;&gt;Welcome to Linux Group Policy!&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-      &lt;gp_ext name=&quot;Unix Settings/Issue&quot;&gt;
-        &lt;attribute name=&quot;issue&quot;&gt;Welcome to \5Cs \5Cr \5Cl&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-    &lt;/guid&gt;
-    &lt;applylog&gt;
-      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
-    &lt;/applylog&gt;
-  &lt;/user&gt;
-&lt;/gp&gt;</code></pre>
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
+ | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; \
+ | xmllint --xpath &quot;//gp_ext[@name=&#39;Unix Settings/Messages&#39; or
+                             @name=&#39;Unix Settings/Message
+                 of the Day&#39; or
+                             @name=&#39;Unix Settings/Issue&#39;]&quot; - \
+ | xmllint --format -
+&lt;gp_ext name=&quot;Unix Settings/Messages&quot;&gt;
+  &lt;attribute name=&quot;motd&quot;/&gt;
+  &lt;attribute name=&quot;issue&quot;&gt;
+    Welcome to openSUSE Tumbleweed
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;
+&lt;gp_ext name=&quot;Unix Settings/Message of the Day&quot;&gt;
+  &lt;attribute name=&quot;motd&quot;&gt;
+    Welcome to Linux Group Policy!
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;
+&lt;gp_ext name=&quot;Unix Settings/Issue&quot;&gt;
+  &lt;attribute name=&quot;issue&quot;&gt;
+    Welcome to \5Cs \5Cr \5Cl
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;</code></pre>
 <p>Note that Messages policy stores the previous value of the message content in the Group Policy Cache. So we can discern from the message content that <code>vgp_motd_ext</code> and <code>vgp_issue_ext</code> applied last (since the messages from <code>gp_msgs_ext</code> show up in the log). We can confirm this by checking the contents of <code>/etc/motd</code> and <code>/etc/issue</code>.</p>
 <pre><code>&gt; cat /etc/motd; echo
 motd set from samba-tool

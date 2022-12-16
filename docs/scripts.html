@@ -173,8 +173,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>3.2.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>3.2.2</b> GPMC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>3.3.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>3.3.2</b> GPMC</a></li>
+</ul></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -454,36 +462,30 @@ GPO: Default Domain Policy
 <p>In addition to the expected scripts that we added previously, you’ll notice there are 2 additional entries. The <code>gp_centrify_crontab_ext</code> and <code>gp_user_centrify_crontab_ext</code> CSEs parse policies provided by a Centrify Server Side Extension. These weren’t introduced previously in the chapter because they are a proprietary solution not provided by Samba. Samba provides a CSE to apply these for compatability reasons, but does not provide a SSE to set them. These CSEs are provided to assist in migration from proprietary technologies. We won’t discuss these any further.</p>
 <p>Let’s now force an apply, and verify that the cron jobs are scheduled.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; | xmllint --format -
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
+ | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; \
+ | xmllint --xpath &quot;//gp_ext[@name=&#39;Unix Settings/Scripts&#39;]&quot; - \
+ | xmllint --format -
 &lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;gp&gt;
-  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
-    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
-      &lt;gp_ext name=&quot;Unix Settings/Scripts&quot;&gt;
-        &lt;attribute name=&quot;Software\Policies\Samba\Unix Settings\Daily Scripts:ZWNobyBoZWxsbyB3b3JsZA==&quot;&gt;/etc/cron.daily/gp_m94kdru9&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-    &lt;/guid&gt;
-    &lt;applylog&gt;
-      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
-    &lt;/applylog&gt;
-  &lt;/user&gt;
-&lt;/gp&gt;
+&lt;gp_ext name=&quot;Unix Settings/Scripts&quot;&gt;
+  &lt;attribute name=&quot;Software\Policies\Samba\Unix
+                   Settings\Daily Scripts:ZWNobyBoZWxsbyB3b3JsZA==&quot;&gt;
+    /etc/cron.daily/gp_m94kdru9
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;
 &gt; sudo /usr/sbin/samba-gpupdate --target=User -U tux --force
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;LIZARDO\\tux&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; | xmllint --format -
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;LIZARDO\\tux&quot; \
+ | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; \
+ | xmllint --xpath &quot;//gp_ext[@name=&#39;Unix Settings/Scripts&#39;]&quot; - \
+ | xmllint --format -
 &lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;gp&gt;
-  &lt;user name=&quot;LIZARDO\tux&quot;&gt;
-    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
-      &lt;gp_ext name=&quot;Unix Settings/Scripts&quot;&gt;
-        &lt;attribute name=&quot;Software\Policies\Samba\Unix Settings\Hourly Scripts:94d6cccd227ea60f662a2ea161560329df75d24b64265c405ba16209c715a0bb274b39b07d2c825dc926341839067d90a80d5570b2c68607b16915fd806de415&quot;&gt;@hourly echo Don&#39;t do that Dave&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-    &lt;/guid&gt;
-    &lt;applylog&gt;
-      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
-    &lt;/applylog&gt;
-  &lt;/user&gt;
-&lt;/gp&gt;</code></pre>
-<p>First we see that the machine policy created the script <code>/etc/cron.daily/gp_m94kdru9</code>. Let’s take a look at the contents.</p>
+&lt;gp_ext name=&quot;Unix Settings/Scripts&quot;&gt;
+  &lt;attribute name=&quot;Software\Policies\Samba\Unix
+                   Settings\Hourly Scripts:94d6...e415&quot;&gt;
+    @hourly echo Don&#39;t do that Dave
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;</code></pre>
+<p>First we see that the machine policy created the script <code>/etc/cron.daily/</code> <code>gp_m94kdru9</code>. Let’s take a look at the contents.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="scripts.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;</span> sudo <span class="fu">cat</span> /etc/cron.daily/gp_m94kdru9</span>
 <span id="cb24-2"><a href="scripts.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/sh</span></span>
 <span id="cb24-3"><a href="scripts.html#cb24-3" aria-hidden="true" tabindex="-1"></a></span>

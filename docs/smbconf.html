@@ -173,8 +173,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>3.2.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>3.2.2</b> GPMC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>3.3.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>3.3.2</b> GPMC</a></li>
+</ul></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -387,18 +395,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="managing-smb.conf-policies-via-samba-tool" class="section level3 hasAnchor" number="4.1.2">
 <h3><span class="header-section-number">4.1.2</span> Managing smb.conf Policies via samba-tool<a href="smbconf.html#managing-smb.conf-policies-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Setting an smb.conf Group Policy via <code>samba-tool</code> is arguably much simpler.</p>
-<pre><code>&gt; samba-tool gpo manage smb_conf set --help
-Usage: samba-tool gpo manage smb_conf set &lt;gpo&gt; &lt;setting&gt; &lt;value&gt; [options]
-
-Sets a Samba smb.conf Group Policy to the sysvol
-
-This command sets an smb.conf setting to the sysvol for applying to winbind
-clients. Not providing a value will unset the policy.
-
-Example:
-samba-tool gpo manage smb_conf set {31B2F340-016D-11D2-945F-00C04FB984F9}
-&#39;apply gpo policies&#39; yes</code></pre>
+<p>Setting an smb.conf Group Policy via <code>samba-tool gpo manage smb_conf</code> is arguably much simpler.</p>
+<p>Use the <code>samba-tool gpo manage smb_conf set</code> command, providing the following arguments:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>&lt;gpo&gt;</code>: The name of the GPO that you want to modify.</p></li>
+<li><p><code>&lt;setting&gt;</code>: The name of the smb.conf setting that you want to set.</p></li>
+<li><p><code>&lt;value&gt;</code>: The value that you want to set for the specified setting.</p></li>
+</ol>
+<p>For example, to set the <code>apply gpo policies</code> setting to <code>yes</code> in the GPO named <code>{31B2F340-016D-11D2-945F-00C04FB984F9}</code>, you would use the following command:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="smbconf.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage smb_conf set <span class="dt">\</span></span>
+<span id="cb8-2"><a href="smbconf.html#cb8-2" aria-hidden="true" tabindex="-1"></a>    {31B2F340-016D-11D2-945F-00C04FB984F9} <span class="st">&#39;apply gpo policies&#39;</span> yes</span></code></pre></div>
+<p>If you want to unset a policy, you can omit the <value> argument. For example, to unset the <code>apply gpo policies</code> setting in the GPO named <code>{31B2F340-016D-11D2-945F-00C04FB984F9}</code>, you would use the following command:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="smbconf.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage smb_conf set <span class="dt">\</span></span>
+<span id="cb9-2"><a href="smbconf.html#cb9-2" aria-hidden="true" tabindex="-1"></a>    {31B2F340-016D-11D2-945F-00C04FB984F9} <span class="st">&#39;apply gpo policies&#39;</span></span></code></pre></div>
 <p>This command does not require the ADMX templates to be installed, and also does not suffer from the same limitation as the GPME for idmap policies.</p>
 </div>
 </div>
@@ -433,21 +442,15 @@ GPO: Default Domain Policy
     logon drive = P:
     logon home = \\%L\%U\.9xprofile</code></pre>
 <p>If for whatever reason the policy did not apply, it is sometimes helpful to look at the Group Policy Cache, which keeps track of applied policies.</p>
-<pre><code>&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+<pre><code>&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
+| sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; \
+| xmllint --xpath &quot;//gp_ext[@name=&#39;smb.conf&#39;]&quot; - \
+| xmllint --format -
 &lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;gp&gt;
-  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
-    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
-      &lt;gp_ext name=&quot;smb.conf&quot;&gt;
-        &lt;attribute name=&quot;apply group policies&quot;&gt;yes&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-    &lt;/guid&gt;
-    &lt;applylog&gt;
-      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
-    &lt;/applylog&gt;
-  &lt;/user&gt;
-&lt;/gp&gt;</code></pre>
-<p>Where <strong>TESTSYSDM$</strong> is the system name. You can see in our case Samba has recorded applying the Group Policy Object with GUID {31B2F340-016D-11D2-945F-00C04FB984F9} (this is the Default Domain Policy), and that it set <code>apply group policies = yes</code> in our smb.conf.</p>
+&lt;gp_ext name=&quot;smb.conf&quot;&gt;
+  &lt;attribute name=&quot;apply group policies&quot;&gt;yes&lt;/attribute&gt;
+&lt;/gp_ext&gt;</code></pre>
+<p>Where <strong>TESTSYSDM$</strong> is the system name. You can see in our case Samba has recorded applying the Group Policy Object, and that it set <code>apply group policies = yes</code> in our smb.conf.</p>
 
 </div>
 </div>

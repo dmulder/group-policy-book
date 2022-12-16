@@ -173,8 +173,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>3.2.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>3.2.2</b> GPMC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>3.3.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>3.3.2</b> GPMC</a></li>
+</ul></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -381,6 +389,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="gpcreate" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Creating a Group Policy Object<a href="manage.html#gpcreate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="samba-tool" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> samba-tool<a href="manage.html#samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <code>samba-tool gpo create</code> command is used to create a Group Policy Object.
 The <code>samba-tool gpo create</code> command is used to create a Group Policy Object (GPO). To create a GPO using the <code>samba-tool gpo create</code> command, you would use the following syntax:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="manage.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo create GPO_NAME</span></code></pre></div>
@@ -389,8 +399,28 @@ The <code>samba-tool gpo create</code> command is used to create a Group Policy 
 <div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="manage.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo setlink CONTAINER_DN GPO_NAME</span></code></pre></div>
 <p>Where <code>CONTAINER_DN</code> is the distinguished name of the container from which you want to create the GPO link, and <code>GPO_NAME</code> is the name of the GPO you want to link.</p>
 </div>
+<div id="gpmc" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> GPMC<a href="manage.html#gpmc" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To create a Group Policy object (GPO) using the Group Policy Management Console (GPMC):</p>
+<ol style="list-style-type: decimal">
+<li><p>Open the GPMC by going to <code>Start &gt; Administrative Tools &gt; Group Policy Management</code>.</p></li>
+<li><p>In the GPMC, expand the Domains node in the tree, and then expand the domain where you want to create the GPO.</p></li>
+<li><p>Right-click on the domain, or the container where you’d like the GPO created and linked, and select <code>Create a GPO in this domain, and Link it here...</code>.</p></li>
+</ol>
+<div class="figure">
+<img src="manage-images/create.png" alt="" />
+<p class="caption">Create a GPO</p>
+</div>
+<ol start="4" style="list-style-type: decimal">
+<li><p>In the <code>New GPO</code> dialog box, enter a name for the GPO and click on the <code>OK</code> button.</p></li>
+<li><p>The new GPO will be created and will appear in the list of GPOs under the <code>Group Policy Objects</code> node.</p></li>
+</ol>
+</div>
+</div>
 <div id="gpdelete" class="section level2 hasAnchor" number="3.3">
 <h2><span class="header-section-number">3.3</span> Deleting a Group Policy Object<a href="manage.html#gpdelete" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="samba-tool-1" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> samba-tool<a href="manage.html#samba-tool-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To delete a Group Policy Object (GPO), you would use the <code>samba-tool gpo del</code> command. The syntax for this command is:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="manage.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo del GPO_NAME</span></code></pre></div>
 <p>Where <code>GPO_NAME</code> is the name of the GPO you want to delete.</p>
@@ -398,6 +428,17 @@ The <code>samba-tool gpo create</code> command is used to create a Group Policy 
 <p>To delete a Group Policy Object (GPO) link from a container, you would use the <code>samba-tool gpo dellink</code> command. The syntax for this command is:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="manage.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo dellink CONTAINER_DN GPO_NAME</span></code></pre></div>
 <p>Where <code>CONTAINER_DN</code> is the distinguished name of the container from which you want to delete the GPO link, and <code>GPO_NAME</code> is the name of the GPO you want to unlink.</p>
+</div>
+<div id="gpmc-1" class="section level3 hasAnchor" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> GPMC<a href="manage.html#gpmc-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>To delete a Group Policy object (GPO) using the Group Policy Management Console (GPMC):</p>
+<ol style="list-style-type: decimal">
+<li><p>In the left pane of the GPMC, expand the forest and domain that contain the GPO you want to delete.</p></li>
+<li><p>In the left pane, select the Group Policy Objects container. This will display a list of GPOs in the right pane.</p></li>
+<li><p>In the right pane, right-click the GPO you want to delete and select “Delete.”</p></li>
+<li><p>A warning message will appear, asking you to confirm that you want to delete the GPO. Click “Yes” to delete the GPO.</p></li>
+</ol>
+</div>
 </div>
 <div id="gplist" class="section level2 hasAnchor" number="3.4">
 <h2><span class="header-section-number">3.4</span> Listing a Group Policy<a href="manage.html#gplist" class="anchor-section" aria-label="Anchor link to header"></a></h2>

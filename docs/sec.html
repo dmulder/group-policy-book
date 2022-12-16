@@ -173,8 +173,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>3.2.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>3.2.2</b> GPMC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>3.3.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>3.3.2</b> GPMC</a></li>
+</ul></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -422,40 +430,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="managing-password-and-kerberos-policies-via-samba-tool" class="section level3 hasAnchor" number="5.1.2">
 <h3><span class="header-section-number">5.1.2</span> Managing Password and Kerberos Policies via samba-tool<a href="sec.html#managing-password-and-kerberos-policies-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The Password and Kerberos policies can also be set via <code>samba-tool</code>.</p>
-<pre><code>&gt; samba-tool gpo manage security set --help
-Usage: samba-tool gpo manage security set &lt;gpo&gt; &lt;setting&gt; &lt;value&gt; [options]
-
-Set Samba Security Group Policy to the sysvol
-
-This command sets a security setting to the sysvol for applying to winbind
-clients. Not providing a value will unset the policy.
-These settings only apply to the ADDC.
-
-Example:
-samba-tool gpo manage security set {31B2F340-016D-11D2-945F-00C04FB984F9} MaxTicketAge 10
-
-Possible policies:
-MaxTicketAge            Maximum lifetime for user ticket
-                        Defined in hours
-
-MaxServiceAge           Maximum lifetime for service ticket
-                        Defined in minutes
-
-MaxRenewAge             Maximum lifetime for user ticket renewal
-                        Defined in minutes
-
-MinimumPasswordAge      Minimum password age
-                        Defined in days
-
-MaximumPasswordAge      Maximum password age
-                        Defined in days
-
-MinimumPasswordLength   Minimum password length
-                        Defined in characters
-
-PasswordComplexity      Password must meet complexity requirements
-                        1 is Enabled, 0 is Disabled</code></pre>
+<p>The Password and Kerberos policies can also be set via <code>samba-tool gpo manage security set &lt;gpo&gt; &lt;setting&gt; &lt;value&gt;</code>.</p>
+<p>The command accepts the following parameters:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>&lt;gpo&gt;</code>: The name of the GPO that you want to modify.</p></li>
+<li><p><code>&lt;setting&gt;</code>: The name of the smb.conf setting that you want to set.</p></li>
+<li><p><code>&lt;value&gt;</code>: The value that you want to set for the specified setting.</p></li>
+</ol>
+<p>The <code>setting</code> parameter must be one of the following:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Setting</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">MaxTicketAge</td>
+<td align="left">Maximum lifetime for user ticket</td>
+</tr>
+<tr class="even">
+<td align="left">MaxServiceAge</td>
+<td align="left">Maximum lifetime for service ticket</td>
+</tr>
+<tr class="odd">
+<td align="left">MaxRenewAge</td>
+<td align="left">Maximum lifetime for user ticket renewal</td>
+</tr>
+<tr class="even">
+<td align="left">MinimumPasswordAge</td>
+<td align="left">Minimum password age</td>
+</tr>
+<tr class="odd">
+<td align="left">MaximumPasswordAge</td>
+<td align="left">Maximum password age</td>
+</tr>
+<tr class="even">
+<td align="left">MinimumPasswordLength</td>
+<td align="left">Minimum password length</td>
+</tr>
+<tr class="odd">
+<td align="left">PasswordComplexity</td>
+<td align="left">Password must meet complexity requirements</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div id="client-side-extension-1" class="section level2 hasAnchor" number="5.2">
@@ -493,33 +513,29 @@ GPO: Default Domain Policy
 </div>
 <p>Let’s now force a policy apply, and check that the settings have changed.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
-&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;gp&gt;
-  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
-    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
-      &lt;gp_ext name=&quot;System Access&quot;&gt;
-        &lt;attribute name=&quot;minPwdAge&quot;/&gt;
-        &lt;attribute name=&quot;maxPwdAge&quot;/&gt;
-        &lt;attribute name=&quot;minPwdLength&quot;/&gt;
-        &lt;attribute name=&quot;pwdProperties&quot;/&gt;
-      &lt;/gp_ext&gt;
-      &lt;gp_ext name=&quot;Kerberos Policy&quot;&gt;
-        &lt;attribute name=&quot;kdc:user_ticket_lifetime&quot;/&gt;
-        &lt;attribute name=&quot;kdc:renewal_lifetime&quot;/&gt;
-        &lt;attribute name=&quot;kdc:service_ticket_lifetime&quot;/&gt;
-      &lt;/gp_ext&gt;
-    &lt;/guid&gt;
-    &lt;applylog&gt;
-      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
-    &lt;/applylog&gt;
-  &lt;/user&gt;
-&lt;/gp&gt;
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &#39;kdc:user_ticket_lifetime&#39;; echo
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
+ | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; \
+ | xmllint --xpath &quot;//gp_ext[@name=&#39;System Access&#39; or 
+                             @name=&#39;Kerberos Policy&#39;]&quot;  -
+&lt;gp_ext name=&quot;System Access&quot;&gt;
+  &lt;attribute name=&quot;minPwdAge&quot;/&gt;
+  &lt;attribute name=&quot;maxPwdAge&quot;/&gt;
+  &lt;attribute name=&quot;minPwdLength&quot;/&gt;
+  &lt;attribute name=&quot;pwdProperties&quot;/&gt;
+&lt;/gp_ext&gt;
+&lt;gp_ext name=&quot;Kerberos Policy&quot;&gt;
+  &lt;attribute name=&quot;kdc:user_ticket_lifetime&quot;/&gt;
+  &lt;attribute name=&quot;kdc:renewal_lifetime&quot;/&gt;
+  &lt;attribute name=&quot;kdc:service_ticket_lifetime&quot;/&gt;
+&lt;/gp_ext&gt;
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb \
+ -k &#39;kdc:user_ticket_lifetime&#39;; echo
 10
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &#39;kdc:service_ticket_lifetime&#39;; echo
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb \
+ -k &#39;kdc:service_ticket_lifetime&#39;; echo
 10
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &#39;kdc:renewal_lifetime&#39;; echo
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb \
+ -k &#39;kdc:renewal_lifetime&#39;; echo
 168</code></pre>
 <p>You can see the Kerberos policies are all stored in their own keys in the Group Policy Cache (<code>/var/lib/samba/gpo.tdb</code>), and they are all stored in hours. On the SYSVOL, they are actually stored in hours, minutes, and days, respectively. The reason these are all stored in hours on the system is that the <code>samba</code> daemon expects these attributes in hours.</p>
 <p>If we check the contents of the GptTmpl.inf and do some conversion, we can confirm these are correct.</p>
@@ -563,7 +579,10 @@ GPO: Default Domain Policy
 </tbody>
 </table>
 <p>While the Kerberos policies have been stored to the Group Policy Log as expected, let’s next verify that the Password policies have been applied using the following ldapsearch.</p>
-<pre><code>&gt; ldapsearch -H ldap://lizardo.suse.de -x -W -D &quot;Administrator@lizardo.suse.de&quot; -b DC=lizardo,DC=suse,DC=de -s base minPwdAge maxPwdAge minPwdLength pwdProperties
+<pre><code>&gt; ldapsearch -H ldap://lizardo.suse.de -x -W \
+ -D &quot;Administrator@lizardo.suse.de&quot; \
+ -b DC=lizardo,DC=suse,DC=de \
+ -s base minPwdAge maxPwdAge minPwdLength pwdProperties
 # lizardo.suse.de
 dn: DC=lizardo,DC=suse,DC=de
 maxPwdAge: -36288000000000

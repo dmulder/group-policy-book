@@ -173,8 +173,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>3.2.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>3.2.2</b> GPMC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>3.3.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>3.3.2</b> GPMC</a></li>
+</ul></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -355,7 +363,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">10</span> Sudoers Policies<a href="sudoers.html#sudoers" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="sudoers-images/success.png" width="30%" style="display: block; margin: auto;" /></p>
 <p>The purpose of the Sudoers Polices are to deploy sudo rules to a Linux client. Naturally, only Machine policy is supported.</p>
-<p>This policy is physically stored in two different locations on the SYSVOL, in <strong>MACHINE/Registry.pol</strong> and in <strong>MACHINE/VGP/VTLA/Sudo/SudoersConfiguration/manifest.xml</strong>. The <code>manifest.xml</code> is in xml format, and is easily modified manually using a text editor. The <code>Registry.pol</code> is in registry format. See chapter <a href="regpol.html#regpol">20</a> for details on how to manually modify this file.</p>
+<p>This policy is physically stored in two different locations on the SYSVOL, in <strong>MACHINE/Registry.pol</strong> and in <strong>MACHINE/VGP/VTLA/Sudo/</strong> <strong>SudoersConfiguration/manifest.xml</strong>. The <code>manifest.xml</code> is in xml format, and is easily modified manually using a text editor. The <code>Registry.pol</code> is in registry format. See chapter <a href="regpol.html#regpol">20</a> for details on how to manually modify this file.</p>
 <div id="server-side-extension-5" class="section level2 hasAnchor" number="10.1">
 <h2><span class="header-section-number">10.1</span> Server Side Extension<a href="sudoers.html#server-side-extension-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Server Side Extensions (SSE) for Sudoers policies are distributed via either Administrative Templates (see <a href="writing-group-policy-extensions.html#sse">19.1</a> in section <a href="writing-group-policy-extensions.html#admx">19.1.1</a>) or via the command <code>samba-tool gpo manage sudoers</code>. Rules added via the GPME can be modified from samba-tool (as of Samba 4.18), but rules added via <code>samba-tool gpo manage sudoers</code> will not be visible in the GPME.</p>
@@ -382,7 +390,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p class="caption">Adding a Sudo Rule</p>
 </div>
 <p>After applying this rule, you can list the rule using <code>samba-tool</code>.</p>
-<pre><code>&gt; samba-tool gpo manage sudoers list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+<pre><code>&gt; samba-tool gpo manage sudoers list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
 fakeu ALL=(ALL) NOPASSWD: ALL</code></pre>
 </div>
 <div id="sudoers-samba-tool" class="section level3 hasAnchor" number="10.1.2">
@@ -403,30 +412,13 @@ Available subcommands:
   list    - List Samba Sudoers Group Policy from the sysvol
   remove  - Removes a Samba Sudoers Group Policy from the sysvol</code></pre>
 <p>To add a new Sudoers rule to the SYSVOL, call the <code>samba-tool gpo manage sudoers add</code> command.</p>
-<pre><code>&gt; samba-tool gpo manage sudoers add --help
-Usage: samba-tool gpo manage sudoers add &lt;gpo&gt; &lt;command&gt; &lt;user&gt; &lt;users&gt; [groups] [options]
-
-Adds a Samba Sudoers Group Policy to the sysvol
-
-This command adds a sudo rule to the sysvol for applying to winbind clients.
-
-The command argument indicates the final field in the sudo rule.
-The user argument indicates the user specified in the parentheses.
-The users and groups arguments are comma separated lists, which are combined
-to form the first field in the sudo rule.
-The --passwd argument specifies whether the sudo entry will require a password
-be specified. The default is False, meaning the NOPASSWD field will be
-specified in the sudo entry.
-
-Example:
-samba-tool gpo manage sudoers add {31B2F340-016D-11D2-945F-00C04FB984F9} ALL
-ALL fakeu fakeg
-
-The example command will generate the following sudoers entry:
-fakeu,fakeg% ALL=(ALL) NOPASSWD: ALL</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb52-1"><a href="sudoers.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage sudoers add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>command<span class="op">&gt;</span> <span class="op">&lt;</span>user<span class="op">&gt;</span> <span class="op">&lt;</span>users<span class="op">&gt;</span></span></code></pre></div>
 <p>Let’s add a simple rule for testing.</p>
-<pre><code>&gt; samba-tool gpo manage sudoers add {31B2F340-016D-11D2-945F-00C04FB984F9} ALL ALL fakeu fakeg -UAdministrator
-&gt; samba-tool gpo manage sudoers list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+<pre><code>&gt; samba-tool gpo manage sudoers add \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} ALL ALL fakeu fakeg \
+ -UAdministrator
+&gt; samba-tool gpo manage sudoers list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
 fakeu,fakeg% ALL=(ALL) NOPASSWD: ALL
 fakeu ALL=(ALL) NOPASSWD: ALL</code></pre>
 <p>You’ll notice that listing the entries now includes the entry we just created, as well as the one we added earlier using the GPME.</p>
@@ -464,23 +456,21 @@ GPO: Default Domain Policy
 <p>Notice that both the rules we created earlier are listed, but under different CSEs. These policies will be applied by different CSEs because they are stored on the SYSVOL differently. The results will be similar though. Currently we don’t have any Centrify combatible policy in our environment, so this CSE remains empty.</p>
 <p>Let’s now force our policy to apply and see how the CSEs behave.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
-&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;gp&gt;
-  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
-    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
-      &lt;gp_ext name=&quot;Unix Settings/Sudo Rights&quot;&gt;
-        &lt;attribute name=&quot;ZmFrZXUgQUxMPShBTEwpIE5PUEFTU1dEOiBBTEw=&quot;&gt;/etc/sudoers.d/gp_mzarfh6k&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-      &lt;gp_ext name=&quot;VGP/Unix Settings/Sudo Rights&quot;&gt;
-        &lt;attribute name=&quot;ZmFrZXUsZmFrZWclIEFMTD0oQUxMKSBOT1BBU1NXRDogQUxM&quot;&gt;/etc/sudoers.d/gp_qy2eo07y&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-    &lt;/guid&gt;
-    &lt;applylog&gt;
-      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
-    &lt;/applylog&gt;
-  &lt;/user&gt;
-&lt;/gp&gt;</code></pre>
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
+ | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; \
+ | xmllint --xpath &quot;//gp_ext[@name=&#39;Unix Settings/Sudo Rights&#39; or 
+                     @name=&#39;VGP/Unix Settings/Sudo Rights&#39;]&quot; - \
+ | xmllint --format -
+&lt;gp_ext name=&quot;Unix Settings/Sudo Rights&quot;&gt;
+  &lt;attribute name=&quot;ZmFrZXUgQUxMPShBTEwpIE5PUEFTU1dEOiBBTEw=&quot;&gt;
+    /etc/sudoers.d/gp_mzarfh6k
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;
+&lt;gp_ext name=&quot;VGP/Unix Settings/Sudo Rights&quot;&gt;
+  &lt;attribute name=&quot;ZmFrZXUsZmFrZWclIEFMTD0oQUxMKSBOT1BBU1NXRDogQUxM&quot;&gt;
+    /etc/sudoers.d/gp_qy2eo07y
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;</code></pre>
 <p>We can see the Sudoer rules have been applied to <code>/etc/sudoers.d/gp_mzarfh6k</code> and <code>/etc/sudoers.d/gp_qy2eo07y</code>.</p>
 <pre><code>&gt; sudo cat /etc/sudoers.d/gp_mzarfh6k
 

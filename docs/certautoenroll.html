@@ -173,8 +173,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>3.2.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>3.2.2</b> GPMC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>3.3.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>3.3.2</b> GPMC</a></li>
+</ul></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -360,7 +368,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The Server Side Extension (SSE) for Certificate Auto Enrollment is part of the Group Policy Management Editor (GPME). Currently, no <code>samba-tool</code> command is available for managing this policy. The policy requires access to a Windows certificate server. On the certificate server, the roles Certification Authority, Certificate Enrollment Policy Web Service, and Certificate Enrollment Web Service all must be installed and configured. Optionally the role Network Device Enrollment Service can be installed to simplify the fetching of the root certificate chain by the client. Configuring the certificate server is beyond the scope of this book.</p>
 <p>Optionally, the Network Device Enrollment role can be configured on the server, which will allow the client to fetch the root certificate chain. Without this role, the Client Side Extension will report the following warnings:</p>
 <pre><code>[W26775]| Failed to fetch the root certificate chain. | {}
-[W05621]| The Network Device Enrollment Service is either not installed or not configured. | {}
+[W05621]| The Network Device Enrollment Service is either not
+          installed or not configured. | {}
 [W11946]| Installing the server certificate only. | {}</code></pre>
 <div id="managing-certificate-auto-enrollment-via-the-gpme" class="section level3 hasAnchor" number="13.1.1">
 <h3><span class="header-section-number">13.1.1</span> Managing Certificate Auto Enrollment via the GPME<a href="certautoenroll.html#managing-certificate-auto-enrollment-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -369,23 +378,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Open the Group Policy Management Editor. For instructions on accessing the GPME, see chapter <a href="manage.html#manage">3</a> section <a href="manage.html#gpopen">3.1</a>.</p></li>
 <li><p>In the Group Policy Management Editor window, navigate to <code>Computer Configuration &gt; Policies &gt; Windows Settings &gt; Security Settings &gt; Public Key Policies</code>.</p></li>
 </ol>
-<div class="figure">
-<img src="cert-auto-enroll-images/public_key_policy.png" alt="" />
-<p class="caption">Public Key Policies</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-18"></span>
+<img src="cert-auto-enroll-images/public_key_policy.png" alt="Public Key Policies" width="50%" />
+<p class="caption">
+Figure 13.1: Public Key Policies
+</p>
 </div>
 <ol start="3" style="list-style-type: decimal">
 <li>Double click on and open the <code>Certificate Services Client - Auto-Enrollment</code> properties.</li>
 </ol>
-<div class="figure">
-<img src="cert-auto-enroll-images/auto-enrollment.png" alt="" />
-<p class="caption">Certificate Services Client - Auto-Enrollment</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-19"></span>
+<img src="cert-auto-enroll-images/auto-enrollment.png" alt="Certificate Services Client - Auto-Enrollment" width="50%" />
+<p class="caption">
+Figure 13.2: Certificate Services Client - Auto-Enrollment
+</p>
 </div>
 <ol start="4" style="list-style-type: decimal">
 <li>In the properties dialog, set the <code>Configuration Model</code> to “Enabled” and check the boxes to enable <code>Renew expired certificates, update pending certificates, and remove revoked certificates</code> and <code>Update certificates that use certificate templates</code>.</li>
 </ol>
-<div class="figure">
-<img src="cert-auto-enroll-images/auto-enrollment-enabled.png" alt="" />
-<p class="caption">Enable Certificate Auto-Enrollment</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-20"></span>
+<img src="cert-auto-enroll-images/auto-enrollment-enabled.png" alt="Enable Certificate Auto-Enrollment" width="50%" />
+<p class="caption">
+Figure 13.3: Enable Certificate Auto-Enrollment
+</p>
 </div>
 <ol start="5" style="list-style-type: decimal">
 <li>Click “Apply” to apply the changes and “OK” to close the properties dialog.</li>
@@ -397,23 +412,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>In the Group Policy Management Editor window, navigate to <code>Computer Configuration &gt; Policies &gt; Windows Settings &gt; Security Settings &gt; Public Key Policies</code>.</p></li>
 <li><p>Double-click on “Certificate Services Client - Certificate Enrollment Policy” to open its properties.</p></li>
 </ol>
-<div class="figure">
-<img src="cert-auto-enroll-images/advanced-config.png" alt="" />
-<p class="caption">Certificate Services Client - Certificate Enrollment Policy</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-21"></span>
+<img src="cert-auto-enroll-images/advanced-config.png" alt="Certificate Services Client - Certificate Enrollment Policy" width="50%" />
+<p class="caption">
+Figure 13.4: Certificate Services Client - Certificate Enrollment Policy
+</p>
 </div>
 <ol start="3" style="list-style-type: decimal">
 <li>Set the <code>Configuration Model</code> to Enabled. The default policy (configured previously in the “Certificate Services Client - Auto-Enrollment” properties) should already be listed under “Certificate enrollment policy list.” You can disable this policy if desired by unchecking the box next to the item in the list.</li>
 </ol>
-<div class="figure">
-<img src="cert-auto-enroll-images/advanced-config-enabled.png" alt="" />
-<p class="caption">Certificate Services Client - Certificate Enrollment Policy: Enabled</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-22"></span>
+<img src="cert-auto-enroll-images/advanced-config-enabled.png" alt="Certificate Services Client - Certificate Enrollment Policy: Enabled" width="50%" />
+<p class="caption">
+Figure 13.5: Certificate Services Client - Certificate Enrollment Policy: Enabled
+</p>
 </div>
 <ol start="4" style="list-style-type: decimal">
 <li>To add additional certificate servers for Certificate Auto Enrollment, click “Add…”</li>
 </ol>
-<div class="figure">
-<img src="cert-auto-enroll-images/add-policy-server.png" alt="" />
-<p class="caption">Add a Certificate Enrollment Policy Server</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-23"></span>
+<img src="cert-auto-enroll-images/add-policy-server.png" alt="Add a Certificate Enrollment Policy Server" width="50%" />
+<p class="caption">
+Figure 13.6: Add a Certificate Enrollment Policy Server
+</p>
 </div>
 <ol start="5" style="list-style-type: decimal">
 <li><p>In the <code>Certificate Enrollment Policy Server</code> dialog, enter the enrollment policy server URI and set the authentication type. “Windows integrated” authentication refers to Kerberos authentication.</p></li>
@@ -428,25 +449,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ol style="list-style-type: decimal">
 <li>Open the <code>Certification Authority</code> utility, and click on <code>Certificate Templates</code> in the tree.</li>
 </ol>
-<div class="figure">
-<img src="cert-auto-enroll-images/certsrv.png" alt="" />
-<p class="caption">Certification Authority utility</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-24"></span>
+<img src="cert-auto-enroll-images/certsrv.png" alt="Certification Authority utility" width="50%" />
+<p class="caption">
+Figure 13.7: Certification Authority utility
+</p>
 </div>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Right click on <code>Certificates Templates</code> in the tree and select <code>Manage</code>.</p></li>
 <li><p>You’ll notice that there are a number of existing templates to choose from. Right click on one of the templates in the list, and click <code>Duplicate Template</code>.</p></li>
 </ol>
-<div class="figure">
-<img src="cert-auto-enroll-images/cert-temp-console.png" alt="" />
-<p class="caption">Certificate Templates Console</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-25"></span>
+<img src="cert-auto-enroll-images/cert-temp-console.png" alt="Certificate Templates Console" width="50%" />
+<p class="caption">
+Figure 13.8: Certificate Templates Console
+</p>
 </div>
 <ol start="4" style="list-style-type: decimal">
 <li><p>Switch to the <code>General</code> tab, and set a name for your new template.</p></li>
 <li><p>Set the number of years the certificate will be valid and the renewal period.</p></li>
 </ol>
-<div class="figure">
-<img src="cert-auto-enroll-images/template-properties.png" alt="" />
-<p class="caption">Template Properties</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-26"></span>
+<img src="cert-auto-enroll-images/template-properties.png" alt="Template Properties" width="50%" />
+<p class="caption">
+Figure 13.9: Template Properties
+</p>
 </div>
 <ol start="6" style="list-style-type: decimal">
 <li><p>It may be useful to also review the <code>Cryptography</code> tab and ensure the cryptographic requirements for the certificate will meet the needs of your organization.</p></li>
@@ -454,14 +481,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Next, to enable the new template, right click on <code>Certificate Templates</code> in the tree within the Certification Authority utility, and click <code>New &gt; Certificate Template to Issue</code>.</p></li>
 <li><p>In the <code>Enable Certificate Templates</code> dialog, select the template we just created, and click OK.</p></li>
 </ol>
-<div class="figure">
-<img src="cert-auto-enroll-images/enable-template.png" alt="" />
-<p class="caption">Enable Certificate Templates</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-27"></span>
+<img src="cert-auto-enroll-images/enable-template.png" alt="Enable Certificate Templates" width="50%" />
+<p class="caption">
+Figure 13.10: Enable Certificate Templates
+</p>
 </div>
 <p>Our new template is now enabled, and should be in the list of enabled templates in the Certification Authority utility.</p>
-<div class="figure">
-<img src="cert-auto-enroll-images/template-enabled.png" alt="" />
-<p class="caption">Template Enabled</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-28"></span>
+<img src="cert-auto-enroll-images/template-enabled.png" alt="Template Enabled" width="50%" />
+<p class="caption">
+Figure 13.11: Template Enabled
+</p>
 </div>
 </div>
 </div>
@@ -495,8 +526,8 @@ GPO: Default Domain Policy
 <p>Notice that the new template we created in the previous section is listed under the templates. The <code>Machine</code> template is also listed. This is a default template enabled for joined computers (this template was named <code>Computer</code> in the list of enabled templates we saw previously).</p>
 <p>Let’s now force an apply and observe the results.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
+&gt; | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; | xmllint --format -
 &lt;?xml version=&quot;1.0&quot;?&gt;
 &lt;gp&gt;
   &lt;user name=&quot;TESTSYSDM$&quot;&gt;
@@ -584,14 +615,18 @@ Request ID &#39;lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate&#39;:
 <p>This particular error happens when Internet Information Services (IIS) has the wrong root certificate selected.</p>
 <pre><code>(Caused by SSLError(CertificateError(&quot;hostname \&#39;win-qlipdp2isn7.lizardo.suse.de\&#39; doesn\&#39;t match \&#39;lizardo-WIN-QLIPDP2ISN7-CA\&#39;&quot;)))</code></pre>
 <p>To resolve this error, open the IIS Manager, select the Default Web Site in the tree, then click <code>Bindings</code> in the right side <code>Actions</code> pane.</p>
-<div class="figure">
-<img src="cert-auto-enroll-images/bindings.png" alt="" />
-<p class="caption">IIS Manager</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-29"></span>
+<img src="cert-auto-enroll-images/bindings.png" alt="IIS Manager" width="50%" />
+<p class="caption">
+Figure 13.12: IIS Manager
+</p>
 </div>
 <p>Highlight the https binding, then select <code>Edit...</code>. Select the correct SSL certificate, then click OK to save.</p>
-<div class="figure">
-<img src="cert-auto-enroll-images/edit-binding.png" alt="" />
-<p class="caption">Edit Site Binding</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-30"></span>
+<img src="cert-auto-enroll-images/edit-binding.png" alt="Edit Site Binding" width="50%" />
+<p class="caption">
+Figure 13.13: Edit Site Binding
+</p>
 </div>
 </div>
 <div id="python-requests-security-level" class="section level4 hasAnchor" number="13.2.1.2">
@@ -603,9 +638,11 @@ Request ID &#39;lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate&#39;:
 <div id="checking-request-failures" class="section level4 hasAnchor" number="13.2.1.3">
 <h4><span class="header-section-number">13.2.1.3</span> Checking request failures<a href="certautoenroll.html#checking-request-failures" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>If the CA failed to issue a certificate when the template request was sent, we can check the Certification Authority utility to see why a request was rejected. If you click in the tree, there are lists of <code>Failed Requests</code>, <code>Pending Requests</code>, <code>Issued Certificates</code>, and <code>Revoked Certificates</code>. If your request failed for some reason, it may show up under <code>Failed Requests</code>, for example.</p>
-<div class="figure">
-<img src="cert-auto-enroll-images/issued-certs.png" alt="" />
-<p class="caption">Issued Certificates</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-31"></span>
+<img src="cert-auto-enroll-images/issued-certs.png" alt="Issued Certificates" width="50%" />
+<p class="caption">
+Figure 13.14: Issued Certificates
+</p>
 </div>
 <p>You can see, for example, in the <code>Issued Certificates</code> list, that the certificates we are monitoring on our test machine are listed here (the two most recent requests).</p>
 </div>

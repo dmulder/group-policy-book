@@ -173,8 +173,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a></li>
+<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>3.2.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>3.2.2</b> GPMC</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>3.3.1</b> samba-tool</a></li>
+<li class="chapter" data-level="3.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>3.3.2</b> GPMC</a></li>
+</ul></li>
 <li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -376,24 +384,20 @@ Available subcommands:
   add     - Adds a VGP Host Access Group Policy to the sysvol
   list    - List VGP Host Access Group Policy from the sysvol
   remove  - Remove a VGP Host Access Group Policy from the sysvol</code></pre>
-<p>To add a new Host Access rule to the SYSVOL, call the <code>samba-tool gpo manage access add</code> command.</p>
-<pre><code>&gt; samba-tool gpo manage access add --help
-Usage: samba-tool gpo manage access add &lt;gpo&gt; &lt;allow/deny&gt; &lt;cn&gt; &lt;domain&gt; [options]
-
-Adds a VGP Host Access Group Policy to the sysvol
-
-This command adds a host access setting to the sysvol for applying to winbind
-clients. Any time an allow entry is detected by the client, an implicit deny
-ALL will be assumed.
-
-Example:
-samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow
-goodguy example.com</code></pre>
+<p>To use the <code>samba-tool gpo manage access add</code> command, you need to provide the name of the GPO as the first argument, followed by the access setting (either “allow” or “deny”), the common name (cn) of the host or user you want to allow or deny access to, and the domain of the host or user. For example:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb66-1"><a href="pamaccess.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage access add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>allow/deny<span class="op">&gt;</span> <span class="op">&lt;</span>cn<span class="op">&gt;</span> <span class="op">&lt;</span>domain<span class="op">&gt;</span></span></code></pre></div>
+<p>Any time an allow entry is detected by the client, an implicit deny
+ALL will be assumed.</p>
 <p>Let’s add a few rules that restricts access to a couple of specific users.</p>
-<pre><code>&gt; samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow Administrator lizardo.suse.de -UAdministrator
-&gt; samba-tool gpo manage access add {31B2F340-016D-11D2-945F-00C04FB984F9} allow tux lizardo.suse.de -UAdministrator</code></pre>
+<pre><code>&gt; samba-tool gpo manage access add \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} allow Administrator \
+ lizardo.suse.de -UAdministrator
+&gt; samba-tool gpo manage access add \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} allow tux \
+ lizardo.suse.de -UAdministrator</code></pre>
 <p>These grant access to the users <code>tux</code> and <code>Administrator</code> on the host. If we list our access policies, we can see they are ready for delivery to the client.</p>
-<pre><code>&gt; samba-tool gpo manage access list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+<pre><code>&gt; samba-tool gpo manage access list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
 +:lizardo.suse.de\Administrator:ALL
 +:lizardo.suse.de\tux:ALL</code></pre>
 </div>
@@ -428,24 +432,25 @@ GPO: Default Domain Policy
 <p>Our PAM Access policy and our <code>pam-config</code> check are both listed.</p>
 <p>Let’s now force an apply.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
-&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; | sed -r &quot;s/\\\22/\&quot;/g&quot; | xmllint --format -
-&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;gp&gt;
-  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
-    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
-      &lt;gp_ext name=&quot;Unix Settings/Scripts&quot;&gt;
-        &lt;attribute name=&quot;Software\5CPolicies\5CSamba\5CUnix Settings\5CDaily Scripts:ZWNobyBoZWxsbyB3b3JsZA==&quot;&gt;/etc/cron.daily/gp_pawtjsiq&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-      &lt;gp_ext name=&quot;VGP/Unix Settings/Host Access&quot;&gt;
-        &lt;attribute name=&quot;6bf09c80fa6362a0d10d565117e692a6dae7335d0a33f4ac9e8584a887ba934ba73352ced3093dd3e17c8d8999970a696cfd8a142011c5c481725bc0a46dfb9c&quot;&gt;/etc/security/access.d/9000000001_gp_DENY_ALL.conf:/etc/security/access.d/0000000001_gp.conf&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-    &lt;/guid&gt;
-    &lt;applylog&gt;
-      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
-    &lt;/applylog&gt;
-  &lt;/user&gt;
-&lt;/gp&gt;</code></pre>
-<p>Notice that the PAM Access policy generated 2 different files, <code>/etc/security/access.d/0000000001_gp.conf</code> and <code>/etc/security/access.d/9000000001_gp_DENY_ALL.conf</code>. Let’s check the contents of these files to see what was generated.</p>
+&gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
+ | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; \
+ | xmllint --xpath &quot;//gp_ext[@name=&#39;Unix Settings/Scripts&#39; or 
+                             @name=&#39;VGP/Unix Settings/Host
+                        Access&#39;]&quot; - \
+ | xmllint --format -
+&lt;gp_ext name=&quot;Unix Settings/Scripts&quot;&gt;
+  &lt;attribute name=&quot;Software\\Policies\\Samba\\Unix Settings\\
+                   Daily Scripts:ZWNobyBoZWxsbyB3b3JsZA==&quot;&gt;
+    /etc/cron.daily/gp_pawtjsiq
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;
+&lt;gp_ext name=&quot;VGP/Unix Settings/Host Access&quot;&gt;
+  &lt;attribute name=&quot;6bf0...fb9c&quot;&gt;
+    /etc/security/access.d/9000000001_gp_DENY_ALL.conf:
+    /etc/security/access.d/0000000001_gp.conf
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;</code></pre>
+<p>Notice that the PAM Access policy generated 2 different files, <code>/etc/security/access.d/</code> <code>0000000001_gp.conf</code> and <code>/etc/security/access.d/9000000001_gp_DENY_ALL.conf</code>. Let’s check the contents of these files to see what was generated.</p>
 <pre><code>&gt; cat /etc/security/access.d/0000000001_gp.conf; echo
 
 ### autogenerated by samba
