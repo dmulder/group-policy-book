@@ -27,19 +27,19 @@ To enable Certificate Auto Enrollment using the Group Policy Management Editor (
 
 2. In the Group Policy Management Editor window, navigate to `Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies`.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Public Key Policies"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Public Key Policies"}
 knitr::include_graphics("cert-auto-enroll-images/public_key_policy.png")
 ```
 
 3. Double click on and open the `Certificate Services Client - Auto-Enrollment` properties.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Certificate Services Client - Auto-Enrollment"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Certificate Services Client - Auto-Enrollment"}
 knitr::include_graphics("cert-auto-enroll-images/auto-enrollment.png")
 ```
 
 4. In the properties dialog, set the `Configuration Model` to "Enabled" and check the boxes to enable `Renew expired certificates, update pending certificates, and remove revoked certificates` and `Update certificates that use certificate templates`.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Enable Certificate Auto-Enrollment"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Enable Certificate Auto-Enrollment"}
 knitr::include_graphics("cert-auto-enroll-images/auto-enrollment-enabled.png")
 ```
 
@@ -55,19 +55,19 @@ To configure Advanced Certificate Auto Enrollment:
 
 2. Double-click on "Certificate Services Client - Certificate Enrollment Policy" to open its properties.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Certificate Services Client - Certificate Enrollment Policy"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Certificate Services Client - Certificate Enrollment Policy"}
 knitr::include_graphics("cert-auto-enroll-images/advanced-config.png")
 ```
 
 3. Set the `Configuration Model` to Enabled. The default policy (configured previously in the "Certificate Services Client - Auto-Enrollment" properties) should already be listed under "Certificate enrollment policy list." You can disable this policy if desired by unchecking the box next to the item in the list.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Certificate Services Client - Certificate Enrollment Policy: Enabled"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Certificate Services Client - Certificate Enrollment Policy: Enabled"}
 knitr::include_graphics("cert-auto-enroll-images/advanced-config-enabled.png")
 ```
 
 4. To add additional certificate servers for Certificate Auto Enrollment, click "Add..."
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Add a Certificate Enrollment Policy Server"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Add a Certificate Enrollment Policy Server"}
 knitr::include_graphics("cert-auto-enroll-images/add-policy-server.png")
 ```
 
@@ -85,7 +85,7 @@ To create a certificate template:
 
 1. Open the `Certification Authority` utility, and click on `Certificate Templates` in the tree.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Certification Authority utility"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Certification Authority utility"}
 knitr::include_graphics("cert-auto-enroll-images/certsrv.png")
 ```
 
@@ -93,7 +93,7 @@ knitr::include_graphics("cert-auto-enroll-images/certsrv.png")
 
 3. You'll notice that there are a number of existing templates to choose from. Right click on one of the templates in the list, and click `Duplicate Template`.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Certificate Templates Console"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Certificate Templates Console"}
 knitr::include_graphics("cert-auto-enroll-images/cert-temp-console.png")
 ```
 
@@ -101,7 +101,7 @@ knitr::include_graphics("cert-auto-enroll-images/cert-temp-console.png")
 
 5. Set the number of years the certificate will be valid and the renewal period.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Template Properties"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Template Properties"}
 knitr::include_graphics("cert-auto-enroll-images/template-properties.png")
 ```
 
@@ -113,13 +113,13 @@ knitr::include_graphics("cert-auto-enroll-images/template-properties.png")
 
 9. In the `Enable Certificate Templates` dialog, select the template we just created, and click OK.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Enable Certificate Templates"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Enable Certificate Templates"}
 knitr::include_graphics("cert-auto-enroll-images/enable-template.png")
 ```
 
 Our new template is now enabled, and should be in the list of enabled templates in the Certification Authority utility.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Template Enabled"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Template Enabled"}
 knitr::include_graphics("cert-auto-enroll-images/template-enabled.png")
 ```
 
@@ -269,13 +269,13 @@ This particular error happens when Internet Information Services (IIS) has the w
 
 To resolve this error, open the IIS Manager, select the Default Web Site in the tree, then click `Bindings` in the right side `Actions` pane.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "IIS Manager"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "IIS Manager"}
 knitr::include_graphics("cert-auto-enroll-images/bindings.png")
 ```
 
 Highlight the https binding, then select `Edit...`. Select the correct SSL certificate, then click OK to save.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Edit Site Binding"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Edit Site Binding"}
 knitr::include_graphics("cert-auto-enroll-images/edit-binding.png")
 ```
 
@@ -293,7 +293,7 @@ This `DH_KEY_TOO_SMALL` error is caused by a default security level change in *p
 
 If the CA failed to issue a certificate when the template request was sent, we can check the Certification Authority utility to see why a request was rejected. If you click in the tree, there are lists of `Failed Requests`, `Pending Requests`, `Issued Certificates`, and `Revoked Certificates`. If your request failed for some reason, it may show up under `Failed Requests`, for example.
 
-```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'h', fig.cap = "Issued Certificates"}
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Issued Certificates"}
 knitr::include_graphics("cert-auto-enroll-images/issued-certs.png")
 ```
 

@@ -12,6 +12,10 @@ description: |
   clients via Group Policy.
 link-citations: yes
 github-repo: dmulder/group-policy-book
+output:
+  bookdown::pdf_book:
+    includes:
+      in_header: "preamble.tex"
 ---
 
 # About
