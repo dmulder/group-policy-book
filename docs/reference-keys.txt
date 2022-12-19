@@ -164,6 +164,10 @@ admx
 admx-migrator
 creating-the-administrative-template
 samba-tool-gpo-manage
+subcommands
+implementing-an-add-subcommand
+implementing-a-list-subcommand
+implementing-a-remove-subcommand
 cse
 the-gp_ext-and-gp_applier-python-classes
 process-group-policy
