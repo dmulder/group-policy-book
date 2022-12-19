@@ -140,6 +140,375 @@ knitr::include_graphics("ext-images/sse.png")
 
 ### samba-tool gpo manage
 
+The `samba-tool gpo manage` command is a tool provided by the Samba team for managing Group Policy Objects (GPOs). This command provides a number of subcommands that allow you to add, remove, and list policies within a GPO.
+
+Adding subcommands to `samba-tool gpo manage` is one way to create a Server Side Extension (SSE) for Group Policy. Each `samba-tool gpo manage` command generally provides 3 subcommands for each policy; add, remove, and list. These subcommands allow you to add new policies to a GPO, remove existing policies from a GPO, and list the policies that are currently configured in a GPO.
+
+Group Policy SSEs should be added to `samba-tool` in the `python/samba/netcmd/gpo.py` file.
+
+#### Subcommands
+
+To add python subcommands using the `SuperCommand` class, you will need to create a new class that inherits from the `SuperCommand` class, and define a subcommands attribute that lists the subcommands that are supported by your command.  The subcommands attribute will be a dictionary containing keys with new command names, paired with instances of `Command` classes which implement the command.
+
+For example:
+
+```python
+class cmd_scripts(SuperCommand):
+    """Manage Scripts Group Policy Objects"""
+    subcommands = {}
+    subcommands["add"] = cmd_add_script()
+    subcommands["list"] = cmd_list_script()
+    subcommands["remove"] = cmd_remove_script()
+```
+
+Your `SuperCommand` will then need to be tied into an existing `samba-tool` command, for example:
+
+```python
+class cmd_manage(SuperCommand):
+    """Manage Group Policy Objects"""
+    subcommands = {}
+    subcommands["sudoers"] = cmd_sudoers()
+    subcommands["security"] = cmd_security()
+    subcommands["smb_conf"] = cmd_smb_conf()
+    subcommands["symlink"] = cmd_symlink()
+    subcommands["files"] = cmd_files()
+    subcommands["openssh"] = cmd_openssh()
+    subcommands["motd"] = cmd_motd()
+    subcommands["issue"] = cmd_issue()
+    subcommands["access"] = cmd_access()
+    subcommands["scripts"] = cmd_scripts()
+```
+
+Notice that the `cmd_scripts` `SuperCommand` from earlier has been appended to the `cmd_manage` list of `subcommands`.
+
+##### Implementing an Add Subcommand
+
+To write a command that adds a new policy to a Group Policy Object (GPO), you will need to create a class that inherits from the Command class provided by the samba.netcmd module, and define a run method that takes a series of arguments and options, and contains the code that will be executed when the command is run.
+
+The run method should begin by connecting to a Domain Controller (DC) using the `smb_connection` function defined in `python/samba/netcmd/gpo.py`. It can then retrieve the data from the GPO's Registry.pol file using the loadfile method of the connection object returned by the `smb_connection` function, or create a new file object if the file does not exist.
+
+Next, the method can parse the data in the `Registry.pol` file using the `ndr_unpack` function from the `samba.ndr` module, which will return a file object representing the data in the file. We will then add a key to the list of entries in `Registry.pol` file object.
+
+Finally, we save the modified file object back to the GPO's `Registry.pol` file on the DC using the savefile method of the connection object.
+
+The class should also define a synopsis attribute, which provides a brief summary of the command.
+
+Here is an example of what it might look:
+
+```python
+class cmd_add_script(Command):
+    """Adds Script Group Policy to the sysvol
+
+This command adds a script policy to the sysvol.
+
+Example:
+samba-tool gpo manage scripts add \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} MACHINE daily \
+ test_script.sh '\\-n \\-p all'
+
+policy_class is defined as either MACHINE or USER.
+freq is defined as either Daily, Monthly, Weekly, or Hourly.
+    """
+
+    synopsis = "%prog <gpo> <policy_class> <freq> <script> [args]
+     [options]"
+
+    takes_optiongroups = {
+        "sambaopts": options.SambaOptions,
+        "versionopts": options.VersionOptions,
+        "credopts": options.CredentialsOptions,
+    }
+
+    takes_options = [
+        Option("-H", "--URL",
+               help="LDB URL for database or target server",
+	       type=str, metavar="URL", dest="H"),
+    ]
+
+    takes_args = ["gpo", "policy_class", "freq", "script",
+                  "args?"]
+
+    def run(self, gpo, policy_class, freq, script, args=None,
+            H=None, sambaopts=None, credopts=None,
+	    versionopts=None):
+        policy_class = policy_class.upper()
+        if policy_class not in ['MACHINE', 'USER']:
+            raise CommandError("'%s' is not a valid policy_class."
+                   " Choose from MACHINE or USER" % policy_class)
+        freq = freq.title()
+        if freq not in ['Daily', 'Monthly', 'Weekly', 'Hourly']:
+            raise CommandError("'%s' is not a valid frequency. "
+                "Choose from Daily, Monthly, Weekly, or "
+		"Hourly" % freq)
+
+        self.lp = sambaopts.get_loadparm()
+        self.creds = credopts.get_credentials(self.lp,
+                                          fallback_machine=True)
+
+        if not os.path.exists(script):
+            raise CommandError(
+                "Script '%s' does not exist" % script)
+
+        # We need to know writable DC to setup SMB connection
+        if H and H.startswith('ldap://'):
+            dc_hostname = H[7:]
+            self.url = H
+        else:
+            dc_hostname = netcmd_finddc(self.lp, self.creds)
+            self.url = dc_url(self.lp, self.creds, dc=dc_hostname)
+
+        # SMB connect to DC
+        conn = smb_connection(dc_hostname,
+                              'sysvol',
+                              lp=self.lp,
+                              creds=self.creds)
+
+        realm = self.lp.get('realm')
+        pol_file = '\\'.join([realm.lower(), 'Policies', gpo,
+                              '%s\\Registry.pol' % policy_class])
+        try:
+            pol_data = ndr_unpack(preg.file,
+                                  conn.loadfile(pol_file))
+        except NTSTATUSError as e:
+            if e.args[0] in [NT_STATUS_OBJECT_NAME_INVALID,
+                                 NT_STATUS_OBJECT_NAME_NOT_FOUND,
+                                 NT_STATUS_OBJECT_PATH_NOT_FOUND]:
+                # The file doesn't exist, so create it
+                pol_data = preg.file()
+            elif e.args[0] == NT_STATUS_ACCESS_DENIED:
+                raise CommandError("The authenticated user does "
+                               "not have sufficient privileges")
+            else:
+                raise
+
+        reg_key = b'Software\\Policies\\Samba\\Unix Settings'
+        keyname = b'%s\\%s Scripts' % (reg_key, get_bytes(freq))
+        entry = '%s %s' % (script,
+                           args if args is not None else '')
+        e = preg.entry()
+        e.keyname = keyname
+        e.valuename = reg_key
+        e.type = 1
+        e.data = get_bytes(entry)
+        entries = list(pol_data.entries)
+        entries.append(e)
+        pol_data.num_entries = len(entries)
+        pol_data.entries = entries
+
+        try:
+            conn.savefile(pol_file, ndr_pack(pol_data))
+        except NTSTATUSError as e:
+            if e.args[0] == NT_STATUS_ACCESS_DENIED:
+                raise CommandError("The authenticated user does "
+                               "not have sufficient privileges")
+            raise
+```
+
+##### Implementing a List Subcommand
+
+To write a command that lists the policies for a Group Policy Object (GPO), you would need to create a class that inherits from the `Command` class provided by the `samba.netcmd` module, and define a `run` method that takes a series of arguments and options, and contains the code that will be executed when the command is run.
+
+The run method should begin by connecting to a Domain Controller (DC) using the `smb_connection` function defined in `python/samba/netcmd/gpo.py`. It can then retrieve the data from the GPO's Registry.pol file using the loadfile method of the connection object returned by the `smb_connection` function.
+
+Next, the method can parse the data in the `Registry.pol` file using the `ndr_unpack` function from the `samba.ndr` module, which will return a file object representing the data in the file. The method can then iterate over the keys and values in the file object, printing out the names and data for each key.
+
+The class should also define a synopsis attribute, which provides a brief summary of the command.
+
+Here is an example of what it might look:
+
+```python
+class cmd_list_script(Command):
+    """List Script Group Policy from the sysvol
+
+This command lists the script policies currently set on the sysvol.
+
+Example:
+samba-tool gpo manage scripts list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9}
+    """
+
+    synopsis = "%prog <gpo> [options]"
+
+    takes_optiongroups = {
+        "sambaopts": options.SambaOptions,
+        "versionopts": options.VersionOptions,
+        "credopts": options.CredentialsOptions,
+    }
+
+    takes_options = [
+        Option("-H", "--URL",
+               help="LDB URL for database or target server",
+	       type=str, metavar="URL", dest="H"),
+    ]
+
+    takes_args = ["gpo"]
+
+    def run(self, gpo, H=None, sambaopts=None, credopts=None,
+            versionopts=None):
+        self.lp = sambaopts.get_loadparm()
+        self.creds = credopts.get_credentials(self.lp,
+                                          fallback_machine=True)
+
+        # We need to know writable DC to setup SMB connection
+        if H and H.startswith('ldap://'):
+            dc_hostname = H[7:]
+            self.url = H
+        else:
+            dc_hostname = netcmd_finddc(self.lp, self.creds)
+            self.url = dc_url(self.lp, self.creds, dc=dc_hostname)
+
+        # SMB connect to DC
+        conn = smb_connection(dc_hostname,
+                              'sysvol',
+                              lp=self.lp,
+                              creds=self.creds)
+
+        realm = self.lp.get('realm')
+        pol_file = '\\'.join([realm.lower(), 'Policies', gpo,
+                              '%s\\Registry.pol'])
+        for policy_class in ['MACHINE', 'USER']:
+            self.outf.write('%s:\n' % policy_class)
+            try:
+                pol_data = ndr_unpack(preg.file,
+                          conn.loadfile(pol_file % policy_class))
+            except NTSTATUSError as e:
+                if e.args[0] in [NT_STATUS_OBJECT_NAME_INVALID,
+                                 NT_STATUS_OBJECT_NAME_NOT_FOUND,
+                                 NT_STATUS_OBJECT_PATH_NOT_FOUND]:
+                    # The file doesn't exist,
+		    # so there is nothing to list
+                    continue
+                elif e.args[0] == NT_STATUS_ACCESS_DENIED:
+                    raise CommandError("The authenticated user "
+                        "does not have sufficient privileges")
+                else:
+                    raise
+
+            reg_key = 'Software\\Policies\\Samba\\Unix Settings'
+            for e in pol_data.entries:
+                if e.valuename == "**delvals.":
+                    continue
+                if e.keyname.startswith(reg_key) and \
+                        e.keyname.endswith('Scripts'):
+                    self.outf.write("\t%s:\n" % e.keyname)
+                    self.outf.write("\t\t%s\n" % e.data)
+```
+
+##### Implementing a Remove Subcommand
+
+To write a command that removes a policy from a Group Policy Object (GPO), you would need to create a class that inherits from the `Command` class provided by the `samba.netcmd` module, and define a `run` method that takes a series of arguments and options, and contains the code that will be executed when the command is run.
+
+The run method should begin by connecting to a Domain Controller (DC) using the `smb_connection` function defined in `python/samba/netcmd/gpo.py`. It can then retrieve the data from the GPO's Registry.pol file using the loadfile method of the connection object returned by the `smb_connection` function.
+
+Next, the method can parse the data in the Registry.pol file using the `ndr_unpack` function, which will return a file object representing the data in the file. It then checks whether the entry specified in the "script" variable exists in the list of entries contained in the `pol_data` object. If the entry does exist, it is removed from the list and the number of entries in the list is updated.
+
+Finally, we save the modified file object back to the GPO's `Registry.pol` file on the DC using the savefile method of the connection object.
+
+The class should also define a synopsis attribute, which provides a brief summary of the command.
+
+Here is an example of what it might look:
+
+```python
+class cmd_remove_script(Command):
+    """Removes Script Group Policy from the sysvol
+
+This command removes a script policy from the sysvol.
+
+Example:
+samba-tool gpo manage scripts remove \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} MACHINE daily \
+ 'test_script.sh \\-n \\-p all'
+
+policy_class is defined as either MACHINE or USER.
+freq is defined as either Daily, Monthly, Weekly, or Hourly.
+    """
+
+    synopsis = "%prog <gpo> <policy_class> <freq> <script>"
+               "[options]"
+
+    takes_optiongroups = {
+        "sambaopts": options.SambaOptions,
+        "versionopts": options.VersionOptions,
+        "credopts": options.CredentialsOptions,
+    }
+
+    takes_options = [
+        Option("-H", "--URL",
+               help="LDB URL for database or target server",
+	       type=str, metavar="URL", dest="H"),
+    ]
+
+    takes_args = ["gpo", "policy_class", "freq", "script"]
+
+    def run(self, gpo, policy_class, freq, script, H=None,
+            sambaopts=None, credopts=None, versionopts=None):
+        policy_class = policy_class.upper()
+        if policy_class not in ['MACHINE', 'USER']:
+            raise CommandError("'%s' is not a valid policy_class."
+                   " Choose from MACHINE or USER" % policy_class)
+        freq = freq.title()
+        if freq not in ['Daily', 'Monthly', 'Weekly', 'Hourly']:
+            raise CommandError("'%s' is not a valid frequency. "
+                               "Choose from Daily, Monthly, "
+			       "Weekly, or Hourly" % freq)
+
+        self.lp = sambaopts.get_loadparm()
+        self.creds = credopts.get_credentials(self.lp,
+                                          fallback_machine=True)
+
+        # We need to know writable DC to setup SMB connection
+        if H and H.startswith('ldap://'):
+            dc_hostname = H[7:]
+            self.url = H
+        else:
+            dc_hostname = netcmd_finddc(self.lp, self.creds)
+            self.url = dc_url(self.lp, self.creds, dc=dc_hostname)
+
+        # SMB connect to DC
+        conn = smb_connection(dc_hostname,
+                              'sysvol',
+                              lp=self.lp,
+                              creds=self.creds)
+
+        realm = self.lp.get('realm')
+        pol_file = '\\'.join([realm.lower(), 'Policies', gpo,
+                              '%s\\Registry.pol' % policy_class])
+        try:
+            pol_data = ndr_unpack(preg.file,
+                                  conn.loadfile(pol_file))
+        except NTSTATUSError as e:
+            if e.args[0] in [NT_STATUS_OBJECT_NAME_INVALID,
+                                 NT_STATUS_OBJECT_NAME_NOT_FOUND,
+                                 NT_STATUS_OBJECT_PATH_NOT_FOUND]:
+                raise CommandError("Cannot remove script '%s' "
+                    "because it does not exist" % script)
+            elif e.args[0] == NT_STATUS_ACCESS_DENIED:
+                raise CommandError("The authenticated user does "
+                               "not have sufficient privileges")
+            else:
+                raise
+
+        script = script.strip()
+        if script in ([e.data.strip() for e in pol_data.entries] \
+                       if pol_data else []):
+            entries = [e for e in pol_data.entries \
+                       if e.data.strip() != script]
+            pol_data.num_entries = len(entries)
+            pol_data.entries = entries
+
+            try:
+                conn.savefile(pol_file, ndr_pack(pol_data))
+            except NTSTATUSError as e:
+                if e.args[0] == NT_STATUS_ACCESS_DENIED:
+                    raise CommandError("The authenticated user "
+                                       "does not have sufficient"
+				       " privileges")
+                raise
+        else:
+            raise CommandError("Cannot remove '%s' because it"
+                               " does not exist" % script)
+```
+
 ## Creating the Client Side Extension {#cse}
 
 The following script defines a Group Policy Client Side Extension (CSE) in Python, which will be called by Samba's Winbind to deploy our newly created policy. A CSE is a program that runs on a client machine and processes Group Policy Objects (GPOs) that are applied to the machine. The CSE processes the GPOs by applying the policies they contain to the client machine.
