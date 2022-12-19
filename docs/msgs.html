@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-16" />
+<meta name="date" content="2022-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -322,12 +322,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a>
 <ul>
-<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_pol_extgp_inf_ext-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_pol_ext/gp_inf_ext Python Classes</a></li>
+<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_ext-and-gp_applier-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_ext and gp_applier Python Classes</a></li>
 <li class="chapter" data-level="19.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>19.2.2</b> Process Group Policy</a></li>
-<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#deleted-gpos"><i class="fa fa-check"></i><b>19.2.3</b> Deleted GPOs</a></li>
-<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#changed-gpos"><i class="fa fa-check"></i><b>19.2.4</b> Changed GPOs</a></li>
-<li class="chapter" data-level="19.2.5" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.5</b> Resultant Set of Policy</a></li>
-<li class="chapter" data-level="19.2.6" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.6</b> Registering/Unregistering a Client Side Extension</a></li>
+<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.3</b> Resultant Set of Policy</a></li>
+<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.4</b> Registering/Unregistering a Client Side Extension</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
@@ -375,27 +373,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Open the Group Policy Management Editor. For instructions on accessing the GPME, see chapter <a href="manage.html#manage">3</a> section <a href="manage.html#gpopen">3.1</a>.</p></li>
 <li><p>In the Group Policy Management Editor window, navigate to <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Messages</code>.</p></li>
 </ol>
-<div class="figure">
-<img src="msgs-images/gpme.png" alt="" />
-<p class="caption">Group Policy Management Editor</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-29"></span>
+<img src="msgs-images/gpme.png" alt="Group Policy Management Editor" width="70%" />
+<p class="caption">
+Figure 11.1: Group Policy Management Editor
+</p>
 </div>
 <ol start="3" style="list-style-type: decimal">
 <li><p>In the right pane, double-click on the “Message of the day” setting.</p></li>
 <li><p>In the “Message of the day” dialog box, enter the desired message in the text field.</p></li>
 <li><p>Click “OK” to save the changes and close the dialog box.</p></li>
 </ol>
-<div class="figure">
-<img src="msgs-images/motd.png" alt="" />
-<p class="caption">Message of the day</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-30"></span>
+<img src="msgs-images/motd.png" alt="Message of the day" width="70%" />
+<p class="caption">
+Figure 11.2: Message of the day
+</p>
 </div>
 <ol start="6" style="list-style-type: decimal">
 <li><p>In the right pane, double-click on the “Login Prompt Message” setting.</p></li>
 <li><p>In the “Login Prompt Message” dialog box, enter the desired message in the text field. The “Help” field on the right explains the various options for this message.</p></li>
 <li><p>Click “OK” to save the changes and close the dialog box.</p></li>
 </ol>
-<div class="figure">
-<img src="msgs-images/issue.png" alt="" />
-<p class="caption">Login Prompt Message</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-31"></span>
+<img src="msgs-images/issue.png" alt="Login Prompt Message" width="70%" />
+<p class="caption">
+Figure 11.3: Login Prompt Message
+</p>
 </div>
 </div>
 <div id="msgs-samba-tool" class="section level3 hasAnchor" number="11.1.2">

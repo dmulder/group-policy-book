@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-16" />
+<meta name="date" content="2022-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -322,12 +322,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a>
 <ul>
-<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_pol_extgp_inf_ext-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_pol_ext/gp_inf_ext Python Classes</a></li>
+<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_ext-and-gp_applier-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_ext and gp_applier Python Classes</a></li>
 <li class="chapter" data-level="19.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>19.2.2</b> Process Group Policy</a></li>
-<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#deleted-gpos"><i class="fa fa-check"></i><b>19.2.3</b> Deleted GPOs</a></li>
-<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#changed-gpos"><i class="fa fa-check"></i><b>19.2.4</b> Changed GPOs</a></li>
-<li class="chapter" data-level="19.2.5" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.5</b> Resultant Set of Policy</a></li>
-<li class="chapter" data-level="19.2.6" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.6</b> Registering/Unregistering a Client Side Extension</a></li>
+<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.3</b> Resultant Set of Policy</a></li>
+<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.4</b> Registering/Unregistering a Client Side Extension</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
@@ -368,25 +366,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">21.1</span> Install Samba ADMX Templates<a href="install-admx.html#install-admx-samba" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Samba ADMX templates are availabe in the Samba source tree, and can be downloaded from <a href="https://download.samba.org/pub/samba/samba-latest.tar.gz" class="uri">https://download.samba.org/pub/samba/samba-latest.tar.gz</a>, and can then be installed using the <code>samba-tool gpo admxload</code> command.</p>
 <pre><code>&gt; tar -xf samba-latest.tar.gz
-&gt; samba-tool gpo admxload --admx-dir=./samba-4.17.3/libgpo/admx -UAdministrator</code></pre>
+&gt; samba-tool gpo admxload \
+ --admx-dir=./samba-4.17.3/libgpo/admx -UAdministrator</code></pre>
 </div>
 <div id="install-admx-firefox" class="section level2 hasAnchor" number="21.2">
 <h2><span class="header-section-number">21.2</span> Installing Firefox ADMX Templates<a href="install-admx.html#install-admx-firefox" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Download the Firefox ADMX templates from <a href="https://github.com/mozilla/policy-templates/releases" class="uri">https://github.com/mozilla/policy-templates/releases</a>, then extract and install them to your SYSVOL using the <code>samba-tool gpo admxload</code> command.</p>
 <pre><code>&gt; tar -xf v4.4.tar.gz
-&gt; samba-tool gpo admxload --admx-dir=./policy-templates-4.4/windows -UAdministrator</code></pre>
+&gt; samba-tool gpo admxload \
+ --admx-dir=./policy-templates-4.4/windows -UAdministrator</code></pre>
 </div>
 <div id="install-admx-chromium" class="section level2 hasAnchor" number="21.3">
 <h2><span class="header-section-number">21.3</span> Installing Chromium ADMX Templates<a href="install-admx.html#install-admx-chromium" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Download the Chromium ADMX templates from <a href="https://support.google.com/chrome/a/answer/187202" class="uri">https://support.google.com/chrome/a/answer/187202</a>, then extract and install them to your SYSVOL using the <code>samba-tool gpo admxload</code> command.</p>
 <pre><code>&gt; unzip policy_templates.zip
-&gt; samba-tool gpo admxload --admx-dir=./windows/admx -UAdministrator</code></pre>
+&gt; samba-tool gpo admxload --admx-dir=./windows/admx \
+ -UAdministrator</code></pre>
 </div>
 <div id="install-admx-windows" class="section level2 hasAnchor" number="21.4">
 <h2><span class="header-section-number">21.4</span> Installing Windows ADMX Templates<a href="install-admx.html#install-admx-windows" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Download the Windows ADMX templates from <a href="https://www.microsoft.com/en-us/download/102157" class="uri">https://www.microsoft.com/en-us/download/102157</a>, then extract and install them to your SYSVOL using the <code>samba-tool gpo admxload</code> command.</p>
-<pre><code>&gt; msiextract Administrative\ Templates\ \(.admx\)\ for\ Windows\ 10\ October\ 2020\ Update.msi
-&gt; samba-tool gpo admxload --admx-dir=./Program\ Files/Microsoft\ Group\ Policy/Windows\ 10\ October\ 2020\ Update\ \(20H2\)/PolicyDefinitions -UAdministrator</code></pre>
+<pre><code>&gt; msiextract Administrative\ Templates\ \(.admx\)\ for\
+             Windows\ 10\ October\ 2020\ Update.msi
+&gt; cd ./Program\ Files/Microsoft\ Group\ Policy
+&gt; cd Windows\ 10\ October\ 2020\ Update\ \(20H2\)
+&gt; samba-tool gpo admxload  --admx-dir=./PolicyDefinitions \
+ -UAdministrator</code></pre>
 
 </div>
 </div>

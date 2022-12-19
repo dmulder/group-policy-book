@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-16" />
+<meta name="date" content="2022-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -322,12 +322,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a>
 <ul>
-<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_pol_extgp_inf_ext-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_pol_ext/gp_inf_ext Python Classes</a></li>
+<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_ext-and-gp_applier-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_ext and gp_applier Python Classes</a></li>
 <li class="chapter" data-level="19.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>19.2.2</b> Process Group Policy</a></li>
-<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#deleted-gpos"><i class="fa fa-check"></i><b>19.2.3</b> Deleted GPOs</a></li>
-<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#changed-gpos"><i class="fa fa-check"></i><b>19.2.4</b> Changed GPOs</a></li>
-<li class="chapter" data-level="19.2.5" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.5</b> Resultant Set of Policy</a></li>
-<li class="chapter" data-level="19.2.6" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.6</b> Registering/Unregistering a Client Side Extension</a></li>
+<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.3</b> Resultant Set of Policy</a></li>
+<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.4</b> Registering/Unregistering a Client Side Extension</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
@@ -370,14 +368,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="managing-gnome-settings-policy-via-the-gpme" class="section level3 hasAnchor" number="16.1.1">
 <h3><span class="header-section-number">16.1.1</span> Managing GNOME Settings Policy via the GPME<a href="gnome.html#managing-gnome-settings-policy-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Open the GPME and navigate to <code>Computer Configuration &gt; Administrative Templates &gt; GNOME Settings</code>.</p>
-<div class="figure">
-<img src="gnome-images/gpme.png" alt="" />
-<p class="caption">GNOME Settings Administrative Templates</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-62"></span>
+<img src="gnome-images/gpme.png" alt="GNOME Settings Administrative Templates" width="70%" />
+<p class="caption">
+Figure 16.1: GNOME Settings Administrative Templates
+</p>
 </div>
 <p>Let’s set the allowed online accounts, which will effect the <code>Online Accounts</code> list in the GNOME Settings Dialog.</p>
-<div class="figure">
-<img src="gnome-images/online-accounts.png" alt="" />
-<p class="caption">Whitelisted Online Accounts</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-63"></span>
+<img src="gnome-images/online-accounts.png" alt="Whitelisted Online Accounts" width="70%" />
+<p class="caption">
+Figure 16.2: Whitelisted Online Accounts
+</p>
 </div>
 </div>
 </div>
@@ -402,20 +404,16 @@ GPO: Default Domain Policy
 <p>Next let’s force an apply of the policy, and see what is logged in the Group Policy Cache.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
 &gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
-&gt; | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; | xmllint --format -
-&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;gp&gt;
-  &lt;user name=&quot;GPTEST$&quot;&gt;
-    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
-      &lt;gp_ext name=&quot;GNOME Settings/Lock Down Settings&quot;&gt;
-        &lt;attribute name=&quot;Whitelisted Online Accounts&quot;&gt;/etc/dconf/db/local.d/0000000001-goa;/etc/dconf/db/local.d/locks/0000000001-goa&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-    &lt;/guid&gt;
-    &lt;applylog&gt;
-      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
-    &lt;/applylog&gt;
-  &lt;/user&gt;
-&lt;/gp&gt;</code></pre>
+ | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; \
+ | xmllint --xpath &quot;//gp_ext[@name=&#39;GNOME Settings/
+                                    Lock Down Settings&#39;]&quot; - \
+ | xmllint --format -
+&lt;gp_ext name=&quot;GNOME Settings/Lock Down Settings&quot;&gt;
+  &lt;attribute name=&quot;Whitelisted Online Accounts&quot;&gt;
+    /etc/dconf/db/local.d/0000000001-goa;
+    /etc/dconf/db/local.d/locks/0000000001-goa
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;</code></pre>
 <p>Checking the contents of the files, we see that our whitelisted provider is set, and that the policy is locked (which prevents user modification).</p>
 <pre><code>&gt; cat /etc/dconf/db/local.d/0000000001-goa
 [org/gnome/online-accounts]
@@ -423,13 +421,16 @@ whitelisted-providers = [&#39;google&#39;]
 &gt; cat /etc/dconf/db/local.d/locks/0000000001-goa; echo
 /org/gnome/online-accounts/whitelisted-providers</code></pre>
 <p>We can also check the dconf output to see that the setting is applied.</p>
-<pre><code>&gt; dconf dump / | grep -E &quot;(whitelisted-providers|org/gnome/online-accounts)&quot;
+<pre><code>&gt; dconf dump / \
+ | grep -E &quot;(whitelisted-providers|org/gnome/online-accounts)&quot;
 [org/gnome/online-accounts]
 whitelisted-providers=[&#39;google&#39;]</code></pre>
 <p>Recall that it’s necessary to log the user out and back in again. After which, we can check the GNOME Settings dialog and see that <code>Online Accounts</code> are restricted as requested.</p>
-<div class="figure">
-<img src="gnome-images/online-accounts-gnome.png" alt="" />
-<p class="caption">Online Accounts</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-64"></span>
+<img src="gnome-images/online-accounts-gnome.png" alt="Online Accounts" width="70%" />
+<p class="caption">
+Figure 16.3: Online Accounts
+</p>
 </div>
 
 </div>

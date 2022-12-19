@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-16" />
+<meta name="date" content="2022-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -322,12 +322,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a>
 <ul>
-<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_pol_extgp_inf_ext-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_pol_ext/gp_inf_ext Python Classes</a></li>
+<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_ext-and-gp_applier-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_ext and gp_applier Python Classes</a></li>
 <li class="chapter" data-level="19.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>19.2.2</b> Process Group Policy</a></li>
-<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#deleted-gpos"><i class="fa fa-check"></i><b>19.2.3</b> Deleted GPOs</a></li>
-<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#changed-gpos"><i class="fa fa-check"></i><b>19.2.4</b> Changed GPOs</a></li>
-<li class="chapter" data-level="19.2.5" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.5</b> Resultant Set of Policy</a></li>
-<li class="chapter" data-level="19.2.6" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.6</b> Registering/Unregistering a Client Side Extension</a></li>
+<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.3</b> Resultant Set of Policy</a></li>
+<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.4</b> Registering/Unregistering a Client Side Extension</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
@@ -363,7 +361,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">17</span> OpenSSH Policy<a href="openssh.html#openssh" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="openssh-images/openssh.png" width="30%" style="display: block; margin: auto;" /></p>
 <p>The OpenSSH Policy allows you to deploy OpenSSH settings to client machines. The policies are applied to a file in the <code>/etc/ssh/sshd_config.d</code> directory.</p>
-<p>This policy is physically stored on the SYSVOL in <strong>MACHINE/VGP/VTLA/SshCfg/SshD/manifest.xml</strong>. The manifest.xml file is in xml format, and is easily modified manually using a text editor.</p>
+<p>This policy is physically stored on the SYSVOL in <strong>MACHINE/VGP/VTLA</strong> <strong>/SshCfg/SshD/manifest.xml</strong>. The manifest.xml file is in xml format, and is easily modified manually using a text editor.</p>
 <div id="server-side-extension-12" class="section level2 hasAnchor" number="17.1">
 <h2><span class="header-section-number">17.1</span> Server Side Extension<a href="openssh.html#server-side-extension-12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Server Side Extensions (SSE) for OpenSSH Policy is administered using the <code>samba-tool gpo manage openssh</code> command. This SSE cannot be modified using the GPME.</p>
@@ -383,22 +381,19 @@ Options:
 Available subcommands:
   list  - List VGP OpenSSH Group Policy from the sysvol
   set   - Sets a VGP OpenSSH Group Policy to the sysvol</code></pre>
-<p>To set a new OpenSSH rule, call the <code>samba-tool gpo manage openssh set</code> command.</p>
-<pre><code>&gt; samba-tool gpo manage openssh set --help
-Usage: samba-tool gpo manage openssh set &lt;gpo&gt; &lt;setting&gt; [value] [options]
-
-Sets a VGP OpenSSH Group Policy to the sysvol
-
-This command sets an openssh setting to the sysvol for applying to winbind
-clients. Not providing a value will unset the policy.
-
-Example:
-samba-tool gpo manage openssh set {31B2F340-016D-11D2-945F-00C04FB984F9}
-KerberosAuthentication Yes</code></pre>
-<p>Let’s set the <code>KerberosAuthentication</code> setting.</p>
-<pre><code>&gt; samba-tool gpo manage openssh set {31B2F340-016D-11D2-945F-00C04FB984F9} KerberosAuthentication Yes -UAdministrator</code></pre>
+<p>To set a new OpenSSH rule, call the <code>samba-tool gpo manage openssh set</code> command, providing the following arguments:</p>
+<ol style="list-style-type: decimal">
+<li><code>gpo</code>: the Group Policy Object (GPO) that you want to modify. This <strong>MUST</strong> be the GUID of the GPO.</li>
+<li><code>setting</code>: the OpenSSH setting that you want to modify. See the man page for sshd_config (<code>man sshd_config</code>) for a list of possible settings.</li>
+<li><code>value</code>: the value that you want to set for the specified setting. If you do not provide a value, the policy will be unset.</li>
+</ol>
+<p>Here is an example of how you might use this command to set the <code>KerberosAuthentication</code> to <code>Yes</code>:</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb90-1"><a href="openssh.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage openssh set <span class="dt">\</span></span>
+<span id="cb90-2"><a href="openssh.html#cb90-2" aria-hidden="true" tabindex="-1"></a> {31B2F340-016D-11D2-945F-00C04FB984F9} <span class="dt">\</span></span>
+<span id="cb90-3"><a href="openssh.html#cb90-3" aria-hidden="true" tabindex="-1"></a> KerberosAuthentication Yes <span class="at">-UAdministrator</span></span></code></pre></div>
 <p>Then let’s list the policy to see what has been set on the SYSVOL.</p>
-<pre><code>&gt; samba-tool gpo manage openssh list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+<pre><code>&gt; samba-tool gpo manage openssh list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
 KerberosAuthentication Yes</code></pre>
 </div>
 </div>
@@ -424,20 +419,15 @@ GPO: Default Domain Policy
 <p>Let’s now force an apply.</p>
 <pre><code>sudo /usr/sbin/samba-gpupdate --force
 &gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
-&gt; | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; | xmllint --format -
-&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;gp&gt;
-  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
-    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
-      &lt;gp_ext name=&quot;VGP/Unix Settings/OpenSSH&quot;&gt;
-        &lt;attribute name=&quot;ezMxQjJGMzQwLTAxNkQtMTFEMi05NDVGLTAwQzA0RkI5ODRGOX0vZXRjL3NzaC9zc2hkX2NvbmZpZy5k&quot;&gt;/etc/ssh/sshd_config.d/gp_c7hytho4&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-    &lt;/guid&gt;
-    &lt;applylog&gt;
-      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
-    &lt;/applylog&gt;
-  &lt;/user&gt;
-&lt;/gp&gt;</code></pre>
+ | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; \
+ | xmllint --xpath &quot;//gp_ext[@name=&#39;VGP/Unix
+                                    Settings/OpenSSH&#39;]&quot; - \
+ | xmllint --format -
+&lt;gp_ext name=&quot;VGP/Unix Settings/OpenSSH&quot;&gt;
+  &lt;attribute name=&quot;ezMx...Zy5k&quot;&gt;
+    /etc/ssh/sshd_config.d/gp_c7hytho4
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;</code></pre>
 <p>Notice that our new policy has been stored in <code>/etc/ssh/sshd_config.d/gp_c7hytho4</code>. Let’s check the contents of this file to see what was generated.</p>
 <pre><code>&gt; sudo cat /etc/ssh/sshd_config.d/gp_c7hytho4
 

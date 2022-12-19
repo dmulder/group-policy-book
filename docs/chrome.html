@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-16" />
+<meta name="date" content="2022-12-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -322,12 +322,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a>
 <ul>
-<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_pol_extgp_inf_ext-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_pol_ext/gp_inf_ext Python Classes</a></li>
+<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_ext-and-gp_applier-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_ext and gp_applier Python Classes</a></li>
 <li class="chapter" data-level="19.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>19.2.2</b> Process Group Policy</a></li>
-<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#deleted-gpos"><i class="fa fa-check"></i><b>19.2.3</b> Deleted GPOs</a></li>
-<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#changed-gpos"><i class="fa fa-check"></i><b>19.2.4</b> Changed GPOs</a></li>
-<li class="chapter" data-level="19.2.5" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.5</b> Resultant Set of Policy</a></li>
-<li class="chapter" data-level="19.2.6" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.6</b> Registering/Unregistering a Client Side Extension</a></li>
+<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.3</b> Resultant Set of Policy</a></li>
+<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.4</b> Registering/Unregistering a Client Side Extension</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
@@ -371,25 +369,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="managing-chromium-policy-via-the-gpme" class="section level3 hasAnchor" number="15.1.1">
 <h3><span class="header-section-number">15.1.1</span> Managing Chromium Policy via the GPME<a href="chrome.html#managing-chromium-policy-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Open the GPME and navigate to <code>Computer Configuration &gt; Administrative Templates &gt; Google</code>.</p>
-<div class="figure">
-<img src="chrome-images/gpme.png" alt="" />
-<p class="caption">Google Administrative Templates</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-55"></span>
+<img src="chrome-images/gpme.png" alt="Google Administrative Templates" width="70%" />
+<p class="caption">
+Figure 15.1: Google Administrative Templates
+</p>
 </div>
 <p>You’ll notice that there are two sections for Chrome, titled <code>Google Chrome</code> and <code>Google Chrome - Default Settings (users can override)</code>. The settings in <code>Google Chrome</code> will always be enforced. The settings in <code>Default Settings</code> will be distributed, but will not be enforced (users can modify these).</p>
 <p>For this example, let’s enforce a homepage. Select <code>Google Chrome &gt; Startup, Home page and New Tab page</code>. First, let’s set the <code>New Tab Page as homepage</code> option, forcing our homepage choice to load when we first open a Chromium tab.</p>
-<div class="figure">
-<img src="chrome-images/tab-page.png" alt="" />
-<p class="caption">Use New Tab Page as homepage</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-56"></span>
+<img src="chrome-images/tab-page.png" alt="Use New Tab Page as homepage" width="70%" />
+<p class="caption">
+Figure 15.2: Use New Tab Page as homepage
+</p>
 </div>
 <p>Next, let’s set the new tab page URL.</p>
-<div class="figure">
-<img src="chrome-images/url.png" alt="" />
-<p class="caption">Configure the New Tab page URL</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-57"></span>
+<img src="chrome-images/url.png" alt="Configure the New Tab page URL" width="70%" />
+<p class="caption">
+Figure 15.3: Configure the New Tab page URL
+</p>
 </div>
 <p>Finally, let’s tell Chromium to default to the New Tab Page when first opening.</p>
-<div class="figure">
-<img src="chrome-images/startup.png" alt="" />
-<p class="caption">Action on startup</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-58"></span>
+<img src="chrome-images/startup.png" alt="Action on startup" width="70%" />
+<p class="caption">
+Figure 15.4: Action on startup
+</p>
 </div>
 </div>
 </div>
@@ -405,30 +411,36 @@ GPO: Default Domain Policy
 =================================================================
   CSE: gp_chromium_ext
   -----------------------------------------------------------
-    Policy Type: Software\Policies\Google\Chrome\HomepageIsNewTabPage
+    Policy Type: Software\Policies\Google\Chrome\
+                 HomepageIsNewTabPage
     -----------------------------------------------------------
       1
     -----------------------------------------------------------
-    Policy Type: Software\Policies\Google\Chrome\NewTabPageLocation
+    Policy Type: Software\Policies\Google\Chrome\
+                 NewTabPageLocation
     -----------------------------------------------------------
       https://samba.org
     -----------------------------------------------------------
-    Policy Type: Software\Policies\Google\Chrome\RestoreOnStartup
+    Policy Type: Software\Policies\Google\Chrome\
+                 RestoreOnStartup
     -----------------------------------------------------------
       5
     -----------------------------------------------------------
   -----------------------------------------------------------
   CSE: gp_chrome_ext
   -----------------------------------------------------------
-    Policy Type: Software\Policies\Google\Chrome\HomepageIsNewTabPage
+    Policy Type: Software\Policies\Google\Chrome\
+                 HomepageIsNewTabPage
     -----------------------------------------------------------
       1
     -----------------------------------------------------------
-    Policy Type: Software\Policies\Google\Chrome\NewTabPageLocation
+    Policy Type: Software\Policies\Google\Chrome\
+                 NewTabPageLocation
     -----------------------------------------------------------
       https://samba.org
     -----------------------------------------------------------
-    Policy Type: Software\Policies\Google\Chrome\RestoreOnStartup
+    Policy Type: Software\Policies\Google\Chrome\
+                 RestoreOnStartup
     -----------------------------------------------------------
       5
     -----------------------------------------------------------
@@ -437,28 +449,30 @@ GPO: Default Domain Policy
 <p>Notice that the policy which will be applied for Chrome and Chromium are identical. This is because each CSE is reading from the same policy. Let’s now force a policy apply, and see what is logged in the Group Policy Cache.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
 &gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
-&gt; | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; | xmllint --format -
-&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;gp&gt;
-  &lt;user name=&quot;TESTSYSDM$&quot;&gt;
-    &lt;guid value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;&gt;
-      &lt;gp_ext name=&quot;Mozilla/Firefox&quot;&gt;
-        &lt;attribute name=&quot;policies.json&quot;&gt;{&quot;policies&quot;: {}}&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-      &lt;gp_ext name=&quot;Google/Chromium&quot;&gt;
-        &lt;attribute name=&quot;recommended&quot;&gt;9327a492264ecac0806b031b780241d86cabe38348fe49c4c5a610ee584cfbaaefd3fdffd1b1b54c9ee225820433a7f902c688b2e123181a56c73b9cbf9cd13f:/etc/chromium/policies/recommended/gp_g4_82tuo.json&lt;/attribute&gt;
-        &lt;attribute name=&quot;managed&quot;&gt;d452dda8cab875a24b57b6a57ee90bbf71519585ef4c76f2ac71d570749849290da3d15241e6cd09806943a9d9aaaaf18c219d8e7dd47a3c5a809b570b621935:/etc/chromium/policies/managed/gp_l_k9uvxk.json&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-      &lt;gp_ext name=&quot;Google/Chrome&quot;&gt;
-        &lt;attribute name=&quot;recommended&quot;&gt;9327a492264ecac0806b031b780241d86cabe38348fe49c4c5a610ee584cfbaaefd3fdffd1b1b54c9ee225820433a7f902c688b2e123181a56c73b9cbf9cd13f:/etc/opt/chrome/policies/recommended/gp_7p6q0bxf.json&lt;/attribute&gt;
-        &lt;attribute name=&quot;managed&quot;&gt;d452dda8cab875a24b57b6a57ee90bbf71519585ef4c76f2ac71d570749849290da3d15241e6cd09806943a9d9aaaaf18c219d8e7dd47a3c5a809b570b621935:/etc/opt/chrome/policies/managed/gp_fcthg4bc.json&lt;/attribute&gt;
-      &lt;/gp_ext&gt;
-    &lt;/guid&gt;
-    &lt;applylog&gt;
-      &lt;guid count=&quot;0&quot; value=&quot;{31B2F340-016D-11D2-945F-00C04FB984F9}&quot;/&gt;
-    &lt;/applylog&gt;
-  &lt;/user&gt;
-&lt;/gp&gt;</code></pre>
+ | sed -r &quot;s/\\\22/\&quot;/g&quot; | sed -r &quot;s/\\\5C/\\\\/g&quot; \
+ | xmllint --xpath &quot;//gp_ext[@name=&#39;Google/Chromium&#39; or
+                             @name=&#39;Google/Chrome&#39;]&quot; - \
+ | xmllint --format -
+&lt;gp_ext name=&quot;Google/Chromium&quot;&gt;
+  &lt;attribute name=&quot;recommended&quot;&gt;
+    9327...d13f:
+      /etc/chromium/policies/recommended/gp_g4_82tuo.json
+  &lt;/attribute&gt;
+  &lt;attribute name=&quot;managed&quot;&gt;
+    d452...1935:
+      /etc/chromium/policies/managed/gp_l_k9uvxk.json
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;
+&lt;gp_ext name=&quot;Google/Chrome&quot;&gt;
+  &lt;attribute name=&quot;recommended&quot;&gt;
+    9327...d13f:
+      /etc/opt/chrome/policies/recommended/gp_7p6q0bxf.json
+  &lt;/attribute&gt;
+  &lt;attribute name=&quot;managed&quot;&gt;
+    d452...1935:
+      /etc/opt/chrome/policies/managed/gp_fcthg4bc.json
+  &lt;/attribute&gt;
+&lt;/gp_ext&gt;</code></pre>
 <p>Our cache shows that 4 json policies were created in the directories where we expected them. Let’s look at the contents.</p>
 <pre><code>&gt; npx prettier /etc/chromium/policies/recommended/gp_g4_82tuo.json
 {}
@@ -477,14 +491,18 @@ GPO: Default Domain Policy
   &quot;RestoreOnStartup&quot;: 5
 }</code></pre>
 <p>As expected, the <code>recommended</code> policy files are empty, since we only set <code>managed</code> policy. The <code>managed</code> is what we expected. Let’s now open Chrome, and check that the policy was applied.</p>
-<div class="figure">
-<img src="chrome-images/chrome-homepage.png" alt="" />
-<p class="caption">Chrome with default homepage</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-59"></span>
+<img src="chrome-images/chrome-homepage.png" alt="Chrome with default homepage" width="70%" />
+<p class="caption">
+Figure 15.5: Chrome with default homepage
+</p>
 </div>
 <p>If you now open the browser settings, you’ll see a warning indicating that your browser is being managed by your organization.</p>
-<div class="figure">
-<img src="chrome-images/chrome-settings.png" alt="" />
-<p class="caption">Chrome settings</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-60"></span>
+<img src="chrome-images/chrome-settings.png" alt="Chrome settings" width="70%" />
+<p class="caption">
+Figure 15.6: Chrome settings
+</p>
 </div>
 <p>Notice that the <code>On startup</code> options have been grayed out. Had we not set the <code>Action on startup</code>, the user would still be able to modify the startup options, and avoid the default homepage we just set.</p>
 
