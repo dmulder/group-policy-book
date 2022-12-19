@@ -22,7 +22,9 @@ To edit the "Message of the day" and "Login Prompt Message" settings using the G
 
 2. In the Group Policy Management Editor window, navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Messages`.
 
-![Group Policy Management Editor](msgs-images/gpme.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Group Policy Management Editor"}
+knitr::include_graphics("msgs-images/gpme.png")
+```
 
 3. In the right pane, double-click on the "Message of the day" setting.
 
@@ -30,7 +32,9 @@ To edit the "Message of the day" and "Login Prompt Message" settings using the G
 
 5. Click "OK" to save the changes and close the dialog box.
 
-![Message of the day](msgs-images/motd.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Message of the day"}
+knitr::include_graphics("msgs-images/motd.png")
+```
 
 6. In the right pane, double-click on the "Login Prompt Message" setting.
 
@@ -38,7 +42,9 @@ To edit the "Message of the day" and "Login Prompt Message" settings using the G
 
 8. Click "OK" to save the changes and close the dialog box.
 
-![Login Prompt Message](msgs-images/issue.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Login Prompt Message"}
+knitr::include_graphics("msgs-images/issue.png")
+```
 
 ### Managing Message Policy via samba-tool {#msgs-samba-tool}
 

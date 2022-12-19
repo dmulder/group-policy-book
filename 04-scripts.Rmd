@@ -22,7 +22,9 @@ As an example, let's create a simple cron job which echo's "hello world" once ev
 
 2. In the left pane of the GPME, navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Scripts`.
 
-![Scripts Server Side Extension (ADMX)](scripts-images/scripts.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Scripts Server Side Extension (ADMX)"}
+knitr::include_graphics("scripts-images/scripts.png")
+```
 
 3. In the right pane, double-click the "Daily" policy.
 
@@ -34,7 +36,9 @@ As an example, let's create a simple cron job which echo's "hello world" once ev
 echo "hello world"
 ```
 
-![Script Example](scripts-images/hello_world.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Script Example"}
+knitr::include_graphics("scripts-images/hello_world.png")
+```
 
 6. Click OK to close the "Show Contents" dialog box, and then click OK again to close the "Daily" dialog box.
 
@@ -54,7 +58,9 @@ Next we'll create a user script that echo's the text "Don't do that Dave" every 
 echo "Don't do that Dave"
 ```
 
-![User Script Example](scripts-images/dave.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "User Script Example"}
+knitr::include_graphics("scripts-images/dave.png")
+```
 
 5. Click OK to close the "Show Contents" dialog box, and then click OK again to close the "Hourly" dialog box.
 

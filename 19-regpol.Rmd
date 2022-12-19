@@ -6,20 +6,20 @@ Samba provides the `samba-tool gpo load`, `samba-tool gpo remove` and `samba-too
 
 ```json
 [
-    {
-        "keyname": "Software\\Policies\\Mozilla\\Firefox\\Homepage",
-        "valuename": "StartPage",
-        "class": "MACHINE",
-        "type": "REG_SZ",
-        "data": "homepage"
-    },
-    {
-        "keyname": "Software\\Policies\\Mozilla\\Firefox\\Homepage",
-        "valuename": "URL",
-        "class": "MACHINE",
-        "type": "REG_SZ",
-        "data": "samba.org"
-    }
+  {
+    "keyname": "Software\\Policies\\Mozilla\\Firefox\\Homepage",
+    "valuename": "StartPage",
+    "class": "MACHINE",
+    "type": "REG_SZ",
+    "data": "homepage"
+  },
+  {
+    "keyname": "Software\\Policies\\Mozilla\\Firefox\\Homepage",
+    "valuename": "URL",
+    "class": "MACHINE",
+    "type": "REG_SZ",
+    "data": "samba.org"
+  }
 ]
 ```
 
@@ -60,7 +60,8 @@ e.data = 1
 entries = list(pol_data.entries)
 entries.append(e)
 pol_data.entries = entries
-pol_data.num_entries = len(entries) # Ensure you set the new num_entries last
+# Ensure you set the new num_entries last
+pol_data.num_entries = len(entries)
 ```
 
 The data type refers to Microsoft defined registry types:

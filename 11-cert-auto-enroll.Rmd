@@ -163,43 +163,46 @@ Let's now force an apply and observe the results.
 ```
 > sudo /usr/sbin/samba-gpupdate --force
 > sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
-> | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" | xmllint --format -
-<?xml version="1.0"?>
-<gp>
-  <user name="TESTSYSDM$">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="Cryptography\5CAutoEnrollment">
-        <attribute name="bGl6YXJkby1XSU4tUUxJUERQMklTTjctQ0E=">{"files": ["/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.crt", "/etc/pki/trust/anchors/lizardo-WIN-QLIPDP2ISN7-CA.crt", "/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.key", "/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt", "/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key", "/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt"], "templates": ["lizardo-WIN-QLIPDP2ISN7-CA.Machine", "lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate"]}</attribute>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
+ | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+ | xmllint --xpath "//gp_ext[@name='Cryptography\\
+                                    AutoEnrollment']" - \
+ | xmllint --format -
+<gp_ext name="Cryptography\\AutoEnrollment">
+  <attribute name="bGl6YXJkby1XSU4tUUxJUERQMklTTjctQ0E=">
+    {"files": [
+      "/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.crt",
+      "/etc/pki/trust/anchors/lizardo-WIN-QLIPDP2ISN7-CA.crt",
+      "/var/lib/samba/private/certs/
+        lizardo-WIN-QLIPDP2ISN7-CA.Machine.key",
+      "/var/lib/samba/certs/
+        lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt",
+      "/var/lib/samba/private/certs/
+        lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key",
+      "/var/lib/samba/certs/
+        lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt"
+      ],
+    "templates": [
+      "lizardo-WIN-QLIPDP2ISN7-CA.Machine",
+      "lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate"
+      ]
+    }
+  </attribute>
+</gp_ext>
 ```
 
 The log details show that a number of files were created. Let's take a look at these files.
 
 ```
-> sudo ls -lah /var/lib/samba/certs/
-total 12K
-drwxr-xr-x 1 root root  238 Dec  8 13:07 .
-drwxr-xr-x 1 root root  396 Dec  8 13:07 ..
--rw-r--r-- 1 root root 1.4K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.crt
--rw------- 1 root root 2.0K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt
--rw------- 1 root root 2.1K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt
-> sudo ls -lah /var/lib/samba/private/certs/
-total 8.0K
-drwx------ 1 root root  178 Dec  8 13:07 .
-drwxr-xr-x 1 root root  112 Dec  8 13:07 ..
--rw------- 1 root root 1.7K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.Machine.key
--rw------- 1 root root 1.7K Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key
-> sudo ls -lah /etc/pki/trust/anchors/
-total 4.0K
-drwxr-xr-x 1 root root 60 Dec  8 13:07 .
-drwxr-xr-x 1 root root 50 Jun 14 21:17 ..
-lrwxrwxrwx 1 root root 51 Dec  8 13:07 lizardo-WIN-QLIPDP2ISN7-CA.crt -> /var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.crt
+> sudo ls /var/lib/samba/certs/
+lizardo-WIN-QLIPDP2ISN7-CA.crt
+lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt
+lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt
+> sudo ls /var/lib/samba/private/certs/
+lizardo-WIN-QLIPDP2ISN7-CA.Machine.key
+lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key
+> sudo ls /etc/pki/trust/anchors/
+lizardo-WIN-QLIPDP2ISN7-CA.crt ->
+  /var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.crt
 ```
 
 The CSE download the root certificate from our CA (`lizardo-WIN-QLIPDP2ISN7-CA.crt`), and then linked it inside `/etc/pki/trust/anchors`. This is the system trust store. In addition to linking our CA root certificate to the trust store, the CSE also called the `update-ca-certificates` command to refresh the certificate store. Take a look at `man update-ca-certificates` for more details on how this works.
@@ -211,16 +214,23 @@ Now that we see our certificates have been installed, lets take a look at certmo
 CA 'lizardo-WIN-QLIPDP2ISN7-CA':
 	is-default: no
 	ca-type: EXTERNAL
-	helper-location: /usr/libexec/certmonger/cepces-submit --server=WIN-QLIPDP2ISN7.lizardo.suse.de --auth=Kerberos
+	helper-location: /usr/libexec/certmonger/cepces-submit \
+	  --server=WIN-QLIPDP2ISN7.lizardo.suse.de \
+	  --auth=Kerberos
 > sudo getcert list
 Number of certificates and requests being tracked: 2.
 Request ID 'lizardo-WIN-QLIPDP2ISN7-CA.Machine':
 	status: MONITORING
 	stuck: no
-	key pair storage: type=FILE,location='/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.key'
-	certificate: type=FILE,location='/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt'
+	key pair storage: type=FILE,
+	  location='/var/lib/samba/private/certs/
+	            lizardo-WIN-QLIPDP2ISN7-CA.Machine.key'
+	certificate: type=FILE,
+	  location='/var/lib/samba/certs/
+	            lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt'
 	CA: lizardo-WIN-QLIPDP2ISN7-CA
-	issuer: CN=lizardo-WIN-QLIPDP2ISN7-CA,DC=lizardo,DC=suse,DC=de
+	issuer: CN=lizardo-WIN-QLIPDP2ISN7-CA,
+	        DC=lizardo,DC=suse,DC=de
 	subject: CN=testsysdm.lizardo.suse.de
 	issued: 2022-12-08 12:57:35 MST
 	expires: 2023-12-08 12:57:35 MST
@@ -236,10 +246,15 @@ Request ID 'lizardo-WIN-QLIPDP2ISN7-CA.Machine':
 Request ID 'lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate':
 	status: MONITORING
 	stuck: no
-	key pair storage: type=FILE,location='/var/lib/samba/private/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key'
-	certificate: type=FILE,location='/var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt'
+	key pair storage: type=FILE,
+	  location='/var/lib/samba/private/certs/
+	    lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.key'
+	certificate: type=FILE,
+	  location='/var/lib/samba/certs/
+	    lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate.crt'
 	CA: lizardo-WIN-QLIPDP2ISN7-CA
-	issuer: CN=lizardo-WIN-QLIPDP2ISN7-CA,DC=lizardo,DC=suse,DC=de
+	issuer: CN=lizardo-WIN-QLIPDP2ISN7-CA,
+	        DC=lizardo,DC=suse,DC=de
 	subject: 
 	issued: 2022-12-08 12:57:35 MST
 	expires: 2023-12-08 12:57:35 MST
@@ -264,7 +279,14 @@ If your certificates are not listed with a `MONITORING` status in `getcert list`
 This particular error happens when Internet Information Services (IIS) has the wrong root certificate selected.
 
 ```
-(Caused by SSLError(CertificateError("hostname \'win-qlipdp2isn7.lizardo.suse.de\' doesn\'t match \'lizardo-WIN-QLIPDP2ISN7-CA\'")))
+(Caused by
+  SSLError(
+    CertificateError(
+      "hostname \'win-qlipdp2isn7.lizardo.suse.de\' doesn\'t
+      match \'lizardo-WIN-QLIPDP2ISN7-CA\'"
+    )
+  )
+)
 ```
 
 To resolve this error, open the IIS Manager, select the Default Web Site in the tree, then click `Bindings` in the right side `Actions` pane.
@@ -284,7 +306,13 @@ knitr::include_graphics("cert-auto-enroll-images/edit-binding.png")
 Another error you may enounter is actually specific to the *python-requests* module.
 
 ```
-(Caused by SSLError(SSLError(1, '[SSL: DH_KEY_TOO_SMALL] dh key too small (_ssl.c:852)'),))
+(Caused by
+  SSLError(
+    SSLError(1,
+      '[SSL: DH_KEY_TOO_SMALL] dh key too small (_ssl.c:852)'
+    ),
+  )
+)
 ```
 
 This `DH_KEY_TOO_SMALL` error is caused by a default security level change in *python-requests*. You can work around this error by setting `openssl_seclevel=1` in the **global** section of your `cepces.conf`.

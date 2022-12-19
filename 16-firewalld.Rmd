@@ -18,11 +18,15 @@ Setting up the ADMX templates for this policy is described in chapter \@ref(inst
 
 Open the Group Policy Management Editor (GPME) and navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings > Firewalld`.
 
-![Group Policy Management Editor](firewalld-images/gpme.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Group Policy Management Editor"}
+knitr::include_graphics("firewalld-images/gpme.png")
+```
 
 You can see we have the options to create firewall rules, and firewall zones. For this example, we're going to create a single rule in a new zone named "work".
 
-![New Zone](firewalld-images/new-zone.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "New Zone"}
+knitr::include_graphics("firewalld-images/new-zone.png")
+```
 
 We'll define our new rule as follows.
 
@@ -39,7 +43,9 @@ We'll define our new rule as follows.
 }
 ```
 
-![New Rule](firewalld-images/new-rule.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "New Rule"}
+knitr::include_graphics("firewalld-images/new-rule.png")
+```
 
 #### Firewalld Policy Rule Definitions
 
@@ -52,12 +58,31 @@ For example, to create rules for the Work and Home zones, specify the following 
 ```json
  {
    "work": [
-     {"rule": {"family": "ipv4"}, "source address": "172.25.1.7", "service name": "ftp", "reject": {}},
-     {"rule": {}, "source address": "172.25.1.8", "service name": "ftp", "reject": {}}
+     {
+       "rule": {"family": "ipv4"},
+       "source address": "172.25.1.7",
+       "service name": "ftp",
+       "reject": {}
+     },
+     {
+       "rule": {},
+       "source address": "172.25.1.8",
+       "service name": "ftp",
+       "reject": {}
+     }
    ],
    "home": [
-     {"rule": {}, "protocol value": "icmp", "reject": {}},
-     {"rule": {"family": "ipv4"}, "source address": "192.168.1.2/32", "service name": "telnet", "accept": {"limit value": "1/m"}}
+     {
+       "rule": {},
+       "protocol value": "icmp",
+       "reject": {}
+     },
+     {
+       "rule": {"family": "ipv4"},
+       "source address": "192.168.1.2/32",
+       "service name": "telnet",
+       "accept": {"limit value": "1/m"}
+     }
    ]
  }
 ```
@@ -70,7 +95,8 @@ The rule structure loosely follows the Firewalld Rich Language Documentation. Th
      "family": "ipv4 | ipv6",
      "priority": "priority"
    },
-   "source [not] address | mac | ipset": "address[/mask] | mac-address | ipset",
+   "source [not] address | mac | ipset":
+     "address[/mask] | mac-address | ipset",
    "destination [not] adress": "address[/mask]",
    "service name": "service name",
    "port": {
@@ -93,7 +119,8 @@ The rule structure loosely follows the Firewalld Rich Language Documentation. Th
    },
    "log": {
      "prefix": "prefix text",
-     "level": "emerg | alert | crit | error | warning | notice | info | debug",
+     "level": "emerg | alert | crit | error
+               | warning | notice | info | debug",
      "limit value": "rate/duration"
    },
    "audit": {
@@ -155,27 +182,25 @@ Let’s now force an apply, and verify that rule gets applied.
 ```
 > sudo /usr/sbin/samba-gpupdate --force
 > sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
-> | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" | xmllint --format -
-<?xml version="1.0"?>
-<gp>
-  <user name="TESTSYSDM$">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="Security/Firewalld">
-        <attribute name="rule:work:f4802306893de59d239b58743e101b65fe941fcf8d1e5a51fd107bc7282caa73db379ba7720cb4393f2318289998a677365089db7b136c671a5385ca6ba0e3a8">rule family=ipv4 source address=172.25.1.7 service name=ftp reject  </attribute>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
+ | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+ | xmllint --xpath "//gp_ext[@name='Security/Firewalld']" - \
+ | xmllint --format -
+<gp_ext name="Security/Firewalld">
+  <attribute name="rule:work:f480...e3a8">
+    rule family=ipv4 source address=172.25.1.7
+      service name=ftp reject
+  </attribute>
+</gp_ext>
 ```
 
 Unfortunately, at the time of this writing, `firewall-cmd` appears to be unable to list installed rich rules. We can verify that our rule has applied though by trying to apply it again.
 
 ```
-> sudo firewall-cmd --permanent --zone=work --add-rich-rule 'rule family=ipv4 source address=172.25.1.7 service name=ftp reject'
-Warning: ALREADY_ENABLED: rule family=ipv4 source address=172.25.1.7 service name=ftp reject
+> sudo firewall-cmd --permanent --zone=work --add-rich-rule \
+ 'rule family=ipv4 source address=172.25.1.7
+  service name=ftp reject'
+Warning: ALREADY_ENABLED: rule family=ipv4
+ source address=172.25.1.7 service name=ftp reject
 success
 ```
 

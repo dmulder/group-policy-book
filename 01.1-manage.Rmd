@@ -20,13 +20,17 @@ To open the Default Domain Policy (for example) in the Group Policy Management C
 
 3. Select the domain that contains the Default Domain Policy.
 
-![Group Policy Management Console](manage-images/gpmc.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Group Policy Management Console"}
+knitr::include_graphics("manage-images/gpmc.png")
+```
 
 4. In the right pane, right-click on the Default Domain Policy and select "Edit" from the context menu.
 
 5. The Group Policy Management Editor window will open, allowing you to view and edit the Default Domain Policy.
 
-![Default Domain Policy](manage-images/gpme.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Default Domain Policy"}
+knitr::include_graphics("manage-images/gpme.png")
+```
 
 Note: You will need to have the appropriate permissions to edit the Default Domain Policy. If you do not have the necessary permissions, you will not be able to edit the policy.
 
@@ -61,7 +65,9 @@ To create a Group Policy object (GPO) using the Group Policy Management Console 
 
 3. Right-click on the domain, or the container where you'd like the GPO created and linked, and select `Create a GPO in this domain, and Link it here...`.
 
-![Create a GPO](manage-images/create.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Create a GPO"}
+knitr::include_graphics("manage-images/create.png")
+```
 
 4. In the `New GPO` dialog box, enter a name for the GPO and click on the `OK` button.
 

@@ -18,15 +18,21 @@ Setting up the ADMX templates for this policy is described in chapter \@ref(inst
 
 Open the GPME and navigate to `Computer Configuration > Administrative Templates > Mozilla > Firefox`.
 
-![Mozilla Administrative Templates](firefox-images/gpme.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Mozilla Administrative Templates"}
+knitr::include_graphics("firefox-images/gpme.png")
+```
 
 There are many options to choose from, but for this example we'll just test setting a homepage. Click on `Home page` in the tree, and we're going to modify both the `Start Page` and the `URL for Home page`.
 
-![Start Page](firefox-images/start-page.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Start Page"}
+knitr::include_graphics("firefox-images/start-page.png")
+```
 
 First we'll set the `Start Page` to `Homepage (Locked)`. This requires the start page to always open the homepage, and the user will be unable to change it to point anywhere else.
 
-![Home Page](firefox-images/home-page.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Home Page"}
+knitr::include_graphics("firefox-images/home-page.png")
+```
 
 Next we'll set the homepage URL, and check the box `Don't allow the homepage to be changed`. This will prevent the user from changing the homepage.
 
@@ -70,20 +76,14 @@ We see that the policy we set is listed. Next let's force an apply of the policy
 ```
 > sudo /usr/sbin/samba-gpupdate --force
 > sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
-> | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" | xmllint --format -
-<?xml version="1.0"?>
-<gp>
-  <user name="TESTSYSDM$">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="Mozilla/Firefox">
-        <attribute name="policies.json">{"policies": {}}</attribute>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
+ | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+ | xmllint --xpath "//gp_ext[@name='Mozilla/Firefox']" - \
+ | xmllint --format -
+<gp_ext name="Mozilla/Firefox">
+  <attribute name="policies.json">
+    {"policies": {}}
+  </attribute>
+</gp_ext>
 ```
 
 There isn't much interesting in the cache, since it just tells us that we had no policies set previously. Let's look inside our policy file and see what was applied.
@@ -103,10 +103,14 @@ There isn't much interesting in the cache, since it just tells us that we had no
 
 It appears that our policies are applied. Opening Firefox, we see that the policy is being enforced.
 
-![Firefox](firefox-images/home-page-set.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Firefox"}
+knitr::include_graphics("firefox-images/home-page-set.png")
+```
 
 If you open your browser settings, you'll notice a warning message indicating that your organization is managing the browser. If Firefox encountered any problems enforcing the policy, a warning will be listed here.
 
-![Managed Firefox](firefox-images/managed.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Managed Firefox"}
+knitr::include_graphics("firefox-images/managed.png")
+```
 
 Notice that the homepage settings are now grayed out in the settings dialog, and can't be modified by the user.

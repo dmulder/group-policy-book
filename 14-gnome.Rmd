@@ -16,11 +16,15 @@ The Server Side Extension (SSE) for Chromium Policy is distributed via Administr
 
 Open the GPME and navigate to `Computer Configuration > Administrative Templates > GNOME Settings`.
 
-![GNOME Settings Administrative Templates](gnome-images/gpme.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "GNOME Settings Administrative Templates"}
+knitr::include_graphics("gnome-images/gpme.png")
+```
 
 Let's set the allowed online accounts, which will effect the `Online Accounts` list in the GNOME Settings Dialog.
 
-![Whitelisted Online Accounts](gnome-images/online-accounts.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Whitelisted Online Accounts"}
+knitr::include_graphics("gnome-images/online-accounts.png")
+```
 
 ## Client Side Extension
 
@@ -50,20 +54,16 @@ Next let’s force an apply of the policy, and see what is logged in the Group P
 ```
 > sudo /usr/sbin/samba-gpupdate --force
 > sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
-> | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" | xmllint --format -
-<?xml version="1.0"?>
-<gp>
-  <user name="GPTEST$">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="GNOME Settings/Lock Down Settings">
-        <attribute name="Whitelisted Online Accounts">/etc/dconf/db/local.d/0000000001-goa;/etc/dconf/db/local.d/locks/0000000001-goa</attribute>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
+ | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+ | xmllint --xpath "//gp_ext[@name='GNOME Settings/
+                                    Lock Down Settings']" - \
+ | xmllint --format -
+<gp_ext name="GNOME Settings/Lock Down Settings">
+  <attribute name="Whitelisted Online Accounts">
+    /etc/dconf/db/local.d/0000000001-goa;
+    /etc/dconf/db/local.d/locks/0000000001-goa
+  </attribute>
+</gp_ext>
 ```
 
 Checking the contents of the files, we see that our whitelisted provider is set, and that the policy is locked (which prevents user modification).
@@ -79,11 +79,14 @@ whitelisted-providers = ['google']
 We can also check the dconf output to see that the setting is applied.
 
 ```
-> dconf dump / | grep -E "(whitelisted-providers|org/gnome/online-accounts)"
+> dconf dump / \
+ | grep -E "(whitelisted-providers|org/gnome/online-accounts)"
 [org/gnome/online-accounts]
 whitelisted-providers=['google']
 ```
 
 Recall that it's necessary to log the user out and back in again. After which, we can check the GNOME Settings dialog and see that `Online Accounts` are restricted as requested.
 
-![Online Accounts](gnome-images/online-accounts-gnome.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Online Accounts"}
+knitr::include_graphics("gnome-images/online-accounts-gnome.png")
+```

@@ -6,7 +6,7 @@ knitr::include_graphics("openssh-images/openssh.png")
 
 The OpenSSH Policy allows you to deploy OpenSSH settings to client machines. The policies are applied to a file in the `/etc/ssh/sshd_config.d` directory.
 
-This policy is physically stored on the SYSVOL in **MACHINE/VGP/VTLA/SshCfg/SshD/manifest.xml**. The manifest.xml file is in xml format, and is easily modified manually using a text editor.
+This policy is physically stored on the SYSVOL in **MACHINE/VGP/VTLA** **/SshCfg/SshD/manifest.xml**. The manifest.xml file is in xml format, and is easily modified manually using a text editor.
 
 ## Server Side Extension
 
@@ -32,32 +32,25 @@ Available subcommands:
   set   - Sets a VGP OpenSSH Group Policy to the sysvol
 ```
 
-To set a new OpenSSH rule, call the `samba-tool gpo manage openssh set` command.
+To set a new OpenSSH rule, call the `samba-tool gpo manage openssh set` command, providing the following arguments:
 
-```
-> samba-tool gpo manage openssh set --help
-Usage: samba-tool gpo manage openssh set <gpo> <setting> [value] [options]
+1. `gpo`: the Group Policy Object (GPO) that you want to modify. This **MUST** be the GUID of the GPO.
+2. `setting`: the OpenSSH setting that you want to modify. See the man page for sshd\_config (`man sshd_config`) for a list of possible settings.
+3. `value`: the value that you want to set for the specified setting. If you do not provide a value, the policy will be unset.
 
-Sets a VGP OpenSSH Group Policy to the sysvol
+Here is an example of how you might use this command to set the `KerberosAuthentication` to `Yes`:
 
-This command sets an openssh setting to the sysvol for applying to winbind
-clients. Not providing a value will unset the policy.
-
-Example:
-samba-tool gpo manage openssh set {31B2F340-016D-11D2-945F-00C04FB984F9}
-KerberosAuthentication Yes
-```
-
-Let's set the `KerberosAuthentication` setting.
-
-```
-> samba-tool gpo manage openssh set {31B2F340-016D-11D2-945F-00C04FB984F9} KerberosAuthentication Yes -UAdministrator
+```sh
+samba-tool gpo manage openssh set \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} \
+ KerberosAuthentication Yes -UAdministrator
 ```
 
 Then let's list the policy to see what has been set on the SYSVOL.
 
 ```
-> samba-tool gpo manage openssh list {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
+> samba-tool gpo manage openssh list \
+ {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
 KerberosAuthentication Yes
 ```
 
@@ -91,20 +84,15 @@ Let’s now force an apply.
 ```
 sudo /usr/sbin/samba-gpupdate --force
 > sudo tdbdump /var/lib/samba/gpo.tdb -k "TESTSYSDM$" \
-> | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" | xmllint --format -
-<?xml version="1.0"?>
-<gp>
-  <user name="TESTSYSDM$">
-    <guid value="{31B2F340-016D-11D2-945F-00C04FB984F9}">
-      <gp_ext name="VGP/Unix Settings/OpenSSH">
-        <attribute name="ezMxQjJGMzQwLTAxNkQtMTFEMi05NDVGLTAwQzA0RkI5ODRGOX0vZXRjL3NzaC9zc2hkX2NvbmZpZy5k">/etc/ssh/sshd_config.d/gp_c7hytho4</attribute>
-      </gp_ext>
-    </guid>
-    <applylog>
-      <guid count="0" value="{31B2F340-016D-11D2-945F-00C04FB984F9}"/>
-    </applylog>
-  </user>
-</gp>
+ | sed -r "s/\\\22/\"/g" | sed -r "s/\\\5C/\\\\/g" \
+ | xmllint --xpath "//gp_ext[@name='VGP/Unix
+                                    Settings/OpenSSH']" - \
+ | xmllint --format -
+<gp_ext name="VGP/Unix Settings/OpenSSH">
+  <attribute name="ezMx...Zy5k">
+    /etc/ssh/sshd_config.d/gp_c7hytho4
+  </attribute>
+</gp_ext>
 ```
 
 Notice that our new policy has been stored in `/etc/ssh/sshd_config.d/gp_c7hytho4`. Let's check the contents of this file to see what was generated.

@@ -24,7 +24,9 @@ Server-side extensions (SSEs) are responsible for processing and managing GPOs o
 
 The purpose of a Server Side Extension (SSE) is to process and manage Group Policy objects (GPOs) on the domain controller (to fill out a *work order*). In a Windows environment, this generally refers to some component of the Group Policy Management Editor.
 
-![Group Policy Management Editor](ch01-images/gpme.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Group Policy Management Editor"}
+knitr::include_graphics("ch01-images/gpme.png")
+```
 
 In the case of Samba, SSEs also include the `samba-tool gpo` command, which allows administrators to manage GPOs from the command line. This command allows administrators to create, link, and modify GPOs.
 

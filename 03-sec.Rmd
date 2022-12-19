@@ -55,7 +55,9 @@ To set password policy settings using the Group Policy Management Editor (GPME),
 
 14. Click OK to close the "Password must meet complexity requirements" dialog box.
 
-![Password Policies](sec-images/passwd.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Password Policies"}
+knitr::include_graphics("sec-images/passwd.png")
+```
 
 #### Kerberos Policies
 
@@ -87,7 +89,9 @@ To set Kerberos policy settings, follow these steps:
 
 10. Click OK to close the "Maximum lifetime for user ticket renewal" dialog box.
 
-![Kerberos Policies](sec-images/kerb.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Kerberos Policies"}
+knitr::include_graphics("sec-images/kerb.png")
+```
 
 ### Managing Password and Kerberos Policies via samba-tool
 

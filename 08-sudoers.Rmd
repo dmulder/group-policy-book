@@ -22,7 +22,9 @@ To add a new sudo rule using the Group Policy Management Editor (GPME):
 
 2. In the Group Policy Management Editor window, navigate to `Computer Configuration > Policies > Administrative Templates > Samba > Unix Settings`.
 
-![Group Policy Management Editor](sudoers-images/gpme.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Group Policy Management Editor"}
+knitr::include_graphics("sudoers-images/gpme.png")
+```
 
 3. In the right pane, double-click on the "Sudo Rights" setting.
 
@@ -32,7 +34,9 @@ To add a new sudo rule using the Group Policy Management Editor (GPME):
 
 6. Click "OK" to save the new sudo rule and close the dialog box.
 
-![Adding a Sudo Rule](sudoers-images/sudo_rule.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Adding a Sudo Rule"}
+knitr::include_graphics("sudoers-images/sudo_rule.png")
+```
 
 After applying this rule, you can list the rule using `samba-tool`.
 

@@ -20,7 +20,9 @@ After successfully installing the ADMX templates, open the Group Policy Manageme
 
 1. In the left pane of the GPME, navigate to `Computer Configuration > Policies > Administrative Templates > Samba > smb.conf`.
 
-![smb.conf Server Side Extension (ADMX)](smb-conf-images/gpme.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "smb.conf Server Side Extension (ADMX)"}
+knitr::include_graphics("smb-conf-images/gpme.png")
+```
 
 2. In the right pane, double-click the "apply group policies" policy.
 
@@ -30,7 +32,9 @@ After successfully installing the ADMX templates, open the Group Policy Manageme
 
 5. Click OK to close the "Apply group policies" dialog box.
 
-![apply group policies Setting](smb-conf-images/setting.png)
+```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "apply group policies Setting"}
+knitr::include_graphics("smb-conf-images/setting.png")
+```
 
 ::: {#info style="color: green;"}
 Note: The `apply group policies` setting instructs Winbind to execute the `samba-gpupdate` command on the Group Policy interval (every 90 to 120 minutes). This allows you to apply Group Policy updates to Samba clients without having to log off and log back on.
