@@ -210,8 +210,8 @@ policy_class is defined as either MACHINE or USER.
 freq is defined as either Daily, Monthly, Weekly, or Hourly.
     """
 
-    synopsis = "%prog <gpo> <policy_class> <freq> <script> [args]
-     [options]"
+    synopsis = "%prog <gpo> <policy_class> <freq> <script> "
+               "[args] [options]"
 
     takes_optiongroups = {
         "sambaopts": options.SambaOptions,
