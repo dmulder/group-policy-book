@@ -1,6 +1,6 @@
 # Modifying a Registry.pol File {#regpol}
 
-## Using samba-tool
+## Using samba-tool {#regpol-samba-tool}
 
 Samba provides the `samba-tool gpo load`, `samba-tool gpo remove` and `samba-tool gpo show` commands for manipulating Registry.pol policies. These commands format the registry policies as **json** to simplify the process. For example, a policy which sets the Firefox homepage would like like so:
 

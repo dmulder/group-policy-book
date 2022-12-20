@@ -139,19 +139,21 @@ knitr::kable(
       "samba-tool gpo manage openssh"
     ),
     "Chapter" = c(
-      "\\@ref(smbconf)",
-      "\\@ref(sec)",
-      "\\@ref(startupscripts)",
-      "\\@ref(files)",
-      "\\@ref(symlink)",
-      "\\@ref(sudoers)",
-      "\\@ref(msgs)",
-      "\\@ref(msgs)",
-      "\\@ref(pamaccess)",
-      "\\@ref(openssh)"
+      "4",
+      "5",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "11",
+      "12",
+      "17"
     )
   )
 )
 ```
 
 Each of these subcommands has its own set of options and parameters that can be used to specify the details of the operation. For more information on a specific subcommand, you can consult the documentation for that subcommand.
+
+Additionally, the `samba-tool gpo load` and `samba-tool gpo remove` commands (see section \@ref(regpol-samba-tool)) may be used to modify any policy which is loaded to the SYSVOL in a `Registry.pol` file. This applies to [smb.conf policies](#smbconf), [Script Policies](#scripts), [Sudoers Policies](#sudoers), [Message Policies](#msgs), [Certificate Auto Enrollment Policy (advanced configuration only)](#certautoenroll), [Firefox Policy](#firefox), [Chromium/Chrome Policy](#chrome), [GNOME Settings Policy](#gnome), and [Firewalld Policy](#firewalld).
