@@ -4,6 +4,8 @@
 knitr::include_graphics("firefox-images/browse.png")
 ```
 
+\index{Policies!Firefox}
+
 Firefox Policy deploys a `policies.json` file to client machines to customize how Firefox looks and operates.
 
 This policy is physically stored on the SYSVOL in **MACHINE/Registry.pol**. It is stored in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
@@ -13,6 +15,8 @@ This policy is physically stored on the SYSVOL in **MACHINE/Registry.pol**. It i
 The Server Side Extension (SSE) for Firefox Policy is distributed via Administrative Templates (see chapter \@ref(sse) in section \@ref(admx)). This SSE uses the admx templates provided by Mozilla.
 
 Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-firefox).
+\index{Server Side Extensions}
+\index{Administrative Templates}
 
 ## Managing Firefox Policy via the GPME
 
@@ -43,6 +47,7 @@ Note that when setting a home page, you *MUST* include the http or https prefix,
 ## Client Side Extension
 
 The Firefox Client Side Extension (CSE) creates 2 policy files. One at `/usr/lib64/firefox/distribution/policies.json` and the other at `/etc/firefox/policies/policies.json`. These files will contain exactly the same information. The only reason there is a duplicate, is because different versions of Firefox require the policy file in different locations.
+\index{Client Side Extensions}
 
 Let’s list the Resultant Set of Policy to view policies we set in the previous section.
 
@@ -70,6 +75,7 @@ GPO: Default Domain Policy
   -----------------------------------------------------------
 =================================================================
 ```
+\index{Resultant Set of Policy}
 
 We see that the policy we set is listed. Next let's force an apply of the policy, and see what is logged in the Group Policy Cache.
 
@@ -87,6 +93,7 @@ We see that the policy we set is listed. Next let's force an apply of the policy
 ```
 
 There isn't much interesting in the cache, since it just tells us that we had no policies set previously. Let's look inside our policy file and see what was applied.
+\index{Group Policy Cache}
 
 ```
 > npx prettier /etc/firefox/policies/policies.json

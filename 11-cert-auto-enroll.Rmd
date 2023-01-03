@@ -4,6 +4,8 @@
 knitr::include_graphics("cert-auto-enroll-images/certificate.png")
 ```
 
+\index{Policies!Certificate Auto Enrollment}
+
 Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. Samba’s Certificate Auto Enrollment uses the certmonger service to keep track of certificates. It also uses the cepces plugin to certmonger.
 
 ## Server Side Extension
@@ -18,6 +20,7 @@ Optionally, the Network Device Enrollment role can be configured on the server, 
           installed or not configured. | {}
 [W11946]| Installing the server certificate only. | {}
 ```
+\index{Server Side Extensions}
 
 ### Managing Certificate Auto Enrollment via the GPME
 
@@ -80,6 +83,7 @@ knitr::include_graphics("cert-auto-enroll-images/add-policy-server.png")
 ### Certificate Templates
 
 Certificate Templates instruct the client how to generate a certificate request for the Certificate Authority. These templates are configured using the `Certification Authority` utility included with the Remote Server Administration Tools (RSAT) found in Windows.
+\index{Certificate Templates}
 
 To create a certificate template:
 
@@ -128,6 +132,7 @@ knitr::include_graphics("cert-auto-enroll-images/template-enabled.png")
 The Certificate Auto Enrollment Client Side Extension (CSE) will add new Certificate Authorities to certmonger, and automatically request to track new certificates based on the assigned Certificate Templates. This CSE requires that the `certmonger` and `cepces` packages be installed.
 
 Certificates will be installed in `/var/lib/samba/certs` and private keys in `/var/lib/samba/private/certs` by default. It may be necessary to configure a symlink policy, as explained in chapter \@ref(symlink), in order to link to a more appropriate location for these files.
+\index{Client Side Extensions}
 
 Let’s list the Resultant Set of Policy to view the Certificate Auto Enrollment policy we created in the previous sections.
 
@@ -157,6 +162,8 @@ GPO: Default Domain Policy
 ```
 
 Notice that the new template we created in the previous section is listed under the templates. The `Machine` template is also listed. This is a default template enabled for joined computers (this template was named `Computer` in the list of enabled templates we saw previously).
+\index{Resultant Set of Policy}
+\index{Certificate Templates}
 
 Let's now force an apply and observe the results.
 
@@ -191,6 +198,7 @@ Let's now force an apply and observe the results.
 ```
 
 The log details show that a number of files were created. Let's take a look at these files.
+\index{Group Policy Cache}
 
 ```
 > sudo ls /var/lib/samba/certs/
@@ -269,10 +277,12 @@ Request ID 'lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate':
 ```
 
 We see that certmonger is aware of our CA, and is tracking the template we created, and also the default Machine template. The status on your certificates should say `MONITORING`, as it does here. If not, then you'll need to do some investigation to see why.
+\index{Certificate Templates}
 
 ### Trouble Shooting Certificates
 
 If your certificates are not listed with a `MONITORING` status in `getcert list`, then you can start trouble shooting by rerunning `sudo /usr/sbin/samba-gpupdate --force`. Look for any errors in the output that could indicate what caused the problem. For example, a common error you'll encounter is `Failed to fetch the list of supported templates`. This error comes with a detailed backtrace. Look for the `Caused by` message.
+\index{Certificate Templates}
 
 #### Certificate doesn't match
 
@@ -320,6 +330,7 @@ This `DH_KEY_TOO_SMALL` error is caused by a default security level change in *p
 #### Checking request failures
 
 If the CA failed to issue a certificate when the template request was sent, we can check the Certification Authority utility to see why a request was rejected. If you click in the tree, there are lists of `Failed Requests`, `Pending Requests`, `Issued Certificates`, and `Revoked Certificates`. If your request failed for some reason, it may show up under `Failed Requests`, for example.
+\index{Certificate Templates}
 
 ```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Issued Certificates"}
 knitr::include_graphics("cert-auto-enroll-images/issued-certs.png")

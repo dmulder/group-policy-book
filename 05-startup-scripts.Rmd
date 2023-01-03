@@ -4,6 +4,8 @@
 knitr::include_graphics("startup-scripts-images/start.png")
 ```
 
+\index{Policies!Startup Script}
+
 Startup scripts earn themselves a chapter independant of the Script Polices chapter because they are so thoroughly different. The Startup Scripts Policy started as a compatability layer for Vintela's Startup Scripts, but became the defacto standard for Samba also. This policy has no Server Side Extension in the Group Policy Management Editor (GPME), but only provides a `samba-tool` command for setting the policy. A nice advantage to using this policy is that when using the `samba-tool gpo manage` command to set the policy, it automatically uploads the script file you specify to the SYSVOL.
 
 This policy is physically stored on the SYSVOL in the **MACHINE/VGP** **/VTLA/Unix/Scripts/Startup/manifest.xml** file in the subdirectory of the Group Policy Object. They are stored in an xml format, and are easily modified manually using a text editor.
@@ -11,6 +13,7 @@ This policy is physically stored on the SYSVOL in the **MACHINE/VGP** **/VTLA/Un
 ## Server Side Extension
 
 Startup Script Policies have no GPME Server Side Extension (SSE), so this policy may only be administered using `samba-tool gpo manage scripts startup`. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.
+\index{Server Side Extensions}
 
 ### Managing Startup Script Policies via samba-tool
 
@@ -100,6 +103,7 @@ If you wanted to remove this policy later, we would issue the `samba-tool gpo ma
 ## Client Side Extension
 
 The Startup Scripts Client Side Extension (CSE) creates `@reboot` cron jobs on the Linux client. Startup Scripts only apply for Machine policy.
+\index{Client Side Extensions}
 
 We created a test script in the previous section. If we now list the Resultant Set of Policy on the client, we see this:
 
@@ -122,6 +126,7 @@ GPO: Default Domain Policy
   -----------------------------------------------------------
 =================================================================
 ```
+\index{Resultant Set of Policy}
 
 If we now force the policy to apply, we'll see our script is scheduled to execute using a cron job.
 
@@ -155,6 +160,7 @@ If we now force the policy to apply, we'll see our script is scheduled to execut
 ```
 
 You can see we found the location of our cron job by outputing the applied policy from our Group Policy Cache. The cron job instructs the script to execute as root on every reboot. Let's also verify our script has been deployed on the client.
+\index{Group Policy Cache}
 
 ```
 > sudo cat /var/lib/samba/gpo_cache/LIZARDO.SUSE.DE/POLICIES/

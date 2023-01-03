@@ -4,6 +4,8 @@
 knitr::include_graphics("files-images/upload.png")
 ```
 
+\index{Policies!Files}
+
 The Files Policy is useful to use in conjunction with the Scripts Policy, since it can be used to copy scripts to your client machine. This policy is also useful for deploying custom config files, etc. Like Startup Scripts, this policy began as a compatability layer for Vintela's Files policy, but has become a Samba standard also. There is no Server Side Extension for the Group Policy Management Editor (GPME), but must be modified using the `samba-tool gpo manage`.
 
 This policy is physically stored on the SYSVOL in the **MACHINE/VGP/** **VTLA/Unix/Files/manifest.xml** file in the subdirectory of the Group Policy Object. It is stored in an xml format, and is easily modified manually using a text editor.
@@ -11,6 +13,7 @@ This policy is physically stored on the SYSVOL in the **MACHINE/VGP/** **VTLA/Un
 ## Server Side Extension
 
 The Files Policy has no GPME Server Side Extension (SSE), so this policy may only be administered using `samba-tool gpo manage files`. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.
+\index{Server Side Extensions}
 
 ### Managing the Files Policy via samba-tool
 
@@ -133,6 +136,7 @@ Afterward the files list should be empty.
 ## Client Side Extension
 
 The Files Client Side Extension (CSE) copies the file from the SYSVOL to the location specified in the `target` variable earlier. The Files Policy only applies to Machine policy.
+\index{Client Side Extensions}
 
 Let's now list the Resultant Set of Policy on the Linux client to see the test file we created previously.
 
@@ -153,6 +157,7 @@ GPO: Default Domain Policy
   -----------------------------------------------------------
 =================================================================
 ```
+\index{Resultant Set of Policy}
 
 Note that while the output appears to suggest we will be creating a symlink, it is actually a hard copy of the file that is created. The syntax of the output is simply for illustrative purposes.
 
@@ -176,5 +181,6 @@ If we now force the policy to apply, we’ll see our file is physically copied t
 
 echo Something is happening daily
 ```
+\index{Group Policy Cache}
 
 The script is present where we requested. You can now refer to chapter \@ref(scripts) section \@ref(scripts-gpme) for details on how to schedule a job to execute this script via the Scripts Policy.

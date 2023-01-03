@@ -4,6 +4,8 @@
 knitr::include_graphics("openssh-images/openssh.png")
 ```
 
+\index{Policies!OpenSSH}
+
 The OpenSSH Policy allows you to deploy OpenSSH settings to client machines. The policies are applied to a file in the `/etc/ssh/sshd_config.d` directory.
 
 This policy is physically stored on the SYSVOL in **MACHINE/VGP/VTLA** **/SshCfg/SshD/manifest.xml**. The manifest.xml file is in xml format, and is easily modified manually using a text editor.
@@ -11,6 +13,7 @@ This policy is physically stored on the SYSVOL in **MACHINE/VGP/VTLA** **/SshCfg
 ## Server Side Extension
 
 The Server Side Extensions (SSE) for OpenSSH Policy is administered using the `samba-tool gpo manage openssh` command. This SSE cannot be modified using the GPME.
+\index{Server Side Extensions}
 
 ### Managing OpenSSH Policy via samba-tool
 
@@ -56,7 +59,8 @@ KerberosAuthentication Yes
 
 ## Client Side Extension
 
-The OpenSSH  Client Side Extension (CSE) will create a new file in the `/etc/ssh/sshd_config.d` directory.
+The OpenSSH Client Side Extension (CSE) will create a new file in the `/etc/ssh/sshd_config.d` directory.
+\index{Client Side Extensions}
 
 Let’s list the Resultant Set of Policy to view the policies we’ve created.
 
@@ -78,6 +82,7 @@ GPO: Default Domain Policy
 ```
 
 The `KerberosAuthentication` setting we set is listed as expected.
+\index{Resultant Set of Policy}
 
 Let’s now force an apply.
 
@@ -96,6 +101,7 @@ sudo /usr/sbin/samba-gpupdate --force
 ```
 
 Notice that our new policy has been stored in `/etc/ssh/sshd_config.d/gp_c7hytho4`. Let's check the contents of this file to see what was generated.
+\index{Group Policy Cache}
 
 ```
 > sudo cat /etc/ssh/sshd_config.d/gp_c7hytho4

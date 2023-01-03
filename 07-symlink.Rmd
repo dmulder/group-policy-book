@@ -4,6 +4,8 @@
 knitr::include_graphics("symlink-images/symlink.png")
 ```
 
+\index{Policies!Symlink}
+
 The purpose of this policy is to create a symbolic link on a Linux client. Only Machine policy is supported. This policy could be useful in conjunction with the Files Policy found in chapter \@ref(files).
 
 This policy is physically stored on the SYSVOL in the **MACHINE/VGP** **/VTLA/Unix/Symlink/manifest.xml** file in the subdirectory of the Group Policy Object. It is stored in an xml format, and is easily modified manually using a text editor.
@@ -11,6 +13,7 @@ This policy is physically stored on the SYSVOL in the **MACHINE/VGP** **/VTLA/Un
 ## Server Side Extension
 
 The Symlink Policy has no GPME Server Side Extension (SSE), so this policy may only be administered using `samba-tool gpo manage symlink`. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.
+\index{Server Side Extensions}
 
 ###  Managing the Symlink Policy via samba-tool
 
@@ -82,6 +85,7 @@ Later when we choose to remove this policy, we will do so with the `samba-tool g
 ## Client Side Extension
 
 The Symlink Client Side Extension (CSE) creates a symlink between the `source` and `target`. Startup Scripts only apply for Machine policy.
+\index{Client Side Extensions}
 
 Let's list the Resultant Set of Policy to view the symbolic link policy we created in the previous section.
 
@@ -110,6 +114,7 @@ GPO: Default Domain Policy
   -----------------------------------------------------------
 =================================================================
 ```
+\index{Resultant Set of Policy}
 
 In addition to our Symlink policy, we also see the Files policy which we added in conjunction with this.
 
@@ -143,6 +148,7 @@ lrwxrwxrwx 1 root root 24 Nov 15 13:51 /home/LIZARDO/tux/.config/
 ```
 
 Our Group Policy Cache at `/var/lib/samba/gpo.tdb` shows the two policies have been applied. Listing the `target`, we also see that the symlink now exists. If we output the contents of our symlink, we can see that it is indeed pointing to our configuration file that we uploaded to the SYSVOL earlier.
+\index{Group Policy Cache}
 
 ```
 > sudo cat /home/LIZARDO/tux/.config/hexchat/servlist.conf

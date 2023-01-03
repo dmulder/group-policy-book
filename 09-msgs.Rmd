@@ -4,6 +4,8 @@
 knitr::include_graphics("msgs-images/msg.png")
 ```
 
+\index{Policies!Message}
+
 The purpose of the Message policy is to set the contents of the `/etc/motd` and `/etc/issue` files. These are Machine only policies.
 
 This policy is physically stored in three different locations on the SYSVOL, in **MACHINE/Registry.pol**, **MACHINE/VGP/VTLA/Unix/Issue/** **manifest.xml**, and **MACHINE/VGP/VTLA/Unix/MOTD/** **manifest.xml**. The `manifest.xml` files are in xml format, and are easily modified manually using a text editor. The `Registry.pol` is in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
@@ -11,10 +13,12 @@ This policy is physically stored in three different locations on the SYSVOL, in 
 ## Server Side Extension
 
 The Server Side Extensions (SSE) for Message policies are distributed via either Administrative Templates (see chapter \@ref(sse) in section \@ref(admx)) or via the commands `samba-tool gpo manage motd` and `samba-tool gpo manage issue`. Rules added via GPME will not be visible to the respective `samba-tool` commands, and vice versa. This is because the `samba-tool` commands are intended to manage Vintela Group Policy compatability. These two SSEs should not be used in conjunction to one another, as it will cause unpredicatable results on the client.
+\index{Server Side Extensions}
 
 ### Managing Message Policy via the GPME {#msgs-gpme}
 
 Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-samba).
+\index{Administrative Templates}
 
 To edit the "Message of the day" and "Login Prompt Message" settings using the Group Policy Management Editor (GPME):
 
@@ -112,6 +116,7 @@ issue set from samba-tool
 Samba provides 3 different Client Side Extensions (CSE) for the Messages policy. The Samba policy distributed via the GPME discussed in \@ref(msgs-gpme) called `gp_msgs_ext`, and the Vintela compatible policy split in 2 parts discussed in \@ref(msgs-samba-tool) called `vgp_motd_ext` and `vgp_issue_ext`.
 
 These CSEs set the contents of `/etc/motd` and `/etc/issue`. If both Samba and Vintela compatible policies are set, they will conflict.
+\index{Client Side Extensions}
 
 Let's list the Resultant Set of Policy to view what will be applied by `samba-gpupdate`.
 
@@ -149,6 +154,7 @@ issue set from samba-tool
   -----------------------------------------------------------
 =================================================================
 ```
+\index{Resultant Set of Policy}
 
 Because both these policies are set, we can't predict which one will actually be applied. Let's do a force and see what the result is.
 
@@ -180,6 +186,7 @@ Because both these policies are set, we can't predict which one will actually be
 ```
 
 Note that Messages policy stores the previous value of the message content in the Group Policy Cache. So we can discern from the message content that `vgp_motd_ext` and `vgp_issue_ext` applied last (since the messages from `gp_msgs_ext` show up in the log). We can confirm this by checking the contents of `/etc/motd` and `/etc/issue`.
+\index{Group Policy Cache}
 
 ```
 > cat /etc/motd; echo

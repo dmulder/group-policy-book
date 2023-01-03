@@ -4,6 +4,9 @@
 knitr::include_graphics("sec-images/key.png")
 ```
 
+\index{Policies!Password}
+\index{Policies!Kerberos}
+
 The purpose of these policies is to enforce password complexity and kerberos rules on a Samba Active Directory Domain Controller (ADDC). When a Linux client is not an ADDC, these policies are disabled and ignored automatically.
 
 These policies are physically stored on the SYSVOL in the **MACHINE/Microsoft/Windows NT/SecEdit/GptTmpl.inf** file in the subdirectory of the Group Policy Object. They are stored in ini format, and are easily modified manually using a text editor.
@@ -11,6 +14,7 @@ These policies are physically stored on the SYSVOL in the **MACHINE/Microsoft/Wi
 ## Server Side Extension
 
 The Group Policy Management Editor (GPME) contains a built in Server Side Extension for Password and Kerberos Policies. There is also a `samba-tool` command to modify these policies.
+\index{Server Side Extensions}
 
 ### Managing Password and Kerberos Policies via the GPME
 
@@ -135,6 +139,8 @@ knitr::kable(
 ## Client Side Extension
 
 The Password and Kerberos policies are seperated into two Client Side Extensions (CSE), `gp_access_ext` and `gp_krb_ext`. The Password policies (internally known as *System Access*) apply password complexity rules directly to the ADDC SamDB in the applicable LDAP attributes. The Kerberos policies are stored in our Group Policy Cache, and are fetched directly by the `samba` daemon when it loads.
+\index{Client Side Extensions}
+\index{Group Policy Cache}
 
 In the previous section we saw that our Password and Kerberos policies were already initialized to some defaults. If we now go to our Linux client, and check the Resultant Set of Policy, we see this:
 
@@ -166,6 +172,7 @@ GPO: Default Domain Policy
   -----------------------------------------------------------
 =================================================================
 ```
+\index{Resultant Set of Policy}
 
 ::: {#info style="color: green;"}
 Remember that these policies will only be listed if your Linux client is a Samba ADDC.
@@ -202,6 +209,7 @@ Let's now force a policy apply, and check that the settings have changed.
 ```
 
 You can see the Kerberos policies are all stored in their own keys in the Group Policy Cache (`/var/lib/samba/gpo.tdb`), and they are all stored in hours. On the SYSVOL, they are actually stored in hours, minutes, and days, respectively. The reason these are all stored in hours on the system is that the `samba` daemon expects these attributes in hours.
+\index{Group Policy Cache}
 
 If we check the contents of the GptTmpl.inf and do some conversion, we can confirm these are correct.
 

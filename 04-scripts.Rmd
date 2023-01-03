@@ -4,6 +4,8 @@
 knitr::include_graphics("scripts-images/write.png")
 ```
 
+\index{Policies!Script}
+
 The purpose of this policy is to schedule cron jobs on a Linux client. Both Machine and User policy is supported. This policy does not upload a script for execution, it only schedules an existing script to run. To first load a script onto the client, see the Files Policy in chapter \@ref(files).
 
 This policy is physically stored on the SYSVOL in the **MACHINE/Registry.pol** and **USER/Registry.pol** files within the subdirectory of the Group Policy Object. It is stored in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
@@ -13,6 +15,8 @@ This policy is physically stored on the SYSVOL in the **MACHINE/Registry.pol** a
 The Server Side Extension for smb.conf policies is distributed using Administrative Templates (ADMX). Refer to chapter \@ref(sse) in section \@ref(admx) for details about Administrative Templates.
 
 Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-samba).
+\index{Server Side Extensions}
+\index{Administrative Templates}
 
 ### Managing Machine Scripts Policies via the GPME {#scripts-gpme}
 
@@ -69,6 +73,7 @@ The quote "Don't do that Dave" is a line spoken by the character HAL 9000 in the
 ## Client Side Extension
 
 The Scripts Client Side Extension (CSE) creates cron jobs on the Linux client. For Machine policy, these jobs are installed in a file within the `/etc/cron.daily`, `/etc/cron.monthly`, `/etc/cron.weekly` and `/etc/cron.hourly` directories. For User policy, the user's crontab file is directly modified.
+\index{Client Side Extensions}
 
 In the previous section we created two test Script policies. If we now go to our Linux client, and check the Resultant Set of Policy, we see this:
 
@@ -117,6 +122,7 @@ GPO: Default Domain Policy
   -----------------------------------------------------------
 =================================================================
 ```
+\index{Resultant Set of Policy}
 
 In addition to the expected scripts that we added previously, you'll notice there are 2 additional entries. The `gp_centrify_crontab_ext` and `gp_user_centrify_crontab_ext` CSEs parse policies provided by a Centrify Server Side Extension. These weren't introduced previously in the chapter because they are a proprietary solution not provided by Samba. Samba provides a CSE to apply these for compatability reasons, but does not provide a SSE to set them. These CSEs are provided to assist in migration from proprietary technologies. We won't discuss these any further.
 
@@ -150,6 +156,7 @@ Let's now force an apply, and verify that the cron jobs are scheduled.
 ```
 
 First we see that the machine policy created the script `/etc/cron.daily/` `gp_m94kdru9`. Let's take a look at the contents.
+\index{Group Policy Cache}
 
 ```bash
 > sudo cat /etc/cron.daily/gp_m94kdru9

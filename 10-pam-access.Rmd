@@ -4,6 +4,8 @@
 knitr::include_graphics("pam-access-images/access.png")
 ```
 
+\index{Policies!PAM Access}
+
 PAM Access Policy allows you to set host access rules for client machines. Specifically, it specifies rules in `/etc/security/access.d` to allow or deny access to the host.
 
 This policy is physically stored on the SYSVOL in two files, **MACHINE/VGP/VTLA/VAS/HostAccessControl/Allow/manifest.xml** and **MACHINE/VGP/VTLA/VAS/HostAccessControl/Deny/manifest.xml**. The manifest.xml files are in xml format, and are easily modified manually using a text editor.
@@ -11,6 +13,7 @@ This policy is physically stored on the SYSVOL in two files, **MACHINE/VGP/VTLA/
 ## Server Side Extension
 
 The Server Side Extensions (SSE) for PAM Access Policies is administered using the `samba-tool gpo manage access` command. This SSE cannot be modified using the GPME.
+\index{Server Side Extensions}
 
 ### Managing PAM Access Policies via samba-tool
 
@@ -67,6 +70,7 @@ These grant access to the users `tux` and `Administrator` on the host. If we lis
 The PAM Access Client Side Extension (CSE) will create a new file in the `/etc/security/access.d` directory for each host access rule.
 
 The PAM module `pam_access` must be configured or this CSE will do nothing (see `man pam_access`). This can be configured using the command `pam-config --add --access`. It may be beneficial to ensure this is enabled by enforcing a Script policy which executes `pam-config --add --access` (see chapter \@ref(scripts) on how to schedule a script policy).
+\index{Client Side Extensions}
 
 Let’s list the Resultant Set of Policy to view the policies we've created for our host access control.
 
@@ -96,6 +100,7 @@ GPO: Default Domain Policy
 ```
 
 Our PAM Access policy and our `pam-config` check are both listed.
+\index{Resultant Set of Policy}
 
 Let's now force an apply.
 
@@ -122,6 +127,7 @@ Let's now force an apply.
 ```
 
 Notice that the PAM Access policy generated 2 different files, `/etc/security/access.d/` `0000000001_gp.conf` and `/etc/security/access.d/9000000001_gp_DENY_ALL.conf`. Let's check the contents of these files to see what was generated.
+\index{Group Policy Cache}
 
 ```
 > cat /etc/security/access.d/0000000001_gp.conf; echo

@@ -4,6 +4,8 @@
 knitr::include_graphics("firewalld-images/firewall.png")
 ```
 
+\index{Policies!Firewalld}
+
 The purpose of the Firewalld Policy is to apply firewalld rules to the client machine.
 
 This policy is physically stored on the SYSVOL in the **MACHINE/Registry.pol** file within the subdirectory of the Group Policy Object. It is stored in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
@@ -13,6 +15,8 @@ This policy is physically stored on the SYSVOL in the **MACHINE/Registry.pol** f
 The Server Side Extension (SSE) for the Firewalld Policy is distributed using Administrative Templates (ADMX). Refer to chapter \@ref(sse) in section \@ref(admx) for details about Administrative Templates.
 
 Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-samba).
+\index{Server Side Extensions}
+\index{Administrative Templates}
 
 ### Managing Firewalld Policy via the GPME
 
@@ -143,6 +147,7 @@ The rule structure loosely follows the Firewalld Rich Language Documentation. Th
 ## Client Side Extension
 
 The Firewalld Client Side Extension (CSE) accepts the rules specified by the SSE, and applies them using the firewalld command `firewall-cmd`. For example, new zones are added using the `firewall-cmd --permanent --new-zone=work` command. New firewall rules are added using the `firewall-cmd --permanent --zone=work --add-rich-rule 'rule family=ipv4 source address=172.25.1.7 service name=ftp reject'`.
+\index{Client Side Extensions}
 
 Let's check the Resultant Set of Policy on our Linux client.
 
@@ -176,6 +181,7 @@ GPO: Default Domain Policy
   -----------------------------------------------------------
 =================================================================
 ```
+\index{Resultant Set of Policy}
 
 Let’s now force an apply, and verify that rule gets applied.
 
@@ -192,6 +198,7 @@ Let’s now force an apply, and verify that rule gets applied.
   </attribute>
 </gp_ext>
 ```
+\index{Group Policy Cache}
 
 Unfortunately, at the time of this writing, `firewall-cmd` appears to be unable to list installed rich rules. We can verify that our rule has applied though by trying to apply it again.
 

@@ -4,6 +4,8 @@
 knitr::include_graphics("gnome-images/gnome.png")
 ```
 
+\index{Policies!GNOME Settings}
+
 The GNOME Settings Policy deploys dconf settings that control the desktop experience. These settings correspond to those defined in the GNOME System Administration Guide found at https://help.gnome.org/admin/system-admin-guide/stable/user-settings.html.en.
 
 This policy is physically stored on the SYSVOL in **MACHINE/Registry.pol**. It is stored in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
@@ -11,6 +13,8 @@ This policy is physically stored on the SYSVOL in **MACHINE/Registry.pol**. It i
 ## Server Side Extension
 
 The Server Side Extension (SSE) for Chromium Policy is distributed via Administrative Templates (see chapter \@ref(sse) in section \@ref(admx)). Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-samba).
+\index{Server Side Extensions}
+\index{Administrative Templates}
 
 ### Managing GNOME Settings Policy via the GPME
 
@@ -29,6 +33,7 @@ knitr::include_graphics("gnome-images/online-accounts.png")
 ## Client Side Extension
 
 The GNOME Settings Client Side Extension (CSE) creates various `dconf` files to deploy the policy. After creating these policy files, the CSE executes `dconf update` to apply the new policy. Users will need to log out and back in again in order for these policies to take effect.
+\index{Client Side Extensions}
 
 Let's list the Resultant Set of Policy and view the lockdown settings we've set.
 
@@ -48,6 +53,7 @@ GPO: Default Domain Policy
   -----------------------------------------------------------
 =================================================================
 ```
+\index{Resultant Set of Policy}
 
 Next let’s force an apply of the policy, and see what is logged in the Group Policy Cache.
 
@@ -65,6 +71,7 @@ Next let’s force an apply of the policy, and see what is logged in the Group P
   </attribute>
 </gp_ext>
 ```
+\index{Group Policy Cache}
 
 Checking the contents of the files, we see that our whitelisted provider is set, and that the policy is locked (which prevents user modification).
 

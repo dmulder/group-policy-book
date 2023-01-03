@@ -4,6 +4,8 @@
 knitr::include_graphics("chrome-images/space.png")
 ```
 
+\index{Policies!Chromium/Chrome}
+
 Chromium Policy deploys a json file to client machines to customize how the browser looks and operates.
 
 This policy is physically stored on the SYSVOL in **MACHINE/Registry.pol**. It is stored in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
@@ -13,6 +15,8 @@ This policy is physically stored on the SYSVOL in **MACHINE/Registry.pol**. It i
 The Server Side Extension (SSE) for Chromium Policy is distributed via Administrative Templates (see chapter \@ref(sse) in section \@ref(admx)). This SSE uses the admx templates provided by Google. See https://support.google.com/chrome/a/answer/187202 for the latest release of Google's templates.
 
 Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-chromium).
+\index{Server Side Extensions}
+\index{Administrative Templates}
 
 ### Managing Chromium Policy via the GPME
 
@@ -45,6 +49,7 @@ knitr::include_graphics("chrome-images/startup.png")
 ## Client Side Extension
 
 Chromium policy comes with 2 Client Side Extensions (CSEs), which generate a total of 4 policy files. Each CSE generates a `managed` policy file (these policies are enforced), and a `recommended` policy file (these policies are set but not enforced). The generated json files can be found in `/etc/chromium/policies/managed`, `/etc/chromium/policies/recommended`, `/etc/opt/chrome/policies/managed`, and `/etc/opt/chrome/policies/recommended`.
+\index{Client Side Extensions}
 
 Let’s list the Resultant Set of Policy to view policies we set in the previous section.
 
@@ -93,6 +98,7 @@ GPO: Default Domain Policy
   -----------------------------------------------------------
 =================================================================
 ```
+\index{Resultant Set of Policy}
 
 Notice that the policy which will be applied for Chrome and Chromium are identical. This is because each CSE is reading from the same policy. Let's now force a policy apply, and see what is logged in the Group Policy Cache.
 
@@ -126,6 +132,7 @@ Notice that the policy which will be applied for Chrome and Chromium are identic
 ```
 
 Our cache shows that 4 json policies were created in the directories where we expected them. Let's look at the contents.
+\index{Group Policy Cache}
 
 ```
 > npx prettier /etc/chromium/policies/recommended/gp_g4_82tuo.json

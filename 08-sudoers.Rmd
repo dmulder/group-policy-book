@@ -4,6 +4,8 @@
 knitr::include_graphics("sudoers-images/success.png")
 ```
 
+\index{Policies!Sudoers}
+
 The purpose of the Sudoers Polices are to deploy sudo rules to a Linux client. Naturally, only Machine policy is supported.
 
 This policy is physically stored in two different locations on the SYSVOL, in **MACHINE/Registry.pol** and in **MACHINE/VGP/VTLA/Sudo/** **SudoersConfiguration/manifest.xml**. The `manifest.xml` is in xml format, and is easily modified manually using a text editor. The `Registry.pol` is in registry format. See chapter \@ref(regpol) for details on how to manually modify this file.
@@ -11,10 +13,12 @@ This policy is physically stored in two different locations on the SYSVOL, in **
 ## Server Side Extension
 
 The Server Side Extensions (SSE) for Sudoers policies are distributed via either Administrative Templates (see \@ref(sse) in section \@ref(admx)) or via the command `samba-tool gpo manage sudoers`. Rules added via the GPME can be modified from samba-tool (as of Samba 4.18), but rules added via `samba-tool gpo manage sudoers` will not be visible in the GPME.
+\index{Server Side Extensions}
 
 ### Managing Sudoers Policy via the GPME {#sudoers-gpme}
 
 Setting up the ADMX templates for this policy is described in chapter \@ref(install-admx) section \@ref(install-admx-samba).
+\index{Administrative Templates}
 
 To add a new sudo rule using the Group Policy Management Editor (GPME):
 
@@ -92,6 +96,7 @@ You'll notice that listing the entries now includes the entry we just created, a
 Samba actually supplies 3 different Client Side Extensions (CSE) for the Sudoers policy. This is to support 3 different SSE providers. The first is Samba's original policy, which is modified using the GPME as explained in section \@ref(sudoers-gpme). The second is the Vintela compatible policy, which can be set using `samba-tool` as explained in section \@ref(sudoers-samba-tool). The final CSE is the Centrify compatible policy, which is only provided as a convenience for migration. All these CSEs behave the same in how they apply policy (and share some of the same code). The preceeding instructions refer to all three CSEs.
 
 The Sudoer CSEs create a file within `/etc/sudoers.d` for each rule specified on the SYSVOL. Each rule is validated before installing, to ensure the system isn't left in a broken state.
+\index{Client Side Extensions}
 
 Let’s list the Resultant Set of Policy to view the Sudoer rules we created in the previous sections.
 
@@ -123,6 +128,7 @@ GPO: Default Domain Policy
 ```
 
 Notice that both the rules we created earlier are listed, but under different CSEs. These policies will be applied by different CSEs because they are stored on the SYSVOL differently. The results will be similar though. Currently we don't have any Centrify combatible policy in our environment, so this CSE remains empty.
+\index{Resultant Set of Policy}
 
 Let’s now force our policy to apply and see how the CSEs behave.
 
@@ -146,6 +152,7 @@ Let’s now force our policy to apply and see how the CSEs behave.
 ```
 
 We can see the Sudoer rules have been applied to `/etc/sudoers.d/gp_mzarfh6k` and `/etc/sudoers.d/gp_qy2eo07y`.
+\index{Group Policy Cache}
 
 ```
 > sudo cat /etc/sudoers.d/gp_mzarfh6k

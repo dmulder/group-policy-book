@@ -28,6 +28,7 @@ To set this policy on a GPO, we either put it in a file, or pass it `samba-tool 
 ```
 > sudo samba-tool gpo load -UAdministrator --content=test.json
 ```
+\index{Server Side Extensions}
 
 ## Scripting with python
 
