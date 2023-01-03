@@ -1,0 +1,86 @@
+# Automatic Policy Refresh {#policy-refresh}
+
+The `samba-gpupdate` command is typically executed on a regular interval between 90 and 120 minutes in order to ensure that all policy settings are up to date. This interval is known as the Group Policy refresh interval.
+\index{Group Policy refresh interval}
+
+There are two main ways that the `samba-gpupdate` command can be executed automatically on a regular basis: via winbind or by oddjob-gpupdate. Regardless of which method is used, the `samba-gpupdate` command is automatically executed on a regular basis to ensure that all policy settings are up to date. This helps to ensure that all users and computers in the network are following the same set of policies and helps to prevent issues with policy inconsistencies.
+
+## The samba-gpupdate command {#samba-gpupdate}
+
+The `samba-gpupdate` command is used to refresh Group Policy settings on an Active Directory domain member. Group Policy allows an administrator to specify settings for users and computers in an Active Directory domain. When these settings are changed, the `samba-gpupdate` command can be used to apply the changes on the domain member.
+
+\index{samba-gpupdate}
+
+To use the `samba-gpupdate` command, open a terminal window and simply type the following:
+
+```shell
+samba-gpupdate
+```
+
+This will refresh all Group Policy settings on the local machine. You can also specify specific options to refresh only certain settings. For example, to refresh only the computer settings, you can use the `--force` option:
+
+```shell
+samba-gpupdate --force
+```
+
+To refresh only the user settings, use the `--force` option combined with the `--target` and `-U` options to specify the user:
+
+```shell
+samba-gpupdate --force --target=User -U tux
+```
+
+To unapply Group Policy settings, you can use the `--unapply` option:
+
+```shell
+samba-gpupdate --unapply
+```
+
+To print the Resultant Set of Policy (RSOP) for a particular target, you can use the `--rsop` option:
+
+```shell
+samba-gpupdate --rsop --target=Computer
+```
+
+It is important to note that the `samba-gpupdate` command can only be used on a machine that is a member of an Active Directory domain. It will not work on a standalone machine or on a machine that is part of a different type of domain.
+
+## Configuring Automatic Policy Refresh via winbind
+
+To configure winbind Automatic Policy Refresh, you will set the `apply group policies` smb.conf parameter.
+
+To set this parameter manually, you will need to add the following line to the `global` section of the smb.conf file:
+
+```ini
+apply group policies = Yes
+```
+
+This will enable winbind to automatically apply Group Policy settings on the *Group Policy refresh interval*.
+\index{Group Policy refresh interval}
+
+Alternatively, you can deploy this setting automatically using smb.conf Group Policies. See chapter \@ref(smbconf) section \@ref(smbconf-sse) for instructions how to deploy this setting via Group Policy. The `samba-gpupdate` command will need to be executed manually to deploy this setting the first time.
+
+## Configuring Automatic Policy Refresh via oddjob-gpupdate
+
+Using oddjob-gpupdate to provide Automatic Policy Refresh allows you to run Samba's Group Policy with the System Security Services Daemon (SSSD). SSSD is a system service that provides access to remote identity and authentication providers, such as Active Directory.
+\index{SSSD}
+
+To install oddjob-gpupdate, you'll need to find the appropriate packages for your distribution. In openSUSE, for example, you can install oddjob-gpupdate via:
+
+```shell
+sudo zypper in oddjob oddjob-gpupdate
+```
+
+Some distributions may not have oddjob-gpupdate packaged, in which case you can build the sources from https://github.com/openSUSE/oddjob-gpupdate.
+
+::: {#warn style="color: red;"}
+Beware that the package named *oddjob-gpupdate* in the ALT Linux distribution *is not the correct package*. This package is meant for Group Policy application using ALT Linux's custom Group Policy implementation.
+:::
+
+After installing oddjob-gpupdate, you can start and enable the oddjob service to begin refreshing policy.
+
+```shell
+sudo systemctl enable oddjobd
+sudo systemctl start oddjobd
+```
+
+Once the oddjobd service is running, it will automatically execute the oddjob-gpupdate command on the *Group Policy refresh interval* to update user and computer Group Policies.
+\index{Group Policy refresh interval}

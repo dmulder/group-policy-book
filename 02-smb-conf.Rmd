@@ -44,6 +44,7 @@ knitr::include_graphics("smb-conf-images/setting.png")
 Note: The `apply group policies` setting instructs Winbind to execute the `samba-gpupdate` command on the Group Policy interval (every 90 to 120 minutes). This allows you to apply Group Policy updates to Samba clients without having to log off and log back on.
 :::
 \index{samba-gpupdate}
+\index{Group Policy refresh interval}
 
 There are many other settings available here, but notice that idmap policies are not. That's because idmap policies modify the setting name (not just the value), so these couldn't be included.
 
