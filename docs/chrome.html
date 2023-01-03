@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
@@ -339,6 +339,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -360,12 +366,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="chrome" class="section level1 hasAnchor" number="15">
 <h1><span class="header-section-number">15</span> Chromium/Chrome Policy<a href="chrome.html#chrome" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="chrome-images/space.png" width="30%" style="display: block; margin: auto;" /></p>
+<p></p>
 <p>Chromium Policy deploys a json file to client machines to customize how the browser looks and operates.</p>
 <p>This policy is physically stored on the SYSVOL in <strong>MACHINE/Registry.pol</strong>. It is stored in registry format. See chapter <a href="regpol.html#regpol">20</a> for details on how to manually modify this file.</p>
 <div id="server-side-extension-10" class="section level2 hasAnchor" number="15.1">
 <h2><span class="header-section-number">15.1</span> Server Side Extension<a href="chrome.html#server-side-extension-10" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Server Side Extension (SSE) for Chromium Policy is distributed via Administrative Templates (see chapter <a href="writing-group-policy-extensions.html#sse">19.1</a> in section <a href="writing-group-policy-extensions.html#admx">19.1.1</a>). This SSE uses the admx templates provided by Google. See <a href="https://support.google.com/chrome/a/answer/187202" class="uri">https://support.google.com/chrome/a/answer/187202</a> for the latest release of Google’s templates.</p>
-<p>Setting up the ADMX templates for this policy is described in chapter <a href="install-admx.html#install-admx">21</a> section <a href="install-admx.html#install-admx-chromium">21.3</a>.</p>
+<p>Setting up the ADMX templates for this policy is described in chapter <a href="install-admx.html#install-admx">21</a> section <a href="install-admx.html#install-admx-chromium">21.3</a>.
+</p>
 <div id="managing-chromium-policy-via-the-gpme" class="section level3 hasAnchor" number="15.1.1">
 <h3><span class="header-section-number">15.1.1</span> Managing Chromium Policy via the GPME<a href="chrome.html#managing-chromium-policy-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Open the GPME and navigate to <code>Computer Configuration &gt; Administrative Templates &gt; Google</code>.</p>
@@ -401,7 +409,8 @@ Figure 15.4: Action on startup
 </div>
 <div id="client-side-extension-11" class="section level2 hasAnchor" number="15.2">
 <h2><span class="header-section-number">15.2</span> Client Side Extension<a href="chrome.html#client-side-extension-11" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Chromium policy comes with 2 Client Side Extensions (CSEs), which generate a total of 4 policy files. Each CSE generates a <code>managed</code> policy file (these policies are enforced), and a <code>recommended</code> policy file (these policies are set but not enforced). The generated json files can be found in <code>/etc/chromium/policies/managed</code>, <code>/etc/chromium/policies/recommended</code>, <code>/etc/opt/chrome/policies/managed</code>, and <code>/etc/opt/chrome/policies/recommended</code>.</p>
+<p>Chromium policy comes with 2 Client Side Extensions (CSEs), which generate a total of 4 policy files. Each CSE generates a <code>managed</code> policy file (these policies are enforced), and a <code>recommended</code> policy file (these policies are set but not enforced). The generated json files can be found in <code>/etc/chromium/policies/managed</code>, <code>/etc/chromium/policies/recommended</code>, <code>/etc/opt/chrome/policies/managed</code>, and <code>/etc/opt/chrome/policies/recommended</code>.
+</p>
 <p>Let’s list the Resultant Set of Policy to view policies we set in the previous section.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
 Resultant Set of Policy
@@ -446,6 +455,7 @@ GPO: Default Domain Policy
     -----------------------------------------------------------
   -----------------------------------------------------------
 =================================================================</code></pre>
+<p></p>
 <p>Notice that the policy which will be applied for Chrome and Chromium are identical. This is because each CSE is reading from the same policy. Let’s now force a policy apply, and see what is logged in the Group Policy Cache.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
 &gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
@@ -473,7 +483,8 @@ GPO: Default Domain Policy
       /etc/opt/chrome/policies/managed/gp_fcthg4bc.json
   &lt;/attribute&gt;
 &lt;/gp_ext&gt;</code></pre>
-<p>Our cache shows that 4 json policies were created in the directories where we expected them. Let’s look at the contents.</p>
+<p>Our cache shows that 4 json policies were created in the directories where we expected them. Let’s look at the contents.
+</p>
 <pre><code>&gt; npx prettier /etc/chromium/policies/recommended/gp_g4_82tuo.json
 {}
 &gt; npx prettier /etc/chromium/policies/managed/gp_l_k9uvxk.json

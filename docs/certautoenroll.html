@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
@@ -339,6 +339,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -360,6 +366,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="certautoenroll" class="section level1 hasAnchor" number="13">
 <h1><span class="header-section-number">13</span> Certificate Auto Enrollment Policy<a href="certautoenroll.html#certautoenroll" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="cert-auto-enroll-images/certificate.png" width="30%" style="display: block; margin: auto;" /></p>
+<p></p>
 <p>Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. Samba’s Certificate Auto Enrollment uses the certmonger service to keep track of certificates. It also uses the cepces plugin to certmonger.</p>
 <div id="server-side-extension-8" class="section level2 hasAnchor" number="13.1">
 <h2><span class="header-section-number">13.1</span> Server Side Extension<a href="certautoenroll.html#server-side-extension-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -369,6 +376,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 [W05621]| The Network Device Enrollment Service is either not
           installed or not configured. | {}
 [W11946]| Installing the server certificate only. | {}</code></pre>
+<p></p>
 <div id="managing-certificate-auto-enrollment-via-the-gpme" class="section level3 hasAnchor" number="13.1.1">
 <h3><span class="header-section-number">13.1.1</span> Managing Certificate Auto Enrollment via the GPME<a href="certautoenroll.html#managing-certificate-auto-enrollment-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To enable Certificate Auto Enrollment using the Group Policy Management Editor (GPME):</p>
@@ -442,7 +450,8 @@ Figure 13.6: Add a Certificate Enrollment Policy Server
 </div>
 <div id="certificate-templates" class="section level3 hasAnchor" number="13.1.2">
 <h3><span class="header-section-number">13.1.2</span> Certificate Templates<a href="certautoenroll.html#certificate-templates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Certificate Templates instruct the client how to generate a certificate request for the Certificate Authority. These templates are configured using the <code>Certification Authority</code> utility included with the Remote Server Administration Tools (RSAT) found in Windows.</p>
+<p>Certificate Templates instruct the client how to generate a certificate request for the Certificate Authority. These templates are configured using the <code>Certification Authority</code> utility included with the Remote Server Administration Tools (RSAT) found in Windows.
+</p>
 <p>To create a certificate template:</p>
 <ol style="list-style-type: decimal">
 <li>Open the <code>Certification Authority</code> utility, and click on <code>Certificate Templates</code> in the tree.</li>
@@ -497,7 +506,8 @@ Figure 13.11: Template Enabled
 <div id="client-side-extension-9" class="section level2 hasAnchor" number="13.2">
 <h2><span class="header-section-number">13.2</span> Client Side Extension<a href="certautoenroll.html#client-side-extension-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Certificate Auto Enrollment Client Side Extension (CSE) will add new Certificate Authorities to certmonger, and automatically request to track new certificates based on the assigned Certificate Templates. This CSE requires that the <code>certmonger</code> and <code>cepces</code> packages be installed.</p>
-<p>Certificates will be installed in <code>/var/lib/samba/certs</code> and private keys in <code>/var/lib/samba/private/certs</code> by default. It may be necessary to configure a symlink policy, as explained in chapter <a href="symlink.html#symlink">9</a>, in order to link to a more appropriate location for these files.</p>
+<p>Certificates will be installed in <code>/var/lib/samba/certs</code> and private keys in <code>/var/lib/samba/private/certs</code> by default. It may be necessary to configure a symlink policy, as explained in chapter <a href="symlink.html#symlink">9</a>, in order to link to a more appropriate location for these files.
+</p>
 <p>Let’s list the Resultant Set of Policy to view the Certificate Auto Enrollment policy we created in the previous sections.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
 Resultant Set of Policy
@@ -521,7 +531,8 @@ GPO: Default Domain Policy
     -----------------------------------------------------------
   -----------------------------------------------------------
 =================================================================</code></pre>
-<p>Notice that the new template we created in the previous section is listed under the templates. The <code>Machine</code> template is also listed. This is a default template enabled for joined computers (this template was named <code>Computer</code> in the list of enabled templates we saw previously).</p>
+<p>Notice that the new template we created in the previous section is listed under the templates. The <code>Machine</code> template is also listed. This is a default template enabled for joined computers (this template was named <code>Computer</code> in the list of enabled templates we saw previously).
+</p>
 <p>Let’s now force an apply and observe the results.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
 &gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
@@ -550,7 +561,8 @@ GPO: Default Domain Policy
     }
   &lt;/attribute&gt;
 &lt;/gp_ext&gt;</code></pre>
-<p>The log details show that a number of files were created. Let’s take a look at these files.</p>
+<p>The log details show that a number of files were created. Let’s take a look at these files.
+</p>
 <pre><code>&gt; sudo ls /var/lib/samba/certs/
 lizardo-WIN-QLIPDP2ISN7-CA.crt
 lizardo-WIN-QLIPDP2ISN7-CA.Machine.crt
@@ -619,10 +631,12 @@ Request ID &#39;lizardo-WIN-QLIPDP2ISN7-CA.TestComputerTemplate&#39;:
     post-save command: 
     track: yes
     auto-renew: yes</code></pre>
-<p>We see that certmonger is aware of our CA, and is tracking the template we created, and also the default Machine template. The status on your certificates should say <code>MONITORING</code>, as it does here. If not, then you’ll need to do some investigation to see why.</p>
+<p>We see that certmonger is aware of our CA, and is tracking the template we created, and also the default Machine template. The status on your certificates should say <code>MONITORING</code>, as it does here. If not, then you’ll need to do some investigation to see why.
+</p>
 <div id="trouble-shooting-certificates" class="section level3 hasAnchor" number="13.2.1">
 <h3><span class="header-section-number">13.2.1</span> Trouble Shooting Certificates<a href="certautoenroll.html#trouble-shooting-certificates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>If your certificates are not listed with a <code>MONITORING</code> status in <code>getcert list</code>, then you can start trouble shooting by rerunning <code>sudo /usr/sbin/samba-gpupdate --force</code>. Look for any errors in the output that could indicate what caused the problem. For example, a common error you’ll encounter is <code>Failed to fetch the list of supported templates</code>. This error comes with a detailed backtrace. Look for the <code>Caused by</code> message.</p>
+<p>If your certificates are not listed with a <code>MONITORING</code> status in <code>getcert list</code>, then you can start trouble shooting by rerunning <code>sudo /usr/sbin/samba-gpupdate --force</code>. Look for any errors in the output that could indicate what caused the problem. For example, a common error you’ll encounter is <code>Failed to fetch the list of supported templates</code>. This error comes with a detailed backtrace. Look for the <code>Caused by</code> message.
+</p>
 <div id="certificate-doesnt-match" class="section level4 hasAnchor" number="13.2.1.1">
 <h4><span class="header-section-number">13.2.1.1</span> Certificate doesn’t match<a href="certautoenroll.html#certificate-doesnt-match" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>This particular error happens when Internet Information Services (IIS) has the wrong root certificate selected.</p>
@@ -663,7 +677,8 @@ Figure 13.13: Edit Site Binding
 </div>
 <div id="checking-request-failures" class="section level4 hasAnchor" number="13.2.1.3">
 <h4><span class="header-section-number">13.2.1.3</span> Checking request failures<a href="certautoenroll.html#checking-request-failures" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>If the CA failed to issue a certificate when the template request was sent, we can check the Certification Authority utility to see why a request was rejected. If you click in the tree, there are lists of <code>Failed Requests</code>, <code>Pending Requests</code>, <code>Issued Certificates</code>, and <code>Revoked Certificates</code>. If your request failed for some reason, it may show up under <code>Failed Requests</code>, for example.</p>
+<p>If the CA failed to issue a certificate when the template request was sent, we can check the Certification Authority utility to see why a request was rejected. If you click in the tree, there are lists of <code>Failed Requests</code>, <code>Pending Requests</code>, <code>Issued Certificates</code>, and <code>Revoked Certificates</code>. If your request failed for some reason, it may show up under <code>Failed Requests</code>, for example.
+</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-47"></span>
 <img src="cert-auto-enroll-images/issued-certs.png" alt="Issued Certificates" width="70%" />
 <p class="caption">

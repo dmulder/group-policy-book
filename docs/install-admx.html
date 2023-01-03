@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -34,7 +34,7 @@ clients via Group Policy.</p>" />
   
   
 <link rel="prev" href="regpol.html"/>
-
+<link rel="next" href="policy-refresh.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
@@ -339,6 +339,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -360,7 +366,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="install-admx" class="section level1 hasAnchor" number="21">
 <h1><span class="header-section-number">21</span> Installing Administrative Templates<a href="install-admx.html#install-admx" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Administrative Templates allow you to define policies that can be administered from the Group Policy Management Editor.</p>
-<p>The <code>samba-tool gpo admxload</code> command copies ADMX templates to the <code>&lt;domain&gt;/Policies/PolicyDefinitions</code> directory on the SYSVOL share. After installing any ADMX templates, you MUST install Microsoft’s ADMX templates also, otherwise you will be unable to administer Windows domain members (see section <a href="install-admx.html#install-admx-windows">21.4</a>).</p>
+<p>The <code>samba-tool gpo admxload</code> command copies ADMX templates to the <code>&lt;domain&gt;/Policies/PolicyDefinitions</code> directory on the SYSVOL share. After installing any ADMX templates, you MUST install Microsoft’s ADMX templates also, otherwise you will be unable to administer Windows domain members (see section <a href="install-admx.html#install-admx-windows">21.4</a>).
+</p>
 <p>The following is instructions on how to obtain and install the various ADMX templates that are used by Samba.</p>
 <div id="install-admx-samba" class="section level2 hasAnchor" number="21.1">
 <h2><span class="header-section-number">21.1</span> Install Samba ADMX Templates<a href="install-admx.html#install-admx-samba" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -400,8 +407,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="regpol.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="regpol.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="policy-refresh.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

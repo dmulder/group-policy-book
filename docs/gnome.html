@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
@@ -339,6 +339,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -360,11 +366,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="gnome" class="section level1 hasAnchor" number="16">
 <h1><span class="header-section-number">16</span> GNOME Settings Policy<a href="gnome.html#gnome" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="gnome-images/gnome.png" width="30%" style="display: block; margin: auto;" /></p>
+<p></p>
 <p>The GNOME Settings Policy deploys dconf settings that control the desktop experience. These settings correspond to those defined in the GNOME System Administration Guide found at <a href="https://help.gnome.org/admin/system-admin-guide/stable/user-settings.html.en" class="uri">https://help.gnome.org/admin/system-admin-guide/stable/user-settings.html.en</a>.</p>
 <p>This policy is physically stored on the SYSVOL in <strong>MACHINE/Registry.pol</strong>. It is stored in registry format. See chapter <a href="regpol.html#regpol">20</a> for details on how to manually modify this file.</p>
 <div id="server-side-extension-11" class="section level2 hasAnchor" number="16.1">
 <h2><span class="header-section-number">16.1</span> Server Side Extension<a href="gnome.html#server-side-extension-11" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Server Side Extension (SSE) for Chromium Policy is distributed via Administrative Templates (see chapter <a href="writing-group-policy-extensions.html#sse">19.1</a> in section <a href="writing-group-policy-extensions.html#admx">19.1.1</a>). Setting up the ADMX templates for this policy is described in chapter <a href="install-admx.html#install-admx">21</a> section <a href="install-admx.html#install-admx-samba">21.1</a>.</p>
+<p>The Server Side Extension (SSE) for Chromium Policy is distributed via Administrative Templates (see chapter <a href="writing-group-policy-extensions.html#sse">19.1</a> in section <a href="writing-group-policy-extensions.html#admx">19.1.1</a>). Setting up the ADMX templates for this policy is described in chapter <a href="install-admx.html#install-admx">21</a> section <a href="install-admx.html#install-admx-samba">21.1</a>.
+</p>
 <div id="managing-gnome-settings-policy-via-the-gpme" class="section level3 hasAnchor" number="16.1.1">
 <h3><span class="header-section-number">16.1.1</span> Managing GNOME Settings Policy via the GPME<a href="gnome.html#managing-gnome-settings-policy-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Open the GPME and navigate to <code>Computer Configuration &gt; Administrative Templates &gt; GNOME Settings</code>.</p>
@@ -385,7 +393,8 @@ Figure 16.2: Whitelisted Online Accounts
 </div>
 <div id="client-side-extension-12" class="section level2 hasAnchor" number="16.2">
 <h2><span class="header-section-number">16.2</span> Client Side Extension<a href="gnome.html#client-side-extension-12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The GNOME Settings Client Side Extension (CSE) creates various <code>dconf</code> files to deploy the policy. After creating these policy files, the CSE executes <code>dconf update</code> to apply the new policy. Users will need to log out and back in again in order for these policies to take effect.</p>
+<p>The GNOME Settings Client Side Extension (CSE) creates various <code>dconf</code> files to deploy the policy. After creating these policy files, the CSE executes <code>dconf update</code> to apply the new policy. Users will need to log out and back in again in order for these policies to take effect.
+</p>
 <p>Let’s list the Resultant Set of Policy and view the lockdown settings we’ve set.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
 Resultant Set of Policy
@@ -401,6 +410,7 @@ GPO: Default Domain Policy
     -----------------------------------------------------------
   -----------------------------------------------------------
 =================================================================</code></pre>
+<p></p>
 <p>Next let’s force an apply of the policy, and see what is logged in the Group Policy Cache.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
 &gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
@@ -414,6 +424,7 @@ GPO: Default Domain Policy
     /etc/dconf/db/local.d/locks/0000000001-goa
   &lt;/attribute&gt;
 &lt;/gp_ext&gt;</code></pre>
+<p></p>
 <p>Checking the contents of the files, we see that our whitelisted provider is set, and that the policy is locked (which prevents user modification).</p>
 <pre><code>&gt; cat /etc/dconf/db/local.d/0000000001-goa
 [org/gnome/online-accounts]

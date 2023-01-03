@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
@@ -339,6 +339,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -360,11 +366,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="startupscripts" class="section level1 hasAnchor" number="7">
 <h1><span class="header-section-number">7</span> Startup Script Policies<a href="startupscripts.html#startupscripts" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="startup-scripts-images/start.png" width="30%" style="display: block; margin: auto;" /></p>
+<p></p>
 <p>Startup scripts earn themselves a chapter independant of the Script Polices chapter because they are so thoroughly different. The Startup Scripts Policy started as a compatability layer for Vintela’s Startup Scripts, but became the defacto standard for Samba also. This policy has no Server Side Extension in the Group Policy Management Editor (GPME), but only provides a <code>samba-tool</code> command for setting the policy. A nice advantage to using this policy is that when using the <code>samba-tool gpo manage</code> command to set the policy, it automatically uploads the script file you specify to the SYSVOL.</p>
 <p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/VGP</strong> <strong>/VTLA/Unix/Scripts/Startup/manifest.xml</strong> file in the subdirectory of the Group Policy Object. They are stored in an xml format, and are easily modified manually using a text editor.</p>
 <div id="server-side-extension-2" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Server Side Extension<a href="startupscripts.html#server-side-extension-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Startup Script Policies have no GPME Server Side Extension (SSE), so this policy may only be administered using <code>samba-tool gpo manage scripts startup</code>. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.</p>
+<p>Startup Script Policies have no GPME Server Side Extension (SSE), so this policy may only be administered using <code>samba-tool gpo manage scripts startup</code>. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.
+</p>
 <div id="managing-startup-script-policies-via-samba-tool" class="section level3 hasAnchor" number="7.1.1">
 <h3><span class="header-section-number">7.1.1</span> Managing Startup Script Policies via samba-tool<a href="startupscripts.html#managing-startup-script-policies-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The Startup Scripts <code>samba-tool</code> command has 3 subcommands; add, list, and remove.</p>
@@ -431,7 +439,8 @@ echo Something is happening here at startup
 </div>
 <div id="client-side-extension-3" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Client Side Extension<a href="startupscripts.html#client-side-extension-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Startup Scripts Client Side Extension (CSE) creates <code>@reboot</code> cron jobs on the Linux client. Startup Scripts only apply for Machine policy.</p>
+<p>The Startup Scripts Client Side Extension (CSE) creates <code>@reboot</code> cron jobs on the Linux client. Startup Scripts only apply for Machine policy.
+</p>
 <p>We created a test script in the previous section. If we now list the Resultant Set of Policy on the client, we see this:</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
 Resultant Set of Policy
@@ -450,6 +459,7 @@ GPO: Default Domain Policy
     -----------------------------------------------------------
   -----------------------------------------------------------
 =================================================================</code></pre>
+<p></p>
 <p>If we now force the policy to apply, we’ll see our script is scheduled to execute using a cron job.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
 &gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
@@ -477,7 +487,8 @@ GPO: Default Domain Policy
 @reboot root /var/lib/samba/gpo_cache/LIZARDO.SUSE.DE/POLICIES/
  {31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/VGP/VTLA/UNIX/
  SCRIPTS/STARTUP/TEST_SCRIPT.SH</code></pre>
-<p>You can see we found the location of our cron job by outputing the applied policy from our Group Policy Cache. The cron job instructs the script to execute as root on every reboot. Let’s also verify our script has been deployed on the client.</p>
+<p>You can see we found the location of our cron job by outputing the applied policy from our Group Policy Cache. The cron job instructs the script to execute as root on every reboot. Let’s also verify our script has been deployed on the client.
+</p>
 <pre><code>&gt; sudo cat /var/lib/samba/gpo_cache/LIZARDO.SUSE.DE/POLICIES/
  {31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/VGP/VTLA/UNIX/
  SCRIPTS/STARTUP/TEST_SCRIPT.SH

@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
@@ -339,6 +339,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -368,11 +374,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The key difference between Group Policy and a Group Policy Object (GPO) is that Group Policy is the overall concept and framework for managing and configuring settings on computers in an environment, while a GPO is a specific collection of settings that are applied to a group of machines or users.</p>
 <p>Group Policy allows administrators to define and manage the settings that are applied to computers and users in a domain. This includes settings for various aspects of the operating system, such as security policies, user accounts, and network settings. Group Policy also includes the infrastructure and tools for distributing and applying these settings to the appropriate computers and users. You can think of <em>Group Policy</em> like a template for a work order.</p>
 <p>A GPO, on the other hand, is a specific set of settings that are defined by an administrator and applied to a group of computers or users. A GPO can be thought of as a filled out copy of a work order that specifies the settings that should be applied to the members of the group. These settings are stored in the GPO and distributed to the appropriate computers and users by the Group Policy infrastructure.</p>
-<p>Server-side extensions (SSEs) are responsible for processing and managing GPOs on the domain controller, while client-side extensions (CSEs) are responsible for applying the settings in a GPO to the local system. Together, these components work to manage and apply GPOs in an environment.</p>
+<p>Server-side extensions (SSEs) are responsible for processing and managing GPOs on the domain controller, while client-side extensions (CSEs) are responsible for applying the settings in a GPO to the local system. Together, these components work to manage and apply GPOs in an environment.
+</p>
 </div>
 <div id="server-side-extensions" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Server Side Extensions<a href="intro.html#server-side-extensions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The purpose of a Server Side Extension (SSE) is to process and manage Group Policy objects (GPOs) on the domain controller (to fill out a <em>work order</em>). In a Windows environment, this generally refers to some component of the Group Policy Management Editor.</p>
+<p>The purpose of a Server Side Extension (SSE) is to process and manage Group Policy objects (GPOs) on the domain controller (to fill out a <em>work order</em>). In a Windows environment, this generally refers to some component of the Group Policy Management Editor.
+</p>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-3"></span>
 <img src="ch01-images/gpme.png" alt="Group Policy Management Editor" width="70%" />
 <p class="caption">
@@ -439,7 +447,8 @@ Available subcommands:
 <div id="client-side-extensions" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Client Side Extensions<a href="intro.html#client-side-extensions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In Group Policy vernacular, a Client Side Extension (CSE) is an encapsulated module on a client machine intended to enforce a specific policy. The responsibility of the CSE is to install that policy on the client and ensure it is enforced. It’s also the responsibility of the CSE to remove the policy when disabled by the server.</p>
-<p>In Samba, a CSE looks like a single python file. Within that file, the CSE inherits from one of several base classes provided by Samba which provide settings from the server. This is discussed in more detail in chapter <a href="writing-group-policy-extensions.html#cse">19.2</a>.</p>
+<p>In Samba, a CSE looks like a single python file. Within that file, the CSE inherits from one of several base classes provided by Samba which provide settings from the server. This is discussed in more detail in chapter <a href="writing-group-policy-extensions.html#cse">19.2</a>.
+</p>
 <div id="enabling-group-policy-client-side-extensions-on-the-linux-client" class="section level3 hasAnchor" number="2.3.1">
 <h3><span class="header-section-number">2.3.1</span> Enabling Group Policy Client Side Extensions on the Linux Client<a href="intro.html#enabling-group-policy-client-side-extensions-on-the-linux-client" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To enable Group Policy in Winbind, set the apply group policies global smb.conf option to Yes. You can even deploy this setting from Group Policy smb.conf options, then running the apply command manually the first time with <code>sudo samba-gpupate --force</code>.</p>
@@ -453,7 +462,8 @@ Available subcommands:
 <p>A Resultant Set of Policy (RSoP) is a summary of the policies that will be applied to a computer or user, or that have already been applied. The RSoP is generated by the client-side extensions (CSEs) that are responsible for applying Group Policy objects (GPOs) to the local system.</p>
 <p>Each CSE is configured to return an RSoP for the policies that it manages.</p>
 <p>The RSoP is generated by the CSEs before the GPOs are applied, allowing administrators to see what policies will be applied to the system before they are actually applied. This can be useful for troubleshooting or for verifying that the correct policies are being applied. Once the GPOs are applied, the CSEs will also generate an RSoP for the policies that have been applied.</p>
-<p>To see the RSoP, run the command <code>sudo samba-gpupdate --rsop</code> for Machine policy, or <code>sudo samba-gpupdate --rsop --target=User -U&lt;username&gt;</code> to see User policy.</p>
+<p>To see the RSoP, run the command <code>sudo samba-gpupdate --rsop</code> for Machine policy, or <code>sudo samba-gpupdate --rsop --target=User -U&lt;username&gt;</code> to see User policy.
+</p>
 <pre><code>linux-h7xz:~ # samba-gpupdate --rsop
 Resultant Set of Policy
 Computer Policy
@@ -504,15 +514,18 @@ Samba Group Policy \s \r \l
 <p>This section will provide a brief overview of those policies. By the end of this book, the reader should have a good understanding of how to use these policies to manage and configure Linux systems.</p>
 <div id="smb.conf-policies" class="section level3 hasAnchor" number="2.4.1">
 <h3><span class="header-section-number">2.4.1</span> smb.conf Policies<a href="intro.html#smb.conf-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>These policies distribute smb.conf global options to the client. These are found in the Group Policy Management Editor (GPME) under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; smb.conf</code>. This policy is unable to apply idmap policies.</p>
+<p>These policies distribute smb.conf global options to the client. These are found in the Group Policy Management Editor (GPME) under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; smb.conf</code>. This policy is unable to apply idmap policies.
+</p>
 </div>
 <div id="password-and-kerberos-policies" class="section level3 hasAnchor" number="2.4.2">
 <h3><span class="header-section-number">2.4.2</span> Password and Kerberos Policies<a href="intro.html#password-and-kerberos-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Password and Kerberos policies are found in the GPME under <code>Computer Configuration &gt; Policies &gt; OS Settings &gt; Security Settings &gt; Account Policy</code>. These policies are only applicable to Samba Active Directory Domain Controllers.</p>
+<p>Password and Kerberos policies are found in the GPME under <code>Computer Configuration &gt; Policies &gt; OS Settings &gt; Security Settings &gt; Account Policy</code>. These policies are only applicable to Samba Active Directory Domain Controllers.
+</p>
 </div>
 <div id="script-policies" class="section level3 hasAnchor" number="2.4.3">
 <h3><span class="header-section-number">2.4.3</span> Script Policies<a href="intro.html#script-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Script policies create cron jobs on client machines which execute the specified commands. These are found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Scripts</code>.</p>
+<p>Script policies create cron jobs on client machines which execute the specified commands. These are found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Scripts</code>.
+</p>
 <div id="centrify-crontab-entries" class="section level4 hasAnchor" number="2.4.3.1">
 <h4><span class="header-section-number">2.4.3.1</span> Centrify Crontab Entries<a href="intro.html#centrify-crontab-entries" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Samba provides an extension which adds compatibility with Centrify’s Crontab Entries Group Policy. If you are currently using Centrify Group Policy to distribute Crontab entry policies, these will automatically be applied by samba-gpupdate.</p>
@@ -520,19 +533,23 @@ Samba Group Policy \s \r \l
 </div>
 <div id="startup-script-policies" class="section level3 hasAnchor" number="2.4.4">
 <h3><span class="header-section-number">2.4.4</span> Startup Script Policies<a href="intro.html#startup-script-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Startup script policies allow you to upload the script that will be executed to the SYSVOL, as well as scheduling the command to run at startup. These scripts can be set using the <code>samba-tool gpo manage scripts startup</code> command.</p>
+<p>Startup script policies allow you to upload the script that will be executed to the SYSVOL, as well as scheduling the command to run at startup. These scripts can be set using the <code>samba-tool gpo manage scripts startup</code> command.
+</p>
 </div>
 <div id="files-policy" class="section level3 hasAnchor" number="2.4.5">
 <h3><span class="header-section-number">2.4.5</span> Files Policy<a href="intro.html#files-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The Files policy deploys files to client machines. These files are uploaded to the SYSVOL via the <code>samba-tool gpo manage files</code> command.</p>
+<p>The Files policy deploys files to client machines. These files are uploaded to the SYSVOL via the <code>samba-tool gpo manage files</code> command.
+</p>
 </div>
 <div id="symlink-policies" class="section level3 hasAnchor" number="2.4.6">
 <h3><span class="header-section-number">2.4.6</span> Symlink Policies<a href="intro.html#symlink-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The symlink policy creates symbolic links on client machines. This policy is set via the <code>samba-tool gpo manage symlink</code> command. This policy is compatible with Vintela’s Symlink Group Policy.</p>
+<p>The symlink policy creates symbolic links on client machines. This policy is set via the <code>samba-tool gpo manage symlink</code> command. This policy is compatible with Vintela’s Symlink Group Policy.
+</p>
 </div>
 <div id="sudoers-policies" class="section level3 hasAnchor" number="2.4.7">
 <h3><span class="header-section-number">2.4.7</span> Sudoers Policies<a href="intro.html#sudoers-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Sudoers policies add sudo rules to client machines. These policies can be managed in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Sudo Rights</code>.</p>
+<p>Sudoers policies add sudo rules to client machines. These policies can be managed in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Sudo Rights</code>.
+</p>
 <div id="vgp-sudoers-policies" class="section level4 hasAnchor" number="2.4.7.1">
 <h4><span class="header-section-number">2.4.7.1</span> VGP Sudoers Policies<a href="intro.html#vgp-sudoers-policies" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Another Sudoers extension is available for compatibility with Vintela’s Sudoers Group Policy. The policy for this extension can be modified using the <code>samba-tool gpo manage sudo</code> command.</p>
@@ -547,7 +564,8 @@ Samba Group Policy \s \r \l
 </div>
 <div id="message-policies" class="section level3 hasAnchor" number="2.4.8">
 <h3><span class="header-section-number">2.4.8</span> Message Policies<a href="intro.html#message-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Message policies set the contents of the /etc/motd and /etc/issue files on client machines. These policies can be managed in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Messages</code>.</p>
+<p>Message policies set the contents of the /etc/motd and /etc/issue files on client machines. These policies can be managed in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Messages</code>.
+</p>
 <div id="vgp-message-policies" class="section level4 hasAnchor" number="2.4.8.1">
 <h4><span class="header-section-number">2.4.8.1</span> VGP Message Policies<a href="intro.html#vgp-message-policies" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Other VGP Message extensions are available for compatibility with Vintela’s MOTD and Issue Group Policies. The policies for these extensions can be modified using the <code>samba-tool gpo manage motd</code> and <code>samba-tool gpo manage issue</code> commands.</p>
@@ -558,31 +576,38 @@ Samba Group Policy \s \r \l
 </div>
 <div id="pam-access-policies" class="section level3 hasAnchor" number="2.4.9">
 <h3><span class="header-section-number">2.4.9</span> PAM Access Policies<a href="intro.html#pam-access-policies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>PAM Access policies set access rules within <code>/etc/security/access.d</code>. These policies are set using the <code>samba-tool gpo manage access</code> command. This policy is compatible with Vintela’s Access Group Policy.</p>
+<p>PAM Access policies set access rules within <code>/etc/security/access.d</code>. These policies are set using the <code>samba-tool gpo manage access</code> command. This policy is compatible with Vintela’s Access Group Policy.
+</p>
 </div>
 <div id="certificate-auto-enrollment" class="section level3 hasAnchor" number="2.4.10">
 <h3><span class="header-section-number">2.4.10</span> Certificate Auto Enrollment<a href="intro.html#certificate-auto-enrollment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. Certificate Auto Enrollment is available in Samba 4.16 and above.</p>
+<p>Certificate Auto Enrollment allows devices to enroll for certificates from Active Directory Certificate Services. Certificate Auto Enrollment is available in Samba 4.16 and above.
+</p>
 </div>
 <div id="firefox-policy" class="section level3 hasAnchor" number="2.4.11">
 <h3><span class="header-section-number">2.4.11</span> Firefox Policy<a href="intro.html#firefox-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Firefox policies can be administered using the Mozilla policy templates provided by Mozilla.</p>
+<p>Firefox policies can be administered using the Mozilla policy templates provided by Mozilla.
+</p>
 </div>
 <div id="chromiumchrome-policy" class="section level3 hasAnchor" number="2.4.12">
 <h3><span class="header-section-number">2.4.12</span> Chromium/Chrome Policy<a href="intro.html#chromiumchrome-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Chromium and Google Chrome policies can be administered using the Chrome policy templates provided by Google.</p>
+<p>Chromium and Google Chrome policies can be administered using the Chrome policy templates provided by Google.
+</p>
 </div>
 <div id="gnome-settings" class="section level3 hasAnchor" number="2.4.13">
 <h3><span class="header-section-number">2.4.13</span> GNOME Settings<a href="intro.html#gnome-settings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>GNOME Settings policies are found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; GNOME</code>. These policies manage some GNOME user settings, as described in the GNOME system admin guide, such as the compose key, screen dimming, online account management, extensions, and the ability to disable printing, file saving, command line access, fingerprint logon, logout, user switching, and reparitioning. There is also a general method for disabling any specific GNOME lockdown value.</p>
+<p>GNOME Settings policies are found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; GNOME</code>. These policies manage some GNOME user settings, as described in the GNOME system admin guide, such as the compose key, screen dimming, online account management, extensions, and the ability to disable printing, file saving, command line access, fingerprint logon, logout, user switching, and reparitioning. There is also a general method for disabling any specific GNOME lockdown value.
+</p>
 </div>
 <div id="openssh-policy" class="section level3 hasAnchor" number="2.4.14">
 <h3><span class="header-section-number">2.4.14</span> OpenSSH Policy<a href="intro.html#openssh-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>OpenSSH policy applies settings to <code>/etc/ssh/sshd_config.d</code>. These policies can be set using the <code>samba-tool gpo manage openssh</code> command. These policies are compatible with Vintela’s OpenSSH Group Policy.</p>
+<p>OpenSSH policy applies settings to <code>/etc/ssh/sshd_config.d</code>. These policies can be set using the <code>samba-tool gpo manage openssh</code> command. These policies are compatible with Vintela’s OpenSSH Group Policy.
+</p>
 </div>
 <div id="firewalld-policy" class="section level3 hasAnchor" number="2.4.15">
 <h3><span class="header-section-number">2.4.15</span> Firewalld Policy<a href="intro.html#firewalld-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Firewalld policy applies firewall rules using the firewall-cmd command. These policies can be found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Firewalld</code>.</p>
+<p>Firewalld policy applies firewall rules using the firewall-cmd command. These policies can be found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Firewalld</code>.
+</p>
 
 </div>
 </div>

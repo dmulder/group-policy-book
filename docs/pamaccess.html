@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
@@ -339,6 +339,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -360,11 +366,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="pamaccess" class="section level1 hasAnchor" number="12">
 <h1><span class="header-section-number">12</span> PAM Access Policies<a href="pamaccess.html#pamaccess" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="pam-access-images/access.png" width="30%" style="display: block; margin: auto;" /></p>
+<p></p>
 <p>PAM Access Policy allows you to set host access rules for client machines. Specifically, it specifies rules in <code>/etc/security/access.d</code> to allow or deny access to the host.</p>
 <p>This policy is physically stored on the SYSVOL in two files, <strong>MACHINE/VGP/VTLA/VAS/HostAccessControl/Allow/manifest.xml</strong> and <strong>MACHINE/VGP/VTLA/VAS/HostAccessControl/Deny/manifest.xml</strong>. The manifest.xml files are in xml format, and are easily modified manually using a text editor.</p>
 <div id="server-side-extension-7" class="section level2 hasAnchor" number="12.1">
 <h2><span class="header-section-number">12.1</span> Server Side Extension<a href="pamaccess.html#server-side-extension-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Server Side Extensions (SSE) for PAM Access Policies is administered using the <code>samba-tool gpo manage access</code> command. This SSE cannot be modified using the GPME.</p>
+<p>The Server Side Extensions (SSE) for PAM Access Policies is administered using the <code>samba-tool gpo manage access</code> command. This SSE cannot be modified using the GPME.
+</p>
 <div id="managing-pam-access-policies-via-samba-tool" class="section level3 hasAnchor" number="12.1.1">
 <h3><span class="header-section-number">12.1.1</span> Managing PAM Access Policies via samba-tool<a href="pamaccess.html#managing-pam-access-policies-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <code>samba-tool gpo manage access</code> command has 3 subcommands; add, list, and remove.</p>
@@ -403,7 +411,8 @@ ALL will be assumed.</p>
 <div id="client-side-extension-8" class="section level2 hasAnchor" number="12.2">
 <h2><span class="header-section-number">12.2</span> Client Side Extension<a href="pamaccess.html#client-side-extension-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The PAM Access Client Side Extension (CSE) will create a new file in the <code>/etc/security/access.d</code> directory for each host access rule.</p>
-<p>The PAM module <code>pam_access</code> must be configured or this CSE will do nothing (see <code>man pam_access</code>). This can be configured using the command <code>pam-config --add --access</code>. It may be beneficial to ensure this is enabled by enforcing a Script policy which executes <code>pam-config --add --access</code> (see chapter <a href="scripts.html#scripts">6</a> on how to schedule a script policy).</p>
+<p>The PAM module <code>pam_access</code> must be configured or this CSE will do nothing (see <code>man pam_access</code>). This can be configured using the command <code>pam-config --add --access</code>. It may be beneficial to ensure this is enabled by enforcing a Script policy which executes <code>pam-config --add --access</code> (see chapter <a href="scripts.html#scripts">6</a> on how to schedule a script policy).
+</p>
 <p>Let’s list the Resultant Set of Policy to view the policies we’ve created for our host access control.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
 Resultant Set of Policy
@@ -427,7 +436,8 @@ GPO: Default Domain Policy
     -----------------------------------------------------------
   -----------------------------------------------------------
 =================================================================</code></pre>
-<p>Our PAM Access policy and our <code>pam-config</code> check are both listed.</p>
+<p>Our PAM Access policy and our <code>pam-config</code> check are both listed.
+</p>
 <p>Let’s now force an apply.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
 &gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
@@ -448,7 +458,8 @@ GPO: Default Domain Policy
     /etc/security/access.d/0000000001_gp.conf
   &lt;/attribute&gt;
 &lt;/gp_ext&gt;</code></pre>
-<p>Notice that the PAM Access policy generated 2 different files, <code>/etc/security/access.d/</code> <code>0000000001_gp.conf</code> and <code>/etc/security/access.d/9000000001_gp_DENY_ALL.conf</code>. Let’s check the contents of these files to see what was generated.</p>
+<p>Notice that the PAM Access policy generated 2 different files, <code>/etc/security/access.d/</code> <code>0000000001_gp.conf</code> and <code>/etc/security/access.d/9000000001_gp_DENY_ALL.conf</code>. Let’s check the contents of these files to see what was generated.
+</p>
 <pre><code>&gt; cat /etc/security/access.d/0000000001_gp.conf; echo
 
 ### autogenerated by samba

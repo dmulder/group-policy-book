@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
@@ -339,6 +339,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -362,10 +368,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The chapter will explain how to write a Group Policy Extension for Samba’s Winbind. Group Policy is a delivery mechanism for distributing system settings and company policies to machines joined to an Active Directory domain. Unix/Linux machines running Samba’s Winbind can also deploy these policies.</p>
 <div id="sse" class="section level2 hasAnchor" number="19.1">
 <h2><span class="header-section-number">19.1</span> Creating the Server Side Extension<a href="writing-group-policy-extensions.html#sse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p></p>
 <div id="admx" class="section level3 hasAnchor" number="19.1.1">
 <h3><span class="header-section-number">19.1.1</span> Administrative Templates<a href="writing-group-policy-extensions.html#admx" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The first step to deploying Group Policy is to create a Server Side Extension (SSE). There are multiple ways to create an SSE, but here we’ll only discuss Administrative Templates (ADMX). The purpose of the SSE is to deploy policies to the SYSVOL share. Theoretically, you could manually deploy any file (even plain text) to the SYSVOL and then write a Client Side Extension that parses it, but ADMX can be read and modified by the Group Policy Management Editor, which makes administration of policies simpler.</p>
-<p>ADMX files are simply XML files which explain to the Group Policy Management Console how to display and store a policy in the SYSVOL. AMDX files always store policies in Registry.pol files. Samba provides a mechanism for parsing these, which we’ll discuss later.</p>
+<p>ADMX files are simply XML files which explain to the Group Policy Management Console how to display and store a policy in the SYSVOL. AMDX files always store policies in Registry.pol files. Samba provides a mechanism for parsing these, which we’ll discuss later.
+</p>
 <p>Below is a simple example of an ADMX template, and it’s corresponding ADML file.</p>
 <p><strong>samba.admx:</strong></p>
 <div class="sourceCode" id="cb101"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb101-1"><a href="writing-group-policy-extensions.html#cb101-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">policyDefinitions</span><span class="ot"> revision=</span><span class="st">&quot;1.0&quot;</span><span class="ot"> schemaVersion=</span><span class="st">&quot;1.0&quot;</span>&gt;</span>
@@ -428,7 +436,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The meaning of the various tags are explained in Microsoft’s Group Policy documentation at <a href="https://docs.microsoft.com/en-us/previous-versions/windows/desktop/policy/admx-schema" class="uri">https://docs.microsoft.com/en-us/previous-versions/windows/desktop/policy/admx-schema</a>. Before the endless documentation and confusing XML scares you away, be aware there is an easier way!</p>
 <div id="admx-migrator" class="section level4 hasAnchor" number="19.1.1.1">
 <h4><span class="header-section-number">19.1.1.1</span> ADMX Migrator<a href="writing-group-policy-extensions.html#admx-migrator" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>FullArmor created the ADMX Migrator to simplify the shift for system administrators from the old ADM policy templates to ADMX. Fortunately, this tool also serves our purpose for assisting us in easily creating these templates for our SSE. Unfortunately, the tool hasn’t seen any development in the past 8 years, and wont run in Windows 10 (or any Unix/Linux platform, for that matter). I had to dredge up a Windows 7 VM in order to install and use the tool.</p>
+<p>FullArmor created the ADMX Migrator to simplify the shift for system administrators from the old ADM policy templates to ADMX. Fortunately, this tool also serves our purpose for assisting us in easily creating these templates for our SSE. Unfortunately, the tool hasn’t seen any development in the past 8 years, and wont run in Windows 10 (or any Unix/Linux platform, for that matter). I had to dredge up a Windows 7 VM in order to install and use the tool.
+</p>
 <div id="creating-the-administrative-template" class="section level5 hasAnchor" number="19.1.1.1.1">
 <h5><span class="header-section-number">19.1.1.1.1</span> Creating the Administrative Template<a href="writing-group-policy-extensions.html#creating-the-administrative-template" class="anchor-section" aria-label="Anchor link to header"></a></h5>
 <ol style="list-style-type: decimal">
@@ -807,7 +816,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="cse" class="section level2 hasAnchor" number="19.2">
 <h2><span class="header-section-number">19.2</span> Creating the Client Side Extension<a href="writing-group-policy-extensions.html#cse" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The following script defines a Group Policy Client Side Extension (CSE) in Python, which will be called by Samba’s Winbind to deploy our newly created policy. A CSE is a program that runs on a client machine and processes Group Policy Objects (GPOs) that are applied to the machine. The CSE processes the GPOs by applying the policies they contain to the client machine.</p>
+<p>The following script defines a Group Policy Client Side Extension (CSE) in Python, which will be called by Samba’s Winbind to deploy our newly created policy. A CSE is a program that runs on a client machine and processes Group Policy Objects (GPOs) that are applied to the machine. The CSE processes the GPOs by applying the policies they contain to the client machine.
+</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb108-1"><a href="writing-group-policy-extensions.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/python3</span></span>
 <span id="cb108-2"><a href="writing-group-policy-extensions.html#cb108-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os, re</span>
 <span id="cb108-3"><a href="writing-group-policy-extensions.html#cb108-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> samba.gpclass <span class="im">import</span> gp_pol_ext, gp_file_applier,</span>
@@ -985,7 +995,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb109-3"><a href="writing-group-policy-extensions.html#cb109-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> read(<span class="va">self</span>, data_file):</span>
 <span id="cb109-4"><a href="writing-group-policy-extensions.html#cb109-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> xml.etree.ElementTree.parse(data_file)</span></code></pre></div>
 <p>The <code>read()</code> function is called by <code>parse()</code>, passing it a local filename tied to the systems SYSVOL cache. Then within <code>process_group_policy()</code> you can call <code>parse()</code> to fetch the parsed data from the SYSVOL.</p>
-<p>The <code>gp_file_applier</code> class implements the helper functions <code>apply</code> and <code>unapply</code>. If you instead inherit from <code>gp_applier</code> directly, you’ll need to implement <code>apply</code> and <code>unapply</code> yourself. The <code>gp_applier</code> class provides various helper functions for assisting you in creating the <code>apply</code> and <code>unapply</code> functions.</p>
+<p>The <code>gp_file_applier</code> class implements the helper functions <code>apply</code> and <code>unapply</code>. If you instead inherit from <code>gp_applier</code> directly, you’ll need to implement <code>apply</code> and <code>unapply</code> yourself. The <code>gp_applier</code> class provides various helper functions for assisting you in creating the <code>apply</code> and <code>unapply</code> functions. The <code>apply</code> and <code>unapply</code> functions are responsible for both adding and removing policy, as well as managing the Group Policy Cache contents.
+</p>
 </div>
 <div id="process-group-policy" class="section level3 hasAnchor" number="19.2.2">
 <h3><span class="header-section-number">19.2.2</span> Process Group Policy<a href="writing-group-policy-extensions.html#process-group-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1004,17 +1015,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>There are other methods and attributes, but these are the only ones important to a CSE.</p>
 <p>The primary purpose of this loop is to iterate over the GPOs, read their policy in the SYSVOL, then check the sections for the Registry Key we created in our Server Side Extension. If our policy Registry Key exists, then we read the entry and apply the policy.</p>
 <p>In our example, we find the ‘Software\Policies\Samba\Unix Settings\Daily Scripts’ policy, then read the script contents from Registry.pol entry and write the script to a local file.</p>
-<p>The <code>applier_func</code> function is called to apply the policies contained in the GPOs to the client machine. It takes two arguments: keyname and entries. The keyname argument is the name of the policy being applied, and the entries argument is a list of the policy entries. The function writes the policy entries to randomly generated file names in the appropriate cron directories on the client machine, and returns the names of the temporary files. The file names will be stored in the Group Policy Cache, for retrieving later for the <code>deleted_gpo_list</code>.</p>
+<p>The <code>applier_func</code> function is called to apply the policies contained in the GPOs to the client machine. It takes two arguments: keyname and entries. The keyname argument is the name of the policy being applied, and the entries argument is a list of the policy entries. The function writes the policy entries to randomly generated file names in the appropriate cron directories on the client machine, and returns the names of the temporary files. The file names will be stored in the Group Policy Cache, for retrieving later for the <code>deleted_gpo_list</code>.
+</p>
 </div>
 <div id="resultant-set-of-policy" class="section level3 hasAnchor" number="19.2.3">
 <h3><span class="header-section-number">19.2.3</span> Resultant Set of Policy<a href="writing-group-policy-extensions.html#resultant-set-of-policy" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <code>rsop</code> function in the extension is optional. It should return a dictionary containing key/value pairs of what our current policy will apply or has applied. The function is passed a list of GPO objects (similar to our <code>changed_gpo_list</code>), and we should parse the list similar to how we did in <code>process_group_policy</code>.</p>
 <p>The <code>rsop</code> function generates the output for our Resultant Set of Policy. RSoP is a feature in Group Policy that allows you to determine the effective settings that are applied to a user or a computer as a result of Group Policy processing. RSoP provides a report that shows the policies that have been applied to the user or computer, as well as any conflicts or errors that may have occurred during Group Policy processing. RSoP can be used to troubleshoot Group Policy issues, to verify that the correct policies are being applied, and to determine the impact of Group Policy on a particular user or computer.</p>
-<p>This function enables the <code>samba-gpupdate --rsop</code> command.</p>
+<p>This function enables the <code>samba-gpupdate --rsop</code> command (see Chapter <a href="policy-refresh.html#samba-gpupdate">22.1</a>).
+</p>
 </div>
 <div id="registeringunregistering-a-client-side-extension" class="section level3 hasAnchor" number="19.2.4">
 <h3><span class="header-section-number">19.2.4</span> Registering/Unregistering a Client Side Extension<a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The CSE also includes a function for registering and unregistering the CSE with the Group Policy engine on the client machine. While the example code provides a detailed example of how to register an extension, the basic requirement is simply to call <code>register_gp_extension()</code>.</p>
+<p>The CSE also includes a function for registering and unregistering the CSE with the Group Policy engine on the client machine. While the example code provides a detailed example of how to register an extension, the basic requirement is simply to call <code>register_gp_extension()</code>.
+</p>
 <div class="sourceCode" id="cb111"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb111-1"><a href="writing-group-policy-extensions.html#cb111-1" aria-hidden="true" tabindex="-1"></a>ext_guid <span class="op">=</span> <span class="st">&#39;{5930022C-94FF-4ED5-A403-CFB4549DB6F0}&#39;</span></span>
 <span id="cb111-2"><a href="writing-group-policy-extensions.html#cb111-2" aria-hidden="true" tabindex="-1"></a>ext_path <span class="op">=</span> os.path.realpath(<span class="va">__file__</span>)</span>
 <span id="cb111-3"><a href="writing-group-policy-extensions.html#cb111-3" aria-hidden="true" tabindex="-1"></a>register_gp_extension(ext_guid, <span class="st">&#39;gp_scripts_ext&#39;</span>, ext_path,</span>

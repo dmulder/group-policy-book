@@ -174,10 +174,14 @@ process-group-policy
 resultant-set-of-policy
 registeringunregistering-a-client-side-extension
 regpol
-using-samba-tool
+regpol-samba-tool
 scripting-with-python
 install-admx
 install-admx-samba
 install-admx-firefox
 install-admx-chromium
 install-admx-windows
+policy-refresh
+samba-gpupdate
+configuring-automatic-policy-refresh-via-winbind
+configuring-automatic-policy-refresh-via-oddjob-gpupdate

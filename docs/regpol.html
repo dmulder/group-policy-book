@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
@@ -339,6 +339,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -359,8 +365,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="regpol" class="section level1 hasAnchor" number="20">
 <h1><span class="header-section-number">20</span> Modifying a Registry.pol File<a href="regpol.html#regpol" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="using-samba-tool" class="section level2 hasAnchor" number="20.1">
-<h2><span class="header-section-number">20.1</span> Using samba-tool<a href="regpol.html#using-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="regpol-samba-tool" class="section level2 hasAnchor" number="20.1">
+<h2><span class="header-section-number">20.1</span> Using samba-tool<a href="regpol.html#regpol-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Samba provides the <code>samba-tool gpo load</code>, <code>samba-tool gpo remove</code> and <code>samba-tool gpo show</code> commands for manipulating Registry.pol policies. These commands format the registry policies as <strong>json</strong> to simplify the process. For example, a policy which sets the Firefox homepage would like like so:</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb112-1"><a href="regpol.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span></span>
 <span id="cb112-2"><a href="regpol.html#cb112-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
@@ -380,6 +386,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb112-16"><a href="regpol.html#cb112-16" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code></pre></div>
 <p>To set this policy on a GPO, we either put it in a file, or pass it <code>samba-tool gpo load</code> in standard input.</p>
 <pre><code>&gt; sudo samba-tool gpo load -UAdministrator --content=test.json</code></pre>
+<p></p>
 </div>
 <div id="scripting-with-python" class="section level2 hasAnchor" number="20.2">
 <h2><span class="header-section-number">20.2</span> Scripting with python<a href="regpol.html#scripting-with-python" class="anchor-section" aria-label="Anchor link to header"></a></h2>

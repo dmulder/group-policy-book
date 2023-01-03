@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
@@ -339,6 +339,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -360,11 +366,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="openssh" class="section level1 hasAnchor" number="17">
 <h1><span class="header-section-number">17</span> OpenSSH Policy<a href="openssh.html#openssh" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="openssh-images/openssh.png" width="30%" style="display: block; margin: auto;" /></p>
+<p></p>
 <p>The OpenSSH Policy allows you to deploy OpenSSH settings to client machines. The policies are applied to a file in the <code>/etc/ssh/sshd_config.d</code> directory.</p>
 <p>This policy is physically stored on the SYSVOL in <strong>MACHINE/VGP/VTLA</strong> <strong>/SshCfg/SshD/manifest.xml</strong>. The manifest.xml file is in xml format, and is easily modified manually using a text editor.</p>
 <div id="server-side-extension-12" class="section level2 hasAnchor" number="17.1">
 <h2><span class="header-section-number">17.1</span> Server Side Extension<a href="openssh.html#server-side-extension-12" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Server Side Extensions (SSE) for OpenSSH Policy is administered using the <code>samba-tool gpo manage openssh</code> command. This SSE cannot be modified using the GPME.</p>
+<p>The Server Side Extensions (SSE) for OpenSSH Policy is administered using the <code>samba-tool gpo manage openssh</code> command. This SSE cannot be modified using the GPME.
+</p>
 <div id="managing-openssh-policy-via-samba-tool" class="section level3 hasAnchor" number="17.1.1">
 <h3><span class="header-section-number">17.1.1</span> Managing OpenSSH Policy via samba-tool<a href="openssh.html#managing-openssh-policy-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <code>samba-tool gpo manage openssh</code> command has 2 subcommands; set and list.</p>
@@ -399,7 +407,8 @@ KerberosAuthentication Yes</code></pre>
 </div>
 <div id="client-side-extension-13" class="section level2 hasAnchor" number="17.2">
 <h2><span class="header-section-number">17.2</span> Client Side Extension<a href="openssh.html#client-side-extension-13" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The OpenSSH Client Side Extension (CSE) will create a new file in the <code>/etc/ssh/sshd_config.d</code> directory.</p>
+<p>The OpenSSH Client Side Extension (CSE) will create a new file in the <code>/etc/ssh/sshd_config.d</code> directory.
+</p>
 <p>Let’s list the Resultant Set of Policy to view the policies we’ve created.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
 Resultant Set of Policy
@@ -415,7 +424,8 @@ GPO: Default Domain Policy
     -----------------------------------------------------------
   -----------------------------------------------------------
 =================================================================</code></pre>
-<p>The <code>KerberosAuthentication</code> setting we set is listed as expected.</p>
+<p>The <code>KerberosAuthentication</code> setting we set is listed as expected.
+</p>
 <p>Let’s now force an apply.</p>
 <pre><code>sudo /usr/sbin/samba-gpupdate --force
 &gt; sudo tdbdump /var/lib/samba/gpo.tdb -k &quot;TESTSYSDM$&quot; \
@@ -428,7 +438,8 @@ GPO: Default Domain Policy
     /etc/ssh/sshd_config.d/gp_c7hytho4
   &lt;/attribute&gt;
 &lt;/gp_ext&gt;</code></pre>
-<p>Notice that our new policy has been stored in <code>/etc/ssh/sshd_config.d/gp_c7hytho4</code>. Let’s check the contents of this file to see what was generated.</p>
+<p>Notice that our new policy has been stored in <code>/etc/ssh/sshd_config.d/gp_c7hytho4</code>. Let’s check the contents of this file to see what was generated.
+</p>
 <pre><code>&gt; sudo cat /etc/ssh/sshd_config.d/gp_c7hytho4
 
 ### autogenerated by samba

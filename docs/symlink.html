@@ -26,7 +26,7 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -330,7 +330,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
@@ -339,6 +339,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -360,11 +366,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="symlink" class="section level1 hasAnchor" number="9">
 <h1><span class="header-section-number">9</span> Symlink Policies<a href="symlink.html#symlink" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="symlink-images/symlink.png" width="30%" style="display: block; margin: auto;" /></p>
+<p></p>
 <p>The purpose of this policy is to create a symbolic link on a Linux client. Only Machine policy is supported. This policy could be useful in conjunction with the Files Policy found in chapter <a href="files.html#files">8</a>.</p>
 <p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/VGP</strong> <strong>/VTLA/Unix/Symlink/manifest.xml</strong> file in the subdirectory of the Group Policy Object. It is stored in an xml format, and is easily modified manually using a text editor.</p>
 <div id="server-side-extension-4" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Server Side Extension<a href="symlink.html#server-side-extension-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Symlink Policy has no GPME Server Side Extension (SSE), so this policy may only be administered using <code>samba-tool gpo manage symlink</code>. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.</p>
+<p>The Symlink Policy has no GPME Server Side Extension (SSE), so this policy may only be administered using <code>samba-tool gpo manage symlink</code>. This is because this SSE is stored on the SYSVOL as an xml file, not in the Registry.pol from an ADMX template.
+</p>
 <div id="managing-the-symlink-policy-via-samba-tool" class="section level3 hasAnchor" number="9.1.1">
 <h3><span class="header-section-number">9.1.1</span> Managing the Symlink Policy via samba-tool<a href="symlink.html#managing-the-symlink-policy-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The Symlink <code>samba-tool</code> command has 3 subcommands; add, list, and remove.</p>
@@ -418,7 +426,8 @@ ln -s /usr/share/servlist.conf
 </div>
 <div id="client-side-extension-5" class="section level2 hasAnchor" number="9.2">
 <h2><span class="header-section-number">9.2</span> Client Side Extension<a href="symlink.html#client-side-extension-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Symlink Client Side Extension (CSE) creates a symlink between the <code>source</code> and <code>target</code>. Startup Scripts only apply for Machine policy.</p>
+<p>The Symlink Client Side Extension (CSE) creates a symlink between the <code>source</code> and <code>target</code>. Startup Scripts only apply for Machine policy.
+</p>
 <p>Let’s list the Resultant Set of Policy to view the symbolic link policy we created in the previous section.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop
 Resultant Set of Policy
@@ -443,6 +452,7 @@ GPO: Default Domain Policy
     -----------------------------------------------------------
   -----------------------------------------------------------
 =================================================================</code></pre>
+<p></p>
 <p>In addition to our Symlink policy, we also see the Files policy which we added in conjunction with this.</p>
 <p>Let’s now force our policy to apply and see how the CSE behaves.</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --force
@@ -469,7 +479,8 @@ GPO: Default Domain Policy
 &gt; sudo l /home/LIZARDO/tux/.config/hexchat/servlist.conf
 lrwxrwxrwx 1 root root 24 Nov 15 13:51 /home/LIZARDO/tux/.config/
  hexchat/servlist.conf -&gt; /usr/share/servlist.conf</code></pre>
-<p>Our Group Policy Cache at <code>/var/lib/samba/gpo.tdb</code> shows the two policies have been applied. Listing the <code>target</code>, we also see that the symlink now exists. If we output the contents of our symlink, we can see that it is indeed pointing to our configuration file that we uploaded to the SYSVOL earlier.</p>
+<p>Our Group Policy Cache at <code>/var/lib/samba/gpo.tdb</code> shows the two policies have been applied. Listing the <code>target</code>, we also see that the symlink now exists. If we output the contents of our symlink, we can see that it is indeed pointing to our configuration file that we uploaded to the SYSVOL earlier.
+</p>
 <pre><code>&gt; sudo cat /home/LIZARDO/tux/.config/hexchat/servlist.conf
 N=Libera.Chat
 L=1
