@@ -1,0 +1,37 @@
+# samba-gpupdate {#samba-gpupdate}
+
+The `samba-gpupdate` command is used to refresh Group Policy settings on an Active Directory domain member. Group Policy allows an administrator to specify settings for users and computers in an Active Directory domain. When these settings are changed, the `samba-gpupdate` command can be used to apply the changes on the domain member.
+
+\index{samba-gpupdate}
+
+To use the `samba-gpupdate` command, open a terminal window and simply type the following:
+
+```shell
+samba-gpupdate
+```
+
+This will refresh all Group Policy settings on the local machine. You can also specify specific options to refresh only certain settings. For example, to refresh only the computer settings, you can use the `--force` option:
+
+```shell
+samba-gpupdate --force
+```
+
+To refresh only the user settings, use the `--force` option combined with the `--target` and `-U` options to specify the user:
+
+```shell
+samba-gpupdate --force --target=User -U tux
+```
+
+To unapply Group Policy settings, you can use the `--unapply` option:
+
+```shell
+samba-gpupdate --unapply
+```
+
+To print the Resultant Set of Policy (RSOP) for a particular target, you can use the `--rsop` option:
+
+```shell
+samba-gpupdate --rsop --target=Computer
+```
+
+It is important to note that the `samba-gpupdate` command can only be used on a machine that is a member of an Active Directory domain. It will not work on a standalone machine or on a machine that is part of a different type of domain.
