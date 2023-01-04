@@ -28,7 +28,7 @@ To enable Certificate Auto Enrollment using the Group Policy Management Editor (
 
 1. Open the Group Policy Management Editor. For instructions on accessing the GPME, see chapter \@ref(manage) section \@ref(gpopen).
 
-2. In the Group Policy Management Editor window, navigate to `Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies`.
+2. In the Group Policy Management Editor window, navigate to \linebreak `Computer Configuration > Policies > Windows Settings >` \linebreak `Security Settings > Public Key Policies`.
 
 ```{r, out.width="70%", echo=FALSE, fig.align='center', fig.pos = 'H', fig.cap = "Public Key Policies"}
 knitr::include_graphics("cert-auto-enroll-images/public_key_policy.png")
@@ -54,7 +54,7 @@ Advanced Certificate Auto Enrollment allows you to add multiple certificate serv
 
 To configure Advanced Certificate Auto Enrollment:
 
-1. In the Group Policy Management Editor window, navigate to `Computer Configuration > Policies > Windows Settings > Security Settings > Public Key Policies`.
+1. In the Group Policy Management Editor window, navigate to \linebreak `Computer Configuration > Policies > Windows Settings >` \linebreak `Security Settings > Public Key Policies`.
 
 2. Double-click on "Certificate Services Client - Certificate Enrollment Policy" to open its properties.
 
@@ -213,7 +213,7 @@ lizardo-WIN-QLIPDP2ISN7-CA.crt ->
   /var/lib/samba/certs/lizardo-WIN-QLIPDP2ISN7-CA.crt
 ```
 
-The CSE download the root certificate from our CA (`lizardo-WIN-QLIPDP2ISN7-CA.crt`), and then linked it inside `/etc/pki/trust/anchors`. This is the system trust store. In addition to linking our CA root certificate to the trust store, the CSE also called the `update-ca-certificates` command to refresh the certificate store. Take a look at `man update-ca-certificates` for more details on how this works.
+The CSE download the root certificate from our CA \linebreak (`lizardo-WIN-QLIPDP2ISN7-CA.crt`), and then linked it inside \linebreak `/etc/pki/trust/anchors`. This is the system trust store. In addition to linking our CA root certificate to the trust store, the CSE also called the `update-ca-certificates` command to refresh the certificate store. Take a look at `man update-ca-certificates` for more details on how this works.
 
 Now that we see our certificates have been installed, lets take a look at certmonger to see our CA and make sure our certificates are being auto-renewed.
 

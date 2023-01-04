@@ -1,7 +1,6 @@
 --- 
 title: "Group Policy on Linux"
 author: "David Mulder"
-date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
@@ -17,6 +16,8 @@ output:
     includes:
       in_header: "preamble.tex"
     index: true
+header-includes:
+- \AtBeginDocument{\frontmatter}
 ---
 
 # About
@@ -41,3 +42,5 @@ knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 ```
+
+\mainmatter

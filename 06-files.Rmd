@@ -65,7 +65,8 @@ echo Something is happening daily
  /usr/bin/test_script.sh root root 555 -UAdministrator
 > samba-tool gpo manage files list \
  {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
--r-xr-xr-x	root	root	/usr/bin/test_script.sh -> test_script.sh
+-r-xr-xr-x	root	root	/usr/bin/test_script.sh ->
+                                test_script.sh
 ```
 
 The output of the `samba-tool gpo manage files list` command now shows that we have a policy set which will deploy a link to our test\_script.sh on the host. If we check the contents of the SYSVOL, we can see that our file has been uploaded successfully.

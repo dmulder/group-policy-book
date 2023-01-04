@@ -43,9 +43,10 @@ samba-gpupdate --rsop --target=Computer
 
 It is important to note that the `samba-gpupdate` command can only be used on a machine that is a member of an Active Directory domain. It will not work on a standalone machine or on a machine that is part of a different type of domain.
 
-## Configuring Automatic Policy Refresh via winbind
+## Automatic Policy Refresh via winbind {#winbind-refresh}
 
 To configure winbind Automatic Policy Refresh, you will set the `apply group policies` smb.conf parameter.
+\index{winbind}
 
 To set this parameter manually, you will need to add the following line to the `global` section of the smb.conf file:
 
@@ -58,7 +59,7 @@ This will enable winbind to automatically apply Group Policy settings on the *Gr
 
 Alternatively, you can deploy this setting automatically using smb.conf Group Policies. See chapter \@ref(smbconf) section \@ref(smbconf-sse) for instructions how to deploy this setting via Group Policy. The `samba-gpupdate` command will need to be executed manually to deploy this setting the first time.
 
-## Configuring Automatic Policy Refresh via oddjob-gpupdate
+## Automatic Policy Refresh via oddjob-gpupdate {#sssd-refresh}
 
 Using oddjob-gpupdate to provide Automatic Policy Refresh allows you to run Samba's Group Policy with the System Security Services Daemon (SSSD). SSSD is a system service that provides access to remote identity and authentication providers, such as Active Directory.
 \index{SSSD}

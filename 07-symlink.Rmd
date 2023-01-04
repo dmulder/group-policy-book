@@ -33,7 +33,8 @@ Options:
 Available subcommands:
   add     - Adds a VGP Symbolic Link Group Policy to the sysvol
   list    - List VGP Symbolic Link Group Policy from the sysvol
-  remove  - Removes a VGP Symbolic Link Group Policy from the sysvol
+  remove  - Removes a VGP Symbolic Link Group Policy from the
+            sysvol
 ```
 
 To add a new Symlink policy to the SYSVOL, call the `samba-tool gpo manage symlink add` command.

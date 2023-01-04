@@ -8,7 +8,7 @@ knitr::include_graphics("pam-access-images/access.png")
 
 PAM Access Policy allows you to set host access rules for client machines. Specifically, it specifies rules in `/etc/security/access.d` to allow or deny access to the host.
 
-This policy is physically stored on the SYSVOL in two files, **MACHINE/VGP/VTLA/VAS/HostAccessControl/Allow/manifest.xml** and **MACHINE/VGP/VTLA/VAS/HostAccessControl/Deny/manifest.xml**. The manifest.xml files are in xml format, and are easily modified manually using a text editor.
+This policy is physically stored on the SYSVOL in two files, \linebreak MACHINE/VGP/VTLA/VAS/HostAccessControl/Allow/manifest.xml \linebreak and MACHINE/VGP/VTLA/VAS/HostAccessControl/Deny/manifest.xml. \linebreak The manifest.xml files are in xml format, and are easily modified manually using a text editor.
 
 ## Server Side Extension
 
@@ -126,7 +126,7 @@ Let's now force an apply.
 </gp_ext>
 ```
 
-Notice that the PAM Access policy generated 2 different files, `/etc/security/access.d/` `0000000001_gp.conf` and `/etc/security/access.d/9000000001_gp_DENY_ALL.conf`. Let's check the contents of these files to see what was generated.
+Notice that the PAM Access policy generated 2 different files, \linebreak `/etc/security/access.d/0000000001_gp.conf` \linebreak and `/etc/security/access.d/9000000001_gp_DENY_ALL.conf`. Let's check the contents of these files to see what was generated.
 \index{Group Policy Cache}
 
 ```

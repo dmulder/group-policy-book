@@ -41,7 +41,7 @@ To set a new OpenSSH rule, call the `samba-tool gpo manage openssh set` command,
 2. `setting`: the OpenSSH setting that you want to modify. See the man page for sshd\_config (`man sshd_config`) for a list of possible settings.
 3. `value`: the value that you want to set for the specified setting. If you do not provide a value, the policy will be unset.
 
-Here is an example of how you might use this command to set the `KerberosAuthentication` to `Yes`:
+Here is an example of how you might use this command to set the \linebreak `KerberosAuthentication` to `Yes`:
 
 ```sh
 samba-tool gpo manage openssh set \

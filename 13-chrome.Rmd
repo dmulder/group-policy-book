@@ -48,7 +48,7 @@ knitr::include_graphics("chrome-images/startup.png")
 
 ## Client Side Extension
 
-Chromium policy comes with 2 Client Side Extensions (CSEs), which generate a total of 4 policy files. Each CSE generates a `managed` policy file (these policies are enforced), and a `recommended` policy file (these policies are set but not enforced). The generated json files can be found in `/etc/chromium/policies/managed`, `/etc/chromium/policies/recommended`, `/etc/opt/chrome/policies/managed`, and `/etc/opt/chrome/policies/recommended`.
+Chromium policy comes with 2 Client Side Extensions (CSEs), which generate a total of 4 policy files. Each CSE generates a `managed` policy file (these policies are enforced), and a `recommended` policy file (these policies are set but not enforced). The generated json files can be found in `/etc/chromium/policies/managed`, `/etc/chromium/policies/recommended`, `/etc/opt/chrome/policies/managed`, and \linebreak `/etc/opt/chrome/policies/recommended`.
 \index{Client Side Extensions}
 
 Let’s list the Resultant Set of Policy to view policies we set in the previous section.
@@ -143,7 +143,8 @@ Our cache shows that 4 json policies were created in the directories where we ex
   "NewTabPageLocation": "https://samba.org",
   "RestoreOnStartup": 5
 }
-> npx prettier /etc/opt/chrome/policies/recommended/gp_7p6q0bxf.json
+> npx prettier \
+  /etc/opt/chrome/policies/recommended/gp_7p6q0bxf.json
 {}
 > npx prettier /etc/opt/chrome/policies/managed/gp_fcthg4bc.json
 {

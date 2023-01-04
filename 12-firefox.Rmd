@@ -60,15 +60,18 @@ GPO: Default Domain Policy
 =================================================================
   CSE: gp_firefox_ext
   -----------------------------------------------------------
-    Policy Type: Software\Policies\Mozilla\Firefox\Homepage\StartPage
+    Policy Type: Software\Policies\Mozilla\Firefox\
+                 Homepage\StartPage
     -----------------------------------------------------------
       homepage-locked
     -----------------------------------------------------------
-    Policy Type: Software\Policies\Mozilla\Firefox\Homepage\URL
+    Policy Type: Software\Policies\Mozilla\Firefox\
+                 Homepage\URL
     -----------------------------------------------------------
       https://samba.org
     -----------------------------------------------------------
-    Policy Type: Software\Policies\Mozilla\Firefox\Homepage\Locked
+    Policy Type: Software\Policies\Mozilla\Firefox\
+                 Homepage\Locked
     -----------------------------------------------------------
       1
     -----------------------------------------------------------

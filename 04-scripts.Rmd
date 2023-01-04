@@ -137,7 +137,7 @@ Let's now force an apply, and verify that the cron jobs are scheduled.
 <?xml version="1.0"?>
 <gp_ext name="Unix Settings/Scripts">
   <attribute name="Software\Policies\Samba\Unix
-                   Settings\Daily Scripts:ZWNobyBoZWxsbyB3b3JsZA==">
+               Settings\Daily Scripts:ZWNobyBoZWxsbyB3b3JsZA==">
     /etc/cron.daily/gp_m94kdru9
   </attribute>
 </gp_ext>

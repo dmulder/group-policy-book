@@ -109,8 +109,12 @@ Policies are enforced at a random interval between 90 and 120 seconds.
 Policies can be manually enforced at any time on a Linux domain member using the `samba-gpupdate --force` command.
 
 Winbind will enforce both machine policy (as of Samba 4.14) and user policy (as of Samba 4.18).
+\index{winbind}
 
 If the Linux client is joined using SSSD, you can instead enforce the policy using oddjob-gpupdate. The samba-gpupdate command from Samba must also be installed.
+\index{SSSD}
+
+Further details on how to configure Automatic Policy Refresh via Winbind (\@ref(winbind-refresh)) and SSSD (\@ref(sssd-refresh)) can be found in chapter \@ref(policy-refresh).
 
 ### Resultant Set of Policy {#rsop}
 

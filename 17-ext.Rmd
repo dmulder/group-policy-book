@@ -152,7 +152,7 @@ The `samba-tool gpo manage` command is a tool provided by the Samba team for man
 
 Adding subcommands to `samba-tool gpo manage` is one way to create a Server Side Extension (SSE) for Group Policy. Each `samba-tool gpo manage` command generally provides 3 subcommands for each policy; add, remove, and list. These subcommands allow you to add new policies to a GPO, remove existing policies from a GPO, and list the policies that are currently configured in a GPO.
 
-Group Policy SSEs should be added to `samba-tool` in the `python/samba/netcmd/gpo.py` file.
+Group Policy SSEs should be added to `samba-tool` in the `python/samba/netcmd/` `gpo.py` file.
 
 #### Subcommands
 
