@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2022-12-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -135,7 +134,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
 <li class="chapter" data-level="2" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i><b>2</b> About the Author</a></li>
 <li class="chapter" data-level="3" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>3</b> Introduction</a>
 <ul>
@@ -170,9 +169,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>4</b> Managing Group Policies</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>4.1</b> Creating a Group Policy Object</a></li>
-<li class="chapter" data-level="4.2" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>4.2</b> Deleting a Group Policy Object</a></li>
-<li class="chapter" data-level="4.3" data-path="manage.html"><a href="manage.html#gplink"><i class="fa fa-check"></i><b>4.3</b> Group Policy Links</a></li>
+<li class="chapter" data-level="4.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>4.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
+<li class="chapter" data-level="4.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>4.2</b> Creating a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>4.2.1</b> samba-tool</a></li>
+<li class="chapter" data-level="4.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>4.2.2</b> GPMC</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>4.3</b> Deleting a Group Policy Object</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>4.3.1</b> samba-tool</a></li>
+<li class="chapter" data-level="4.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>4.3.2</b> GPMC</a></li>
+</ul></li>
 <li class="chapter" data-level="4.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>4.4</b> Listing a Group Policy</a></li>
 <li class="chapter" data-level="4.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>4.5</b> Modifying a Group Policy</a></li>
 </ul></li>
@@ -312,17 +319,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="20.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>20.2</b> Creating the Client Side Extension</a>
 <ul>
-<li class="chapter" data-level="20.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_pol_extgp_inf_ext-python-classes"><i class="fa fa-check"></i><b>20.2.1</b> The gp_pol_ext/gp_inf_ext Python Classes</a></li>
+<li class="chapter" data-level="20.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_ext-and-gp_applier-python-classes"><i class="fa fa-check"></i><b>20.2.1</b> The gp_ext and gp_applier Python Classes</a></li>
 <li class="chapter" data-level="20.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>20.2.2</b> Process Group Policy</a></li>
-<li class="chapter" data-level="20.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#deleted-gpos"><i class="fa fa-check"></i><b>20.2.3</b> Deleted GPOs</a></li>
-<li class="chapter" data-level="20.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#changed-gpos"><i class="fa fa-check"></i><b>20.2.4</b> Changed GPOs</a></li>
-<li class="chapter" data-level="20.2.5" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>20.2.5</b> Resultant Set of Policy</a></li>
-<li class="chapter" data-level="20.2.6" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>20.2.6</b> Registering/Unregistering a Client Side Extension</a></li>
+<li class="chapter" data-level="20.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>20.2.3</b> Resultant Set of Policy</a></li>
+<li class="chapter" data-level="20.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>20.2.4</b> Registering/Unregistering a Client Side Extension</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="21" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>21</b> Modifying a Registry.pol File</a>
 <ul>
-<li class="chapter" data-level="21.1" data-path="regpol.html"><a href="regpol.html#using-samba-tool"><i class="fa fa-check"></i><b>21.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="21.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>21.1</b> Using samba-tool</a></li>
 <li class="chapter" data-level="21.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>21.2</b> Scripting with python</a></li>
 </ul></li>
 <li class="chapter" data-level="22" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>22</b> Installing Administrative Templates</a>
@@ -331,6 +336,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>22.2</b> Installing Firefox ADMX Templates</a></li>
 <li class="chapter" data-level="22.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>22.3</b> Installing Chromium ADMX Templates</a></li>
 <li class="chapter" data-level="22.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>22.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>23</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>23.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="23.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>23.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -351,7 +362,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="about-the-author" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">2</span> About the Author<a href="about-the-author.html#about-the-author" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>David Mulder is a developer known for his work on integrating Group Policy support into Samba, which has allowed Linux users to take advantage of this powerful feature to centrally manage their systems. Mulder’s work on Samba’s Group Policy support began in 2016, when he began reviewing code from Luke Morrison, an intern who had submitted his implementation of Group Policy to the Samba project. Mulder previously contributed to the Vintela Group Policy project begining in 2012, and brought that expertice to the Samba team.</p>
+<p>David Mulder is a developer known for his work on integrating Group Policy support into Samba, which has allowed Linux users to take advantage of this powerful feature to centrally manage their systems. Mulder’s work on Samba’s Group Policy support began in 2016, when he began reviewing code from Luke Morrison, an intern who had submitted his implementation of Group Policy to the Samba project. Mulder previously contributed to the Vintela Group Policy project beginning in 2012, and brought that expertise to the Samba team.</p>
 <p>Some of the text in this book, as well as the images, were generated using OpenAI’s GPT-3 model, which is a state-of-the-art language processing system. OpenAI’s GPT-3 technology is an example of the incredible advances that have been made in the field of AI and natural language processing. This technology has the potential to revolutionize many areas of research and industry, and its use in generating text and images for this book is a testament to its capabilities.</p>
 
 </div>

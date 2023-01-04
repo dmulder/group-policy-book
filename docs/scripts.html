@@ -4,12 +4,12 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6 Script Policies | Group Policy on Linux</title>
+  <title>7 Script Policies | Group Policy on Linux</title>
   <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
   <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6 Script Policies | Group Policy on Linux" />
+  <meta property="og:title" content="7 Script Policies | Group Policy on Linux" />
   <meta property="og:type" content="book" />
   <meta property="og:image" content="https://dmulder.github.io/group-policy-book/cover-image.png" />
   <meta property="og:description" content="<p>This book introduces the user to opensource tools for managing Linux
@@ -17,7 +17,7 @@ clients via Group Policy.</p>" />
   <meta name="github-repo" content="dmulder/group-policy-book" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6 Script Policies | Group Policy on Linux" />
+  <meta name="twitter:title" content="7 Script Policies | Group Policy on Linux" />
   
   <meta name="twitter:description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
@@ -134,216 +134,214 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Preface</a></li>
+<li class="chapter" data-level="2" data-path="about-the-author.html"><a href="about-the-author.html"><i class="fa fa-check"></i><b>2</b> About the Author</a></li>
+<li class="chapter" data-level="3" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>3</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#about-the-author"><i class="fa fa-check"></i><b>1.1</b> About the Author</a></li>
+<li class="chapter" data-level="3.1" data-path="intro.html"><a href="intro.html#whats-the-difference-between-group-policy-and-a-group-policy-object"><i class="fa fa-check"></i><b>3.1</b> What’s the difference between Group Policy and a Group Policy Object?</a></li>
+<li class="chapter" data-level="3.2" data-path="intro.html"><a href="intro.html#server-side-extensions"><i class="fa fa-check"></i><b>3.2</b> Server Side Extensions</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="intro.html"><a href="intro.html#enabling-group-policy-server-side-extensions-on-the-server"><i class="fa fa-check"></i><b>3.2.1</b> Enabling Group Policy Server Side Extensions on the Server</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a>
+<li class="chapter" data-level="3.3" data-path="intro.html"><a href="intro.html#client-side-extensions"><i class="fa fa-check"></i><b>3.3</b> Client Side Extensions</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#whats-the-difference-between-group-policy-and-a-group-policy-object"><i class="fa fa-check"></i><b>2.1</b> What’s the difference between Group Policy and a Group Policy Object?</a></li>
-<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#server-side-extensions"><i class="fa fa-check"></i><b>2.2</b> Server Side Extensions</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="intro.html"><a href="intro.html#enabling-group-policy-server-side-extensions-on-the-server"><i class="fa fa-check"></i><b>2.2.1</b> Enabling Group Policy Server Side Extensions on the Server</a></li>
+<li class="chapter" data-level="3.3.1" data-path="intro.html"><a href="intro.html#enabling-group-policy-client-side-extensions-on-the-linux-client"><i class="fa fa-check"></i><b>3.3.1</b> Enabling Group Policy Client Side Extensions on the Linux Client</a></li>
+<li class="chapter" data-level="3.3.2" data-path="intro.html"><a href="intro.html#rsop"><i class="fa fa-check"></i><b>3.3.2</b> Resultant Set of Policy</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#client-side-extensions"><i class="fa fa-check"></i><b>2.3</b> Client Side Extensions</a>
+<li class="chapter" data-level="3.4" data-path="intro.html"><a href="intro.html#policies-introduced-in-this-book"><i class="fa fa-check"></i><b>3.4</b> Policies Introduced in this Book</a>
 <ul>
-<li class="chapter" data-level="2.3.1" data-path="intro.html"><a href="intro.html#enabling-group-policy-client-side-extensions-on-the-linux-client"><i class="fa fa-check"></i><b>2.3.1</b> Enabling Group Policy Client Side Extensions on the Linux Client</a></li>
-<li class="chapter" data-level="2.3.2" data-path="intro.html"><a href="intro.html#rsop"><i class="fa fa-check"></i><b>2.3.2</b> Resultant Set of Policy</a></li>
-</ul></li>
-<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#policies-introduced-in-this-book"><i class="fa fa-check"></i><b>2.4</b> Policies Introduced in this Book</a>
-<ul>
-<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#smb.conf-policies"><i class="fa fa-check"></i><b>2.4.1</b> smb.conf Policies</a></li>
-<li class="chapter" data-level="2.4.2" data-path="intro.html"><a href="intro.html#password-and-kerberos-policies"><i class="fa fa-check"></i><b>2.4.2</b> Password and Kerberos Policies</a></li>
-<li class="chapter" data-level="2.4.3" data-path="intro.html"><a href="intro.html#script-policies"><i class="fa fa-check"></i><b>2.4.3</b> Script Policies</a></li>
-<li class="chapter" data-level="2.4.4" data-path="intro.html"><a href="intro.html#startup-script-policies"><i class="fa fa-check"></i><b>2.4.4</b> Startup Script Policies</a></li>
-<li class="chapter" data-level="2.4.5" data-path="intro.html"><a href="intro.html#files-policy"><i class="fa fa-check"></i><b>2.4.5</b> Files Policy</a></li>
-<li class="chapter" data-level="2.4.6" data-path="intro.html"><a href="intro.html#symlink-policies"><i class="fa fa-check"></i><b>2.4.6</b> Symlink Policies</a></li>
-<li class="chapter" data-level="2.4.7" data-path="intro.html"><a href="intro.html#sudoers-policies"><i class="fa fa-check"></i><b>2.4.7</b> Sudoers Policies</a></li>
-<li class="chapter" data-level="2.4.8" data-path="intro.html"><a href="intro.html#message-policies"><i class="fa fa-check"></i><b>2.4.8</b> Message Policies</a></li>
-<li class="chapter" data-level="2.4.9" data-path="intro.html"><a href="intro.html#pam-access-policies"><i class="fa fa-check"></i><b>2.4.9</b> PAM Access Policies</a></li>
-<li class="chapter" data-level="2.4.10" data-path="intro.html"><a href="intro.html#certificate-auto-enrollment"><i class="fa fa-check"></i><b>2.4.10</b> Certificate Auto Enrollment</a></li>
-<li class="chapter" data-level="2.4.11" data-path="intro.html"><a href="intro.html#firefox-policy"><i class="fa fa-check"></i><b>2.4.11</b> Firefox Policy</a></li>
-<li class="chapter" data-level="2.4.12" data-path="intro.html"><a href="intro.html#chromiumchrome-policy"><i class="fa fa-check"></i><b>2.4.12</b> Chromium/Chrome Policy</a></li>
-<li class="chapter" data-level="2.4.13" data-path="intro.html"><a href="intro.html#gnome-settings"><i class="fa fa-check"></i><b>2.4.13</b> GNOME Settings</a></li>
-<li class="chapter" data-level="2.4.14" data-path="intro.html"><a href="intro.html#openssh-policy"><i class="fa fa-check"></i><b>2.4.14</b> OpenSSH Policy</a></li>
-<li class="chapter" data-level="2.4.15" data-path="intro.html"><a href="intro.html#firewalld-policy"><i class="fa fa-check"></i><b>2.4.15</b> Firewalld Policy</a></li>
+<li class="chapter" data-level="3.4.1" data-path="intro.html"><a href="intro.html#smb.conf-policies"><i class="fa fa-check"></i><b>3.4.1</b> smb.conf Policies</a></li>
+<li class="chapter" data-level="3.4.2" data-path="intro.html"><a href="intro.html#password-and-kerberos-policies"><i class="fa fa-check"></i><b>3.4.2</b> Password and Kerberos Policies</a></li>
+<li class="chapter" data-level="3.4.3" data-path="intro.html"><a href="intro.html#script-policies"><i class="fa fa-check"></i><b>3.4.3</b> Script Policies</a></li>
+<li class="chapter" data-level="3.4.4" data-path="intro.html"><a href="intro.html#startup-script-policies"><i class="fa fa-check"></i><b>3.4.4</b> Startup Script Policies</a></li>
+<li class="chapter" data-level="3.4.5" data-path="intro.html"><a href="intro.html#files-policy"><i class="fa fa-check"></i><b>3.4.5</b> Files Policy</a></li>
+<li class="chapter" data-level="3.4.6" data-path="intro.html"><a href="intro.html#symlink-policies"><i class="fa fa-check"></i><b>3.4.6</b> Symlink Policies</a></li>
+<li class="chapter" data-level="3.4.7" data-path="intro.html"><a href="intro.html#sudoers-policies"><i class="fa fa-check"></i><b>3.4.7</b> Sudoers Policies</a></li>
+<li class="chapter" data-level="3.4.8" data-path="intro.html"><a href="intro.html#message-policies"><i class="fa fa-check"></i><b>3.4.8</b> Message Policies</a></li>
+<li class="chapter" data-level="3.4.9" data-path="intro.html"><a href="intro.html#pam-access-policies"><i class="fa fa-check"></i><b>3.4.9</b> PAM Access Policies</a></li>
+<li class="chapter" data-level="3.4.10" data-path="intro.html"><a href="intro.html#certificate-auto-enrollment"><i class="fa fa-check"></i><b>3.4.10</b> Certificate Auto Enrollment</a></li>
+<li class="chapter" data-level="3.4.11" data-path="intro.html"><a href="intro.html#firefox-policy"><i class="fa fa-check"></i><b>3.4.11</b> Firefox Policy</a></li>
+<li class="chapter" data-level="3.4.12" data-path="intro.html"><a href="intro.html#chromiumchrome-policy"><i class="fa fa-check"></i><b>3.4.12</b> Chromium/Chrome Policy</a></li>
+<li class="chapter" data-level="3.4.13" data-path="intro.html"><a href="intro.html#gnome-settings"><i class="fa fa-check"></i><b>3.4.13</b> GNOME Settings</a></li>
+<li class="chapter" data-level="3.4.14" data-path="intro.html"><a href="intro.html#openssh-policy"><i class="fa fa-check"></i><b>3.4.14</b> OpenSSH Policy</a></li>
+<li class="chapter" data-level="3.4.15" data-path="intro.html"><a href="intro.html#firewalld-policy"><i class="fa fa-check"></i><b>3.4.15</b> Firewalld Policy</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>3</b> Managing Group Policies</a>
+<li class="chapter" data-level="4" data-path="manage.html"><a href="manage.html"><i class="fa fa-check"></i><b>4</b> Managing Group Policies</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>3.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
-<li class="chapter" data-level="3.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>3.2</b> Creating a Group Policy Object</a>
+<li class="chapter" data-level="4.1" data-path="manage.html"><a href="manage.html#gpopen"><i class="fa fa-check"></i><b>4.1</b> Opening a Group Policy Object in the Group Policy Management Console</a></li>
+<li class="chapter" data-level="4.2" data-path="manage.html"><a href="manage.html#gpcreate"><i class="fa fa-check"></i><b>4.2</b> Creating a Group Policy Object</a>
 <ul>
-<li class="chapter" data-level="3.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>3.2.1</b> samba-tool</a></li>
-<li class="chapter" data-level="3.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>3.2.2</b> GPMC</a></li>
+<li class="chapter" data-level="4.2.1" data-path="manage.html"><a href="manage.html#samba-tool"><i class="fa fa-check"></i><b>4.2.1</b> samba-tool</a></li>
+<li class="chapter" data-level="4.2.2" data-path="manage.html"><a href="manage.html#gpmc"><i class="fa fa-check"></i><b>4.2.2</b> GPMC</a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>3.3</b> Deleting a Group Policy Object</a>
+<li class="chapter" data-level="4.3" data-path="manage.html"><a href="manage.html#gpdelete"><i class="fa fa-check"></i><b>4.3</b> Deleting a Group Policy Object</a>
 <ul>
-<li class="chapter" data-level="3.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>3.3.1</b> samba-tool</a></li>
-<li class="chapter" data-level="3.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>3.3.2</b> GPMC</a></li>
+<li class="chapter" data-level="4.3.1" data-path="manage.html"><a href="manage.html#samba-tool-1"><i class="fa fa-check"></i><b>4.3.1</b> samba-tool</a></li>
+<li class="chapter" data-level="4.3.2" data-path="manage.html"><a href="manage.html#gpmc-1"><i class="fa fa-check"></i><b>4.3.2</b> GPMC</a></li>
 </ul></li>
-<li class="chapter" data-level="3.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>3.4</b> Listing a Group Policy</a></li>
-<li class="chapter" data-level="3.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>3.5</b> Modifying a Group Policy</a></li>
+<li class="chapter" data-level="4.4" data-path="manage.html"><a href="manage.html#gplist"><i class="fa fa-check"></i><b>4.4</b> Listing a Group Policy</a></li>
+<li class="chapter" data-level="4.5" data-path="manage.html"><a href="manage.html#gpmodify"><i class="fa fa-check"></i><b>4.5</b> Modifying a Group Policy</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="smbconf.html"><a href="smbconf.html"><i class="fa fa-check"></i><b>4</b> smb.conf Policies</a>
+<li class="chapter" data-level="5" data-path="smbconf.html"><a href="smbconf.html"><i class="fa fa-check"></i><b>5</b> smb.conf Policies</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="smbconf.html"><a href="smbconf.html#smbconf-sse"><i class="fa fa-check"></i><b>4.1</b> Server Side Extension</a>
+<li class="chapter" data-level="5.1" data-path="smbconf.html"><a href="smbconf.html#smbconf-sse"><i class="fa fa-check"></i><b>5.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="4.1.1" data-path="smbconf.html"><a href="smbconf.html#managing-smb.conf-policies-via-the-gpme"><i class="fa fa-check"></i><b>4.1.1</b> Managing smb.conf Policies via the GPME</a></li>
-<li class="chapter" data-level="4.1.2" data-path="smbconf.html"><a href="smbconf.html#managing-smb.conf-policies-via-samba-tool"><i class="fa fa-check"></i><b>4.1.2</b> Managing smb.conf Policies via samba-tool</a></li>
+<li class="chapter" data-level="5.1.1" data-path="smbconf.html"><a href="smbconf.html#managing-smb.conf-policies-via-the-gpme"><i class="fa fa-check"></i><b>5.1.1</b> Managing smb.conf Policies via the GPME</a></li>
+<li class="chapter" data-level="5.1.2" data-path="smbconf.html"><a href="smbconf.html#managing-smb.conf-policies-via-samba-tool"><i class="fa fa-check"></i><b>5.1.2</b> Managing smb.conf Policies via samba-tool</a></li>
 </ul></li>
-<li class="chapter" data-level="4.2" data-path="smbconf.html"><a href="smbconf.html#client-side-extension"><i class="fa fa-check"></i><b>4.2</b> Client Side Extension</a></li>
+<li class="chapter" data-level="5.2" data-path="smbconf.html"><a href="smbconf.html#client-side-extension"><i class="fa fa-check"></i><b>5.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="sec.html"><a href="sec.html"><i class="fa fa-check"></i><b>5</b> Password and Kerberos Policies</a>
+<li class="chapter" data-level="6" data-path="sec.html"><a href="sec.html"><i class="fa fa-check"></i><b>6</b> Password and Kerberos Policies</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="sec.html"><a href="sec.html#server-side-extension"><i class="fa fa-check"></i><b>5.1</b> Server Side Extension</a>
+<li class="chapter" data-level="6.1" data-path="sec.html"><a href="sec.html#server-side-extension"><i class="fa fa-check"></i><b>6.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="5.1.1" data-path="sec.html"><a href="sec.html#managing-password-and-kerberos-policies-via-the-gpme"><i class="fa fa-check"></i><b>5.1.1</b> Managing Password and Kerberos Policies via the GPME</a></li>
-<li class="chapter" data-level="5.1.2" data-path="sec.html"><a href="sec.html#managing-password-and-kerberos-policies-via-samba-tool"><i class="fa fa-check"></i><b>5.1.2</b> Managing Password and Kerberos Policies via samba-tool</a></li>
+<li class="chapter" data-level="6.1.1" data-path="sec.html"><a href="sec.html#managing-password-and-kerberos-policies-via-the-gpme"><i class="fa fa-check"></i><b>6.1.1</b> Managing Password and Kerberos Policies via the GPME</a></li>
+<li class="chapter" data-level="6.1.2" data-path="sec.html"><a href="sec.html#managing-password-and-kerberos-policies-via-samba-tool"><i class="fa fa-check"></i><b>6.1.2</b> Managing Password and Kerberos Policies via samba-tool</a></li>
 </ul></li>
-<li class="chapter" data-level="5.2" data-path="sec.html"><a href="sec.html#client-side-extension-1"><i class="fa fa-check"></i><b>5.2</b> Client Side Extension</a></li>
+<li class="chapter" data-level="6.2" data-path="sec.html"><a href="sec.html#client-side-extension-1"><i class="fa fa-check"></i><b>6.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="scripts.html"><a href="scripts.html"><i class="fa fa-check"></i><b>6</b> Script Policies</a>
+<li class="chapter" data-level="7" data-path="scripts.html"><a href="scripts.html"><i class="fa fa-check"></i><b>7</b> Script Policies</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="scripts.html"><a href="scripts.html#server-side-extension-1"><i class="fa fa-check"></i><b>6.1</b> Server Side Extension</a>
+<li class="chapter" data-level="7.1" data-path="scripts.html"><a href="scripts.html#server-side-extension-1"><i class="fa fa-check"></i><b>7.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="6.1.1" data-path="scripts.html"><a href="scripts.html#scripts-gpme"><i class="fa fa-check"></i><b>6.1.1</b> Managing Machine Scripts Policies via the GPME</a></li>
-<li class="chapter" data-level="6.1.2" data-path="scripts.html"><a href="scripts.html#managing-user-scripts-policies-via-the-gpme"><i class="fa fa-check"></i><b>6.1.2</b> Managing User Scripts Policies via the GPME</a></li>
+<li class="chapter" data-level="7.1.1" data-path="scripts.html"><a href="scripts.html#scripts-gpme"><i class="fa fa-check"></i><b>7.1.1</b> Managing Machine Scripts Policies via the GPME</a></li>
+<li class="chapter" data-level="7.1.2" data-path="scripts.html"><a href="scripts.html#managing-user-scripts-policies-via-the-gpme"><i class="fa fa-check"></i><b>7.1.2</b> Managing User Scripts Policies via the GPME</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="scripts.html"><a href="scripts.html#client-side-extension-2"><i class="fa fa-check"></i><b>6.2</b> Client Side Extension</a></li>
+<li class="chapter" data-level="7.2" data-path="scripts.html"><a href="scripts.html#client-side-extension-2"><i class="fa fa-check"></i><b>7.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="startupscripts.html"><a href="startupscripts.html"><i class="fa fa-check"></i><b>7</b> Startup Script Policies</a>
+<li class="chapter" data-level="8" data-path="startupscripts.html"><a href="startupscripts.html"><i class="fa fa-check"></i><b>8</b> Startup Script Policies</a>
 <ul>
-<li class="chapter" data-level="7.1" data-path="startupscripts.html"><a href="startupscripts.html#server-side-extension-2"><i class="fa fa-check"></i><b>7.1</b> Server Side Extension</a>
+<li class="chapter" data-level="8.1" data-path="startupscripts.html"><a href="startupscripts.html#server-side-extension-2"><i class="fa fa-check"></i><b>8.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="7.1.1" data-path="startupscripts.html"><a href="startupscripts.html#managing-startup-script-policies-via-samba-tool"><i class="fa fa-check"></i><b>7.1.1</b> Managing Startup Script Policies via samba-tool</a></li>
+<li class="chapter" data-level="8.1.1" data-path="startupscripts.html"><a href="startupscripts.html#managing-startup-script-policies-via-samba-tool"><i class="fa fa-check"></i><b>8.1.1</b> Managing Startup Script Policies via samba-tool</a></li>
 </ul></li>
-<li class="chapter" data-level="7.2" data-path="startupscripts.html"><a href="startupscripts.html#client-side-extension-3"><i class="fa fa-check"></i><b>7.2</b> Client Side Extension</a></li>
+<li class="chapter" data-level="8.2" data-path="startupscripts.html"><a href="startupscripts.html#client-side-extension-3"><i class="fa fa-check"></i><b>8.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="files.html"><a href="files.html"><i class="fa fa-check"></i><b>8</b> Files Policy</a>
+<li class="chapter" data-level="9" data-path="files.html"><a href="files.html"><i class="fa fa-check"></i><b>9</b> Files Policy</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="files.html"><a href="files.html#server-side-extension-3"><i class="fa fa-check"></i><b>8.1</b> Server Side Extension</a>
+<li class="chapter" data-level="9.1" data-path="files.html"><a href="files.html#server-side-extension-3"><i class="fa fa-check"></i><b>9.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="8.1.1" data-path="files.html"><a href="files.html#managing-the-files-policy-via-samba-tool"><i class="fa fa-check"></i><b>8.1.1</b> Managing the Files Policy via samba-tool</a></li>
+<li class="chapter" data-level="9.1.1" data-path="files.html"><a href="files.html#managing-the-files-policy-via-samba-tool"><i class="fa fa-check"></i><b>9.1.1</b> Managing the Files Policy via samba-tool</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="files.html"><a href="files.html#client-side-extension-4"><i class="fa fa-check"></i><b>8.2</b> Client Side Extension</a></li>
+<li class="chapter" data-level="9.2" data-path="files.html"><a href="files.html#client-side-extension-4"><i class="fa fa-check"></i><b>9.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="symlink.html"><a href="symlink.html"><i class="fa fa-check"></i><b>9</b> Symlink Policies</a>
+<li class="chapter" data-level="10" data-path="symlink.html"><a href="symlink.html"><i class="fa fa-check"></i><b>10</b> Symlink Policies</a>
 <ul>
-<li class="chapter" data-level="9.1" data-path="symlink.html"><a href="symlink.html#server-side-extension-4"><i class="fa fa-check"></i><b>9.1</b> Server Side Extension</a>
+<li class="chapter" data-level="10.1" data-path="symlink.html"><a href="symlink.html#server-side-extension-4"><i class="fa fa-check"></i><b>10.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="9.1.1" data-path="symlink.html"><a href="symlink.html#managing-the-symlink-policy-via-samba-tool"><i class="fa fa-check"></i><b>9.1.1</b> Managing the Symlink Policy via samba-tool</a></li>
+<li class="chapter" data-level="10.1.1" data-path="symlink.html"><a href="symlink.html#managing-the-symlink-policy-via-samba-tool"><i class="fa fa-check"></i><b>10.1.1</b> Managing the Symlink Policy via samba-tool</a></li>
 </ul></li>
-<li class="chapter" data-level="9.2" data-path="symlink.html"><a href="symlink.html#client-side-extension-5"><i class="fa fa-check"></i><b>9.2</b> Client Side Extension</a></li>
+<li class="chapter" data-level="10.2" data-path="symlink.html"><a href="symlink.html#client-side-extension-5"><i class="fa fa-check"></i><b>10.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="sudoers.html"><a href="sudoers.html"><i class="fa fa-check"></i><b>10</b> Sudoers Policies</a>
+<li class="chapter" data-level="11" data-path="sudoers.html"><a href="sudoers.html"><i class="fa fa-check"></i><b>11</b> Sudoers Policies</a>
 <ul>
-<li class="chapter" data-level="10.1" data-path="sudoers.html"><a href="sudoers.html#server-side-extension-5"><i class="fa fa-check"></i><b>10.1</b> Server Side Extension</a>
+<li class="chapter" data-level="11.1" data-path="sudoers.html"><a href="sudoers.html#server-side-extension-5"><i class="fa fa-check"></i><b>11.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="10.1.1" data-path="sudoers.html"><a href="sudoers.html#sudoers-gpme"><i class="fa fa-check"></i><b>10.1.1</b> Managing Sudoers Policy via the GPME</a></li>
-<li class="chapter" data-level="10.1.2" data-path="sudoers.html"><a href="sudoers.html#sudoers-samba-tool"><i class="fa fa-check"></i><b>10.1.2</b> Managing Sudoers Policy via samba-tool</a></li>
+<li class="chapter" data-level="11.1.1" data-path="sudoers.html"><a href="sudoers.html#sudoers-gpme"><i class="fa fa-check"></i><b>11.1.1</b> Managing Sudoers Policy via the GPME</a></li>
+<li class="chapter" data-level="11.1.2" data-path="sudoers.html"><a href="sudoers.html#sudoers-samba-tool"><i class="fa fa-check"></i><b>11.1.2</b> Managing Sudoers Policy via samba-tool</a></li>
 </ul></li>
-<li class="chapter" data-level="10.2" data-path="sudoers.html"><a href="sudoers.html#client-side-extension-6"><i class="fa fa-check"></i><b>10.2</b> Client Side Extension</a></li>
+<li class="chapter" data-level="11.2" data-path="sudoers.html"><a href="sudoers.html#client-side-extension-6"><i class="fa fa-check"></i><b>11.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="11" data-path="msgs.html"><a href="msgs.html"><i class="fa fa-check"></i><b>11</b> Message Policies</a>
+<li class="chapter" data-level="12" data-path="msgs.html"><a href="msgs.html"><i class="fa fa-check"></i><b>12</b> Message Policies</a>
 <ul>
-<li class="chapter" data-level="11.1" data-path="msgs.html"><a href="msgs.html#server-side-extension-6"><i class="fa fa-check"></i><b>11.1</b> Server Side Extension</a>
+<li class="chapter" data-level="12.1" data-path="msgs.html"><a href="msgs.html#server-side-extension-6"><i class="fa fa-check"></i><b>12.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="11.1.1" data-path="msgs.html"><a href="msgs.html#msgs-gpme"><i class="fa fa-check"></i><b>11.1.1</b> Managing Message Policy via the GPME</a></li>
-<li class="chapter" data-level="11.1.2" data-path="msgs.html"><a href="msgs.html#msgs-samba-tool"><i class="fa fa-check"></i><b>11.1.2</b> Managing Message Policy via samba-tool</a></li>
+<li class="chapter" data-level="12.1.1" data-path="msgs.html"><a href="msgs.html#msgs-gpme"><i class="fa fa-check"></i><b>12.1.1</b> Managing Message Policy via the GPME</a></li>
+<li class="chapter" data-level="12.1.2" data-path="msgs.html"><a href="msgs.html#msgs-samba-tool"><i class="fa fa-check"></i><b>12.1.2</b> Managing Message Policy via samba-tool</a></li>
 </ul></li>
-<li class="chapter" data-level="11.2" data-path="msgs.html"><a href="msgs.html#client-side-extension-7"><i class="fa fa-check"></i><b>11.2</b> Client Side Extension</a></li>
+<li class="chapter" data-level="12.2" data-path="msgs.html"><a href="msgs.html#client-side-extension-7"><i class="fa fa-check"></i><b>12.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="pamaccess.html"><a href="pamaccess.html"><i class="fa fa-check"></i><b>12</b> PAM Access Policies</a>
+<li class="chapter" data-level="13" data-path="pamaccess.html"><a href="pamaccess.html"><i class="fa fa-check"></i><b>13</b> PAM Access Policies</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="pamaccess.html"><a href="pamaccess.html#server-side-extension-7"><i class="fa fa-check"></i><b>12.1</b> Server Side Extension</a>
+<li class="chapter" data-level="13.1" data-path="pamaccess.html"><a href="pamaccess.html#server-side-extension-7"><i class="fa fa-check"></i><b>13.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="12.1.1" data-path="pamaccess.html"><a href="pamaccess.html#managing-pam-access-policies-via-samba-tool"><i class="fa fa-check"></i><b>12.1.1</b> Managing PAM Access Policies via samba-tool</a></li>
+<li class="chapter" data-level="13.1.1" data-path="pamaccess.html"><a href="pamaccess.html#managing-pam-access-policies-via-samba-tool"><i class="fa fa-check"></i><b>13.1.1</b> Managing PAM Access Policies via samba-tool</a></li>
 </ul></li>
-<li class="chapter" data-level="12.2" data-path="pamaccess.html"><a href="pamaccess.html#client-side-extension-8"><i class="fa fa-check"></i><b>12.2</b> Client Side Extension</a></li>
+<li class="chapter" data-level="13.2" data-path="pamaccess.html"><a href="pamaccess.html#client-side-extension-8"><i class="fa fa-check"></i><b>13.2</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="certautoenroll.html"><a href="certautoenroll.html"><i class="fa fa-check"></i><b>13</b> Certificate Auto Enrollment Policy</a>
+<li class="chapter" data-level="14" data-path="certautoenroll.html"><a href="certautoenroll.html"><i class="fa fa-check"></i><b>14</b> Certificate Auto Enrollment Policy</a>
 <ul>
-<li class="chapter" data-level="13.1" data-path="certautoenroll.html"><a href="certautoenroll.html#server-side-extension-8"><i class="fa fa-check"></i><b>13.1</b> Server Side Extension</a>
+<li class="chapter" data-level="14.1" data-path="certautoenroll.html"><a href="certautoenroll.html#server-side-extension-8"><i class="fa fa-check"></i><b>14.1</b> Server Side Extension</a>
 <ul>
-<li class="chapter" data-level="13.1.1" data-path="certautoenroll.html"><a href="certautoenroll.html#managing-certificate-auto-enrollment-via-the-gpme"><i class="fa fa-check"></i><b>13.1.1</b> Managing Certificate Auto Enrollment via the GPME</a></li>
-<li class="chapter" data-level="13.1.2" data-path="certautoenroll.html"><a href="certautoenroll.html#certificate-templates"><i class="fa fa-check"></i><b>13.1.2</b> Certificate Templates</a></li>
+<li class="chapter" data-level="14.1.1" data-path="certautoenroll.html"><a href="certautoenroll.html#managing-certificate-auto-enrollment-via-the-gpme"><i class="fa fa-check"></i><b>14.1.1</b> Managing Certificate Auto Enrollment via the GPME</a></li>
+<li class="chapter" data-level="14.1.2" data-path="certautoenroll.html"><a href="certautoenroll.html#certificate-templates"><i class="fa fa-check"></i><b>14.1.2</b> Certificate Templates</a></li>
 </ul></li>
-<li class="chapter" data-level="13.2" data-path="certautoenroll.html"><a href="certautoenroll.html#client-side-extension-9"><i class="fa fa-check"></i><b>13.2</b> Client Side Extension</a>
+<li class="chapter" data-level="14.2" data-path="certautoenroll.html"><a href="certautoenroll.html#client-side-extension-9"><i class="fa fa-check"></i><b>14.2</b> Client Side Extension</a>
 <ul>
-<li class="chapter" data-level="13.2.1" data-path="certautoenroll.html"><a href="certautoenroll.html#trouble-shooting-certificates"><i class="fa fa-check"></i><b>13.2.1</b> Trouble Shooting Certificates</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="14" data-path="firefox.html"><a href="firefox.html"><i class="fa fa-check"></i><b>14</b> Firefox Policy</a>
-<ul>
-<li class="chapter" data-level="14.1" data-path="firefox.html"><a href="firefox.html#server-side-extension-9"><i class="fa fa-check"></i><b>14.1</b> Server Side Extension</a></li>
-<li class="chapter" data-level="14.2" data-path="firefox.html"><a href="firefox.html#managing-firefox-policy-via-the-gpme"><i class="fa fa-check"></i><b>14.2</b> Managing Firefox Policy via the GPME</a></li>
-<li class="chapter" data-level="14.3" data-path="firefox.html"><a href="firefox.html#client-side-extension-10"><i class="fa fa-check"></i><b>14.3</b> Client Side Extension</a></li>
-</ul></li>
-<li class="chapter" data-level="15" data-path="chrome.html"><a href="chrome.html"><i class="fa fa-check"></i><b>15</b> Chromium/Chrome Policy</a>
-<ul>
-<li class="chapter" data-level="15.1" data-path="chrome.html"><a href="chrome.html#server-side-extension-10"><i class="fa fa-check"></i><b>15.1</b> Server Side Extension</a>
-<ul>
-<li class="chapter" data-level="15.1.1" data-path="chrome.html"><a href="chrome.html#managing-chromium-policy-via-the-gpme"><i class="fa fa-check"></i><b>15.1.1</b> Managing Chromium Policy via the GPME</a></li>
-</ul></li>
-<li class="chapter" data-level="15.2" data-path="chrome.html"><a href="chrome.html#client-side-extension-11"><i class="fa fa-check"></i><b>15.2</b> Client Side Extension</a></li>
-</ul></li>
-<li class="chapter" data-level="16" data-path="gnome.html"><a href="gnome.html"><i class="fa fa-check"></i><b>16</b> GNOME Settings Policy</a>
-<ul>
-<li class="chapter" data-level="16.1" data-path="gnome.html"><a href="gnome.html#server-side-extension-11"><i class="fa fa-check"></i><b>16.1</b> Server Side Extension</a>
-<ul>
-<li class="chapter" data-level="16.1.1" data-path="gnome.html"><a href="gnome.html#managing-gnome-settings-policy-via-the-gpme"><i class="fa fa-check"></i><b>16.1.1</b> Managing GNOME Settings Policy via the GPME</a></li>
-</ul></li>
-<li class="chapter" data-level="16.2" data-path="gnome.html"><a href="gnome.html#client-side-extension-12"><i class="fa fa-check"></i><b>16.2</b> Client Side Extension</a></li>
-</ul></li>
-<li class="chapter" data-level="17" data-path="openssh.html"><a href="openssh.html"><i class="fa fa-check"></i><b>17</b> OpenSSH Policy</a>
-<ul>
-<li class="chapter" data-level="17.1" data-path="openssh.html"><a href="openssh.html#server-side-extension-12"><i class="fa fa-check"></i><b>17.1</b> Server Side Extension</a>
-<ul>
-<li class="chapter" data-level="17.1.1" data-path="openssh.html"><a href="openssh.html#managing-openssh-policy-via-samba-tool"><i class="fa fa-check"></i><b>17.1.1</b> Managing OpenSSH Policy via samba-tool</a></li>
-</ul></li>
-<li class="chapter" data-level="17.2" data-path="openssh.html"><a href="openssh.html#client-side-extension-13"><i class="fa fa-check"></i><b>17.2</b> Client Side Extension</a></li>
-</ul></li>
-<li class="chapter" data-level="18" data-path="firewalld.html"><a href="firewalld.html"><i class="fa fa-check"></i><b>18</b> Firewalld Policy</a>
-<ul>
-<li class="chapter" data-level="18.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-13"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a>
-<ul>
-<li class="chapter" data-level="18.1.1" data-path="firewalld.html"><a href="firewalld.html#managing-firewalld-policy-via-the-gpme"><i class="fa fa-check"></i><b>18.1.1</b> Managing Firewalld Policy via the GPME</a></li>
-</ul></li>
-<li class="chapter" data-level="18.2" data-path="firewalld.html"><a href="firewalld.html#client-side-extension-14"><i class="fa fa-check"></i><b>18.2</b> Client Side Extension</a></li>
-</ul></li>
-<li class="chapter" data-level="19" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html"><i class="fa fa-check"></i><b>19</b> Writing Group Policy Extensions</a>
-<ul>
-<li class="chapter" data-level="19.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#sse"><i class="fa fa-check"></i><b>19.1</b> Creating the Server Side Extension</a>
-<ul>
-<li class="chapter" data-level="19.1.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#admx"><i class="fa fa-check"></i><b>19.1.1</b> Administrative Templates</a></li>
-<li class="chapter" data-level="19.1.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#samba-tool-gpo-manage"><i class="fa fa-check"></i><b>19.1.2</b> samba-tool gpo manage</a></li>
-</ul></li>
-<li class="chapter" data-level="19.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>19.2</b> Creating the Client Side Extension</a>
-<ul>
-<li class="chapter" data-level="19.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_ext-and-gp_applier-python-classes"><i class="fa fa-check"></i><b>19.2.1</b> The gp_ext and gp_applier Python Classes</a></li>
-<li class="chapter" data-level="19.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>19.2.2</b> Process Group Policy</a></li>
-<li class="chapter" data-level="19.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>19.2.3</b> Resultant Set of Policy</a></li>
-<li class="chapter" data-level="19.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>19.2.4</b> Registering/Unregistering a Client Side Extension</a></li>
+<li class="chapter" data-level="14.2.1" data-path="certautoenroll.html"><a href="certautoenroll.html#trouble-shooting-certificates"><i class="fa fa-check"></i><b>14.2.1</b> Trouble Shooting Certificates</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="20" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>20</b> Modifying a Registry.pol File</a>
+<li class="chapter" data-level="15" data-path="firefox.html"><a href="firefox.html"><i class="fa fa-check"></i><b>15</b> Firefox Policy</a>
 <ul>
-<li class="chapter" data-level="20.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>20.1</b> Using samba-tool</a></li>
-<li class="chapter" data-level="20.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>20.2</b> Scripting with python</a></li>
+<li class="chapter" data-level="15.1" data-path="firefox.html"><a href="firefox.html#server-side-extension-9"><i class="fa fa-check"></i><b>15.1</b> Server Side Extension</a></li>
+<li class="chapter" data-level="15.2" data-path="firefox.html"><a href="firefox.html#managing-firefox-policy-via-the-gpme"><i class="fa fa-check"></i><b>15.2</b> Managing Firefox Policy via the GPME</a></li>
+<li class="chapter" data-level="15.3" data-path="firefox.html"><a href="firefox.html#client-side-extension-10"><i class="fa fa-check"></i><b>15.3</b> Client Side Extension</a></li>
 </ul></li>
-<li class="chapter" data-level="21" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>21</b> Installing Administrative Templates</a>
+<li class="chapter" data-level="16" data-path="chrome.html"><a href="chrome.html"><i class="fa fa-check"></i><b>16</b> Chromium/Chrome Policy</a>
 <ul>
-<li class="chapter" data-level="21.1" data-path="install-admx.html"><a href="install-admx.html#install-admx-samba"><i class="fa fa-check"></i><b>21.1</b> Install Samba ADMX Templates</a></li>
-<li class="chapter" data-level="21.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>21.2</b> Installing Firefox ADMX Templates</a></li>
-<li class="chapter" data-level="21.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>21.3</b> Installing Chromium ADMX Templates</a></li>
-<li class="chapter" data-level="21.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>21.4</b> Installing Windows ADMX Templates</a></li>
+<li class="chapter" data-level="16.1" data-path="chrome.html"><a href="chrome.html#server-side-extension-10"><i class="fa fa-check"></i><b>16.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="16.1.1" data-path="chrome.html"><a href="chrome.html#managing-chromium-policy-via-the-gpme"><i class="fa fa-check"></i><b>16.1.1</b> Managing Chromium Policy via the GPME</a></li>
 </ul></li>
-<li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
+<li class="chapter" data-level="16.2" data-path="chrome.html"><a href="chrome.html#client-side-extension-11"><i class="fa fa-check"></i><b>16.2</b> Client Side Extension</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="gnome.html"><a href="gnome.html"><i class="fa fa-check"></i><b>17</b> GNOME Settings Policy</a>
 <ul>
-<li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="17.1" data-path="gnome.html"><a href="gnome.html#server-side-extension-11"><i class="fa fa-check"></i><b>17.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="17.1.1" data-path="gnome.html"><a href="gnome.html#managing-gnome-settings-policy-via-the-gpme"><i class="fa fa-check"></i><b>17.1.1</b> Managing GNOME Settings Policy via the GPME</a></li>
+</ul></li>
+<li class="chapter" data-level="17.2" data-path="gnome.html"><a href="gnome.html#client-side-extension-12"><i class="fa fa-check"></i><b>17.2</b> Client Side Extension</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="openssh.html"><a href="openssh.html"><i class="fa fa-check"></i><b>18</b> OpenSSH Policy</a>
+<ul>
+<li class="chapter" data-level="18.1" data-path="openssh.html"><a href="openssh.html#server-side-extension-12"><i class="fa fa-check"></i><b>18.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="18.1.1" data-path="openssh.html"><a href="openssh.html#managing-openssh-policy-via-samba-tool"><i class="fa fa-check"></i><b>18.1.1</b> Managing OpenSSH Policy via samba-tool</a></li>
+</ul></li>
+<li class="chapter" data-level="18.2" data-path="openssh.html"><a href="openssh.html#client-side-extension-13"><i class="fa fa-check"></i><b>18.2</b> Client Side Extension</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="firewalld.html"><a href="firewalld.html"><i class="fa fa-check"></i><b>19</b> Firewalld Policy</a>
+<ul>
+<li class="chapter" data-level="19.1" data-path="firewalld.html"><a href="firewalld.html#server-side-extension-13"><i class="fa fa-check"></i><b>19.1</b> Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="19.1.1" data-path="firewalld.html"><a href="firewalld.html#managing-firewalld-policy-via-the-gpme"><i class="fa fa-check"></i><b>19.1.1</b> Managing Firewalld Policy via the GPME</a></li>
+</ul></li>
+<li class="chapter" data-level="19.2" data-path="firewalld.html"><a href="firewalld.html#client-side-extension-14"><i class="fa fa-check"></i><b>19.2</b> Client Side Extension</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html"><i class="fa fa-check"></i><b>20</b> Writing Group Policy Extensions</a>
+<ul>
+<li class="chapter" data-level="20.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#sse"><i class="fa fa-check"></i><b>20.1</b> Creating the Server Side Extension</a>
+<ul>
+<li class="chapter" data-level="20.1.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#admx"><i class="fa fa-check"></i><b>20.1.1</b> Administrative Templates</a></li>
+<li class="chapter" data-level="20.1.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#samba-tool-gpo-manage"><i class="fa fa-check"></i><b>20.1.2</b> samba-tool gpo manage</a></li>
+</ul></li>
+<li class="chapter" data-level="20.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#cse"><i class="fa fa-check"></i><b>20.2</b> Creating the Client Side Extension</a>
+<ul>
+<li class="chapter" data-level="20.2.1" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#the-gp_ext-and-gp_applier-python-classes"><i class="fa fa-check"></i><b>20.2.1</b> The gp_ext and gp_applier Python Classes</a></li>
+<li class="chapter" data-level="20.2.2" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#process-group-policy"><i class="fa fa-check"></i><b>20.2.2</b> Process Group Policy</a></li>
+<li class="chapter" data-level="20.2.3" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#resultant-set-of-policy"><i class="fa fa-check"></i><b>20.2.3</b> Resultant Set of Policy</a></li>
+<li class="chapter" data-level="20.2.4" data-path="writing-group-policy-extensions.html"><a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension"><i class="fa fa-check"></i><b>20.2.4</b> Registering/Unregistering a Client Side Extension</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="regpol.html"><a href="regpol.html"><i class="fa fa-check"></i><b>21</b> Modifying a Registry.pol File</a>
+<ul>
+<li class="chapter" data-level="21.1" data-path="regpol.html"><a href="regpol.html#regpol-samba-tool"><i class="fa fa-check"></i><b>21.1</b> Using samba-tool</a></li>
+<li class="chapter" data-level="21.2" data-path="regpol.html"><a href="regpol.html#scripting-with-python"><i class="fa fa-check"></i><b>21.2</b> Scripting with python</a></li>
+</ul></li>
+<li class="chapter" data-level="22" data-path="install-admx.html"><a href="install-admx.html"><i class="fa fa-check"></i><b>22</b> Installing Administrative Templates</a>
+<ul>
+<li class="chapter" data-level="22.1" data-path="install-admx.html"><a href="install-admx.html#install-admx-samba"><i class="fa fa-check"></i><b>22.1</b> Install Samba ADMX Templates</a></li>
+<li class="chapter" data-level="22.2" data-path="install-admx.html"><a href="install-admx.html#install-admx-firefox"><i class="fa fa-check"></i><b>22.2</b> Installing Firefox ADMX Templates</a></li>
+<li class="chapter" data-level="22.3" data-path="install-admx.html"><a href="install-admx.html#install-admx-chromium"><i class="fa fa-check"></i><b>22.3</b> Installing Chromium ADMX Templates</a></li>
+<li class="chapter" data-level="22.4" data-path="install-admx.html"><a href="install-admx.html#install-admx-windows"><i class="fa fa-check"></i><b>22.4</b> Installing Windows ADMX Templates</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>23</b> Automatic Policy Refresh</a>
+<ul>
+<li class="chapter" data-level="23.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>23.1</b> The samba-gpupdate command</a></li>
+<li class="chapter" data-level="23.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>23.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -362,28 +360,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="scripts" class="section level1 hasAnchor" number="6">
-<h1><span class="header-section-number">6</span> Script Policies<a href="scripts.html#scripts" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="scripts" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">7</span> Script Policies<a href="scripts.html#scripts" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="scripts-images/write.png" width="30%" style="display: block; margin: auto;" /></p>
 <p></p>
-<p>The purpose of this policy is to schedule cron jobs on a Linux client. Both Machine and User policy is supported. This policy does not upload a script for execution, it only schedules an existing script to run. To first load a script onto the client, see the Files Policy in chapter <a href="files.html#files">8</a>.</p>
-<p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/Registry.pol</strong> and <strong>USER/Registry.pol</strong> files within the subdirectory of the Group Policy Object. It is stored in registry format. See chapter <a href="regpol.html#regpol">20</a> for details on how to manually modify this file.</p>
-<div id="server-side-extension-1" class="section level2 hasAnchor" number="6.1">
-<h2><span class="header-section-number">6.1</span> Server Side Extension<a href="scripts.html#server-side-extension-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Server Side Extension for smb.conf policies is distributed using Administrative Templates (ADMX). Refer to chapter <a href="writing-group-policy-extensions.html#sse">19.1</a> in section <a href="writing-group-policy-extensions.html#admx">19.1.1</a> for details about Administrative Templates.</p>
-<p>Setting up the ADMX templates for this policy is described in chapter <a href="install-admx.html#install-admx">21</a> section <a href="install-admx.html#install-admx-samba">21.1</a>.
+<p>The purpose of this policy is to schedule cron jobs on a Linux client. Both Machine and User policy is supported. This policy does not upload a script for execution, it only schedules an existing script to run. To first load a script onto the client, see the Files Policy in chapter <a href="files.html#files">9</a>.</p>
+<p>This policy is physically stored on the SYSVOL in the <strong>MACHINE/Registry.pol</strong> and <strong>USER/Registry.pol</strong> files within the subdirectory of the Group Policy Object. It is stored in registry format. See chapter <a href="regpol.html#regpol">21</a> for details on how to manually modify this file.</p>
+<div id="server-side-extension-1" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Server Side Extension<a href="scripts.html#server-side-extension-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The Server Side Extension for smb.conf policies is distributed using Administrative Templates (ADMX). Refer to chapter <a href="writing-group-policy-extensions.html#sse">20.1</a> in section <a href="writing-group-policy-extensions.html#admx">20.1.1</a> for details about Administrative Templates.</p>
+<p>Setting up the ADMX templates for this policy is described in chapter <a href="install-admx.html#install-admx">22</a> section <a href="install-admx.html#install-admx-samba">22.1</a>.
 </p>
-<div id="scripts-gpme" class="section level3 hasAnchor" number="6.1.1">
-<h3><span class="header-section-number">6.1.1</span> Managing Machine Scripts Policies via the GPME<a href="scripts.html#scripts-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="scripts-gpme" class="section level3 hasAnchor" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Managing Machine Scripts Policies via the GPME<a href="scripts.html#scripts-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>As an example, let’s create a simple cron job which echo’s “hello world” once every day.</p>
 <ol style="list-style-type: decimal">
-<li><p>Open the Group Policy Management Editor (GPME). For instructions on accessing the GPME, see chapter <a href="manage.html#manage">3</a> section <a href="manage.html#gpopen">3.1</a>.</p></li>
+<li><p>Open the Group Policy Management Editor (GPME). For instructions on accessing the GPME, see chapter <a href="manage.html#manage">4</a> section <a href="manage.html#gpopen">4.1</a>.</p></li>
 <li><p>In the left pane of the GPME, navigate to <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Scripts</code>.</p></li>
 </ol>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-19"></span>
 <img src="scripts-images/scripts.png" alt="Scripts Server Side Extension (ADMX)" width="70%" />
 <p class="caption">
-Figure 6.1: Scripts Server Side Extension (ADMX)
+Figure 7.1: Scripts Server Side Extension (ADMX)
 </p>
 </div>
 <ol start="3" style="list-style-type: decimal">
@@ -395,15 +393,15 @@ Figure 6.1: Scripts Server Side Extension (ADMX)
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-20"></span>
 <img src="scripts-images/hello_world.png" alt="Script Example" width="70%" />
 <p class="caption">
-Figure 6.2: Script Example
+Figure 7.2: Script Example
 </p>
 </div>
 <ol start="6" style="list-style-type: decimal">
 <li>Click OK to close the “Show Contents” dialog box, and then click OK again to close the “Daily” dialog box.</li>
 </ol>
 </div>
-<div id="managing-user-scripts-policies-via-the-gpme" class="section level3 hasAnchor" number="6.1.2">
-<h3><span class="header-section-number">6.1.2</span> Managing User Scripts Policies via the GPME<a href="scripts.html#managing-user-scripts-policies-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="managing-user-scripts-policies-via-the-gpme" class="section level3 hasAnchor" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> Managing User Scripts Policies via the GPME<a href="scripts.html#managing-user-scripts-policies-via-the-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Next we’ll create a user script that echo’s the text “Don’t do that Dave” every hour.</p>
 <ol style="list-style-type: decimal">
 <li><p>In the left pane of the GPME, navigate to <code>User Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; Unix Settings &gt; Scripts</code>.</p></li>
@@ -415,7 +413,7 @@ Figure 6.2: Script Example
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-21"></span>
 <img src="scripts-images/dave.png" alt="User Script Example" width="70%" />
 <p class="caption">
-Figure 6.3: User Script Example
+Figure 7.3: User Script Example
 </p>
 </div>
 <ol start="5" style="list-style-type: decimal">
@@ -424,8 +422,8 @@ Figure 6.3: User Script Example
 <p>The quote “Don’t do that Dave” is a line spoken by the character HAL 9000 in the science fiction film “2001: A Space Odyssey.” HAL is a sentient computer that controls the systems of a spacecraft, and the quote is spoken in a scene where HAL is attempting to prevent one of the astronauts from disconnecting its memory.</p>
 </div>
 </div>
-<div id="client-side-extension-2" class="section level2 hasAnchor" number="6.2">
-<h2><span class="header-section-number">6.2</span> Client Side Extension<a href="scripts.html#client-side-extension-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="client-side-extension-2" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Client Side Extension<a href="scripts.html#client-side-extension-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Scripts Client Side Extension (CSE) creates cron jobs on the Linux client. For Machine policy, these jobs are installed in a file within the <code>/etc/cron.daily</code>, <code>/etc/cron.monthly</code>, <code>/etc/cron.weekly</code> and <code>/etc/cron.hourly</code> directories. For User policy, the user’s crontab file is directly modified.
 </p>
 <p>In the previous section we created two test Script policies. If we now go to our Linux client, and check the Resultant Set of Policy, we see this:</p>
