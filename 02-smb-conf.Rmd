@@ -67,7 +67,7 @@ samba-tool gpo manage smb_conf set \
 	{31B2F340-016D-11D2-945F-00C04FB984F9} 'apply gpo policies' yes
 ```
 
-If you want to unset a policy, you can omit the <value> argument. For example, to unset the `apply gpo policies` setting in the GPO named `{31B2F340-016D-11D2-945F-00C04FB984F9}`, you would use the following command:
+If you want to unset a policy, you can omit the `<value>` argument. For example, to unset the `apply gpo policies` setting in the GPO named `{31B2F340-016D-11D2-945F-00C04FB984F9}`, you would use the following command:
 
 
 ```sh
