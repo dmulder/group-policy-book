@@ -13,6 +13,7 @@ link-citations: yes
 github-repo: dmulder/group-policy-book
 output:
   bookdown::pdf_book:
+    toc: False
     includes:
       in_header: "preamble.tex"
     index: true
@@ -20,7 +21,17 @@ header-includes:
 - \AtBeginDocument{\frontmatter}
 ---
 
-# About
+This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. The print edition of this book is sold at-cost, in accordance with the license.
+
+[![Creative Commons License](by-nc-sa_4.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+You can obtain the free ebook edition of this book and the sources from https://github.com/dmulder/group-policy-book/releases.
+
+```{=latex}
+\tableofcontents
+```
+
+# Preface
 
 This book introduces the user to opensource tools for managing Linux clients via Samba's Group Policy.
 
@@ -30,7 +41,7 @@ Group Policy is a feature of the Microsoft Windows operating system that allows 
 
 In this book, we will introduce the reader to the basics of Group Policy and show how to use Samba to apply GPOs to Linux clients. We will cover topics such as configuring Samba's Group Policy Server Side Extensions (SSE), troubleshooting common issues with Client Side Extensions (CSEs), and how to create and apply your own Group Policy. By the end of this book, the reader should have a good understanding of how to use Group Policy with Linux systems and be able to confidently manage their Linux clients using this powerful tool.
 
-## About the Author
+# About the Author
 
 David Mulder is a developer known for his work on integrating Group Policy support into Samba, which has allowed Linux users to take advantage of this powerful feature to centrally manage their systems. Mulder's work on Samba's Group Policy support began in 2016, when he began reviewing code from Luke Morrison, an intern who had submitted his implementation of Group Policy to the Samba project. Mulder previously contributed to the Vintela Group Policy project beginning in 2012, and brought that expertise to the Samba team.
 
