@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,8 +342,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
 <ul>
 <li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -481,7 +480,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">19.1.2</span> samba-tool gpo manage<a href="writing-group-policy-extensions.html#samba-tool-gpo-manage" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <code>samba-tool gpo manage</code> command is a tool provided by the Samba team for managing Group Policy Objects (GPOs). This command provides a number of subcommands that allow you to add, remove, and list policies within a GPO.</p>
 <p>Adding subcommands to <code>samba-tool gpo manage</code> is one way to create a Server Side Extension (SSE) for Group Policy. Each <code>samba-tool gpo manage</code> command generally provides 3 subcommands for each policy; add, remove, and list. These subcommands allow you to add new policies to a GPO, remove existing policies from a GPO, and list the policies that are currently configured in a GPO.</p>
-<p>Group Policy SSEs should be added to <code>samba-tool</code> in the <code>python/samba/netcmd/gpo.py</code> file.</p>
+<p>Group Policy SSEs should be added to <code>samba-tool</code> in the <code>python/samba/netcmd/</code> <code>gpo.py</code> file.</p>
 <div id="subcommands" class="section level4 hasAnchor" number="19.1.2.1">
 <h4><span class="header-section-number">19.1.2.1</span> Subcommands<a href="writing-group-policy-extensions.html#subcommands" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>To add python subcommands using the <code>SuperCommand</code> class, you will need to create a new class that inherits from the <code>SuperCommand</code> class, and define a subcommands attribute that lists the subcommands that are supported by your command. The subcommands attribute will be a dictionary containing keys with new command names, paired with instances of <code>Command</code> classes which implement the command.</p>

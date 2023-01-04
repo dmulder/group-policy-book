@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,8 +342,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
 <ul>
 <li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -408,7 +407,8 @@ echo Something is happening daily
  /usr/bin/test_script.sh root root 555 -UAdministrator
 &gt; samba-tool gpo manage files list \
  {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
--r-xr-xr-x  root    root    /usr/bin/test_script.sh -&gt; test_script.sh</code></pre>
+-r-xr-xr-x  root    root    /usr/bin/test_script.sh -&gt;
+                                test_script.sh</code></pre>
 <p>The output of the <code>samba-tool gpo manage files list</code> command now shows that we have a policy set which will deploy a link to our test_script.sh on the host. If we check the contents of the SYSVOL, we can see that our file has been uploaded successfully.</p>
 <pre><code>&gt; sudo mount.cifs \\\\lizardo.suse.de\\SYSVOL /mnt/ \
  -ouser=Administrator

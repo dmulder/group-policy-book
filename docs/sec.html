@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,8 +342,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
 <ul>
 <li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -369,7 +368,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>
 </p>
 <p>The purpose of these policies is to enforce password complexity and kerberos rules on a Samba Active Directory Domain Controller (ADDC). When a Linux client is not an ADDC, these policies are disabled and ignored automatically.</p>
-<p>These policies are physically stored on the SYSVOL in the <strong>MACHINE/Microsoft/Windows NT/SecEdit/GptTmpl.inf</strong> file in the subdirectory of the Group Policy Object. They are stored in ini format, and are easily modified manually using a text editor.</p>
+<p>These policies are physically stored on the SYSVOL in the <strong>MACHINE/Microsoft</strong> */Windows NT/SecEdit/GptTmpl.inf** file in the subdirectory of the Group Policy Object. They are stored in ini format, and are easily modified manually using a text editor.</p>
 <div id="server-side-extension" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> Server Side Extension<a href="sec.html#server-side-extension" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Group Policy Management Editor (GPME) contains a built in Server Side Extension for Password and Kerberos Policies. There is also a <code>samba-tool</code> command to modify these policies.
@@ -491,7 +490,7 @@ Figure 5.2: Kerberos Policies
 </div>
 <div id="client-side-extension-1" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Client Side Extension<a href="sec.html#client-side-extension-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Password and Kerberos policies are seperated into two Client Side Extensions (CSE), <code>gp_access_ext</code> and <code>gp_krb_ext</code>. The Password policies (internally known as <em>System Access</em>) apply password complexity rules directly to the ADDC SamDB in the applicable LDAP attributes. The Kerberos policies are stored in our Group Policy Cache, and are fetched directly by the <code>samba</code> daemon when it loads.
+<p>The Password and Kerberos policies are separated into two Client Side Extensions (CSE), <code>gp_access_ext</code> and <code>gp_krb_ext</code>. The Password policies (internally known as <em>System Access</em>) apply password complexity rules directly to the ADDC SamDB in the applicable LDAP attributes. The Kerberos policies are stored in our Group Policy Cache, and are fetched directly by the <code>samba</code> daemon when it loads.
 </p>
 <p>In the previous section we saw that our Password and Kerberos policies were already initialized to some defaults. If we now go to our Linux client, and check the Resultant Set of Policy, we see this:</p>
 <pre><code>&gt; sudo /usr/sbin/samba-gpupdate --rsop

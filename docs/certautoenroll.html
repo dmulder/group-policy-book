@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,8 +342,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
 <ul>
 <li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -382,7 +381,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To enable Certificate Auto Enrollment using the Group Policy Management Editor (GPME):</p>
 <ol style="list-style-type: decimal">
 <li><p>Open the Group Policy Management Editor. For instructions on accessing the GPME, see chapter <a href="manage.html#manage">3</a> section <a href="manage.html#gpopen">3.1</a>.</p></li>
-<li><p>In the Group Policy Management Editor window, navigate to <code>Computer Configuration &gt; Policies &gt; Windows Settings &gt; Security Settings &gt; Public Key Policies</code>.</p></li>
+<li><p>In the Group Policy Management Editor window, navigate to <code>Computer Configuration &gt; Policies &gt; Windows Settings &gt;</code> <code>Security Settings &gt; Public Key Policies</code>.</p></li>
 </ol>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-34"></span>
 <img src="cert-auto-enroll-images/public_key_policy.png" alt="Public Key Policies" width="70%" />
@@ -415,7 +414,7 @@ Figure 13.3: Enable Certificate Auto-Enrollment
 <p>Advanced Certificate Auto Enrollment allows you to add multiple certificate servers to your configuration. This is useful in a more complex environment with multiple certificate servers, but is not necessary in a simple environment with a single certificate server. The advanced configuration stores the policy directly on the SYSVOL in the Registry.pol file, whereas a simple configuration is stored in LDAP.</p>
 <p>To configure Advanced Certificate Auto Enrollment:</p>
 <ol style="list-style-type: decimal">
-<li><p>In the Group Policy Management Editor window, navigate to <code>Computer Configuration &gt; Policies &gt; Windows Settings &gt; Security Settings &gt; Public Key Policies</code>.</p></li>
+<li><p>In the Group Policy Management Editor window, navigate to <code>Computer Configuration &gt; Policies &gt; Windows Settings &gt;</code> <code>Security Settings &gt; Public Key Policies</code>.</p></li>
 <li><p>Double-click on “Certificate Services Client - Certificate Enrollment Policy” to open its properties.</p></li>
 </ol>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-37"></span>
@@ -665,7 +664,7 @@ Figure 13.13: Edit Site Binding
 </div>
 <div id="python-requests-security-level" class="section level4 hasAnchor" number="13.2.1.2">
 <h4><span class="header-section-number">13.2.1.2</span> python-requests security level<a href="certautoenroll.html#python-requests-security-level" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Another error you may enounter is actually specific to the <em>python-requests</em> module.</p>
+<p>Another error you may encounter is actually specific to the <em>python-requests</em> module.</p>
 <pre><code>(Caused by
   SSLError(
     SSLError(1,

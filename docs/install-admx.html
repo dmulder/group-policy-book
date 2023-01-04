@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,8 +342,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
 <ul>
 <li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -371,7 +370,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The following is instructions on how to obtain and install the various ADMX templates that are used by Samba.</p>
 <div id="install-admx-samba" class="section level2 hasAnchor" number="21.1">
 <h2><span class="header-section-number">21.1</span> Install Samba ADMX Templates<a href="install-admx.html#install-admx-samba" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Samba ADMX templates are availabe in the Samba source tree, and can be downloaded from <a href="https://download.samba.org/pub/samba/samba-latest.tar.gz" class="uri">https://download.samba.org/pub/samba/samba-latest.tar.gz</a>, and can then be installed using the <code>samba-tool gpo admxload</code> command.</p>
+<p>The Samba ADMX templates are available in the Samba source tree, and can be downloaded from <a href="https://download.samba.org/pub/samba/samba-latest.tar.gz" class="uri">https://download.samba.org/pub/samba/samba-latest.tar.gz</a>, and can then be installed using the <code>samba-tool gpo admxload</code> command.</p>
 <pre><code>&gt; tar -xf samba-latest.tar.gz
 &gt; samba-tool gpo admxload \
  --admx-dir=./samba-4.17.3/libgpo/admx -UAdministrator</code></pre>

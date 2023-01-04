@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,8 +342,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
 <ul>
 <li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -368,7 +367,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="pam-access-images/access.png" width="30%" style="display: block; margin: auto;" /></p>
 <p></p>
 <p>PAM Access Policy allows you to set host access rules for client machines. Specifically, it specifies rules in <code>/etc/security/access.d</code> to allow or deny access to the host.</p>
-<p>This policy is physically stored on the SYSVOL in two files, <strong>MACHINE/VGP/VTLA/VAS/HostAccessControl/Allow/manifest.xml</strong> and <strong>MACHINE/VGP/VTLA/VAS/HostAccessControl/Deny/manifest.xml</strong>. The manifest.xml files are in xml format, and are easily modified manually using a text editor.</p>
+<p>This policy is physically stored on the SYSVOL in two files, MACHINE/VGP/VTLA/VAS/HostAccessControl/Allow/manifest.xml and MACHINE/VGP/VTLA/VAS/HostAccessControl/Deny/manifest.xml. The manifest.xml files are in xml format, and are easily modified manually using a text editor.</p>
 <div id="server-side-extension-7" class="section level2 hasAnchor" number="12.1">
 <h2><span class="header-section-number">12.1</span> Server Side Extension<a href="pamaccess.html#server-side-extension-7" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The Server Side Extensions (SSE) for PAM Access Policies is administered using the <code>samba-tool gpo manage access</code> command. This SSE cannot be modified using the GPME.
@@ -458,7 +457,7 @@ GPO: Default Domain Policy
     /etc/security/access.d/0000000001_gp.conf
   &lt;/attribute&gt;
 &lt;/gp_ext&gt;</code></pre>
-<p>Notice that the PAM Access policy generated 2 different files, <code>/etc/security/access.d/</code> <code>0000000001_gp.conf</code> and <code>/etc/security/access.d/9000000001_gp_DENY_ALL.conf</code>. Let’s check the contents of these files to see what was generated.
+<p>Notice that the PAM Access policy generated 2 different files, <code>/etc/security/access.d/0000000001_gp.conf</code> and <code>/etc/security/access.d/9000000001_gp_DENY_ALL.conf</code>. Let’s check the contents of these files to see what was generated.
 </p>
 <pre><code>&gt; cat /etc/security/access.d/0000000001_gp.conf; echo
 

@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,8 +342,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
 <ul>
 <li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -384,17 +383,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre class="shell"><code>samba-gpupdate --rsop --target=Computer</code></pre>
 <p>It is important to note that the <code>samba-gpupdate</code> command can only be used on a machine that is a member of an Active Directory domain. It will not work on a standalone machine or on a machine that is part of a different type of domain.</p>
 </div>
-<div id="configuring-automatic-policy-refresh-via-winbind" class="section level2 hasAnchor" number="22.2">
-<h2><span class="header-section-number">22.2</span> Configuring Automatic Policy Refresh via winbind<a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>To configure winbind Automatic Policy Refresh, you will set the <code>apply group policies</code> smb.conf parameter.</p>
+<div id="winbind-refresh" class="section level2 hasAnchor" number="22.2">
+<h2><span class="header-section-number">22.2</span> Automatic Policy Refresh via winbind<a href="policy-refresh.html#winbind-refresh" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To configure winbind Automatic Policy Refresh, you will set the <code>apply group policies</code> smb.conf parameter.
+</p>
 <p>To set this parameter manually, you will need to add the following line to the <code>global</code> section of the smb.conf file:</p>
 <div class="sourceCode" id="cb127"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb127-1"><a href="policy-refresh.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="dt">apply group policies </span><span class="ot">=</span><span class="st"> </span><span class="kw">Yes</span></span></code></pre></div>
 <p>This will enable winbind to automatically apply Group Policy settings on the <em>Group Policy refresh interval</em>.
 </p>
 <p>Alternatively, you can deploy this setting automatically using smb.conf Group Policies. See chapter <a href="smbconf.html#smbconf">4</a> section <a href="smbconf.html#smbconf-sse">4.1</a> for instructions how to deploy this setting via Group Policy. The <code>samba-gpupdate</code> command will need to be executed manually to deploy this setting the first time.</p>
 </div>
-<div id="configuring-automatic-policy-refresh-via-oddjob-gpupdate" class="section level2 hasAnchor" number="22.3">
-<h2><span class="header-section-number">22.3</span> Configuring Automatic Policy Refresh via oddjob-gpupdate<a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="sssd-refresh" class="section level2 hasAnchor" number="22.3">
+<h2><span class="header-section-number">22.3</span> Automatic Policy Refresh via oddjob-gpupdate<a href="policy-refresh.html#sssd-refresh" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Using oddjob-gpupdate to provide Automatic Policy Refresh allows you to run Samba’s Group Policy with the System Security Services Daemon (SSSD). SSSD is a system service that provides access to remote identity and authentication providers, such as Active Directory.
 </p>
 <p>To install oddjob-gpupdate, you’ll need to find the appropriate packages for your distribution. In openSUSE, for example, you can install oddjob-gpupdate via:</p>

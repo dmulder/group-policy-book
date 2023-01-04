@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,8 +342,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
 <ul>
 <li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -437,7 +436,7 @@ fakeu ALL=(ALL) NOPASSWD: ALL</code></pre>
 </div>
 <div id="client-side-extension-6" class="section level2 hasAnchor" number="10.2">
 <h2><span class="header-section-number">10.2</span> Client Side Extension<a href="sudoers.html#client-side-extension-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Samba actually supplies 3 different Client Side Extensions (CSE) for the Sudoers policy. This is to support 3 different SSE providers. The first is Samba’s original policy, which is modified using the GPME as explained in section <a href="sudoers.html#sudoers-gpme">10.1.1</a>. The second is the Vintela compatible policy, which can be set using <code>samba-tool</code> as explained in section <a href="sudoers.html#sudoers-samba-tool">10.1.2</a>. The final CSE is the Centrify compatible policy, which is only provided as a convenience for migration. All these CSEs behave the same in how they apply policy (and share some of the same code). The preceeding instructions refer to all three CSEs.</p>
+<p>Samba actually supplies 3 different Client Side Extensions (CSE) for the Sudoers policy. This is to support 3 different SSE providers. The first is Samba’s original policy, which is modified using the GPME as explained in section <a href="sudoers.html#sudoers-gpme">10.1.1</a>. The second is the Vintela compatible policy, which can be set using <code>samba-tool</code> as explained in section <a href="sudoers.html#sudoers-samba-tool">10.1.2</a>. The final CSE is the Centrify compatible policy, which is only provided as a convenience for migration. All these CSEs behave the same in how they apply policy (and share some of the same code). The preceding instructions refer to all three CSEs.</p>
 <p>The Sudoer CSEs create a file within <code>/etc/sudoers.d</code> for each rule specified on the SYSVOL. Each rule is validated before installing, to ensure the system isn’t left in a broken state.
 </p>
 <p>Let’s list the Resultant Set of Policy to view the Sudoer rules we created in the previous sections.</p>

@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,8 +342,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
 <ul>
 <li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -371,7 +370,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This policy is physically stored in three different locations on the SYSVOL, in <strong>MACHINE/Registry.pol</strong>, <strong>MACHINE/VGP/VTLA/Unix/Issue/</strong> <strong>manifest.xml</strong>, and <strong>MACHINE/VGP/VTLA/Unix/MOTD/</strong> <strong>manifest.xml</strong>. The <code>manifest.xml</code> files are in xml format, and are easily modified manually using a text editor. The <code>Registry.pol</code> is in registry format. See chapter <a href="regpol.html#regpol">20</a> for details on how to manually modify this file.</p>
 <div id="server-side-extension-6" class="section level2 hasAnchor" number="11.1">
 <h2><span class="header-section-number">11.1</span> Server Side Extension<a href="msgs.html#server-side-extension-6" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The Server Side Extensions (SSE) for Message policies are distributed via either Administrative Templates (see chapter <a href="writing-group-policy-extensions.html#sse">19.1</a> in section <a href="writing-group-policy-extensions.html#admx">19.1.1</a>) or via the commands <code>samba-tool gpo manage motd</code> and <code>samba-tool gpo manage issue</code>. Rules added via GPME will not be visible to the respective <code>samba-tool</code> commands, and vice versa. This is because the <code>samba-tool</code> commands are intended to manage Vintela Group Policy compatability. These two SSEs should not be used in conjunction to one another, as it will cause unpredicatable results on the client.
+<p>The Server Side Extensions (SSE) for Message policies are distributed via either Administrative Templates (see chapter <a href="writing-group-policy-extensions.html#sse">19.1</a> in section <a href="writing-group-policy-extensions.html#admx">19.1.1</a>) or via the commands <code>samba-tool gpo manage motd</code> and <code>samba-tool gpo manage issue</code>. Rules added via GPME will not be visible to the respective <code>samba-tool</code> commands, and vice versa. This is because the <code>samba-tool</code> commands are intended to manage Vintela Group Policy compatability. These two SSEs should not be used in conjunction to one another, as it will cause unpredictable results on the client.
 </p>
 <div id="msgs-gpme" class="section level3 hasAnchor" number="11.1.1">
 <h3><span class="header-section-number">11.1.1</span> Managing Message Policy via the GPME<a href="msgs.html#msgs-gpme" class="anchor-section" aria-label="Anchor link to header"></a></h3>

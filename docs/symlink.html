@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,8 +342,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
 <ul>
 <li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -389,7 +388,8 @@ Options:
 Available subcommands:
   add     - Adds a VGP Symbolic Link Group Policy to the sysvol
   list    - List VGP Symbolic Link Group Policy from the sysvol
-  remove  - Removes a VGP Symbolic Link Group Policy from the sysvol</code></pre>
+  remove  - Removes a VGP Symbolic Link Group Policy from the
+            sysvol</code></pre>
 <p>To add a new Symlink policy to the SYSVOL, call the <code>samba-tool gpo manage symlink add</code> command.</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb44-1"><a href="symlink.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage symlink add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>source<span class="op">&gt;</span> <span class="op">&lt;</span>target<span class="op">&gt;</span></span></code></pre></div>
 <p>This command will add a policy instructing the client to create a symbolic link pointing to <code>source</code> named <code>target</code>.</p>

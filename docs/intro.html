@@ -26,7 +26,6 @@ clients via Group Policy.</p>" />
 <meta name="author" content="David Mulder" />
 
 
-<meta name="date" content="2023-01-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -343,8 +342,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="22" data-path="policy-refresh.html"><a href="policy-refresh.html"><i class="fa fa-check"></i><b>22</b> Automatic Policy Refresh</a>
 <ul>
 <li class="chapter" data-level="22.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>22.1</b> The samba-gpupdate command</a></li>
-<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-winbind"><i class="fa fa-check"></i><b>22.2</b> Configuring Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-automatic-policy-refresh-via-oddjob-gpupdate"><i class="fa fa-check"></i><b>22.3</b> Configuring Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="22.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>22.2</b> Automatic Policy Refresh via winbind</a></li>
+<li class="chapter" data-level="22.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>22.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
 </ul></li>
 </ul>
 
@@ -454,8 +453,11 @@ Available subcommands:
 <p>To enable Group Policy in Winbind, set the apply group policies global smb.conf option to Yes. You can even deploy this setting from Group Policy smb.conf options, then running the apply command manually the first time with <code>sudo samba-gpupate --force</code>.</p>
 <p>Policies are enforced at a random interval between 90 and 120 seconds.</p>
 <p>Policies can be manually enforced at any time on a Linux domain member using the <code>samba-gpupdate --force</code> command.</p>
-<p>Winbind will enforce both machine policy (as of Samba 4.14) and user policy (as of Samba 4.18).</p>
-<p>If the Linux client is joined using SSSD, you can instead enforce the policy using oddjob-gpupdate. The samba-gpupdate command from Samba must also be installed.</p>
+<p>Winbind will enforce both machine policy (as of Samba 4.14) and user policy (as of Samba 4.18).
+</p>
+<p>If the Linux client is joined using SSSD, you can instead enforce the policy using oddjob-gpupdate. The samba-gpupdate command from Samba must also be installed.
+</p>
+<p>Further details on how to configure Automatic Policy Refresh via Winbind (<a href="policy-refresh.html#winbind-refresh">22.2</a>) and SSSD (<a href="policy-refresh.html#sssd-refresh">22.3</a>) can be found in chapter <a href="policy-refresh.html#policy-refresh">22</a>.</p>
 </div>
 <div id="rsop" class="section level3 hasAnchor" number="2.3.2">
 <h3><span class="header-section-number">2.3.2</span> Resultant Set of Policy<a href="intro.html#rsop" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -596,7 +598,7 @@ Samba Group Policy \s \r \l
 </div>
 <div id="gnome-settings" class="section level3 hasAnchor" number="2.4.13">
 <h3><span class="header-section-number">2.4.13</span> GNOME Settings<a href="intro.html#gnome-settings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>GNOME Settings policies are found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; GNOME</code>. These policies manage some GNOME user settings, as described in the GNOME system admin guide, such as the compose key, screen dimming, online account management, extensions, and the ability to disable printing, file saving, command line access, fingerprint logon, logout, user switching, and reparitioning. There is also a general method for disabling any specific GNOME lockdown value.
+<p>GNOME Settings policies are found in the GPME under <code>Computer Configuration &gt; Policies &gt; Administrative Templates &gt; Samba &gt; GNOME</code>. These policies manage some GNOME user settings, as described in the GNOME system admin guide, such as the compose key, screen dimming, online account management, extensions, and the ability to disable printing, file saving, command line access, fingerprint logon, logout, user switching, and repartitioning. There is also a general method for disabling any specific GNOME lockdown value.
 </p>
 </div>
 <div id="openssh-policy" class="section level3 hasAnchor" number="2.4.14">

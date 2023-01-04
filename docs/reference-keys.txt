@@ -183,5 +183,5 @@ install-admx-chromium
 install-admx-windows
 policy-refresh
 samba-gpupdate
-configuring-automatic-policy-refresh-via-winbind
-configuring-automatic-policy-refresh-via-oddjob-gpupdate
+winbind-refresh
+sssd-refresh
