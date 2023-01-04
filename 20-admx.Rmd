@@ -9,7 +9,7 @@ The following is instructions on how to obtain and install the various ADMX temp
 
 ## Install Samba ADMX Templates {#install-admx-samba}
 
-The Samba ADMX templates are availabe in the Samba source tree, and can be downloaded from https://download.samba.org/pub/samba/samba-latest.tar.gz, and can then be installed using the `samba-tool gpo admxload` command.
+The Samba ADMX templates are available in the Samba source tree, and can be downloaded from https://download.samba.org/pub/samba/samba-latest.tar.gz, and can then be installed using the `samba-tool gpo admxload` command.
 
 ```
 > tar -xf samba-latest.tar.gz

@@ -12,7 +12,7 @@ This policy is physically stored in three different locations on the SYSVOL, in 
 
 ## Server Side Extension
 
-The Server Side Extensions (SSE) for Message policies are distributed via either Administrative Templates (see chapter \@ref(sse) in section \@ref(admx)) or via the commands `samba-tool gpo manage motd` and `samba-tool gpo manage issue`. Rules added via GPME will not be visible to the respective `samba-tool` commands, and vice versa. This is because the `samba-tool` commands are intended to manage Vintela Group Policy compatability. These two SSEs should not be used in conjunction to one another, as it will cause unpredicatable results on the client.
+The Server Side Extensions (SSE) for Message policies are distributed via either Administrative Templates (see chapter \@ref(sse) in section \@ref(admx)) or via the commands `samba-tool gpo manage motd` and `samba-tool gpo manage issue`. Rules added via GPME will not be visible to the respective `samba-tool` commands, and vice versa. This is because the `samba-tool` commands are intended to manage Vintela Group Policy compatability. These two SSEs should not be used in conjunction to one another, as it will cause unpredictable results on the client.
 \index{Server Side Extensions}
 
 ### Managing Message Policy via the GPME {#msgs-gpme}

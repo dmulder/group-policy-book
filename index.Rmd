@@ -32,7 +32,7 @@ In this book, we will introduce the reader to the basics of Group Policy and sho
 
 ## About the Author
 
-David Mulder is a developer known for his work on integrating Group Policy support into Samba, which has allowed Linux users to take advantage of this powerful feature to centrally manage their systems. Mulder's work on Samba's Group Policy support began in 2016, when he began reviewing code from Luke Morrison, an intern who had submitted his implementation of Group Policy to the Samba project. Mulder previously contributed to the Vintela Group Policy project begining in 2012, and brought that expertice to the Samba team.
+David Mulder is a developer known for his work on integrating Group Policy support into Samba, which has allowed Linux users to take advantage of this powerful feature to centrally manage their systems. Mulder's work on Samba's Group Policy support began in 2016, when he began reviewing code from Luke Morrison, an intern who had submitted his implementation of Group Policy to the Samba project. Mulder previously contributed to the Vintela Group Policy project beginning in 2012, and brought that expertise to the Samba team.
 
 Some of the text in this book, as well as the images, were generated using OpenAI's GPT-3 model, which is a state-of-the-art language processing system. OpenAI's GPT-3 technology is an example of the incredible advances that have been made in the field of AI and natural language processing. This technology has the potential to revolutionize many areas of research and industry, and its use in generating text and images for this book is a testament to its capabilities.
 

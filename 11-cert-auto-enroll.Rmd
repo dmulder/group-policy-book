@@ -313,7 +313,7 @@ knitr::include_graphics("cert-auto-enroll-images/edit-binding.png")
 
 #### python-requests security level
 
-Another error you may enounter is actually specific to the *python-requests* module.
+Another error you may encounter is actually specific to the *python-requests* module.
 
 ```
 (Caused by

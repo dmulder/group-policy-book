@@ -265,7 +265,7 @@ Chromium and Google Chrome policies can be administered using the Chrome policy 
 
 ### GNOME Settings
 
-GNOME Settings policies are found in the GPME under `Computer Configuration > Policies > Administrative Templates > Samba > GNOME`. These policies manage some GNOME user settings, as described in the GNOME system admin guide, such as the compose key, screen dimming, online account management, extensions, and the ability to disable printing, file saving, command line access, fingerprint logon, logout, user switching, and reparitioning. There is also a general method for disabling any specific GNOME lockdown value.
+GNOME Settings policies are found in the GPME under `Computer Configuration > Policies > Administrative Templates > Samba > GNOME`. These policies manage some GNOME user settings, as described in the GNOME system admin guide, such as the compose key, screen dimming, online account management, extensions, and the ability to disable printing, file saving, command line access, fingerprint logon, logout, user switching, and repartitioning. There is also a general method for disabling any specific GNOME lockdown value.
 \index{Policies!GNOME Settings}
 
 ### OpenSSH Policy

@@ -138,7 +138,7 @@ knitr::kable(
 
 ## Client Side Extension
 
-The Password and Kerberos policies are seperated into two Client Side Extensions (CSE), `gp_access_ext` and `gp_krb_ext`. The Password policies (internally known as *System Access*) apply password complexity rules directly to the ADDC SamDB in the applicable LDAP attributes. The Kerberos policies are stored in our Group Policy Cache, and are fetched directly by the `samba` daemon when it loads.
+The Password and Kerberos policies are separated into two Client Side Extensions (CSE), `gp_access_ext` and `gp_krb_ext`. The Password policies (internally known as *System Access*) apply password complexity rules directly to the ADDC SamDB in the applicable LDAP attributes. The Kerberos policies are stored in our Group Policy Cache, and are fetched directly by the `samba` daemon when it loads.
 \index{Client Side Extensions}
 \index{Group Policy Cache}
 

@@ -159,7 +159,7 @@ If we now force the policy to apply, we'll see our script is scheduled to execut
  SCRIPTS/STARTUP/TEST_SCRIPT.SH
 ```
 
-You can see we found the location of our cron job by outputing the applied policy from our Group Policy Cache. The cron job instructs the script to execute as root on every reboot. Let's also verify our script has been deployed on the client.
+You can see we found the location of our cron job by outputting the applied policy from our Group Policy Cache. The cron job instructs the script to execute as root on every reboot. Let's also verify our script has been deployed on the client.
 \index{Group Policy Cache}
 
 ```
