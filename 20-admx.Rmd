@@ -14,12 +14,11 @@ The Samba ADMX templates are available in the Samba source tree, and can be down
 ```
 > tar -xf samba-latest.tar.gz
 > samba-tool gpo admxload \
- --admx-dir=./samba-4.17.3/libgpo/admx -UAdministrator
+ --admx-dir=./samba-4.18.0/libgpo/admx -UAdministrator
 ```
 
 ::: {#warn style="color: red;"}
-Warning: There is a bug in some versions of Samba that prevents the GNOME Settings ADMX templates from being displayed in the Group Policy Management Editor (GPME). Some versions of GPME are unable to read ADMX templates with a space in the file name. To correct the problem, rename the GNOME Settings files within your `libgpo/admx` and `libgpo/admx/en-US` (or `libgpo/admx/ru-RU` when installing Russian templates) to remove the space in the filename. For example, `libgpo/admx/GNOME Settings.admx` becomes `libgpo/admx/GNOME_Settings.admx`, and `libgpo/admx/en-US/GNOME Settings.adml` becomes `libgpo/admx/en-US/GNOME_Settings.adml`.
-Ensure you then delete the erroneous filenames from your `SYSVOL`.
+Warning: There are several bugs in the GNOME Settings ADMX templates in Samba versions less than 4.18, which prevents them from being displayed in some versions of the Group Policy Management Editor (GPME). Please use the templates from a newer version of the Samba sources.
 :::
 
 ## Installing Firefox ADMX Templates {#install-admx-firefox}
