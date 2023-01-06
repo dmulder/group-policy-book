@@ -371,10 +371,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The Samba ADMX templates are available in the Samba source tree, and can be downloaded from <a href="https://download.samba.org/pub/samba/samba-latest.tar.gz" class="uri">https://download.samba.org/pub/samba/samba-latest.tar.gz</a>, and can then be installed using the <code>samba-tool gpo admxload</code> command.</p>
 <pre><code>&gt; tar -xf samba-latest.tar.gz
 &gt; samba-tool gpo admxload \
- --admx-dir=./samba-4.17.3/libgpo/admx -UAdministrator</code></pre>
+ --admx-dir=./samba-4.18.0/libgpo/admx -UAdministrator</code></pre>
 <div id="warn" style="color: red;">
-<p>Warning: There is a bug in some versions of Samba that prevents the GNOME Settings ADMX templates from being displayed in the Group Policy Management Editor (GPME). Some versions of GPME are unable to read ADMX templates with a space in the file name. To correct the problem, rename the GNOME Settings files within your <code>libgpo/admx</code> and <code>libgpo/admx/en-US</code> (or <code>libgpo/admx/ru-RU</code> when installing Russian templates) to remove the space in the filename. For example, <code>libgpo/admx/GNOME Settings.admx</code> becomes <code>libgpo/admx/GNOME_Settings.admx</code>, and <code>libgpo/admx/en-US/GNOME Settings.adml</code> becomes <code>libgpo/admx/en-US/GNOME_Settings.adml</code>.
-Ensure you then delete the erroneous filenames from your <code>SYSVOL</code>.</p>
+<p>Warning: There are several bugs in the GNOME Settings ADMX templates in Samba versions less than 4.18, which prevents them from being displayed in some versions of the Group Policy Management Editor (GPME). Please use the templates from a newer version of the Samba sources.</p>
 </div>
 </div>
 <div id="install-admx-firefox" class="section level2 hasAnchor" number="22.2">
