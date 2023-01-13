@@ -768,3 +768,50 @@ The extension guid can be any random guid. It simply must be unique among all ex
 You must pass your smb.conf file to the extension, so it knows where to store the list of registered extensions. You also must specify whether to apply this extension to the machine, or to individual users (or to both).
 
 Unregistering the extension is simple. You call the `unregister_gp_extension()` and pass it the unique guid you previously chose which represents this CSE.
+
+#### Registering/Unregistering a Client Side Extension via samba-tool
+
+Alternatively, as of Samba 4.18, Client Side Extension registration can be managed using `samba-tool`.
+
+The `samba-tool gpo cse register` command is used to register a Group Policy Client Side Extension (CSE) on a Linux client. The command takes two arguments: the path to the CSE file and the name of the CSE. It also accepts two options: `--machine` or `--user`. The command does not enable the CSE for either Machine or User policy by default.
+
+To enable a CSE for Machine policy, you must use the `--machine` option when running the `samba-tool gpo cse register` command. For example, to register a CSE file located at `/root/policies/gp_test_ext.py` with the name `gp_test_ext` and enable it for Machine policy, the command would be:
+
+```shell
+samba-tool gpo cse register /root/policies/gp_test_ext.py \
+  gp_test_ext --machine
+```
+
+When registering a CSE, `samba-tool` will automatically generate a unique random GUID to identify the extension. To find the unique GUID of your extension, you can use the `samba-tool gpo cse list` command.
+
+The output of the `samba-tool gpo cse list` command shows the GUID of the CSE, the file name, the extension name, and whether machine policy or user policy are enabled. For example:
+
+```
+> samba-tool gpo cse list
+UniqueGUID         : {5d159033-f613-4a60-90e7-87e0f6847fbf}
+FileName           : /root/policies/gp_test_ext.py
+ProcessGroupPolicy : gp_test_ext
+MachinePolicy      : True
+UserPolicy         : False
+```
+
+To unregister a CSE, the `samba-tool gpo cse unregister` command is used, with the unique GUID of the CSE as the argument. For example, to unregister a CSE with the GUID {5d159033-f613-4a60-90e7-87e0f6847fbf}, the command would be:
+
+```shell
+samba-tool gpo cse unregister \
+  {5d159033-f613-4a60-90e7-87e0f6847fbf}
+```
+
+Note that the above commands are run on the Linux client machine (not from a Samba ADDC), and must be executed as the root user.
+
+These commands are useful for registering custom CSEs, but can also be utilized to backport CSEs from newer versions of Samba. For example, if you'd like to utilize the Chrome policy which isn't available in the installed version of Samba, you can fetch the `python/samba/gp/gp_chromium_ext.py` file from the Samba master branch, then activate the policy via:
+
+```shell
+wget bit.ly/3H3vMba -O /root/policies/gp_chromium_ext.py
+samba-tool gpo cse register /root/policies/gp_chromium_ext.py \
+  gp_chrome_ext --machine
+samba-tool gpo cse register /root/policies/gp_chromium_ext.py \
+  gp_chromium_ext --machine
+```
+
+Notice that we ran the register command twice. This is because the `gp_chromium_ext.py` contains two CSEs, `gp_chrome_ext` and `gp_chromium_ext`.
