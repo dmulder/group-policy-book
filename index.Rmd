@@ -27,6 +27,8 @@ This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAl
 
 You can obtain the free ebook edition of this book and the sources from https://github.com/dmulder/group-policy-book/releases.
 
+If you encounter errors in the text, please file a report at https://github.com/dmulder/group-policy-book/issues.
+
 ```{=latex}
 \tableofcontents
 ```
