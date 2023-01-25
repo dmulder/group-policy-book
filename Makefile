@@ -14,4 +14,8 @@ website: $(RFILES)
 epub: $(RFILES)
 	Rscript -e 'bookdown::render_book("index.Rmd", "bookdown::epub_book")'
 	mv _book/_main.epub group-policy-book.epub
-	./process_epub.sh
+	./process_epub.sh group-policy-book.epub
+	epubcheck group-policy-book.epub
+
+clean:
+	rm -rf group-policy-book.pdf _book/* group-policy-book.epub
