@@ -173,6 +173,7 @@ the-gp_ext-and-gp_applier-python-classes
 process-group-policy
 resultant-set-of-policy
 registeringunregistering-a-client-side-extension
+registeringunregistering-a-client-side-extension-via-samba-tool
 regpol
 regpol-samba-tool
 scripting-with-python

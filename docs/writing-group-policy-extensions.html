@@ -1034,7 +1034,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The extension guid can be any random guid. It simply must be unique among all extensions that you register to the host. The extension path is literally just the path to the source file containing your CSE.</p>
 <p>You must pass your smb.conf file to the extension, so it knows where to store the list of registered extensions. You also must specify whether to apply this extension to the machine, or to individual users (or to both).</p>
 <p>Unregistering the extension is simple. You call the <code>unregister_gp_extension()</code> and pass it the unique guid you previously chose which represents this CSE.</p>
+<div id="registeringunregistering-a-client-side-extension-via-samba-tool" class="section level4 hasAnchor" number="20.2.4.1">
+<h4><span class="header-section-number">20.2.4.1</span> Registering/Unregistering a Client Side Extension via samba-tool<a href="writing-group-policy-extensions.html#registeringunregistering-a-client-side-extension-via-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Alternatively, as of Samba 4.18, Client Side Extension registration can be managed using <code>samba-tool</code>.</p>
+<p>The <code>samba-tool gpo cse register</code> command is used to register a Group Policy Client Side Extension (CSE) on a Linux client. The command takes two arguments: the path to the CSE file and the name of the CSE. It also accepts two options: <code>--machine</code> or <code>--user</code>. The command does not enable the CSE for either Machine or User policy by default.</p>
+<p>To enable a CSE for Machine policy, you must use the <code>--machine</code> option when running the <code>samba-tool gpo cse register</code> command. For example, to register a CSE file located at <code>/root/policies/gp_test_ext.py</code> with the name <code>gp_test_ext</code> and enable it for Machine policy, the command would be:</p>
+<pre class="shell"><code>samba-tool gpo cse register /root/policies/gp_test_ext.py \
+  gp_test_ext --machine</code></pre>
+<p>When registering a CSE, <code>samba-tool</code> will automatically generate a unique random GUID to identify the extension. To find the unique GUID of your extension, you can use the <code>samba-tool gpo cse list</code> command.</p>
+<p>The output of the <code>samba-tool gpo cse list</code> command shows the GUID of the CSE, the file name, the extension name, and whether machine policy or user policy are enabled. For example:</p>
+<pre><code>&gt; samba-tool gpo cse list
+UniqueGUID         : {5d159033-f613-4a60-90e7-87e0f6847fbf}
+FileName           : /root/policies/gp_test_ext.py
+ProcessGroupPolicy : gp_test_ext
+MachinePolicy      : True
+UserPolicy         : False</code></pre>
+<p>To unregister a CSE, the <code>samba-tool gpo cse unregister</code> command is used, with the unique GUID of the CSE as the argument. For example, to unregister a CSE with the GUID {5d159033-f613-4a60-90e7-87e0f6847fbf}, the command would be:</p>
+<pre class="shell"><code>samba-tool gpo cse unregister \
+  {5d159033-f613-4a60-90e7-87e0f6847fbf}</code></pre>
+<p>Note that the above commands are run on the Linux client machine (not from a Samba ADDC), and must be executed as the root user.</p>
+<p>These commands are useful for registering custom CSEs, but can also be utilized to backport CSEs from newer versions of Samba. For example, if you’d like to utilize the Chrome policy which isn’t available in the installed version of Samba, you can fetch the <code>python/samba/gp/gp_chromium_ext.py</code> file from the Samba master branch, then activate the policy via:</p>
+<pre class="shell"><code>wget bit.ly/3H3vMba -O /root/policies/gp_chromium_ext.py
+samba-tool gpo cse register /root/policies/gp_chromium_ext.py \
+  gp_chrome_ext --machine
+samba-tool gpo cse register /root/policies/gp_chromium_ext.py \
+  gp_chromium_ext --machine</code></pre>
+<p>Notice that we ran the register command twice. This is because the <code>gp_chromium_ext.py</code> contains two CSEs, <code>gp_chrome_ext</code> and <code>gp_chromium_ext</code>.</p>
 
+</div>
 </div>
 </div>
 </div>

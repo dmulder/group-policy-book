@@ -386,7 +386,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>To configure winbind Automatic Policy Refresh, you will set the <code>apply group policies</code> smb.conf parameter.
 </p>
 <p>To set this parameter manually, you will need to add the following line to the <code>global</code> section of the smb.conf file:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb127-1"><a href="policy-refresh.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="dt">apply group policies </span><span class="ot">=</span><span class="st"> </span><span class="kw">Yes</span></span></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb131-1"><a href="policy-refresh.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="dt">apply group policies </span><span class="ot">=</span><span class="st"> </span><span class="kw">Yes</span></span></code></pre></div>
 <p>This will enable winbind to automatically apply Group Policy settings on the <em>Group Policy refresh interval</em>.
 </p>
 <p>Alternatively, you can deploy this setting automatically using smb.conf Group Policies. See chapter <a href="smbconf.html#smbconf">5</a> section <a href="smbconf.html#smbconf-sse">5.1</a> for instructions how to deploy this setting via Group Policy. The <code>samba-gpupdate</code> command will need to be executed manually to deploy this setting the first time.</p>
