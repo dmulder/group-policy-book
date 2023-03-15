@@ -131,7 +131,7 @@ This command will list all of the settings and policies contained in the specifi
 
 ## Modifying a Group Policy {#gpmodify}
 
-The `samba-tool gpo manage` is used for modifying settings on a Group Policy Object. See the individual chapters for each subcommand explanation.
+The `samba-tool gpo manage` command is used for modifying settings on a Group Policy Object. See the individual chapters for each subcommand explanation.
 
 ```{r, echo=FALSE}
 knitr::kable(
