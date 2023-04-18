@@ -7,7 +7,7 @@
   <title>12 Message Policies | Group Policy on Linux</title>
   <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="12 Message Policies | Group Policy on Linux" />
   <meta property="og:type" content="book" />
@@ -341,7 +341,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="23.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>23.1</b> The samba-gpupdate command</a></li>
 <li class="chapter" data-level="23.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>23.2</b> Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via SSSD</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="policy-refresh.html"><a href="policy-refresh.html#setting-up-sssd"><i class="fa fa-check"></i><b>23.3.1</b> Setting up SSSD</a></li>
+<li class="chapter" data-level="23.3.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-policy-refresh"><i class="fa fa-check"></i><b>23.3.2</b> Configuring policy refresh</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -426,12 +430,12 @@ Available subcommands:
   set   - Sets a VGP MOTD Group Policy to the sysvol</code></pre>
 <p>The syntax is the same for both <code>motd</code> and <code>issue</code>. The <code>list</code> command simply lists the current value of the setting, while the <code>set</code> command will set the contents of the setting.</p>
 <p>To use the <code>samba-tool gpo manage motd list</code> command, you need to provide the name of the GPO as an argument. For example:</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb58-1"><a href="msgs.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage motd list <span class="dt">\</span></span>
-<span id="cb58-2"><a href="msgs.html#cb58-2" aria-hidden="true" tabindex="-1"></a>  {31B2F340-016D-11D2-945F-00C04FB984F9}</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb58-1"><a href="msgs.html#cb58-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage motd list <span class="dt">\</span></span>
+<span id="cb58-2"><a href="msgs.html#cb58-2" tabindex="-1"></a>  {31B2F340-016D-11D2-945F-00C04FB984F9}</span></code></pre></div>
 <p>To use the <code>samba-tool gpo manage motd set</code> command, you need to provide the name of the GPO as an argument, followed by the message you want to set as the MOTD. For example:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb59-1"><a href="msgs.html#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage motd set <span class="dt">\</span></span>
-<span id="cb59-2"><a href="msgs.html#cb59-2" aria-hidden="true" tabindex="-1"></a> {31B2F340-016D-11D2-945F-00C04FB984F9} <span class="st">&quot;Welcome to the server!</span></span>
-<span id="cb59-3"><a href="msgs.html#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="st"> Please make sure to read the guidelines before proceeding.&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb59-1"><a href="msgs.html#cb59-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage motd set <span class="dt">\</span></span>
+<span id="cb59-2"><a href="msgs.html#cb59-2" tabindex="-1"></a> {31B2F340-016D-11D2-945F-00C04FB984F9} <span class="st">&quot;Welcome to the server!</span></span>
+<span id="cb59-3"><a href="msgs.html#cb59-3" tabindex="-1"></a><span class="st"> Please make sure to read the guidelines before proceeding.&quot;</span></span></code></pre></div>
 <p>If no value is provided for the message, the MOTD will be unset and will not be displayed to users when they log in.</p>
 <p>Let’s set some messages for testing later.</p>
 <pre><code>&gt; samba-tool gpo manage motd set \

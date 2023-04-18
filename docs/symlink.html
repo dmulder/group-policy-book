@@ -7,7 +7,7 @@
   <title>10 Symlink Policies | Group Policy on Linux</title>
   <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="10 Symlink Policies | Group Policy on Linux" />
   <meta property="og:type" content="book" />
@@ -341,7 +341,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="23.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>23.1</b> The samba-gpupdate command</a></li>
 <li class="chapter" data-level="23.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>23.2</b> Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via SSSD</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="policy-refresh.html"><a href="policy-refresh.html#setting-up-sssd"><i class="fa fa-check"></i><b>23.3.1</b> Setting up SSSD</a></li>
+<li class="chapter" data-level="23.3.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-policy-refresh"><i class="fa fa-check"></i><b>23.3.2</b> Configuring policy refresh</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -389,7 +393,7 @@ Available subcommands:
   remove  - Removes a VGP Symbolic Link Group Policy from the
             sysvol</code></pre>
 <p>To add a new Symlink policy to the SYSVOL, call the <code>samba-tool gpo manage symlink add</code> command.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb44-1"><a href="symlink.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage symlink add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>source<span class="op">&gt;</span> <span class="op">&lt;</span>target<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb44-1"><a href="symlink.html#cb44-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage symlink add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>source<span class="op">&gt;</span> <span class="op">&lt;</span>target<span class="op">&gt;</span></span></code></pre></div>
 <p>This command will add a policy instructing the client to create a symbolic link pointing to <code>source</code> named <code>target</code>.</p>
 <p>Let’s add a simple policy, which uploads a configuration file using the Files Policy (see chapter <a href="files.html#files">9</a>), then symlinks that configuration file to somewhere useful on the system.</p>
 <pre><code>&gt; cat servlist.conf

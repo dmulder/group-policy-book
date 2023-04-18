@@ -7,7 +7,7 @@
   <title>4 Managing Group Policies | Group Policy on Linux</title>
   <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="4 Managing Group Policies | Group Policy on Linux" />
   <meta property="og:type" content="book" />
@@ -341,7 +341,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="23.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>23.1</b> The samba-gpupdate command</a></li>
 <li class="chapter" data-level="23.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>23.2</b> Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via SSSD</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="policy-refresh.html"><a href="policy-refresh.html#setting-up-sssd"><i class="fa fa-check"></i><b>23.3.1</b> Setting up SSSD</a></li>
+<li class="chapter" data-level="23.3.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-policy-refresh"><i class="fa fa-check"></i><b>23.3.2</b> Configuring policy refresh</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -400,11 +404,11 @@ Figure 4.2: Default Domain Policy
 <h3><span class="header-section-number">4.2.1</span> samba-tool<a href="manage.html#samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <code>samba-tool gpo create</code> command is used to create a Group Policy Object (GPO). To create a GPO using the <code>samba-tool gpo create</code> command, you would use the following syntax:
 </p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="manage.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo create GPO_NAME</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="manage.html#cb3-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo create GPO_NAME</span></code></pre></div>
 <p>Where <code>GPO_NAME</code> is the name of the GPO that you want to create. This name should be unique within the domain, as it will be used to identify the GPO when it is linked to a domain or organizational unit (OU).</p>
 <p>Once the GPO has been created, you can use the <code>samba-tool gpo setlink</code> command to add or update a GPO link to a container. The syntax for this command is:
 </p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="manage.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo setlink CONTAINER_DN GPO_NAME</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="manage.html#cb4-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo setlink CONTAINER_DN GPO_NAME</span></code></pre></div>
 <p>Where <code>CONTAINER_DN</code> is the distinguished name of the container from which you want to create the GPO link, and <code>GPO_NAME</code> is the name of the GPO you want to link.</p>
 </div>
 <div id="gpmc" class="section level3 hasAnchor" number="4.2.2">
@@ -435,12 +439,12 @@ Figure 4.3: Create a GPO
 <h3><span class="header-section-number">4.3.1</span> samba-tool<a href="manage.html#samba-tool-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To delete a Group Policy Object (GPO), you would use the <code>samba-tool gpo del</code> command. The syntax for this command is:
 </p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="manage.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo del GPO_NAME</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="manage.html#cb5-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo del GPO_NAME</span></code></pre></div>
 <p>Where <code>GPO_NAME</code> is the name of the GPO you want to delete.</p>
 <p>This command will delete the GPO from the server. Keep in mind that this operation cannot be undone, so make sure you really want to delete the GPO before running this command.</p>
 <p>To delete a Group Policy Object (GPO) link from a container, you would use the <code>samba-tool gpo dellink</code> command. The syntax for this command is:
 </p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="manage.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo dellink CONTAINER_DN GPO_NAME</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="manage.html#cb6-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo dellink CONTAINER_DN GPO_NAME</span></code></pre></div>
 <p>Where <code>CONTAINER_DN</code> is the distinguished name of the container from which you want to delete the GPO link, and <code>GPO_NAME</code> is the name of the GPO you want to unlink.</p>
 </div>
 <div id="gpmc-1" class="section level3 hasAnchor" number="4.3.2">
@@ -458,13 +462,13 @@ Figure 4.3: Create a GPO
 <div id="gplist" class="section level2 hasAnchor" number="4.4">
 <h2><span class="header-section-number">4.4</span> Listing a Group Policy<a href="manage.html#gplist" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To list the contents of a Group Policy Object (GPO), you would use the <code>samba-tool gpo list</code> command. The syntax for this command is:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="manage.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo list GPO_NAME</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="manage.html#cb7-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo list GPO_NAME</span></code></pre></div>
 <p>Where <code>GPO_NAME</code> is the name of the GPO you want to list the contents of.</p>
 <p>This command will list all of the settings and policies contained in the specified GPO.</p>
 </div>
 <div id="gpmodify" class="section level2 hasAnchor" number="4.5">
 <h2><span class="header-section-number">4.5</span> Modifying a Group Policy<a href="manage.html#gpmodify" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The <code>samba-tool gpo manage</code> is used for modifying settings on a Group Policy Object. See the individual chapters for each subcommand explanation.</p>
+<p>The <code>samba-tool gpo manage</code> command is used for modifying settings on a Group Policy Object. See the individual chapters for each subcommand explanation.</p>
 <table>
 <thead>
 <tr class="header">

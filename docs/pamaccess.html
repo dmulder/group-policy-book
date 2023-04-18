@@ -7,7 +7,7 @@
   <title>13 PAM Access Policies | Group Policy on Linux</title>
   <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="13 PAM Access Policies | Group Policy on Linux" />
   <meta property="og:type" content="book" />
@@ -341,7 +341,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="23.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>23.1</b> The samba-gpupdate command</a></li>
 <li class="chapter" data-level="23.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>23.2</b> Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via SSSD</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="policy-refresh.html"><a href="policy-refresh.html#setting-up-sssd"><i class="fa fa-check"></i><b>23.3.1</b> Setting up SSSD</a></li>
+<li class="chapter" data-level="23.3.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-policy-refresh"><i class="fa fa-check"></i><b>23.3.2</b> Configuring policy refresh</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -388,7 +392,7 @@ Available subcommands:
   list    - List VGP Host Access Group Policy from the sysvol
   remove  - Remove a VGP Host Access Group Policy from the sysvol</code></pre>
 <p>To use the <code>samba-tool gpo manage access add</code> command, you need to provide the name of the GPO as the first argument, followed by the access setting (either “allow” or “deny”), the common name (cn) of the host or user you want to allow or deny access to, and the domain of the host or user. For example:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb66-1"><a href="pamaccess.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage access add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>allow/deny<span class="op">&gt;</span> <span class="op">&lt;</span>cn<span class="op">&gt;</span> <span class="op">&lt;</span>domain<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb66-1"><a href="pamaccess.html#cb66-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage access add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>allow/deny<span class="op">&gt;</span> <span class="op">&lt;</span>cn<span class="op">&gt;</span> <span class="op">&lt;</span>domain<span class="op">&gt;</span></span></code></pre></div>
 <p>Any time an allow entry is detected by the client, an implicit deny
 ALL will be assumed.</p>
 <p>Let’s add a few rules that restricts access to a couple of specific users.</p>

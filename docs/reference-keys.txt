@@ -186,3 +186,5 @@ policy-refresh
 samba-gpupdate
 winbind-refresh
 sssd-refresh
+setting-up-sssd
+configuring-policy-refresh

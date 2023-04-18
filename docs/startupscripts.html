@@ -7,7 +7,7 @@
   <title>8 Startup Script Policies | Group Policy on Linux</title>
   <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="8 Startup Script Policies | Group Policy on Linux" />
   <meta property="og:type" content="book" />
@@ -341,7 +341,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="23.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>23.1</b> The samba-gpupdate command</a></li>
 <li class="chapter" data-level="23.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>23.2</b> Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via SSSD</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="policy-refresh.html"><a href="policy-refresh.html#setting-up-sssd"><i class="fa fa-check"></i><b>23.3.1</b> Setting up SSSD</a></li>
+<li class="chapter" data-level="23.3.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-policy-refresh"><i class="fa fa-check"></i><b>23.3.2</b> Configuring policy refresh</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -388,8 +392,8 @@ Available subcommands:
   list    - List VGP Startup Script Group Policy from the sysvol
   remove  - Removes VGP Startup Script Group Policy from the sysvol</code></pre>
 <p>To add a new Startup Script policy to the SYSVOL, call the <code>samba-tool gpo manage scripts startup add</code> command.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="startupscripts.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage scripts startup add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>script<span class="op">&gt;</span> [args]</span>
-<span id="cb27-2"><a href="startupscripts.html#cb27-2" aria-hidden="true" tabindex="-1"></a> <span class="ex">[run_as]</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="startupscripts.html#cb27-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage scripts startup add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>script<span class="op">&gt;</span> <span class="pp">[</span><span class="ss">args</span><span class="pp">]</span></span>
+<span id="cb27-2"><a href="startupscripts.html#cb27-2" tabindex="-1"></a> <span class="ex">[run_as]</span></span></code></pre></div>
 <p>The <code>samba-tool gpo manage scripts startup add</code> command is used to add a startup script policy to the SYSVOL. The command takes a Group Policy Object (GPO) identifier and a script file as arguments, as well as optional arguments for script arguments, and the user to run the script as.</p>
 <p>When adding a script, you pass the relative path to an existing script file. This script will be uploaded to the SYSVOL and made available to clients for execution. You can also provide an optional set of arguments that will be passed to the script when it is executed. These arguments are parsed as a single argument to the command, so they must be wrapped in quotes and all dashes (‘-’) must be escaped. There is also an optional argument <code>run_as</code> to instruct the client to run the script as a specific user. The optional <code>--run-once</code> parameter can instruct the script to execute only once, on the next startup, and not again.</p>
 <p>Let’s add a simple test script now which echos a message, and takes no arguments. By default this command will run as root.</p>

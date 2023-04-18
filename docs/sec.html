@@ -7,7 +7,7 @@
   <title>6 Password and Kerberos Policies | Group Policy on Linux</title>
   <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Password and Kerberos Policies | Group Policy on Linux" />
   <meta property="og:type" content="book" />
@@ -341,7 +341,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="23.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>23.1</b> The samba-gpupdate command</a></li>
 <li class="chapter" data-level="23.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>23.2</b> Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via SSSD</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="policy-refresh.html"><a href="policy-refresh.html#setting-up-sssd"><i class="fa fa-check"></i><b>23.3.1</b> Setting up SSSD</a></li>
+<li class="chapter" data-level="23.3.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-policy-refresh"><i class="fa fa-check"></i><b>23.3.2</b> Configuring policy refresh</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -550,18 +554,18 @@ GPO: Default Domain Policy
 <p>You can see the Kerberos policies are all stored in their own keys in the Group Policy Cache (<code>/var/lib/samba/gpo.tdb</code>), and they are all stored in hours. On the SYSVOL, they are actually stored in hours, minutes, and days, respectively. The reason these are all stored in hours on the system is that the <code>samba</code> daemon expects these attributes in hours.
 </p>
 <p>If we check the contents of the GptTmpl.inf and do some conversion, we can confirm these are correct.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb15-1"><a href="sec.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[Kerberos Policy]</span></span>
-<span id="cb15-2"><a href="sec.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="dt">MaxTicketAge </span><span class="ot">=</span><span class="st"> </span><span class="dv">10</span></span>
-<span id="cb15-3"><a href="sec.html#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="dt">MaxServiceAge </span><span class="ot">=</span><span class="st"> </span><span class="dv">600</span></span>
-<span id="cb15-4"><a href="sec.html#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="dt">MaxRenewAge </span><span class="ot">=</span><span class="st"> </span><span class="dv">7</span></span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="sec.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> samba.gp.gp_sec_ext <span class="im">import</span> mins_to_hours, days_to_hours</span>
-<span id="cb16-2"><a href="sec.html#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MaxTicketAge <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb16-3"><a href="sec.html#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MaxServiceAge <span class="op">=</span> <span class="dv">600</span></span>
-<span id="cb16-4"><a href="sec.html#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MaxRenewAge <span class="op">=</span> <span class="dv">7</span></span>
-<span id="cb16-5"><a href="sec.html#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> mins_to_hours(MaxServiceAge)</span>
-<span id="cb16-6"><a href="sec.html#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">&#39;10&#39;</span></span>
-<span id="cb16-7"><a href="sec.html#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> days_to_hours(MaxRenewAge)</span>
-<span id="cb16-8"><a href="sec.html#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">&#39;168&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb15-1"><a href="sec.html#cb15-1" tabindex="-1"></a><span class="kw">[Kerberos Policy]</span></span>
+<span id="cb15-2"><a href="sec.html#cb15-2" tabindex="-1"></a><span class="dt">MaxTicketAge </span><span class="ot">=</span><span class="st"> </span><span class="dv">10</span></span>
+<span id="cb15-3"><a href="sec.html#cb15-3" tabindex="-1"></a><span class="dt">MaxServiceAge </span><span class="ot">=</span><span class="st"> </span><span class="dv">600</span></span>
+<span id="cb15-4"><a href="sec.html#cb15-4" tabindex="-1"></a><span class="dt">MaxRenewAge </span><span class="ot">=</span><span class="st"> </span><span class="dv">7</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="sec.html#cb16-1" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> samba.gp.gp_sec_ext <span class="im">import</span> mins_to_hours, days_to_hours</span>
+<span id="cb16-2"><a href="sec.html#cb16-2" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MaxTicketAge <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb16-3"><a href="sec.html#cb16-3" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MaxServiceAge <span class="op">=</span> <span class="dv">600</span></span>
+<span id="cb16-4"><a href="sec.html#cb16-4" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MaxRenewAge <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb16-5"><a href="sec.html#cb16-5" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> mins_to_hours(MaxServiceAge)</span>
+<span id="cb16-6"><a href="sec.html#cb16-6" tabindex="-1"></a><span class="co">&#39;10&#39;</span></span>
+<span id="cb16-7"><a href="sec.html#cb16-7" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> days_to_hours(MaxRenewAge)</span>
+<span id="cb16-8"><a href="sec.html#cb16-8" tabindex="-1"></a><span class="co">&#39;168&#39;</span></span></code></pre></div>
 <p>It also helps to know how these Kerberos policies map to the <code>samba</code> daemon settings.</p>
 <table>
 <thead>
@@ -601,20 +605,20 @@ minPwdAge: -864000000000
 minPwdLength: 7
 pwdProperties: 1</code></pre>
 <p>We can confirm these were set correctly by checking the contents of the GptTmpl.inf, plus doing some type conversion.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb18-1"><a href="sec.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[System Access]</span></span>
-<span id="cb18-2"><a href="sec.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="dt">MinimumPasswordAge </span><span class="ot">=</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb18-3"><a href="sec.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="dt">MaximumPasswordAge </span><span class="ot">=</span><span class="st"> </span><span class="dv">42</span></span>
-<span id="cb18-4"><a href="sec.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="dt">MinimumPasswordLength </span><span class="ot">=</span><span class="st"> </span><span class="dv">7</span></span>
-<span id="cb18-5"><a href="sec.html#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="dt">PasswordComplexity </span><span class="ot">=</span><span class="st"> </span><span class="dv">1</span></span></code></pre></div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="sec.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> samba.gp.gp_sec_ext <span class="im">import</span> days2rel_nttime</span>
-<span id="cb19-2"><a href="sec.html#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MinimumPasswordAge <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb19-3"><a href="sec.html#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MaximumPasswordAge <span class="op">=</span> <span class="dv">42</span></span>
-<span id="cb19-4"><a href="sec.html#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MinimumPasswordLength <span class="op">=</span> <span class="dv">7</span></span>
-<span id="cb19-5"><a href="sec.html#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> PasswordComplexity <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb19-6"><a href="sec.html#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> days2rel_nttime(MaximumPasswordAge)</span>
-<span id="cb19-7"><a href="sec.html#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">&#39;-36288000000000&#39;</span></span>
-<span id="cb19-8"><a href="sec.html#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> days2rel_nttime(MinimumPasswordAge)</span>
-<span id="cb19-9"><a href="sec.html#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">&#39;-864000000000&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode ini"><code class="sourceCode ini"><span id="cb18-1"><a href="sec.html#cb18-1" tabindex="-1"></a><span class="kw">[System Access]</span></span>
+<span id="cb18-2"><a href="sec.html#cb18-2" tabindex="-1"></a><span class="dt">MinimumPasswordAge </span><span class="ot">=</span><span class="st"> </span><span class="dv">1</span></span>
+<span id="cb18-3"><a href="sec.html#cb18-3" tabindex="-1"></a><span class="dt">MaximumPasswordAge </span><span class="ot">=</span><span class="st"> </span><span class="dv">42</span></span>
+<span id="cb18-4"><a href="sec.html#cb18-4" tabindex="-1"></a><span class="dt">MinimumPasswordLength </span><span class="ot">=</span><span class="st"> </span><span class="dv">7</span></span>
+<span id="cb18-5"><a href="sec.html#cb18-5" tabindex="-1"></a><span class="dt">PasswordComplexity </span><span class="ot">=</span><span class="st"> </span><span class="dv">1</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="sec.html#cb19-1" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> samba.gp.gp_sec_ext <span class="im">import</span> days2rel_nttime</span>
+<span id="cb19-2"><a href="sec.html#cb19-2" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MinimumPasswordAge <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb19-3"><a href="sec.html#cb19-3" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MaximumPasswordAge <span class="op">=</span> <span class="dv">42</span></span>
+<span id="cb19-4"><a href="sec.html#cb19-4" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> MinimumPasswordLength <span class="op">=</span> <span class="dv">7</span></span>
+<span id="cb19-5"><a href="sec.html#cb19-5" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> PasswordComplexity <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb19-6"><a href="sec.html#cb19-6" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> days2rel_nttime(MaximumPasswordAge)</span>
+<span id="cb19-7"><a href="sec.html#cb19-7" tabindex="-1"></a><span class="co">&#39;-36288000000000&#39;</span></span>
+<span id="cb19-8"><a href="sec.html#cb19-8" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> days2rel_nttime(MinimumPasswordAge)</span>
+<span id="cb19-9"><a href="sec.html#cb19-9" tabindex="-1"></a><span class="co">&#39;-864000000000&#39;</span></span></code></pre></div>
 <p>Finally, here is how these policies map.</p>
 <table>
 <thead>

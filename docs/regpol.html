@@ -7,7 +7,7 @@
   <title>21 Modifying a Registry.pol File | Group Policy on Linux</title>
   <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="21 Modifying a Registry.pol File | Group Policy on Linux" />
   <meta property="og:type" content="book" />
@@ -341,7 +341,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="23.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>23.1</b> The samba-gpupdate command</a></li>
 <li class="chapter" data-level="23.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>23.2</b> Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via SSSD</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="policy-refresh.html"><a href="policy-refresh.html#setting-up-sssd"><i class="fa fa-check"></i><b>23.3.1</b> Setting up SSSD</a></li>
+<li class="chapter" data-level="23.3.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-policy-refresh"><i class="fa fa-check"></i><b>23.3.2</b> Configuring policy refresh</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -365,49 +369,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="regpol-samba-tool" class="section level2 hasAnchor" number="21.1">
 <h2><span class="header-section-number">21.1</span> Using samba-tool<a href="regpol.html#regpol-samba-tool" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Samba provides the <code>samba-tool gpo load</code>, <code>samba-tool gpo remove</code> and <code>samba-tool gpo show</code> commands for manipulating Registry.pol policies. These commands format the registry policies as <strong>json</strong> to simplify the process. For example, a policy which sets the Firefox homepage would like like so:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb116-1"><a href="regpol.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span></span>
-<span id="cb116-2"><a href="regpol.html#cb116-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
-<span id="cb116-3"><a href="regpol.html#cb116-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;keyname&quot;</span><span class="fu">:</span> <span class="st">&quot;Software</span><span class="ch">\\</span><span class="st">Policies</span><span class="ch">\\</span><span class="st">Mozilla</span><span class="ch">\\</span><span class="st">Firefox</span><span class="ch">\\</span><span class="st">Homepage&quot;</span><span class="fu">,</span></span>
-<span id="cb116-4"><a href="regpol.html#cb116-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;valuename&quot;</span><span class="fu">:</span> <span class="st">&quot;StartPage&quot;</span><span class="fu">,</span></span>
-<span id="cb116-5"><a href="regpol.html#cb116-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;class&quot;</span><span class="fu">:</span> <span class="st">&quot;MACHINE&quot;</span><span class="fu">,</span></span>
-<span id="cb116-6"><a href="regpol.html#cb116-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;REG_SZ&quot;</span><span class="fu">,</span></span>
-<span id="cb116-7"><a href="regpol.html#cb116-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="st">&quot;homepage&quot;</span></span>
-<span id="cb116-8"><a href="regpol.html#cb116-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb116-9"><a href="regpol.html#cb116-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span></span>
-<span id="cb116-10"><a href="regpol.html#cb116-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;keyname&quot;</span><span class="fu">:</span> <span class="st">&quot;Software</span><span class="ch">\\</span><span class="st">Policies</span><span class="ch">\\</span><span class="st">Mozilla</span><span class="ch">\\</span><span class="st">Firefox</span><span class="ch">\\</span><span class="st">Homepage&quot;</span><span class="fu">,</span></span>
-<span id="cb116-11"><a href="regpol.html#cb116-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;valuename&quot;</span><span class="fu">:</span> <span class="st">&quot;URL&quot;</span><span class="fu">,</span></span>
-<span id="cb116-12"><a href="regpol.html#cb116-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;class&quot;</span><span class="fu">:</span> <span class="st">&quot;MACHINE&quot;</span><span class="fu">,</span></span>
-<span id="cb116-13"><a href="regpol.html#cb116-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;REG_SZ&quot;</span><span class="fu">,</span></span>
-<span id="cb116-14"><a href="regpol.html#cb116-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="st">&quot;samba.org&quot;</span></span>
-<span id="cb116-15"><a href="regpol.html#cb116-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb116-16"><a href="regpol.html#cb116-16" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code></pre></div>
-<p>To set this policy on a GPO, we either put it in a file, or pass it <code>samba-tool gpo load</code> in standard input.</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb116-1"><a href="regpol.html#cb116-1" tabindex="-1"></a><span class="ot">[</span></span>
+<span id="cb116-2"><a href="regpol.html#cb116-2" tabindex="-1"></a>  <span class="fu">{</span></span>
+<span id="cb116-3"><a href="regpol.html#cb116-3" tabindex="-1"></a>    <span class="dt">&quot;keyname&quot;</span><span class="fu">:</span> <span class="st">&quot;Software</span><span class="ch">\\</span><span class="st">Policies</span><span class="ch">\\</span><span class="st">Mozilla</span><span class="ch">\\</span><span class="st">Firefox</span><span class="ch">\\</span><span class="st">Homepage&quot;</span><span class="fu">,</span></span>
+<span id="cb116-4"><a href="regpol.html#cb116-4" tabindex="-1"></a>    <span class="dt">&quot;valuename&quot;</span><span class="fu">:</span> <span class="st">&quot;StartPage&quot;</span><span class="fu">,</span></span>
+<span id="cb116-5"><a href="regpol.html#cb116-5" tabindex="-1"></a>    <span class="dt">&quot;class&quot;</span><span class="fu">:</span> <span class="st">&quot;MACHINE&quot;</span><span class="fu">,</span></span>
+<span id="cb116-6"><a href="regpol.html#cb116-6" tabindex="-1"></a>    <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;REG_SZ&quot;</span><span class="fu">,</span></span>
+<span id="cb116-7"><a href="regpol.html#cb116-7" tabindex="-1"></a>    <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="st">&quot;homepage&quot;</span></span>
+<span id="cb116-8"><a href="regpol.html#cb116-8" tabindex="-1"></a>  <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb116-9"><a href="regpol.html#cb116-9" tabindex="-1"></a>  <span class="fu">{</span></span>
+<span id="cb116-10"><a href="regpol.html#cb116-10" tabindex="-1"></a>    <span class="dt">&quot;keyname&quot;</span><span class="fu">:</span> <span class="st">&quot;Software</span><span class="ch">\\</span><span class="st">Policies</span><span class="ch">\\</span><span class="st">Mozilla</span><span class="ch">\\</span><span class="st">Firefox</span><span class="ch">\\</span><span class="st">Homepage&quot;</span><span class="fu">,</span></span>
+<span id="cb116-11"><a href="regpol.html#cb116-11" tabindex="-1"></a>    <span class="dt">&quot;valuename&quot;</span><span class="fu">:</span> <span class="st">&quot;URL&quot;</span><span class="fu">,</span></span>
+<span id="cb116-12"><a href="regpol.html#cb116-12" tabindex="-1"></a>    <span class="dt">&quot;class&quot;</span><span class="fu">:</span> <span class="st">&quot;MACHINE&quot;</span><span class="fu">,</span></span>
+<span id="cb116-13"><a href="regpol.html#cb116-13" tabindex="-1"></a>    <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;REG_SZ&quot;</span><span class="fu">,</span></span>
+<span id="cb116-14"><a href="regpol.html#cb116-14" tabindex="-1"></a>    <span class="dt">&quot;data&quot;</span><span class="fu">:</span> <span class="st">&quot;samba.org&quot;</span></span>
+<span id="cb116-15"><a href="regpol.html#cb116-15" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb116-16"><a href="regpol.html#cb116-16" tabindex="-1"></a><span class="ot">]</span></span></code></pre></div>
+<p>To set this policy on a GPO, we either put it in a file, or pass it to <code>samba-tool gpo load</code> in standard input.</p>
 <pre><code>&gt; sudo samba-tool gpo load -UAdministrator --content=test.json</code></pre>
 <p></p>
 </div>
 <div id="scripting-with-python" class="section level2 hasAnchor" number="21.2">
 <h2><span class="header-section-number">21.2</span> Scripting with python<a href="regpol.html#scripting-with-python" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Samba provides python libraries for manipulating a Registry.pol on Linux. The following python code snippet demonstrates how to open one of these files.</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb118-1"><a href="regpol.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> samba.ndr <span class="im">import</span> ndr_unpack</span>
-<span id="cb118-2"><a href="regpol.html#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> samba.dcerpc <span class="im">import</span> preg</span>
-<span id="cb118-3"><a href="regpol.html#cb118-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb118-4"><a href="regpol.html#cb118-4" aria-hidden="true" tabindex="-1"></a>raw <span class="op">=</span> <span class="bu">open</span>(<span class="st">&#39;Registry.pol&#39;</span>, <span class="st">&#39;rb&#39;</span>).read()</span>
-<span id="cb118-5"><a href="regpol.html#cb118-5" aria-hidden="true" tabindex="-1"></a>pol_conf <span class="op">=</span> ndr_unpack(preg.<span class="bu">file</span>, raw)</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb118-1"><a href="regpol.html#cb118-1" tabindex="-1"></a><span class="im">from</span> samba.ndr <span class="im">import</span> ndr_unpack</span>
+<span id="cb118-2"><a href="regpol.html#cb118-2" tabindex="-1"></a><span class="im">from</span> samba.dcerpc <span class="im">import</span> preg</span>
+<span id="cb118-3"><a href="regpol.html#cb118-3" tabindex="-1"></a></span>
+<span id="cb118-4"><a href="regpol.html#cb118-4" tabindex="-1"></a>raw <span class="op">=</span> <span class="bu">open</span>(<span class="st">&#39;Registry.pol&#39;</span>, <span class="st">&#39;rb&#39;</span>).read()</span>
+<span id="cb118-5"><a href="regpol.html#cb118-5" tabindex="-1"></a>pol_conf <span class="op">=</span> ndr_unpack(preg.<span class="bu">file</span>, raw)</span></code></pre></div>
 <p>The parsed file contains a list of entries, which you can iterate over. Each entry contains a keyname, valuename, and data.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb119-1"><a href="regpol.html#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> e <span class="kw">in</span> pol_conf.entries:</span>
-<span id="cb119-2"><a href="regpol.html#cb119-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(e.keyname, e.valuename, e.data)</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb119-1"><a href="regpol.html#cb119-1" tabindex="-1"></a><span class="cf">for</span> e <span class="kw">in</span> pol_conf.entries:</span>
+<span id="cb119-2"><a href="regpol.html#cb119-2" tabindex="-1"></a>    <span class="bu">print</span>(e.keyname, e.valuename, e.data)</span></code></pre></div>
 <p>Writing to the <code>pol_conf</code> can be tricky. If you write the length of the entries prior to writing the entries, it will actually cause memory corruption (this is a bug). So ensure you write to the entries, then to the length. You can create an entry using the <code>preg</code> import from <code>samba.dcerpc</code>.</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb120-1"><a href="regpol.html#cb120-1" aria-hidden="true" tabindex="-1"></a>e <span class="op">=</span> preg.entry()</span>
-<span id="cb120-2"><a href="regpol.html#cb120-2" aria-hidden="true" tabindex="-1"></a>e.keyname <span class="op">=</span> <span class="st">b&#39;Software</span><span class="ch">\\</span><span class="st">Policies</span><span class="ch">\\</span><span class="st">Samba</span><span class="ch">\\</span><span class="st">smb_conf&#39;</span></span>
-<span id="cb120-3"><a href="regpol.html#cb120-3" aria-hidden="true" tabindex="-1"></a>e.valuename <span class="op">=</span> <span class="st">b&#39;apply group policies&#39;</span></span>
-<span id="cb120-4"><a href="regpol.html#cb120-4" aria-hidden="true" tabindex="-1"></a>e.<span class="bu">type</span> <span class="op">=</span> <span class="dv">4</span> <span class="co"># REG_DWORD, an integer</span></span>
-<span id="cb120-5"><a href="regpol.html#cb120-5" aria-hidden="true" tabindex="-1"></a>e.data <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb120-6"><a href="regpol.html#cb120-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb120-7"><a href="regpol.html#cb120-7" aria-hidden="true" tabindex="-1"></a>entries <span class="op">=</span> <span class="bu">list</span>(pol_data.entries)</span>
-<span id="cb120-8"><a href="regpol.html#cb120-8" aria-hidden="true" tabindex="-1"></a>entries.append(e)</span>
-<span id="cb120-9"><a href="regpol.html#cb120-9" aria-hidden="true" tabindex="-1"></a>pol_data.entries <span class="op">=</span> entries</span>
-<span id="cb120-10"><a href="regpol.html#cb120-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure you set the new num_entries last</span></span>
-<span id="cb120-11"><a href="regpol.html#cb120-11" aria-hidden="true" tabindex="-1"></a>pol_data.num_entries <span class="op">=</span> <span class="bu">len</span>(entries)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb120-1"><a href="regpol.html#cb120-1" tabindex="-1"></a>e <span class="op">=</span> preg.entry()</span>
+<span id="cb120-2"><a href="regpol.html#cb120-2" tabindex="-1"></a>e.keyname <span class="op">=</span> <span class="st">b&#39;Software</span><span class="ch">\\</span><span class="st">Policies</span><span class="ch">\\</span><span class="st">Samba</span><span class="ch">\\</span><span class="st">smb_conf&#39;</span></span>
+<span id="cb120-3"><a href="regpol.html#cb120-3" tabindex="-1"></a>e.valuename <span class="op">=</span> <span class="st">b&#39;apply group policies&#39;</span></span>
+<span id="cb120-4"><a href="regpol.html#cb120-4" tabindex="-1"></a>e.<span class="bu">type</span> <span class="op">=</span> <span class="dv">4</span> <span class="co"># REG_DWORD, an integer</span></span>
+<span id="cb120-5"><a href="regpol.html#cb120-5" tabindex="-1"></a>e.data <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb120-6"><a href="regpol.html#cb120-6" tabindex="-1"></a></span>
+<span id="cb120-7"><a href="regpol.html#cb120-7" tabindex="-1"></a>entries <span class="op">=</span> <span class="bu">list</span>(pol_data.entries)</span>
+<span id="cb120-8"><a href="regpol.html#cb120-8" tabindex="-1"></a>entries.append(e)</span>
+<span id="cb120-9"><a href="regpol.html#cb120-9" tabindex="-1"></a>pol_data.entries <span class="op">=</span> entries</span>
+<span id="cb120-10"><a href="regpol.html#cb120-10" tabindex="-1"></a><span class="co"># Ensure you set the new num_entries last</span></span>
+<span id="cb120-11"><a href="regpol.html#cb120-11" tabindex="-1"></a>pol_data.num_entries <span class="op">=</span> <span class="bu">len</span>(entries)</span></code></pre></div>
 <p>The data type refers to Microsoft defined registry types:</p>
 <table>
 <thead>
@@ -460,10 +464,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody>
 </table>
 <p>To write your changes back to the Registry.pol file, you’ll use the following:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb121-1"><a href="regpol.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> samba.ndr <span class="im">import</span> ndr_pack</span>
-<span id="cb121-2"><a href="regpol.html#cb121-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb121-3"><a href="regpol.html#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;Registry.pol&#39;</span>, <span class="st">&#39;wb&#39;</span>) <span class="im">as</span> w:</span>
-<span id="cb121-4"><a href="regpol.html#cb121-4" aria-hidden="true" tabindex="-1"></a>    w.write(ndr_pack(pol_data))</span></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb121-1"><a href="regpol.html#cb121-1" tabindex="-1"></a><span class="im">from</span> samba.ndr <span class="im">import</span> ndr_pack</span>
+<span id="cb121-2"><a href="regpol.html#cb121-2" tabindex="-1"></a></span>
+<span id="cb121-3"><a href="regpol.html#cb121-3" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&#39;Registry.pol&#39;</span>, <span class="st">&#39;wb&#39;</span>) <span class="im">as</span> w:</span>
+<span id="cb121-4"><a href="regpol.html#cb121-4" tabindex="-1"></a>    w.write(ndr_pack(pol_data))</span></code></pre></div>
 
 </div>
 </div>

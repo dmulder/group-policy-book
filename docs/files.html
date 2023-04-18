@@ -7,7 +7,7 @@
   <title>9 Files Policy | Group Policy on Linux</title>
   <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="9 Files Policy | Group Policy on Linux" />
   <meta property="og:type" content="book" />
@@ -341,7 +341,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="23.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>23.1</b> The samba-gpupdate command</a></li>
 <li class="chapter" data-level="23.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>23.2</b> Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via SSSD</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="policy-refresh.html"><a href="policy-refresh.html#setting-up-sssd"><i class="fa fa-check"></i><b>23.3.1</b> Setting up SSSD</a></li>
+<li class="chapter" data-level="23.3.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-policy-refresh"><i class="fa fa-check"></i><b>23.3.2</b> Configuring policy refresh</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -388,12 +392,12 @@ Available subcommands:
   list    - List VGP Files Group Policy from the sysvol
   remove  - Remove VGP Files Group Policy from the sysvol</code></pre>
 <p>To add a new File policy to the SYSVOL, call the <code>samba-tool gpo manage files add</code> command.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb35-1"><a href="files.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage files add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>source<span class="op">&gt;</span> <span class="op">&lt;</span>target<span class="op">&gt;</span> <span class="op">&lt;</span>user<span class="op">&gt;</span></span>
-<span id="cb35-2"><a href="files.html#cb35-2" aria-hidden="true" tabindex="-1"></a> <span class="op">&lt;</span>group<span class="op">&gt;</span> <span class="op">&lt;</span>mode<span class="op">&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb35-1"><a href="files.html#cb35-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage files add <span class="op">&lt;</span>gpo<span class="op">&gt;</span> <span class="op">&lt;</span>source<span class="op">&gt;</span> <span class="op">&lt;</span>target<span class="op">&gt;</span> <span class="op">&lt;</span>user<span class="op">&gt;</span></span>
+<span id="cb35-2"><a href="files.html#cb35-2" tabindex="-1"></a> <span class="op">&lt;</span>group<span class="op">&gt;</span> <span class="op">&lt;</span>mode<span class="op">&gt;</span></span></code></pre></div>
 <p>For example:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="files.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage files add <span class="dt">\</span></span>
-<span id="cb36-2"><a href="files.html#cb36-2" aria-hidden="true" tabindex="-1"></a> {31B2F340-016D-11D2-945F-00C04FB984F9} ./source.txt <span class="dt">\</span></span>
-<span id="cb36-3"><a href="files.html#cb36-3" aria-hidden="true" tabindex="-1"></a> /usr/share/doc/target.txt root root 600</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="files.html#cb36-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage files add <span class="dt">\</span></span>
+<span id="cb36-2"><a href="files.html#cb36-2" tabindex="-1"></a> {31B2F340-016D-11D2-945F-00C04FB984F9} ./source.txt <span class="dt">\</span></span>
+<span id="cb36-3"><a href="files.html#cb36-3" tabindex="-1"></a> /usr/share/doc/target.txt root root 600</span></code></pre></div>
 <p>The <code>source</code> argument refers to the source file on the host you are running the command from. This source file will be uploaded to the SYSVOL. The <code>target</code> argument is where the file should be deployed to on the client by the CSE. The <code>user</code>, <code>group</code> and <code>mode</code> refer to the attributes which will be assigned to the file when it is deployed to the client.</p>
 <p>If, for example, we were to create a daily script (as described in chapter <a href="scripts.html#scripts">7</a>), we could use this policy to deploy that script to the Linux client. Let’s now create a policy for testing that deployment.</p>
 <pre><code>&gt; cat test_script.sh

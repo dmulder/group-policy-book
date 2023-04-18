@@ -7,7 +7,7 @@
   <title>18 OpenSSH Policy | Group Policy on Linux</title>
   <meta name="description" content="<p>This book introduces the user to opensource tools for managing Linux
 clients via Group Policy.</p>" />
-  <meta name="generator" content="bookdown 0.31 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
 
   <meta property="og:title" content="18 OpenSSH Policy | Group Policy on Linux" />
   <meta property="og:type" content="book" />
@@ -341,7 +341,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li class="chapter" data-level="23.1" data-path="policy-refresh.html"><a href="policy-refresh.html#samba-gpupdate"><i class="fa fa-check"></i><b>23.1</b> The samba-gpupdate command</a></li>
 <li class="chapter" data-level="23.2" data-path="policy-refresh.html"><a href="policy-refresh.html#winbind-refresh"><i class="fa fa-check"></i><b>23.2</b> Automatic Policy Refresh via winbind</a></li>
-<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via oddjob-gpupdate</a></li>
+<li class="chapter" data-level="23.3" data-path="policy-refresh.html"><a href="policy-refresh.html#sssd-refresh"><i class="fa fa-check"></i><b>23.3</b> Automatic Policy Refresh via SSSD</a>
+<ul>
+<li class="chapter" data-level="23.3.1" data-path="policy-refresh.html"><a href="policy-refresh.html#setting-up-sssd"><i class="fa fa-check"></i><b>23.3.1</b> Setting up SSSD</a></li>
+<li class="chapter" data-level="23.3.2" data-path="policy-refresh.html"><a href="policy-refresh.html#configuring-policy-refresh"><i class="fa fa-check"></i><b>23.3.2</b> Configuring policy refresh</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -393,9 +397,9 @@ Available subcommands:
 <li><code>value</code>: the value that you want to set for the specified setting. If you do not provide a value, the policy will be unset.</li>
 </ol>
 <p>Here is an example of how you might use this command to set the <code>KerberosAuthentication</code> to <code>Yes</code>:</p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb90-1"><a href="openssh.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage openssh set <span class="dt">\</span></span>
-<span id="cb90-2"><a href="openssh.html#cb90-2" aria-hidden="true" tabindex="-1"></a> {31B2F340-016D-11D2-945F-00C04FB984F9} <span class="dt">\</span></span>
-<span id="cb90-3"><a href="openssh.html#cb90-3" aria-hidden="true" tabindex="-1"></a> KerberosAuthentication Yes <span class="at">-UAdministrator</span></span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb90-1"><a href="openssh.html#cb90-1" tabindex="-1"></a><span class="ex">samba-tool</span> gpo manage openssh set <span class="dt">\</span></span>
+<span id="cb90-2"><a href="openssh.html#cb90-2" tabindex="-1"></a> {31B2F340-016D-11D2-945F-00C04FB984F9} <span class="dt">\</span></span>
+<span id="cb90-3"><a href="openssh.html#cb90-3" tabindex="-1"></a> KerberosAuthentication Yes <span class="at">-UAdministrator</span></span></code></pre></div>
 <p>Then let’s list the policy to see what has been set on the SYSVOL.</p>
 <pre><code>&gt; samba-tool gpo manage openssh list \
  {31B2F340-016D-11D2-945F-00C04FB984F9} -UAdministrator
