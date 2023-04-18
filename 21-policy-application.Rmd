@@ -59,7 +59,7 @@ This will enable winbind to automatically apply Group Policy settings on the *Gr
 
 Alternatively, you can deploy this setting automatically using smb.conf Group Policies. See chapter \@ref(smbconf) section \@ref(smbconf-sse) for instructions how to deploy this setting via Group Policy. The `samba-gpupdate` command will need to be executed manually to deploy this setting the first time.
 
-## Automatic Policy Refresh via oddjob-gpupdate {#sssd-refresh}
+## Automatic Policy Refresh via SSSD {#sssd-refresh}
 
 Using oddjob-gpupdate to provide Automatic Policy Refresh allows you to run Samba's Group Policy with the System Security Services Daemon (SSSD). SSSD is a system service that provides access to remote identity and authentication providers, such as Active Directory.
 \index{SSSD}
@@ -67,6 +67,38 @@ Using oddjob-gpupdate to provide Automatic Policy Refresh allows you to run Samb
 ::: {#warn style="color: red;"}
 The pairing of Samba's Group Policy with SSSD is not supported by either the Samba team or the SSSD team. This configuration has been known to work with some versions of Samba and SSSD, but is not widely tested and has been known to break. If in doubt, use Winbind instead.
 :::
+
+### Setting up SSSD
+
+Join the domain using SSSD via any standard method, for example with realmd:
+
+```shell
+sudo realm join example.com
+```
+
+Next set the option `ad_update_samba_machine_account_password` in the domain section of /etc/sssd/sssd.conf to `true` and restart sssd.
+
+Finally, create a simple smb.conf and call `net ads join` to create the secrets.tdb for samba (which will be updated by SSSD).
+
+```ini
+[global]
+	idmap config * : backend = tdb
+	idmap config * : range = 10000-20000
+	idmap config dmm : backend = rid
+	idmap config dmm : range = 20001-99999
+	kerberos method = secrets and keytab
+	security = ADS
+	usershare allow guests = No
+	workgroup = EXAMPLE
+	realm = example.com
+```
+
+```shell
+sudo kinit Administrator
+sudo net ads join -k
+```
+
+### Configuring policy refresh
 
 To install oddjob-gpupdate, you'll need to find the appropriate packages for your distribution. In openSUSE, for example, you can install oddjob-gpupdate via:
 
