@@ -23,7 +23,7 @@ Samba provides the `samba-tool gpo load`, `samba-tool gpo remove` and `samba-too
 ]
 ```
 
-To set this policy on a GPO, we either put it in a file, or pass it `samba-tool gpo load` in standard input.
+To set this policy on a GPO, we either put it in a file, or pass it to `samba-tool gpo load` in standard input.
 
 ```
 > sudo samba-tool gpo load -UAdministrator --content=test.json
